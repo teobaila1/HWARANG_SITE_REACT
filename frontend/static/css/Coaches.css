@@ -1,0 +1,80 @@
+.coach-carousel {
+  padding: 4rem 2rem;
+  background-color: #0e0e0e;
+}
+
+
+
+.coaches-container {
+  background-color: #0e0e0e;
+  padding: 4rem 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.coaches-title {
+  font-size: 2.8rem;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 3rem;
+  text-shadow: 2px 2px 4px black;
+  letter-spacing: 1px;
+}
+
+
+
+.coach-card {
+  background-color: #111;
+  color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.coach-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+}
+
+.coach-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  object-fit: cover;
+}
+
+.coach-card h3 {
+  color: red;
+  margin-bottom: 0.5rem;
+}
+
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: white;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+}
+
+.swiper-button-prev {
+  left: -8.5px; /* sau -40px dacă vrei și mai spre margine */
+}
+
+.swiper-button-next {
+  right: -8.5px;
+}
+
+
+
+
+.about-motto {
+  text-align: center;
+  font-size: 2rem;
+  color: white;
+  margin: 5rem 0;
+  font-weight: bold;
+}

@@ -1,0 +1,116 @@
+import React, {useEffect, useState} from "react";
+import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Navbar.css";
+import LogoutButton from "./LogoutButton";
+import {Link} from "react-router-dom";
+
+const Navbar = () => {
+    const isLoggedIn = localStorage.getItem("username") !== null;
+    const [rol, setRol] = useState(null);
+    const username = localStorage.getItem("username");
+    const [hideNavbar, setHideNavbar] = useState(false);
+    let lastScrollY = window.scrollY;
+
+
+    useEffect(() => {
+        const storedRol = localStorage.getItem("rol");
+        setRol(storedRol);
+    }, []);
+
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                setHideNavbar(true); // scroll down
+            } else {
+                setHideNavbar(false); // scroll up
+            }
+
+            lastScrollY = currentScrollY;
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+
+    return (
+        <header>
+            <nav className={`navbar ${hideNavbar ? "hide-navbar" : ""}`}>
+                <div className="navbar-flex-container">
+                    <div className="logo">
+                        <img src="/images/favicon_circle_BANNER.png" alt="Logo Club"/>
+                    </div>
+
+                    {username && (
+                        <div className="welcome-text">
+                            Bine ai venit, <strong>{username}</strong>
+                        </div>
+                    )}
+                </div>
+                <ul className="nav-links">
+                    <li className="dropdown">
+                        <a className="text-danger" href="#">TaeKwon-Do</a>
+                        <ul className="dropdown-menu">
+                            <li><a href="/acasa">Acasă</a></li>
+                            <li><a href="/desprenoi">Despre</a></li>
+                            <li><a href="/antrenori">Antrenori</a></li>
+                            <li><a href="#">Galerie</a></li>
+                            <li><a href="#footer">Contact</a></li>
+                        </ul>
+                    </li>
+
+                    <li className="dropdown">
+                        <a href="#">Calendar</a>
+                        <ul className="dropdown-menu">
+                            <li><a href="/calendar2025">Calendar 2025</a></li>
+                        </ul>
+                    </li>
+
+                    <li className="dropdown">
+                        <a href="#">Kickbox</a>
+                        <ul className="dropdown-menu">
+                            <li><a href="#">Antrenamente</a></li>
+                        </ul>
+                    </li>
+
+                    {!isLoggedIn &&
+                        <li><a href="/inscriere">Alătură-te</a></li>
+                    }
+
+                    <li><a href="#">Regulamente</a></li>
+
+                    <li>
+                        <a href="/documente">Documente</a>
+                    </li>
+
+
+                    {rol === "Parinte" || rol === "Sportiv" || rol === "admin" ? (
+                        <li><a href="/concursuri">Înscrie-te la concursuri</a></li>
+                    ) : null}
+
+
+                    {rol === "admin" && <li><Link to="/admin-dashboard">Admin</Link></li>}
+
+
+                    {rol && (
+                        <li>
+                            <LogoutButton/>
+                        </li>
+                    )}
+
+                    {!isLoggedIn && (
+                        <>
+                            <li><Link to="/autentificare">Login</Link></li>
+                            <li><Link to="/inregistrare">Înregistrare</Link></li>
+                        </>
+                    )}
+
+                </ul>
+            </nav>
+        </header>
+    );
+};
+
+export default Navbar;

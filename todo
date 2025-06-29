@@ -1,0 +1,30 @@
+de facut pe roluri de conectare, creare de pagina de admin_dashboard
+redirectionare dupa autnetificare, inregistrare etc.. vezi proiectul vechi
+tre sa refac tabela utilizatori, nu dureaza mult
+
+
+
+am refacut tot de mai sus
+am facut navbar, urmeaza sa fac paginile celelalte, trimiterea de mail-uri de confirmare (ramane de facyt)
+pot face resetarea parolei
+paginile celelalte, cu linkuri si documente de incarcat etc.
+
+
+mesaj de confimrare (aprobare) dupa ce s-a acceptat cererea de creare cont (dupa apasarea butonului de aprobare)
+
+de facut paginile, cam atat in rest, confirmari, mailuri, documente, fisiere, link catre siteul lui coco
+
+sa schimb rolul utilizatorilor pe apgina de toti userii, ca pe siteul vechi, si daca se schimba rolul sa aiba alte beneficii
+sa poti sterge userii, sa modifi
+
+
+
+am facut tot ce am zis mai sus, urmeaza siteul lui coco, si restul paginilor
+
+am facut pagina de antrenori, urmeaza restul, baga mare
+
+
+
+
+am facut inscrierea la concurs, paginile de documente trebuie optimizate, sa pot incarca mai multe fisiere deodata
+design la fiecare pagina, sa pun notificari cu toastify

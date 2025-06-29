@@ -1,0 +1,59 @@
+.register-container {
+  background-color: #021a23;
+  color: white;
+  padding: 2.5rem 2rem;
+  max-width: 550px;
+  margin: 5rem auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px red;
+  text-align: center;
+}
+
+.register-container h2 {
+  color: red;
+  margin-bottom: 2rem;
+}
+
+.register-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.register-container input,
+.register-container select {
+  padding: 0.7rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+}
+
+.register-container button {
+  background-color: red;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transform: scale(1.03);
+  transition: all 0.3s ease-in-out;
+}
+
+
+
+.register-container button:hover {
+  background-color: firebrick;
+  transform: scale(1.03);
+}
+
+
+.error-msg {
+  color: orange;
+  font-weight: bold;
+}
+
+.success-msg {
+  color: limegreen;
+  font-weight: bold;
+}

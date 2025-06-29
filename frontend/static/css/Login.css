@@ -1,0 +1,53 @@
+.login-container {
+  background-color: #0e0e0e;
+  color: white;
+  padding: 3rem 2rem;
+  max-width: 500px;
+  margin: 5rem auto;
+  border-radius: 12px;
+  box-shadow: 0 0 10px red;
+  text-align: center;
+}
+
+.login-container h2 {
+  color: red;
+  margin-bottom: 2rem;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-container input {
+  padding: 0.7rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+}
+
+.login-container button {
+  background-color: red;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transform: scale(1.03);
+  transition: all 0.3s ease-in-out;
+}
+
+
+.login-container button:hover {
+  background-color: firebrick;
+  transform: scale(1.03);
+}
+
+
+.error-msg {
+  color: orange;
+  font-weight: bold;
+  margin-top: -0.5rem;
+}

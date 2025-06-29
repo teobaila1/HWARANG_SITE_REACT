@@ -1,0 +1,16 @@
+/*butoane de linkuri */
+
+.btn-dashboard {
+  background-color: #4B0082;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.btn-dashboard:hover {
+  background-color: #6A0DAD;
+}

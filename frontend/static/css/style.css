@@ -1,0 +1,1425 @@
+/* PAGINA PRINCIPALA */
+
+
+
+
+
+
+/* Resetare stiluri implicite */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* Stilizare generală */
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgba(18, 18, 18, 40); /* Culoare semi-transparentă */
+    color: white;
+    line-height: 1.6;
+    margin-top: 150px; /* ajustează în funcție de înălțimea reală a navbar-ului */
+}
+
+/*body, html {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    overflow-x: hidden;*/
+/*}*/
+
+
+/*!* Stilizare video fundal *!*/
+/*#bg-video {*/
+/*    position: absolute;*/
+/*    right: 0;*/
+/*    bottom: 0;*/
+/*    min-width: 100%;*/
+/*    min-height: 100%;*/
+/*    object-fit: cover;*/
+/*    object-position: center center; !* 🔴 Adaugă această linie *!*/
+/*    z-index: -1;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*}*/
+
+
+/*.video-fade {*/
+/*    position: absolute;*/
+/*    bottom: 0;*/
+/*    width: 100%;*/
+/*    height: 200px;*/
+/*    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #121212 100%);*/
+/*    z-index: 0;*/
+/*}*/
+
+
+/*!* Conținutul de deasupra video-ului *!*/
+/*.content {*/
+/*    position: relative;*/
+/*    z-index: 1;*/
+/*    color: white;*/
+/*    text-align: center;*/
+/*    top: 50%;*/
+/*    transform: translateY(-50%);*/
+/*}*/
+
+
+/* Fundal gradient animat */
+/*body, .section, .schedule, .coaches-section, .footer, .site-footer, .club-info {*/
+/*    background: linear-gradient(60deg, black, deepskyblue);*/
+/*    background-size: 400% 400%;*/
+/*    animation: gradientAnimation 10s ease infinite;*/
+/*    color: white;*/
+/*}*/
+
+/* Animație pentru fundal */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+
+
+/*.h2 {*/
+/*    font-family: Arial, Helvetica, sans-serif;*/
+/*    font-stretch: ultra-condensed;*/
+/*    font-weight: lighter;*/
+/*}*/
+
+
+/* 🔹 NAVBAR */
+
+/*.navbar {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    background-color: rgba(0, 0, 0, 0.6); !* Negru cu transparență *!*/
+/*    padding: 5px 10px;*/
+/*    position: fixed;*/
+/*    width: 100%;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    z-index: 1000;*/
+/*    backdrop-filter: blur(8px); !* opțional: face fundalul video să pară mai difuz *!*/
+/*    transition: transform 0.5s ease-in-out;*/
+/*    opacity: 1;*/
+/*}*/
+
+
+/* Clasă pentru ascunderea navbar-ului */
+/*.hide-navbar {*/
+/*    transform: translateY(-100%);*/
+/*}*/
+
+
+.logo img {
+    height: 130px;
+}
+
+/*!* Stilizare meniu principal *!*/
+/*.nav-links {*/
+/*    list-style: none;*/
+/*    display: flex;*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*}*/
+
+/*.nav-links li {*/
+/*    position: relative;*/
+/*}*/
+
+/*!* Linkuri principale *!*/
+/*.nav-links a {*/
+/*    text-decoration: none;*/
+/*    color: white;*/
+/*    font-size: 18px;*/
+/*    font-weight: bold;*/
+/*    padding: 2px;*/
+/*    display: inline;*/
+/*    transition: color 0.3s ease-in-out;*/
+/*}*/
+
+/*!* Efect hover pe linkurile principale *!*/
+/*.nav-links a:hover {*/
+/*    color: red;*/
+/*}*/
+
+/*!* Dropdown menu *!*/
+/*.dropdown-menu {*/
+/*    display: none;*/
+/*    position: absolute;*/
+/*    top: 100%;*/
+/*    left: 0;*/
+/*    background: black;*/
+/*    border: 1px solid red;*/
+/*    list-style: none;*/
+/*    padding: 0;*/
+/*    width: 200px;*/
+/*}*/
+
+/*.dropdown-menu li {*/
+/*    margin: 0;*/
+/*}*/
+
+/*.dropdown-menu a {*/
+/*    padding: 10px;*/
+/*    color: white;*/
+/*    text-decoration: none;*/
+/*    display: block;*/
+/*    transition: background 0.3s ease-in-out;*/
+/*}*/
+
+/*!* Hover pe submeniuri *!*/
+/*.dropdown-menu a:hover {*/
+/*    background: red;*/
+/*    color: white;*/
+/*}*/
+
+/*!* Afișează dropdown la hover *!*/
+/*.dropdown:hover .dropdown-menu {*/
+/*    display: flex;*/
+/*}*/
+
+/* 🔹 HERO SECTION (Pagina principală) */
+.hero {
+
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    text-transform: uppercase;
+    color: red;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    color: white;
+}
+
+/* Buton principal */
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background: red;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 15px;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+.btn:hover {
+    background: white;
+    color: black;
+}
+
+/*!* 🔹 SECTIUNI GENERALE *!*/
+/*.section {*/
+/*    padding: 5px;*/
+/*    text-align: center;*/
+/*    background: black;*/
+/*}*/
+
+/*.section h2 {*/
+/*    font-size: 2.5rem;*/
+/*    color: red;*/
+/*}*/
+
+/* 🔹 PROGRAM (ORAR ANTRENAMENTE) */
+.schedule {
+    text-align: center;
+    padding: 50px;
+    background: black;
+    color: white;
+    position: relative;
+    margin-top: 100vh; /* Plasare sub video */
+    z-index: 1;
+}
+
+.schedule-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.day {
+    background-color: rgba(0, 0, 0, 0.6); /* fundal negru semi-transparent */
+    backdrop-filter: blur(6px); /* efect opac */
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.day h2 {
+    font-size: 24px;
+    color: red;
+}
+
+/*!* 🔹 FOOTER *!*/
+/*.footer {*/
+/*    background: black;*/
+/*    color: white;*/
+/*    text-align: center;*/
+/*    padding: 20px 0;*/
+/*    border-top: 2px solid red;*/
+/*}*/
+
+/*.footer a {*/
+/*    color: red;*/
+/*    text-decoration: none;*/
+/*}*/
+
+/*.footer a:hover {*/
+/*    color: white;*/
+/*}*/
+
+/*!* 🔹 ANIMATII *!*/
+/*@keyframes fadeIn {*/
+/*    from {*/
+/*        opacity: 0;*/
+/*    }*/
+/*    to {*/
+/*        opacity: 1;*/
+/*    }*/
+/*}*/
+
+
+/* Secțiunea Antrenorilor */
+.coaches-section {
+    text-align: center;
+    padding: 80px 20px;
+    background: black;
+    color: white;
+}
+
+/* Titlu secțiune */
+.coaches-section h1 {
+    font-size: 3rem;
+    color: white;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+/* Grilă pentru antrenori */
+.coaches-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+/* Cardurile antrenorilor */
+.coach {
+    width: 320px;
+    text-align: center;
+    position: relative;
+}
+
+/* Imagini mari, încadrate corect */
+.coach img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.5); /* Ușor efect de umbră */
+}
+
+/* Numele antrenorilor */
+.coach h3 {
+    font-size: 1.8rem;
+    margin-top: 15px;
+    color: white;
+    font-weight: bold;
+}
+
+/* Funcția antrenorului */
+.coach p {
+    font-size: 1.2rem;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+/* Efect de hover */
+.coach:hover {
+    transform: scale(1.05);
+    background: rgba(255, 0, 0, 0.3);
+}
+
+.coach:hover img {
+    transform: scale(1.1);
+}
+
+
+/* Stil pentru Swiper */
+.swiper-container {
+    width: 80%;
+    max-width: 1200px;
+    height: 500px;
+    margin: auto;
+    overflow: hidden;
+}
+
+/* Slide individual */
+.coach-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Informații antrenor */
+.coach-info {
+    flex: 1;
+    text-align: left;
+    padding: 20px;
+}
+
+.coach-info h2 {
+    font-size: 2rem;
+    color: white;
+}
+
+.coach-info p {
+    font-size: 1.2rem;
+    color: #ddd;
+}
+
+/* Imaginea antrenorului */
+.coach-slide img {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Stil personalizat pentru săgeți Swiper */
+.coaches-prev,
+.coaches-next {
+    color: white !important; /* Schimbă culoarea săgeților */
+    font-size: 24px;
+    transition: all 0.3s ease-in-out;
+}
+
+.coaches-prev:hover,
+.coaches-next:hover {
+    color: red !important; /* Săgețile devin roșii la hover */
+}
+
+/* Stil pentru buline (pagination) */
+.coaches-pagination .swiper-pagination-bullet {
+    background: white !important; /* Buline albe */
+    opacity: 0.5;
+    transition: all 0.3s ease-in-out;
+}
+
+.coaches-pagination .swiper-pagination-bullet-active {
+    background: red !important; /* Bulină activă roșie */
+    opacity: 1;
+}
+
+
+/* ===== FOOTER ===== */
+/*.site-footer {*/
+/*    background: black;*/
+/*    color: white;*/
+/*    text-align: center;*/
+/*    padding: 40px 20px;*/
+/*    margin-top: 50px;*/
+/*}*/
+
+/*.footer-container {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    flex-wrap: wrap;*/
+/*    max-width: 1200px;*/
+/*    margin: auto;*/
+/*}*/
+
+/*!* Sigla Clubului *!*/
+/*.footer-logo img {*/
+/*    width: 150px;*/
+/*    height: auto;*/
+/*}*/
+
+/*!* Locație Google Maps *!*/
+/*.footer-location {*/
+/*    text-align: center;*/
+/*}*/
+
+/*.footer-location h3 {*/
+/*    color: red;*/
+/*    font-size: 1.5rem;*/
+/*    margin-bottom: 10px;*/
+/*}*/
+
+/*!* Social Media *!*/
+/*.footer-social {*/
+/*    text-align: center;*/
+/*}*/
+
+/*.footer-social h3 {*/
+/*    color: red;*/
+/*    font-size: 1.5rem;*/
+/*    margin-bottom: 10px;*/
+/*}*/
+
+/*.footer-social a {*/
+/*    margin: 0 10px;*/
+/*    display: inline-block;*/
+/*}*/
+
+/*.footer-social img {*/
+/*    width: 40px;*/
+/*    height: 40px;*/
+/*    transition: transform 0.3s ease-in-out;*/
+/*}*/
+
+/*.footer-social a:hover img {*/
+/*    transform: scale(1.2);*/
+/*}*/
+
+/*!* Copyright *!*/
+/*.footer-copy {*/
+/*    margin-top: 20px;*/
+/*    font-size: 0.9rem;*/
+/*    opacity: 0.7;*/
+/*    color: black;*/
+/*}*/
+
+
+/*!* Container general pentru footer *!*/
+/*.footer-container {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: flex-start;*/
+/*    text-align: center;*/
+/*    gap: 50px;*/
+/*    padding: 20px;*/
+/*}*/
+
+/*!* Stil pentru secțiunea hărții și locației *!*/
+/*.footer-map {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    text-align: center;*/
+/*}*/
+
+/*!* Social Media - aliniere corectă *!*/
+/*.footer-social {*/
+/*    display: flex;*/
+/*    flex-direction: column; !* Elemente puse unul sub altul *!*/
+/*    align-items: center;*/
+/*    text-align: center;*/
+/*}*/
+
+/*!* Stil pentru iconițele social media *!*/
+/*.social-icons {*/
+/*    display: flex;*/
+/*    flex-direction: row; !* Aliniere pe orizontală *!*/
+/*    gap: 15px; !* Spațiere între iconițe *!*/
+/*}*/
+
+/*.footer-social img {*/
+/*    width: 40px;*/
+/*    height: 40px;*/
+/*    object-fit: contain;*/
+/*}*/
+
+
+/*!* Stil pentru iconițele social media *!*/
+/*.footer-social a {*/
+/*    display: inline-block;*/
+/*}*/
+
+
+/* Stil pentru secțiunea sliderului */
+.schedule {
+    text-align: center;
+    padding: 30px 0;
+    position: relative; /* Necesită pentru alinierea săgeților */
+}
+
+/*!* Stiluri pentru săgeți *!*/
+/*.swiper-button-next,*/
+/*.swiper-button-prev {*/
+/*    color: white !important; !* Culoarea săgeților *!*/
+/*    font-size: 24px;*/
+/*    transition: all 0.3s ease-in-out;*/
+/*}*/
+
+/*.swiper-button-next:hover,*/
+/*.swiper-button-prev:hover {*/
+/*    color: red !important; !* Culoarea săgeților la hover *!*/
+/*}*/
+
+/*!* Stiluri pentru buline *!*/
+/*.swiper-pagination-bullet {*/
+/*    background: white !important; !* Culoarea bulinelor *!*/
+/*    opacity: 0.5;*/
+/*    transition: all 0.3s ease-in-out;*/
+/*}*/
+
+/*.swiper-pagination-bullet-active {*/
+/*    background: red !important; !* Culoarea bulinei active *!*/
+/*    opacity: 1;*/
+/*}*/
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* PAGINA ABOUT */
+
+/*.hwarang {*/
+/*    font-family: Arial, Helvetica, sans-serif;*/
+/*    color: red;*/
+/*    font-stretch: ultra-condensed;*/
+/*    font-weight: lighter;*/
+/*    padding: 10px 60px;*/
+/*    font-size: 2.6rem;*/
+/*}*/
+
+
+/*.club-info {*/
+/*    width: 80%;*/
+/*    margin: 20px auto;*/
+/*    border-collapse: collapse;*/
+/*    background-color: black;*/
+/*    color: white;*/
+/*    align-content: center;*/
+/*    text-align: justify;*/
+/*}*/
+
+
+/* PAGINA ANTRENORI */
+
+
+.street {
+    padding-left: 400px;
+}
+
+
+/*footer {*/
+/*    color: white;*/
+/*    padding: 20px 0;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.footer-container {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.footer-info {*/
+/*    text-align: center;*/
+/*    margin-bottom: -10px;*/
+/*    color: black;*/
+/*}*/
+
+/*.social-media h3 {*/
+/*    color: red;*/
+/*    font-size: 25px;*/
+/*    margin-bottom: 10px;*/
+/*}*/
+
+.icons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.icons img {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.icons img:hover {
+    transform: scale(1.2);
+}
+
+
+/* Stil pentru secțiunea navbar miscator */
+
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+/*.logo img {*/
+/*    height: 70px; !* Dimensiunea logo-ului *!*/
+/*    margin-left: 20px;*/
+/*}*/
+
+/*.nav-links {*/
+/*    display: flex;*/
+/*    gap: 20px;*/
+/*    transition: opacity 0.3s ease-in-out;*/
+/*}*/
+
+
+/* Stil pentru formular */
+
+
+.signup-container {
+    width: 50%;
+    margin: 40px auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.5);
+}
+
+.signup-container h2 {
+    color: red;
+    font-size: 1.8rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    color: white;
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+input, textarea {
+    width: 90%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: none;
+}
+
+/*button {*/
+/*    margin-top: 15px;*/
+/*    padding: 12px 20px;*/
+/*    background: red;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    font-size: 1.2rem;*/
+/*    cursor: pointer;*/
+/*    transition: 0.3s;*/
+/*}*/
+
+/*button:hover {*/
+/*    background: white;*/
+/*    color: black;*/
+/*}*/
+
+
+/*.flash-message {*/
+/*    background-color: #28a745;*/
+/*    color: white;*/
+/*    padding: 10px;*/
+/*    text-align: center;*/
+/*    border-radius: 5px;*/
+/*    font-size: 18px;*/
+/*    margin-bottom: 15px;*/
+/*}*/
+
+
+/*.thank-you-container {*/
+/*    text-align: center;*/
+/*    padding: 50px;*/
+/*    background: linear-gradient(45deg, #8B0000, #000000);*/
+/*    color: white;*/
+/*    height: 100vh;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+
+
+/*.thank-you-container h1 {*/
+/*    font-size: 3rem;*/
+/*    margin-bottom: 20px;*/
+/*}*/
+
+/*.thank-you-container p {*/
+/*    font-size: 1.5rem;*/
+/*    margin-bottom: 30px;*/
+/*}*/
+
+/*.btn {*/
+/*    display: inline-block;*/
+/*    padding: 12px 25px;*/
+/*    background: red;*/
+/*    color: white;*/
+/*    text-decoration: none;*/
+/*    font-weight: bold;*/
+/*    border-radius: 5px;*/
+/*    transition: background 0.3s ease-in-out;*/
+/*}*/
+
+
+/*.btn:hover {*/
+/*    background: white;*/
+/*    color: black;*/
+/*}*/
+
+
+/* Secțiunea Antrenorilor */
+.coaches-section {
+    text-align: center;
+    padding: 50px 20px;
+    background: black;
+    color: white;
+}
+
+/* Titlu secțiune */
+.coaches-section h1 {
+    font-size: 2.2rem;
+    color: white;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+/* Grilă pentru antrenori */
+.coaches-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+/* Cardurile antrenorilor */
+.coach {
+    width: 320px;
+    text-align: center;
+    position: relative;
+}
+
+/* Imagini mari, încadrate corect */
+.coach img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.5); /* Ușor efect de umbră */
+}
+
+/* Numele antrenorilor */
+.coach h3 {
+    font-size: 1.8rem;
+    margin-top: 15px;
+    color: white;
+    font-weight: bold;
+}
+
+/* Funcția antrenorului */
+.coach p {
+    font-size: 1.2rem;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+/* Efect de hover */
+.coach:hover {
+    transform: scale(1.05);
+    background: rgba(255, 0, 0, 0.3);
+}
+
+.coach:hover img {
+    transform: scale(1.1);
+}
+
+
+.swiper-container-coachpage {
+    width: 80%;
+    max-width: 1000px;
+    height: 650px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 0;
+    padding-top: 30px;
+    background-color: transparent;
+}
+
+
+/* Slide individual */
+.coach {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Imaginea antrenorului */
+.coach img {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Informații antrenor */
+.coach h3 {
+    font-size: 1.8rem;
+    color: white;
+}
+
+.coach p {
+    font-size: 1.2rem;
+    color: #ddd;
+}
+
+/*!* Stil personalizat pentru săgeți Swiper *!*/
+/*.swiper-button-next,*/
+/*.swiper-button-prev {*/
+/*    color: white !important; !* Schimbă culoarea săgeților *!*/
+/*    font-size: 24px;*/
+/*    transition: all 0.3s ease-in-out;*/
+/*}*/
+
+/*.swiper-button-next:hover,*/
+/*.swiper-button-prev:hover {*/
+/*    color: red !important; !* Săgețile devin roșii la hover *!*/
+/*}*/
+
+/*!* Stil pentru buline (pagination) *!*/
+/*.swiper-pagination .swiper-pagination-bullet {*/
+/*    background: white !important; !* Buline albe *!*/
+/*    opacity: 0.5;*/
+/*    transition: all 0.3s ease-in-out;*/
+/*    height: 12px;*/
+
+/*}*/
+
+/*.swiper-pagination .swiper-pagination-bullet-active {*/
+/*    background: red !important; !* Bulină activă roșie *!*/
+/*    opacity: 1;*/
+/*}*/
+
+
+/*!* Poziționează bulinele sub linie *!*/
+/*.swiper-pagination {*/
+/*    position: absolute;*/
+/*    bottom: -50px; !* Ajustează pentru a le aduce sub linie *!*/
+/*    left: 50%;*/
+/*    transform: translateX(-50%);*/
+/*}*/
+
+/*.our-coaches h1 {*/
+/*    color: red;*/
+/*    text-align: center;*/
+/*    padding: 50px 5px;*/
+/*    font-size: 2.5rem;*/
+/*    font-family: Arial, Helvetica, sans-serif;*/
+/*    font-stretch: ultra-condensed;*/
+/*    font-weight: lighter;*/
+/*}*/
+
+
+/*!* Stil pentru motto *!*/
+/*.club-motto {*/
+/*    text-align: center;*/
+/*    font-size: 1.8rem;*/
+/*    font-weight: bold;*/
+/*    color: white;*/
+/*    margin-top: 240px; !* Ajustează distanța față de slider *!*/
+/*    margin-bottom: 10px; !* Ajustează distanța față de punctele de navigare *!*/
+/*    text-transform: uppercase;*/
+/*    font-family: 'Arial', sans-serif;*/
+/*}*/
+
+
+/*.club-motto-about {*/
+/*    text-align: center;*/
+/*    font-size: 1.8rem;*/
+/*    font-weight: bold;*/
+/*    color: white;*/
+/*    margin-top: 180px; !* Ajustează distanța față de slider *!*/
+/*    margin-bottom: 180px; !* Ajustează distanța față de punctele de navigare *!*/
+/*    text-transform: uppercase;*/
+/*    font-family: 'Arial', sans-serif;*/
+/*}*/
+
+
+/*!* Asigură-te că punctele pagination sunt sub motto *!*/
+/*.swiper-pagination {*/
+/*    position: absolute;*/
+/*    bottom: -60px; !* Ajustează dacă este necesar *!*/
+/*    left: 50%;*/
+/*    transform: translateX(-50%);*/
+/*}*/
+
+
+/* MOBIL */
+
+
+/*@media screen and (max-width: 768px) {*/
+/*    .navbar {*/
+/*        transition: transform 0.5s ease-in-out;*/
+/*    }*/
+
+/*    .hide-navbar {*/
+/*        transform: translateY(-100%);*/
+/*    }*/
+
+/*    !* Asigură-te că navbar-ul rămâne vizibil mai mult timp *!*/
+/*    header {*/
+/*        transition: transform 0.5s ease-in-out;*/
+/*    }*/
+
+/*    header.hide-navbar {*/
+/*        transform: translateY(-100%);*/
+/*    }*/
+/*}*/
+
+
+/*@media screen and (max-width: 768px) {*/
+/*    .hero-content h1 {*/
+/*        font-size: 2rem;*/
+/*    }*/
+
+/*    .hero-content p {*/
+/*        font-size: 1rem;*/
+/*    }*/
+/*}*/
+
+
+/*@media screen and (max-width: 768px) {*/
+/*    .schedule {*/
+/*        padding: 20px;*/
+/*    }*/
+
+/*    .day {*/
+/*        width: 90%;*/
+/*        padding: 15px;*/
+/*        font-size: 1rem;*/
+/*    }*/
+
+/*    .day h2 {*/
+/*        font-size: 20px;*/
+/*    }*/
+/*}*/
+
+
+/*@media screen and (max-width: 768px) {*/
+/*    .coach-slide {*/
+/*        flex-direction: column;*/
+/*        align-items: center;*/
+/*        text-align: center;*/
+/*    }*/
+
+/*    .coach-info {*/
+/*        padding: 10px;*/
+/*        text-align: center;*/
+/*    }*/
+
+/*    .coach-info h3 {*/
+/*        font-size: 1.5rem;*/
+/*        margin-bottom: 10px;*/
+/*    }*/
+
+/*    .coach-info p {*/
+/*        font-size: 1rem;*/
+/*        margin-bottom: 10px;*/
+/*    }*/
+
+/*    .coach-slide img {*/
+/*        width: 80%;*/
+/*        height: auto;*/
+/*        margin-bottom: 20px;*/
+/*    }*/
+
+/*    .swiper-button-next, .swiper-button-prev {*/
+/*        display: none; !* Ascunde săgețile pe mobil *!*/
+/*    }*/
+/*}*/
+
+
+/*@media screen and (max-width: 768px) {*/
+/*    footer {*/
+/*        padding: 20px 10px;*/
+/*        text-align: center;*/
+/*    }*/
+
+/*    .footer-container {*/
+/*        flex-direction: column;*/
+/*        align-items: center;*/
+/*    }*/
+
+/*    .footer-address, .footer-social {*/
+/*        margin-bottom: 20px;*/
+/*    }*/
+
+/*    .footer-social h3 {*/
+/*        font-size: 1.2rem;*/
+/*    }*/
+
+/*    .social-icons {*/
+/*        justify-content: center;*/
+/*    }*/
+/*}*/
+
+
+/*@media screen and (max-width: 768px) {*/
+/*    .signup-container {*/
+/*        width: 90%;*/
+/*        padding: 15px;*/
+/*    }*/
+
+/*    .signup-container h2 {*/
+/*        font-size: 1.5rem;*/
+/*    }*/
+
+/*    input, textarea {*/
+/*        width: 100%;*/
+/*    }*/
+
+/*    button {*/
+/*        width: 100%;*/
+/*    }*/
+/*}*/
+
+
+/*@media screen and (max-width: 768px) {*/
+/*    .thank-you-container {*/
+/*        padding: 20px;*/
+/*    }*/
+
+/*    .thank-you-container h1 {*/
+/*        font-size: 2rem;*/
+/*    }*/
+
+/*    .thank-you-container p {*/
+/*        font-size: 1.2rem;*/
+/*    }*/
+
+/*    .btn {*/
+/*        width: 100%;*/
+/*    }*/
+/*}*/
+
+
+/*@media screen and (max-width: 768px) {*/
+/*    .hwarang {*/
+/*        font-size: 2rem;*/
+/*        padding: 10px 20px;*/
+/*    }*/
+
+/*    .club-info {*/
+/*        width: 90%;*/
+/*    }*/
+/*}*/
+
+
+/*@media screen and (max-width: 768px) {*/
+/*    .swiper-container-coachpage {*/
+/*        width: 90%;*/
+/*        height: auto;*/
+/*    }*/
+
+/*    .coach {*/
+/*        width: 90%;*/
+/*    }*/
+
+/*    .coach img {*/
+/*        width: 100%;*/
+/*        height: auto;*/
+/*    }*/
+
+/*    .club-motto {*/
+/*        margin-top: 20px;*/
+/*        font-size: 1.5rem;*/
+/*    }*/
+/*}*/
+
+
+/*@media screen and (max-width: 768px) {*/
+/*    body, html {*/
+/*        overflow-x: hidden;*/
+/*    }*/
+
+/*    .section {*/
+/*        padding: 20px;*/
+/*    }*/
+
+/*    .section h2 {*/
+/*        font-size: 2rem;*/
+/*    }*/
+
+/*    .btn {*/
+/*        width: 100%;*/
+/*    }*/
+/*}*/
+
+
+/*!* Stiluri pentru butonul de meniu mobil *!*/
+/*.menu-toggle {*/
+/*    display: none;*/
+/*    flex-direction: column;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.menu-toggle .bar {*/
+/*    width: 25px;*/
+/*    height: 3px;*/
+/*    background-color: white;*/
+/*    margin: 4px 0;*/
+/*    transition: 0.4s;*/
+/*}*/
+
+/*!* Ascunde meniul principal pe mobil *!*/
+/*@media screen and (max-width: 768px) {*/
+/*    .menu-toggle {*/
+/*        display: flex;*/
+/*    }*/
+
+/*    .nav-links {*/
+/*        display: none;*/
+/*        flex-direction: column;*/
+/*        width: 100%;*/
+/*        background: black;*/
+/*        position: absolute;*/
+/*        top: 60px;*/
+/*        left: 0;*/
+/*        z-index: 1000;*/
+/*    }*/
+
+/*    .nav-links.active {*/
+/*        display: flex;*/
+/*    }*/
+
+/*    .nav-links li {*/
+/*        margin: 10px 0;*/
+/*        text-align: center;*/
+/*    }*/
+
+/*    .dropdown-menu {*/
+/*        position: static;*/
+/*        width: 100%;*/
+/*        border: none;*/
+/*    }*/
+/*}*/
+
+
+/*@media screen and (max-width: 768px) {*/
+/*    .footer-container {*/
+/*        flex-direction: column;*/
+/*        align-items: center;*/
+/*        text-align: center;*/
+/*    }*/
+
+/*    .footer-map {*/
+/*        width: 100%;*/
+/*        margin-bottom: 20px;*/
+/*    }*/
+
+/*    .footer-map iframe {*/
+/*        height: 200px; !* Ajustează înălțimea hărții pentru mobil *!*/
+/*    }*/
+
+/*    .footer-info {*/
+/*        width: 100%;*/
+/*        text-align: center;*/
+/*    }*/
+
+/*    .footer-info p {*/
+/*        margin: 5px 0;*/
+/*    }*/
+/*}*/
+
+
+/* CALENDAR */
+
+
+/*.body {*/
+/*    font-family: Arial, sans-serif;*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    background-color: #121212;*/
+/*}*/
+
+/*.container_table {*/
+/*    width: 90%;*/
+/*    max-width: 1200px;*/
+/*    background-color: #fff;*/
+/*    padding: 20px;*/
+/*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/*table {*/
+/*    width: 100%;*/
+/*    border-collapse: collapse;*/
+/*}*/
+
+/*.th, .td {*/
+/*    padding: 12px;*/
+/*    text-align: left;*/
+/*    border-bottom: 1px solid #ddd;*/
+/*}*/
+
+/*th {*/
+/*    background-color: #f8f8f8;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.hover {*/
+/*    background-color: #f1f1f1;*/
+/*}*/
+
+/*tr {*/
+/*    color: white;*/
+/*}*/
+
+/*.tr-calendar {*/
+/*    color: black*/
+/*}*/
+
+
+/*!* 🔹 SECTIUNE: De ce să ne alegi pe noi *!*/
+/*.why-choose-us {*/
+/*  padding-top: 0;  !* Ajustează distanța față de tranziție *!*/
+/*  padding-bottom: 50px;*/
+/*  background-color: white; !* sau ce culoare ai în spate *!*/
+/*  text-align: center;*/
+/*  color: white;*/
+/*}*/
+
+/*.why-choose-us h2 {*/
+/*  color: rgba(18, 18, 18, 40);*/
+/*  font-size: 3.5em;*/
+/*  margin-bottom: 20px;*/
+/*}*/
+
+/*.why-choose-us ul {*/
+/*  list-style: none;*/
+/*  padding: 0;*/
+/*  margin: 0 auto;*/
+/*  max-width: 700px;*/
+/*    color: rgba(18, 18, 18, 40)*/
+/*}*/
+
+/*.why-choose-us li {*/
+/*  margin-bottom: 15px;*/
+/*  font-size: 1.2em;*/
+/*}*/
+
+
+/*!* 🔹 SECTIUNE: Tarife *!*/
+/*.pricing {*/
+/*    text-align: center;*/
+/*    background-color: black;*/
+/*}*/
+
+/*.pricing h2 {*/
+/*    font-size: 3.5rem;*/
+/*    color: rgba(18, 18, 18, 40);*/
+/*    margin-bottom: 20px;*/
+/*}*/
+
+/*.price-cards {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    gap: 40px;*/
+/*    flex-wrap: wrap;*/
+/*}*/
+
+/*.price-card {*/
+/*    background-color: rgba(0, 0, 0, 0.6); !* fundal negru semi-transparent *!*/
+/*    border-radius: 10px;*/
+/*    padding: 20px 30px;*/
+/*    width: 200px;*/
+/*    color: white;*/
+/*    transition: transform 0.3s ease;*/
+/*}*/
+
+/*.price-card h3 {*/
+/*    font-size: 1.5rem;*/
+/*    margin-bottom: 10px;*/
+/*    color: red;*/
+/*}*/
+
+/*.price-card p {*/
+/*    font-size: 1.2rem;*/
+/*}*/
+
+/*.price-card:hover {*/
+/*    transform: scale(1.05);*/
+/*}*/
+
+
+
+/*!*.choose-us,*!*/
+/*!*.pricing,*!*/
+/*!*footer,*!*/
+/*!*.site-footer {*!*/
+/*!*    background: white*!*/
+/*!*}*!*/
+
+
+
+/*.fade-effect {*/
+/*    background: linear-gradient(to bottom, rgba(255, 0, 0, 0) 1%, gray 100%);*/
+/*    height: 80px;*/
+/*  width: 100%;*/
+/*}*/
+
+
+
+/*.transition-image {*/
+/*    width: 100%;*/
+/*    overflow: hidden;*/
+/*    position: relative;*/
+/*    margin-top: -2px; !* opțional, ajustează să nu rămână spațiu alb *!*/
+/*}*/
+
+/*.transition-image img {*/
+/*    width: 100%;*/
+/*    height: auto;*/
+/*    display: block;*/
+/*}*/

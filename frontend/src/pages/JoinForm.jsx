@@ -1,0 +1,112 @@
+import React, {useState} from "react";
+import Footer from "../components/Footer";
+import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Join.css";
+import Navbar from "../components/Navbar";
+
+const JoinForm = () => {
+    const [formData, setFormData] = useState({
+        name: "",
+        prename: "",
+        email: "",
+        phone: "",
+        message: "",
+    });
+
+    const handleChange = (e) => {
+        setFormData((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const response = await fetch("http://localhost:5000/api/inscriere", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formData),
+        });
+
+        const result = await response.json();
+        if (result.status === "error") {
+            alert(result.message);  // Va afișa: "Email deja folosit" sau "Username deja folosit"
+            return;
+        }
+        if (result.status === "success") {
+            setFormData({
+                name: "",
+                prename: "",
+                email: "",
+                phone: "",
+                message: "",
+            });
+            alert("Înscriere trimisă cu succes! Vei primi un email de confirmare.");
+        }
+    };
+
+
+    return (
+        <>
+            <Navbar/>
+            <section className="signup-container">
+                <h2>Înscriere la ACS Hwarang Academy</h2>
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="name">Nume:</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        value={formData.name}
+                        onChange={handleChange}
+                    />
+
+                    <label htmlFor="prename">Prenume:</label>
+                    <input
+                        type="text"
+                        id="prename"
+                        name="prename"
+                        required
+                        value={formData.prename}
+                        onChange={handleChange}
+                    />
+
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                    />
+
+                    <label htmlFor="phone">Telefon:</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        required
+                        value={formData.phone}
+                        onChange={handleChange}
+                    />
+
+                    <label htmlFor="message">Mesaj (opțional):</label>
+                    <textarea
+                        id="message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                    ></textarea>
+
+                    <button type="submit">Înscrie-te</button>
+                </form>
+            </section>
+
+            <Footer/>
+        </>
+    );
+};
+
+export default JoinForm;
