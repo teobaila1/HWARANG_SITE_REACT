@@ -24,31 +24,40 @@ def register():
         with sqlite3.connect(DB_PATH) as conn:
             cur = conn.cursor()
 
-        # Verificare email deja existent
-        cur.execute("SELECT COUNT(*) FROM cereri_utilizatori WHERE email = ?", (email,))
-        cur.execute("SELECT COUNT(*) FROM utilizatori WHERE email = ?", (email,))
-        if cur.fetchone()[0] > 0:
-            return jsonify({"status": "error", "message": "Email deja folosit"}), 409
+            # Verificare email deja existent
+            cur.execute("SELECT COUNT(*) FROM cereri_utilizatori WHERE email = ?", (email,))
+            if cur.fetchone()[0] > 0:
+                return jsonify({"status": "error", "message": "Email deja folosit"}), 409
 
-        # Verificare username deja existent
-        cur.execute("SELECT COUNT(*) FROM cereri_utilizatori WHERE username = ?", (username,))
-        cur.execute("SELECT COUNT(*) FROM utilizatori WHERE username = ?", (username,))
-        if cur.fetchone()[0] > 0:
-            return jsonify({"status": "error", "message": "Username deja folosit"}), 409
+            cur.execute("SELECT COUNT(*) FROM utilizatori WHERE email = ?", (email,))
+            if cur.fetchone()[0] > 0:
+                return jsonify({"status": "error", "message": "Email deja folosit"}), 409
 
-        # Inserare cerere
-        cur.execute(
-            "INSERT INTO cereri_utilizatori (username, email, parola, tip, varsta) VALUES (?, ?, ?, ?, ?)",
-            (username, email, parola, tip, varsta)
-        )
-        conn.commit()
+            # Verificare username deja existent
+            cur.execute("SELECT COUNT(*) FROM cereri_utilizatori WHERE username = ?", (username,))
+            if cur.fetchone()[0] > 0:
+                return jsonify({"status": "error", "message": "Username deja folosit"}), 409
 
+            cur.execute("SELECT COUNT(*) FROM utilizatori WHERE username = ?", (username,))
+            if cur.fetchone()[0] > 0:
+                return jsonify({"status": "error", "message": "Username deja folosit"}), 409
+
+            # Inserare cerere
+            cur.execute(
+                "INSERT INTO cereri_utilizatori (username, email, parola, tip, varsta) VALUES (?, ?, ?, ?, ?)",
+                (username, email, parola, tip, varsta)
+            )
+
+            conn.commit()
+
+        # trimitem email DOAR după commit
         trimite_email_confirmare(email, username)
 
         return jsonify({"status": "success"}), 200
 
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
+
 
 
 def trimite_email_confirmare(destinatar, username):

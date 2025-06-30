@@ -18,29 +18,31 @@ import TotiUtilizatorii from "./pages/AllUsers";
 import Coaches from "./pages/Coaches";
 import Concursuri from "./pages/Concursuri";
 import Documente from "./pages/Documente";
+import ScrollToTop from "./components/ScrollToTop";
 
 
 function App() {
 
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/calendar2025" element={<CalendarPage/>}/>
-                <Route path="/acasa" element={<Home/>}/>
-                <Route path="/desprenoi" element={<About />} />
-                <Route path="/inscriere" element={<JoinForm />} />
-                <Route path="/autentificare" element={<LoginForm />} />
-                <Route path="/inregistrare" element={<Register />} />
-                <Route path="/cereri-conturi" element={<CereriConturi />} />
-                <Route path="/admin-dashboard" element={<AdminDashboard />} />
-                <Route path="/access-denied" element={<AccessDenied />} />
-                <Route path="/toti-utilizatorii" element={<TotiUtilizatorii />} />
-                <Route path="/antrenori" element={<Coaches />} />
-                <Route path="/concursuri" element={<Concursuri />} />
-                <Route path="/documente" element={<Documente />} />
-            </Routes>
-        </Router>
+        <>
+            <ScrollToTop/>
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/calendar2025" element={<CalendarPage/>}/>
+                    <Route path="/acasa" element={<Home/>}/>
+                    <Route path="/desprenoi" element={<About/>}/>
+                    <Route path="/inscriere" element={<JoinForm/>}/>
+                    <Route path="/autentificare" element={<LoginForm/>}/>
+                    <Route path="/inregistrare" element={<Register/>}/>
+                    <Route path="/cereri-conturi" element={<CereriConturi/>}/>
+                    <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
+                    <Route path="/access-denied" element={<AccessDenied/>}/>
+                    <Route path="/toti-utilizatorii" element={<TotiUtilizatorii/>}/>
+                    <Route path="/antrenori" element={<Coaches/>}/>
+                    <Route path="/concursuri" element={<Concursuri/>}/>
+                    <Route path="/documente" element={<Documente/>}/>
+                </Routes>
+        </>
     );
 }
 

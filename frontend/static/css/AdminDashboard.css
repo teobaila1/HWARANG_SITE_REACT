@@ -1,7 +1,7 @@
 /*butoane de linkuri */
 
 .btn-dashboard {
-  background-color: #4B0082;
+  background-color: red;
   color: white;
   padding: 0.75rem 1.5rem;
   border: none;
@@ -12,5 +12,87 @@
 }
 
 .btn-dashboard:hover {
-  background-color: #6A0DAD;
+  background-color: darkred;
+}
+
+
+
+/* Impartire in paagini */
+
+.admin-dashboard-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  padding: 2rem;
+  flex-wrap: wrap;
+}
+
+.admin-left, .admin-right {
+  background-color: #121212;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px red;
+  color: white;
+}
+
+.admin-left {
+  flex: 1;
+  min-width: 190px;
+  max-width: 280px;
+}
+
+.admin-right {
+  flex: 2;
+  min-width: 500px;
+}
+
+.admin-right ul {
+  list-style: none;
+  padding: 0;
+}
+
+.admin-right li {
+  margin-bottom: 1rem;
+}
+
+
+
+/* Incarcare fisiere */
+
+
+.custom-file-upload {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.custom-file-upload label {
+  background-color: white;
+  color: black;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.custom-file-upload label:hover {
+  background-color: darkred;
+}
+
+.custom-file-upload input[type="file"] {
+  display: none;
+}
+
+
+
+.document-link {
+  color: yellow;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.document-link:hover {
+  color: #ff0066;
+  text-decoration: underline;
 }

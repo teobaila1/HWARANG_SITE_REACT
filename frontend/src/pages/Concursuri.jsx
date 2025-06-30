@@ -4,6 +4,7 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "../components/Navbar";
 import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Concursuri.css";
+import Footer from "../components/Footer";
 
 const Concursuri = () => {
     const [mesaj, setMesaj] = useState("");
@@ -121,7 +122,6 @@ const Concursuri = () => {
                 })
             });
 
-            const data = await res.json();
             toast.success("Cererea a fost trimisă cu succes!");
             setFormVisible(false);
 
@@ -244,13 +244,13 @@ const Concursuri = () => {
                             onChange={setSelectedProbes}
                             className="react-select-container"
                             classNamePrefix="react-select"
+
                         />
                         <div style={{display: "flex", justifyContent: "space-between", gap: "10px"}}>
-                            <button type="submit" style={{backgroundColor: "red", color: "white", flex: 1}}>
+                            <button type="submit">
                                 Trimite Înscrierea
                             </button>
-                            <button type="button" onClick={handleAnuleaza}
-                                    style={{backgroundColor: "gray", color: "white", flex: 1}}>
+                            <button style={{backgroundColor: "gray"}} type="button" onClick={handleAnuleaza}>
                                 Anulează
                             </button>
                         </div>
@@ -269,9 +269,9 @@ const Concursuri = () => {
                 pauseOnHover
                 theme="dark"
             />
+            <Footer/>
         </>
     );
-
 };
 
 export default Concursuri;

@@ -7,10 +7,10 @@ import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
-    const [file, setFile] = useState(null);
     const [uploadStatus, setUploadStatus] = useState('');
     const username = localStorage.getItem('username'); // presupunem că username e salvat după login
     const [files, setFiles] = useState([]);
+    const [uploadedDocs, setUploadedDocs] = useState([]);
 
     useEffect(() => {
         const rol = localStorage.getItem("rol");
@@ -39,6 +39,7 @@ const AdminDashboard = () => {
             if (response.ok) {
                 setUploadStatus('Fișierele au fost încărcate cu succes!');
                 setFiles([]);
+                await fetchDocuments(); // 🔁 actualizează lista în timp real
             } else {
                 setUploadStatus('Eroare la upload!');
             }
@@ -49,31 +50,104 @@ const AdminDashboard = () => {
     };
 
 
+    const fetchDocuments = async () => {
+        const res = await fetch('http://localhost:5000/get_documents');
+        const data = await res.json();
+        setUploadedDocs(data);
+    };
+
+    useEffect(() => {
+        fetchDocuments();
+    }, []);
+
+    const handleDelete = async (filename) => {
+        if (!window.confirm(`Ștergi fișierul ${filename}?`)) return;
+
+        const res = await fetch(`http://localhost:5000/delete_document/${filename}`, {
+            method: 'DELETE',
+        });
+
+        if (res.ok) {
+            setUploadedDocs(prev => prev.filter(doc => doc.filename !== filename));
+        } else {
+            alert('Eroare la ștergere!');
+        }
+    };
+
+
     return (
         <>
             <Navbar/>
-            <section style={{padding: "2rem", color: "white"}}>
-                <h1>Panou Administrator</h1>
-                <p>Bun venit în zona de administrare!</p>
-
-            </section>
-            <section style={{padding: "2rem", color: "white"}}>
-                <div style={{marginTop: "1rem", display: "flex", gap: "1rem", flexWrap: "wrap"}}>
-                    <Link to="/cereri-conturi" className="btn-dashboard">Conturi în așteptare</Link>
-                    <Link to="/toti-utilizatorii" className="btn-dashboard">Vezi toți utilizatorii</Link>
+            <div className="admin-dashboard-grid">
+                {/* Col Stânga */}
+                <div className="admin-left">
+                    <h2>Gestionare conturi</h2>
+                    <div style={{display: "flex", gap: "1rem", flexWrap: "wrap"}}>
+                        <Link to="/cereri-conturi" className="btn-dashboard">Conturi în așteptare</Link>
+                        <Link to="/toti-utilizatorii" className="btn-dashboard">Vezi toți utilizatorii</Link>
+                    </div>
                 </div>
-            </section>
-            <div>
-                <h2>Încarcă un document</h2>
-                <input
-                    type="file"
-                    multiple
-                    onChange={(e) => setFiles(Array.from(e.target.files))}
-                    style={{marginBottom: '10px'}}
-                />
-                <br/>
-                <button onClick={handleUpload}>Încarcă</button>
-                {uploadStatus && <p style={{color: 'lime', marginTop: '10px'}}>{uploadStatus}</p>}
+
+
+                {/* Col Dreapta */}
+                <div className="admin-right">
+                    <div className="custom-file-upload">
+                        <label htmlFor="file-upload">Caută...</label>
+                        <input
+                            id="file-upload"
+                            type="file"
+                            multiple
+                            onChange={(e) => setFiles(Array.from(e.target.files))}
+                        />
+                    </div>
+
+                    {files.length > 0 && (
+                        <ul style={{color: 'white', marginTop: '10px'}}>
+                            {files.map((file, index) => (
+                                <li key={index}>{file.name}</li>
+                            ))}
+                        </ul>
+                    )}
+
+                    <br/>
+                    <button onClick={handleUpload}>Încarcă fișierele</button>
+                    {uploadStatus && <p style={{color: 'lime', marginTop: '10px'}}>{uploadStatus}</p>}
+
+                    <h3 style={{marginTop: "2rem"}}></h3>
+                    <ul>
+                        {uploadedDocs.map((doc) => (
+                            <li key={doc.id}>
+                                <a
+                                    href={`http://localhost:5000/uploads/${doc.filename}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="document-link"
+                                >
+                                    {doc.filename}
+                                </a>
+                                <button onClick={() => handleDelete(doc.filename)} style={{marginLeft: "1rem"}}>
+                                    Șterge
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+
+                <div className="admin-left">
+                    <h2>Linkuri utile</h2>
+                    <div style={{display: "flex", gap: "1rem", flexWrap: "wrap"}}>
+                        <a
+                            href="https://sites.google.com/hwarang.ro/cerinte-examen/pagina-de-pornire?authuser=0"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-dashboard"
+                        >
+                            Cerințe examen grad
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </>
     );

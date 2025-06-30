@@ -1,9 +1,11 @@
 import {useEffect, useState} from 'react';
 import Navbar from "../components/Navbar";
+import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Documente.css";
 
 const Documente = () => {
     const [documente, setDocumente] = useState([]);
-    const [files, setFiles] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+
 
     useEffect(() => {
         fetch('http://localhost:5000/get_documents')
@@ -35,22 +37,55 @@ const Documente = () => {
     return (
         <>
             <Navbar/>
-            <div className="documents-container">
-                <h2>📄 Documente disponibile</h2>
-                <ul>
-                    {documente.map((doc) => (
-                        <li key={doc.id}>
-                            <strong>{doc.filename}</strong> — încărcat
-                            de <em>{doc.uploaded_by}</em> la {doc.upload_date} &nbsp;
-                            <a href={`http://localhost:5000/uploads/${doc.filename}`} download>
-                                <button style={{marginRight: '0.5rem'}}>Descarcă</button>
-                            </a>
-                            <button onClick={() => handleDelete(doc.filename)}>Șterge</button>
-                        </li>
-
-                    ))}
-
-                </ul>
+            <div className="documents-wrapper">
+                <h2 className="documents-title">Documente disponibile</h2>
+                <div className="search-bar-wrapper">
+                    <input
+                        type="text"
+                        placeholder="Caută un fișier..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="search-input"
+                    />
+                    {searchTerm && (
+                        <button className="reset-button" onClick={() => setSearchTerm("")}>
+                            ✕
+                        </button>
+                    )}
+                </div>
+                <table className="documents-table">
+                    <thead>
+                    <tr>
+                        <th>Fișier</th>
+                        <th>Încărcat de</th>
+                        <th>Data</th>
+                        <th>Acțiuni</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {documente
+                        .filter((doc) =>
+                            doc.filename.toLowerCase().includes(searchTerm.toLowerCase())
+                        )
+                        .map((doc) => (
+                            <tr key={doc.id}>
+                                <td>{doc.filename}</td>
+                                <td>{doc.uploaded_by}</td>
+                                <td>{doc.upload_date}</td>
+                                <td>
+                                    <a href={`http://localhost:5000/uploads/${doc.filename}`} download>
+                                        <button className="btn-descarca">Descarcă</button>
+                                    </a>
+                                    {localStorage.getItem("rol") === "admin" && (
+                                        <button className="btn-sterge" onClick={() => handleDelete(doc.filename)}>
+                                            Șterge
+                                        </button>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </>
     );

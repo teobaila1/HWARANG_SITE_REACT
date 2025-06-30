@@ -91,7 +91,15 @@ const CalendarPage = () => {
                     ))}
                     </tbody>
                 </table>
+                <a href="https://calendar.online/98854dafd4cc62b552dd"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn"
+            >
+                        Vezi calendar online
+                    </a>
             </div>
+
         </>
     );
 };

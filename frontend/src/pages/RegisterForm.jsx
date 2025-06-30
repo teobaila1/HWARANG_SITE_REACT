@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import {ToastContainer, toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Register.css";
 import {Link} from "react-router-dom";
 
@@ -17,6 +19,8 @@ const Register = () => {
 
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -34,12 +38,20 @@ const Register = () => {
         setError(null);
 
         if (formData.password !== formData.confirm) {
-            setError("Parolele nu coincid.");
+            toast.error("Parolele nu coincid.", {
+                position: "top-center",
+                autoClose: 4000,
+                theme: "colored",
+            });
             return;
         }
 
         if (formData.tip === "Sportiv" && formData.varsta === "Sub 18") {
-            setError("Sportivii sub 18 ani nu pot crea cont. Rugăm părintele să se înregistreze.");
+            toast.error("Sportivii sub 18 ani nu pot crea cont. Rugăm părintele să se înregistreze.", {
+                position: "top-center",
+                autoClose: 4000,
+                theme: "colored",
+            });
             return;
         }
 
@@ -53,26 +65,39 @@ const Register = () => {
             const result = await res.json();
             if (result.status === "success") {
                 setSuccess(true);
-                alert("Cererea a fost trimisă! Vei primi un email de confirmare.");
+                toast.success("Cererea a fost trimisă! Vei primi un email de confirmare.", {
+                    position: "top-center",
+                    autoClose: 4000,
+                    theme: "colored",
+                });
                 setFormData({
                     username: "",
                     email: "",
                     password: "",
                     confirm: "",
                     tip: "",
-                    varsta: ""
+                    varsta: "",
                 });
             } else {
-                setError(result.message || "Eroare la înregistrare.");
+                toast.error(result.message || "Eroare la înregistrare.", {
+                    position: "top-center",
+                    autoClose: 4000,
+                    theme: "colored",
+                });
             }
         } catch (err) {
-            setError("Eroare server.");
+            toast.error("Eroare server. Încearcă mai târziu.", {
+                position: "top-center",
+                autoClose: 4000,
+                theme: "colored",
+            });
         }
     };
 
     return (
         <>
             <Navbar/>
+            <ToastContainer/>
             <section className="register-container">
                 <h2>Cerere Cont HWARANG</h2>
                 <form onSubmit={handleSubmit}>
@@ -97,24 +122,34 @@ const Register = () => {
                     />
 
                     <label>Parolă</label>
-                    <input
-                        type="password"
-                        name="password"
-                        required
-                        placeholder="Alege o parolă sigură"
-                        value={formData.password}
-                        onChange={handleChange}
-                    />
+                    <div className="input-password-wrapper">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            name="password"
+                            required
+                            placeholder="Alege o parolă sigură"
+                            value={formData.password}
+                            onChange={handleChange}
+                        />
+                        <span onClick={() => setShowPassword(!showPassword)} className="eye-toggle">
+    {showPassword ? "🙈" : "👁️"}
+  </span>
+                    </div>
 
                     <label>Confirmă Parola</label>
-                    <input
-                        type="password"
-                        name="confirm"
-                        required
-                        placeholder="Reintrodu parola"
-                        value={formData.confirm}
-                        onChange={handleChange}
-                    />
+                    <div className="input-password-wrapper">
+                        <input
+                            type={showConfirm ? "text" : "password"}
+                            name="confirm"
+                            required
+                            placeholder="Reintrodu parola"
+                            value={formData.confirm}
+                            onChange={handleChange}
+                        />
+                        <span onClick={() => setShowConfirm(!showConfirm)} className="eye-toggle">
+    {showConfirm ? "🙈" : "👁️"}
+  </span>
+                    </div>
 
                     <label>Tip utilizator:</label>
                     <select name="tip" required onChange={handleChange} value={formData.tip}>

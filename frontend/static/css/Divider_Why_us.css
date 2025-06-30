@@ -10,84 +10,122 @@
   height: 100px;
 }
 
-.dece-section {
-  background: white;
-  color: black;
+
+
+
+.why-us-section {
   padding: 4rem 2rem;
+  text-align: center;
+  background-color: #e5e5e5;
+}
+
+.why-us-title {
+  font-size: 2.8rem;
+  margin-bottom: 3rem;
+  background: #e5e5e5;
+  color: black;
   text-align: center;
 }
 
-.dece-section h2 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-}
 
-.dece-section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.dece-section li {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-}
-
-.tarife-section {
-  background: white;
+.justification {
+  font-size: 2.0rem;
+  margin-bottom: 3rem;
+  background: #e5e5e5;
   color: black;
-  padding: 4rem 2rem;
   text-align: center;
 }
 
-.tarife-section h2 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-}
-
-.tarife-wrapper {
+.why-us-items {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
   justify-content: center;
+  gap: 2rem;
 }
 
-.tarif-box {
-  background: #666;
-  padding: 2rem;
-  border-radius: 10px;
-  color: white;
-  min-width: 180px;
+.why-us-card {
+  background: white;
+  padding: 2rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  max-width: 300px;
+  text-align: center;
+  transition: transform 0.3s ease;
 }
 
-.tarif-box h3 {
-  color: red;
+.why-us-card:hover {
+  transform: translateY(-5px);
+}
+
+.why-us-card i {
+  font-size: 2rem;
+  color: #c00;
   margin-bottom: 1rem;
 }
 
-/* Stil pentru iconițele social media */
-.social-icons {
-    display: flex;
-    flex-direction: row; /* Aliniere pe orizontală */
-    gap: 15px; /* Spațiere între iconițe */
-}
-
-.footer-social img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
+.why-us-card p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
 }
 
 
-/* Stil pentru iconițele social media */
-.footer-social a {
-    display: inline-block;
+
+.tarife-section {
+  text-align: center;
+  padding: 4rem 1rem;
+  background-color: #e5e5e5;
+}
+
+.tarife-title {
+  font-size: 2.8rem;
+  margin-bottom: 3rem;
+  background: #e5e5e5;
+  color: black;
+  text-align: center;
+}
+
+.tarife-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.tarif-card {
+  background-color: #fff;
+  padding: 2rem 1.5rem;
+  border-radius: 12px;
+  width: 250px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tarif-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.tarif-card i {
+  font-size: 2rem;
+  color: #c00;
+  margin-bottom: 1rem;
+}
+
+.tarif-card h3 {
+  font-size: 1.4rem;
+  color: #c00;
+  margin-bottom: 0.5rem;
+}
+
+.tarif-card p {
+  font-size: 1.1rem;
+  color: #333;
 }
 
 
-/*.brush-divider {*/
-/*  width: 100%;*/
-/*  height: 150px;*/
-/*  background-image: url("../videos/tranzitiev2.png");*/
-/*  background-size: cover;*/
-/*  background-position: center bottom;*/
-/*}*/
+
+
+
+
+

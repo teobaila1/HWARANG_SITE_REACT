@@ -15,7 +15,7 @@ const coachData = [
   {
     nume: "Răzvan Tudor",
     descriere: "Antrenor Kickboxing, instructor certificat și multiplu campion național",
-    imagine: "/images/coach2.jpg",
+    imagine: "/images/razvan_golden_boy.jpg",
   },
   {
     nume: "Alex Băilă",
@@ -24,18 +24,28 @@ const coachData = [
   },
   {
     nume: "Teodor Băilă",
-    descriere: "Antrenor/Sportiv",
-    imagine: "/images/coach3.jpg",
+    descriere: "Instructor/Sportiv",
+    imagine: "/images/teo.png",
   },
   {
     nume: "Raul Hurdu",
-    descriere: "Antrenor/Sportiv",
-    imagine: "/images/coach3.jpg",
+    descriere: "Instructor/Sportiv",
+    imagine: "/images/raul_hurdu.jpg",
   },
   {
     nume: "Daniel Cristache",
-    descriere: "Antrenor/Sportiv",
-    imagine: "/images/coach4.jpg",
+    descriere: "Instructor/Sportiv",
+    imagine: "/images/dani.jpg",
+  },
+  {
+    nume: "Radu Mareș",
+    descriere: "Instructor/Sportiv",
+    imagine: "/images/radu.jpg",
+  },
+    {
+    nume: "Oana Roșu",
+    descriere: "Instructor/Sportiv",
+    imagine: "/images/oana.jpg",
   },
 ];
 

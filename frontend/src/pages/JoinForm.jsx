@@ -4,6 +4,7 @@ import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css
 import Navbar from "../components/Navbar";
 
 const JoinForm = () => {
+    const [acceptTerms, setAcceptTerms] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
         prename: "",
@@ -99,6 +100,19 @@ const JoinForm = () => {
                         value={formData.message}
                         onChange={handleChange}
                     ></textarea>
+
+                    <div className="terms-checkbox">
+                        <input
+                            type="checkbox"
+                            id="acceptTerms"
+                            checked={acceptTerms}
+                            onChange={(e) => setAcceptTerms(e.target.checked)}
+                            required
+                        />
+                        <label htmlFor="acceptTerms">
+                            Am citit și accept <a href="/termeni" style={{color: '#ff0066'}}>Termenii și Condițiile</a>
+                        </label>
+                    </div>
 
                     <button type="submit">Înscrie-te</button>
                 </form>

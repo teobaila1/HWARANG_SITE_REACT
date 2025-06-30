@@ -40,7 +40,9 @@ const Navbar = () => {
             <nav className={`navbar ${hideNavbar ? "hide-navbar" : ""}`}>
                 <div className="navbar-flex-container">
                     <div className="logo">
-                        <img src="/images/favicon_circle_BANNER.png" alt="Logo Club"/>
+                        <Link to="/acasa">
+                            <img src="/images/favicon_circle_BANNER.png" alt="Logo Club"/>
+                        </Link>
                     </div>
 
                     {username && (
@@ -61,12 +63,14 @@ const Navbar = () => {
                         </ul>
                     </li>
 
-                    <li className="dropdown">
-                        <a href="#">Calendar</a>
-                        <ul className="dropdown-menu">
-                            <li><a href="/calendar2025">Calendar 2025</a></li>
-                        </ul>
-                    </li>
+                    {isLoggedIn && (
+                        <li className="dropdown">
+                            <a>Calendar</a>
+                            <ul className="dropdown-menu">
+                                <li><a href="/calendar2025">Calendar 2025</a></li>
+                            </ul>
+                        </li>
+                    )}
 
                     <li className="dropdown">
                         <a href="#">Kickbox</a>
@@ -76,18 +80,22 @@ const Navbar = () => {
                     </li>
 
                     {!isLoggedIn &&
-                        <li><a href="/inscriere">Alătură-te</a></li>
+                        <li className="join-link"><a href="/inscriere">Alătură-te</a></li>
                     }
 
-                    <li><a href="#">Regulamente</a></li>
+                    {isLoggedIn && <li><a href="#">Regulamente</a></li>}
 
                     <li>
-                        <a href="/documente">Documente</a>
+                        {isLoggedIn && <li><a href="/documente">Documente</a></li>}
                     </li>
 
 
-                    {rol === "Parinte" || rol === "Sportiv" || rol === "admin" ? (
-                        <li><a href="/concursuri">Înscrie-te la concursuri</a></li>
+                    {rol === "admin" ? (
+                        <li><a href="/concursuri">Concursuri</a></li>
+                    ) : null}
+
+                    {rol === "Parinte" || rol === "Sportiv" ? (
+                        <li><a href="/concursuri">Înscriere concursuri</a></li>
                     ) : null}
 
 
@@ -103,7 +111,7 @@ const Navbar = () => {
                     {!isLoggedIn && (
                         <>
                             <li><Link to="/autentificare">Login</Link></li>
-                            <li><Link to="/inregistrare">Înregistrare</Link></li>
+                            <li className="join-linkv2"><Link to="/inregistrare">Înregistrare</Link></li>
                         </>
                     )}
 

@@ -1,5 +1,5 @@
 .register-container {
-  background-color: #021a23;
+  background-color: #161616 ;
   color: white;
   padding: 2.5rem 2rem;
   max-width: 550px;
@@ -56,4 +56,32 @@
 .success-msg {
   color: limegreen;
   font-weight: bold;
+}
+
+
+
+.input-password-wrapper {
+  position: relative;
+  width: 90%;
+  margin-bottom: 1.2rem;
+}
+
+.input-password-wrapper input {
+  width: 100%;
+  padding: 0.9rem 2.5rem 0.9rem 1rem; /* padding dreapta mai mare pentru ochi */
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  color: black;
+}
+
+.eye-toggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #333;
 }
