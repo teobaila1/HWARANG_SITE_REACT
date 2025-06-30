@@ -8,7 +8,7 @@ const Documente = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/get_documents')
+        fetch('http://192.168.100.87:5000/get_documents')
             .then((res) => res.json())
             .then((data) => setDocumente(data));
     }, []);
@@ -18,7 +18,7 @@ const Documente = () => {
         if (!window.confirm(`Ești sigur că vrei să ștergi fișierul ${filename}?`)) return;
 
         try {
-            const res = await fetch(`http://localhost:5000/delete_document/${filename}`, {
+            const res = await fetch(`http://192.168.100.87:5000/delete_document/${filename}`, {
                 method: 'DELETE',
             });
 
@@ -73,7 +73,7 @@ const Documente = () => {
                                 <td>{doc.uploaded_by}</td>
                                 <td>{doc.upload_date}</td>
                                 <td>
-                                    <a href={`http://localhost:5000/uploads/${doc.filename}`} download>
+                                    <a href={`http://192.168.100.87:5000/uploads/${doc.filename}`} download>
                                         <button className="btn-descarca">Descarcă</button>
                                     </a>
                                     {localStorage.getItem("rol") === "admin" && (

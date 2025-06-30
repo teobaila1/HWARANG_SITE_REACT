@@ -31,7 +31,7 @@ const AdminDashboard = () => {
         formData.append('username', username);
 
         try {
-            const response = await fetch('http://localhost:5000/upload_document', {
+            const response = await fetch('http://192.168.100.87:5000/upload_document', {
                 method: 'POST',
                 body: formData,
             });
@@ -51,7 +51,7 @@ const AdminDashboard = () => {
 
 
     const fetchDocuments = async () => {
-        const res = await fetch('http://localhost:5000/get_documents');
+        const res = await fetch('http://192.168.100.87:5000/get_documents');
         const data = await res.json();
         setUploadedDocs(data);
     };
@@ -63,7 +63,7 @@ const AdminDashboard = () => {
     const handleDelete = async (filename) => {
         if (!window.confirm(`Ștergi fișierul ${filename}?`)) return;
 
-        const res = await fetch(`http://localhost:5000/delete_document/${filename}`, {
+        const res = await fetch(`http://192.168.100.87:5000/delete_document/${filename}`, {
             method: 'DELETE',
         });
 
@@ -118,7 +118,7 @@ const AdminDashboard = () => {
                         {uploadedDocs.map((doc) => (
                             <li key={doc.id}>
                                 <a
-                                    href={`http://localhost:5000/uploads/${doc.filename}`}
+                                    href={`http://192.168.100.87:5000/uploads/${doc.filename}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="document-link"

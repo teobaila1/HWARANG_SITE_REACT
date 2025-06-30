@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import Footer from "../components/Footer";
 import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Join.css";
+import {toast} from "react-toastify";
+import {ToastContainer} from "react-toastify";
 import Navbar from "../components/Navbar";
 
 const JoinForm = () => {
@@ -23,7 +25,7 @@ const JoinForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = await fetch("http://localhost:5000/api/inscriere", {
+        const response = await fetch("http://192.168.100.87:5000/api/inscriere", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(formData),
@@ -31,7 +33,7 @@ const JoinForm = () => {
 
         const result = await response.json();
         if (result.status === "error") {
-            alert(result.message);  // Va afișa: "Email deja folosit" sau "Username deja folosit"
+            toast.error(result.message); // Ex: "Email deja folosit"
             return;
         }
         if (result.status === "success") {
@@ -42,7 +44,14 @@ const JoinForm = () => {
                 phone: "",
                 message: "",
             });
-            alert("Înscriere trimisă cu succes! Vei primi un email de confirmare.");
+            toast.success("Înscriere trimisă cu succes! Vei primi un email de confirmare.", {
+                position: "bottom-center",
+                autoClose: 2000,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "colored",
+            });
         }
     };
 
@@ -50,6 +59,7 @@ const JoinForm = () => {
     return (
         <>
             <Navbar/>
+            <ToastContainer/>
             <section className="signup-container">
                 <h2>Înscriere la ACS Hwarang Academy</h2>
                 <form onSubmit={handleSubmit}>

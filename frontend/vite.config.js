@@ -5,8 +5,10 @@ export default defineConfig({
   root: './',           // 🔴 spune Vite unde e src-ul acum
   plugins: [react()],
   server: {
+    host: '0.0.0.0',      // ✅ Aici e cheia
+    port: 5173,
     proxy: {
-      '/api': 'http://localhost:5000',
+      '/api': 'http://192.168.100.87:5000',
     },
   },
 });

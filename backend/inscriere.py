@@ -32,6 +32,12 @@ def inscriere():
     conn.commit()
     conn.close()
 
+    # ✅ APELARE FUNCȚIE EMAIL
+    try:
+        trimite_email_confirmare(email, nume)
+    except Exception as e:
+        print("Eroare la trimiterea emailului:", e)
+
     return jsonify({"status": "success"})
 
 

@@ -8,7 +8,7 @@ const TotiUtilizatorii = () => {
     const [editari, setEditari] = useState({});
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/users") // modifică dacă ai alt backend
+        fetch("http://192.168.100.87:5000/api/users") // modifică dacă ai alt backend
             .then((res) => res.json())
             .then((data) => setUsers(data))
             .catch((err) => console.error("Eroare la preluare utilizatori:", err));
@@ -24,7 +24,7 @@ const TotiUtilizatorii = () => {
         const user = users.find((u) => u.id === userId);
         const admin_username = localStorage.getItem("username");
 
-        fetch("http://localhost:5000/api/modifica-rol", {
+        fetch("http://192.168.100.87:5000/api/modifica-rol", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
@@ -42,7 +42,7 @@ const TotiUtilizatorii = () => {
         const admin_username = localStorage.getItem("username");
         if (!window.confirm(`Sigur vrei să ștergi utilizatorul ${username}?`)) return;
 
-        fetch(`http://localhost:5000/api/users/${username}?admin_username=${admin_username}`, {
+        fetch(`http://192.168.100.87:5000/api/users/${username}?admin_username=${admin_username}`, {
             method: "DELETE",
         })
             .then((res) => res.json())

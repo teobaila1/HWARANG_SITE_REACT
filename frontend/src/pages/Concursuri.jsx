@@ -109,7 +109,7 @@ const Concursuri = () => {
         const probeTrimise = selectedProbes.map(p => p.value).join(", ");
 
         try {
-            const res = await fetch("http://localhost:5000/api/inscriere_concurs", {
+            const res = await fetch("http://192.168.100.87:5000/api/inscriere_concurs", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
