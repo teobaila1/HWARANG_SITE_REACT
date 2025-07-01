@@ -32,3 +32,18 @@ design la fiecare pagina, sa pun notificari cu toastify
 
 
 am creat toate paginile, mai sunt cele de regulament, etc.
+
+
+
+
+lista separata cu cine s-a inscris la concurs langa butonul de 'inscriere'
+sa copiez clanedarul online direct in site (admin pt admin si reader pentru useri diferiti)
+sa creez eveniment/concurs direct din site ======= mai la final asta
+
+
+sa mai creez un cont de antrenor extern (acces la inscrieri cupa HW), sa aiba voie la un anumit cocnurs
+pentru contul de Parinte si Sportivi, informatii despre plata
+pentru Admini, sa se poata vedea cine a platit si cine nu, si sa valideze platile
+Sistem de notificari pentru plata :D
+un cont de parinte sa aiba sub componenta lui si pe copii
+la inregistrare sa se adauge si grupa din care se face parte, si parintii sa adauge copiii, pentru plati viitaore

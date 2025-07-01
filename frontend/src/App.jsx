@@ -19,6 +19,7 @@ import Coaches from "./pages/Coaches";
 import Concursuri from "./pages/Concursuri";
 import Documente from "./pages/Documente";
 import ScrollToTop from "./components/ScrollToTop";
+import TermeniSiConditii from "./pages/TermeniSiConditii";
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
                     <Route path="/antrenori" element={<Coaches/>}/>
                     <Route path="/concursuri" element={<Concursuri/>}/>
                     <Route path="/documente" element={<Documente/>}/>
+                    <Route path="/termeni_si_conditii" element={<TermeniSiConditii/>}/>
                 </Routes>
         </>
     );

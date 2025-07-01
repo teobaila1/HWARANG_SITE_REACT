@@ -16,7 +16,7 @@ function CereriConturi() {
             return;
         }
 
-        fetch(`http://192.168.100.87:5000/api/cereri?username=${username}`)
+        fetch(`http://localhost:5000/api/cereri?username=${username}`)
             .then((res) => {
                 if (!res.ok) throw new Error("Eroare la încărcare cereri.");
                 return res.json();
@@ -34,7 +34,7 @@ function CereriConturi() {
 
     const handleAccept = async (id) => {
         try {
-            const res = await fetch(`http://192.168.100.87:5000/api/cereri/accepta/${id}`, {
+            const res = await fetch(`http://localhost:5000/api/cereri/accepta/${id}`, {
                 method: "POST",
             });
             const data = await res.json();
@@ -51,7 +51,7 @@ function CereriConturi() {
 
     const handleReject = async (id) => {
         try {
-            const res = await fetch(`http://192.168.100.87:5000/api/cereri/respingere/${id}`, {
+            const res = await fetch(`http://localhost:5000/api/cereri/respingere/${id}`, {
                 method: "DELETE",
             });
             const data = await res.json();

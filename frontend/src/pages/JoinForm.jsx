@@ -25,7 +25,7 @@ const JoinForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = await fetch("http://192.168.100.87:5000/api/inscriere", {
+        const response = await fetch("http://localhost:5000/api/inscriere", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(formData),
@@ -120,7 +120,7 @@ const JoinForm = () => {
                             required
                         />
                         <label htmlFor="acceptTerms">
-                            Am citit și accept <a href="/termeni" style={{color: '#ff0066'}}>Termenii și Condițiile</a>
+                            Am citit și accept <a href="/termeni_si_conditii" style={{color: '#ff0066'}}>Termenii și Condițiile</a>
                         </label>
                     </div>
 
