@@ -1,0 +1,120 @@
+.form-concurs-wrapper {
+    max-width: 650px;
+    margin: 80px auto;
+    background-color: #111;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
+    color: #fff;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.form-concurs-wrapper h2 {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 30px;
+    color: #ff2e2e;
+}
+
+.form-concurs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+
+.form-concurs label {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 4px; /* mai mic între label și input */
+    margin-top: 12px; /* mai mare față de elementul anterior */
+    color: #ccc;
+}
+
+.form-concurs input {
+    padding: 10px;
+    margin-bottom: 10px; /* distanță între inputuri */
+    border-radius: 8px;
+    border: 1px solid #666;
+    background-color: #f8f8f8;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.form-concurs input:focus {
+    outline: none;
+    border-color: crimson;
+    background-color: #fff;
+}
+
+.date-range-picker {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+.date-range-picker input {
+    width: 100%;
+}
+
+.form-concurs button {
+    margin-top: 10px;
+    padding: 12px;
+    font-size: 16px;
+    background: crimson;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.form-concurs button:hover {
+    background: #ff0000;
+}
+
+.status-msg {
+    margin-top: 15px;
+    color: lime;
+    font-weight: bold;
+    text-align: center;
+    font-size: 14px;
+}
+
+
+
+.react-datepicker {
+    font-size: 13px; /* ⬅️ font general mai mic */
+    font-family: 'Segoe UI', sans-serif;
+}
+
+
+.react-datepicker-popper {
+    z-index: 9999 !important;
+}
+
+
+.react-datepicker__current-month {
+    font-size: 16px; /* ⬅️ luna și anul mai mic */
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+    width: 2rem;
+    line-height: 2rem;
+    font-size: 13px; /* ⬅️ zilele să fie mai compacte */
+}
+
+.react-datepicker__navigation {
+    width: 28px;
+    height: 28px;
+}
+
+.react-datepicker__navigation-icon::before {
+    border-color: white;
+    border-width: 2px 2px 0 0;
+}
+

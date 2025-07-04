@@ -3,6 +3,9 @@ from flask_cors import CORS
 from autentificare import autentificare_bp
 from antrenori_externi import antrenori_externi_bp
 from antrenor_dashboard_copii_parinti import antrenor_dashboard_copii_parinti_bp
+from adauga_concurs import adauga_concurs_bp
+from numar_inscrisi import numar_inscrisi_bp
+from creare_get_concurs import creare_get_concurs_bp
 from toti_copiii_parintilor import toti_copiii_parintilor_bp
 from toate_grupele_antrenori import toate_grupele_antrenori_bp
 from inscrieri_concursuri_toti import inscriere_concurs_toti_bp
@@ -32,6 +35,9 @@ app.register_blueprint(antrenor_dashboard_copii_parinti_bp)
 app.register_blueprint(inscriere_concurs_toti_bp)
 app.register_blueprint(toate_grupele_antrenori_bp)
 app.register_blueprint(toti_copiii_parintilor_bp)
+app.register_blueprint(adauga_concurs_bp)
+app.register_blueprint(creare_get_concurs_bp)
+app.register_blueprint(numar_inscrisi_bp)
 
 
 if __name__ == "__main__":

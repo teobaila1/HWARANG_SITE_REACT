@@ -28,3 +28,14 @@
 .calendar-table th {
   background-color: #f1f1f1;
 }
+
+
+
+
+
+.calendar-embed-container {
+    margin-top: 40px;
+    border: 1px solid #ff0000;
+    border-radius: 8px;
+    overflow: hidden;
+}

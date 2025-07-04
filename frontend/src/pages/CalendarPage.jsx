@@ -73,31 +73,33 @@ const CalendarPage = () => {
             <Navbar/>
             <div className="calendar-container">
                 <h2 className="calendar-title">Calendar Competiții 2025</h2>
-                <table className="calendar-table">
-                    <thead>
-                    <tr>
-                        <th>Data / Perioada</th>
-                        <th>Activitate</th>
-                        <th>Localitate</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {evenimente.map((e, index) => (
-                        <tr key={index}>
-                            <td>{e.data}</td>
-                            <td>{e.activitate}</td>
-                            <td>{e.locatie}</td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-                <a href="https://calendar.online/98854dafd4cc62b552dd"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn"
-            >
-                        Vezi calendar online
-                    </a>
+                {/*<table className="calendar-table">*/}
+                {/*    <thead>*/}
+                {/*    <tr>*/}
+                {/*        <th>Data / Perioada</th>*/}
+                {/*        <th>Activitate</th>*/}
+                {/*        <th>Localitate</th>*/}
+                {/*    </tr>*/}
+                {/*    </thead>*/}
+                {/*    <tbody>*/}
+                {/*    {evenimente.map((e, index) => (*/}
+                {/*        <tr key={index}>*/}
+                {/*            <td>{e.data}</td>*/}
+                {/*            <td>{e.activitate}</td>*/}
+                {/*            <td>{e.locatie}</td>*/}
+                {/*        </tr>*/}
+                {/*    ))}*/}
+                {/*    </tbody>*/}
+                {/*</table>*/}
+                <div className="calendar-embed-container">
+                    <iframe
+                        src="https://calendar.online/98854dafd4cc62b552dd"
+                        style={{width: "100%", height: "800px", border: "1px solid red"}}
+                        frameBorder="0"
+                        scrolling="yes"
+                        title="Calendar Online 2025"
+                    ></iframe>
+                </div>
             </div>
 
         </>

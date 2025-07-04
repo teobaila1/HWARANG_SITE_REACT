@@ -86,9 +86,10 @@ const AdminDashboard = () => {
                         <Link to="/cereri-conturi" className="btn-dashboard">Conturi în așteptare</Link>
                         <Link to="/toti-utilizatorii" className="btn-dashboard">Vezi toți utilizatorii</Link>
                         <Link to="/admin-set-permisiuni" className="btn-dashboard">Setează permisiuni de concurs</Link>
-                        <Link to="/antrenori-grupe" className="btn-dashboard">Vezi grupele antrenorilor</Link>
-                        <Link to="/toti-copiii" className="btn-dashboard">Vezi toți copiii</Link>
+                        <Link to="/antrenori-grupe" className="btn-dashboard">Vezi grupele antrenorilor cu copiii de la grupa</Link>
+                        <Link to="/toti-copiii" className="btn-dashboard">Vezi toți copiii cu parintii</Link>
                         <Link to="/toti-inscrisi-concurs" className="btn-dashboard">Vezi toate inscrierile la concurs</Link>
+                        <Link to="/creeaza-concurs" className="btn-dashboard">Creează concurs nou</Link>
                     </div>
                 </div>
 

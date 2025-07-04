@@ -94,7 +94,7 @@ const Navbar = () => {
                         <li><a href="/concursuri">Concursuri</a></li>
                     ) : null}
 
-                    {rol === "Parinte" || rol === "Sportiv" ? (
+                    {rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor" ? (
                         <li><a href="/concursuri">Înscriere concursuri</a></li>
                     ) : null}
 
@@ -109,7 +109,7 @@ const Navbar = () => {
 
 
                     {rol === "Antrenor" && (
-                        <li><Link to="/antrenor_dashboard">Panou Antrenor</Link></li>
+                        <li><Link to="/antrenor_dashboard">Meniu</Link></li>
                     )}
 
 

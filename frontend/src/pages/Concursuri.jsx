@@ -5,8 +5,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "../components/Navbar";
 import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Concursuri.css";
 import Footer from "../components/Footer";
+import {Link} from "react-router-dom";
 
 const Concursuri = () => {
+    const [rol, setRol] = useState("");
     const [mesaj, setMesaj] = useState("");
     const [formVisible, setFormVisible] = useState(false);
     const [concursSelectat, setConcursSelectat] = useState("");
@@ -29,34 +31,40 @@ const Concursuri = () => {
         {value: 'Spargeri', label: 'Spargeri'}
     ];
 
-    const genOptions = [
-        {value: 'masculin', label: 'Masculin'},
-        {value: 'feminin', label: 'Feminin'},
-    ];
 
-    const concursuri = [
-        {
-            perioada: "04.07 – 05.07",
-            nume: "Cupa memorială „Gyuri Masza”",
-            locatie: "Cluj-Napoca",
-            dataStart: "2025-07-04"
-        },
-        {
-            perioada: "06.11 – 09.11",
-            nume: "Cupa României pentru seniori, juniori I, II și III",
-            locatie: "Baia Mare",
-            dataStart: "2025-11-06"
-        },
-        {
-            perioada: "28.11 – 30.11",
-            nume: "Jaguar Open Cup",
-            locatie: "Târgu Mureș",
-            dataStart: "2025-11-28"
-        }
-    ];
+    const [concursuriViitoare, setConcursuriViitoare] = useState([]);
+    const [numarInscrisi, setNumarInscrisi] = useState({});
+    const fetchNumarInscrisi = async (numeConcurs) => {
+        const res = await fetch(`http://localhost:5000/api/numar_inscrisi/${encodeURIComponent(numeConcurs)}`);
+        const result = await res.json();
+        setNumarInscrisi(prev => ({...prev, [numeConcurs]: result.nr}));
+    };
 
-    const concursuriViitoare = concursuri.filter(c => new Date(c.dataStart) > new Date());
 
+    useEffect(() => {
+        const r = localStorage.getItem("rol");
+        setRol(r);
+    }, []);
+
+
+    useEffect(() => {
+        const fetchConcursuri = async () => {
+            const res = await fetch("http://localhost:5000/api/concursuri");
+            const data = await res.json();
+
+            const viitoare = data.filter(c => new Date(c.dataStart) > new Date());
+            setConcursuriViitoare(viitoare);
+
+            // 🔁 Mutați aici
+            for (const c of data) {
+                const res = await fetch(`http://localhost:5000/api/numar_inscrisi/${encodeURIComponent(c.nume)}`);
+                const result = await res.json();
+                setNumarInscrisi(prev => ({...prev, [c.nume]: result.nr}));
+            }
+        };
+
+        fetchConcursuri();
+    }, []);
 
 
     const calculateAge = (dateString) => {
@@ -124,7 +132,7 @@ const Concursuri = () => {
                 })
             });
 
-            toast.success("Cererea a fost trimisă cu succes!");
+            toast.success("Inscrierea a fost facuta cu succes!");
             setFormVisible(false);
 
             // ✅ Resetare formular complet
@@ -139,6 +147,7 @@ const Concursuri = () => {
             });
             setSelectedProbes([]);
             setGender(""); // ✅ resetăm și genul
+            await fetchNumarInscrisi(concursSelectat);
         } catch (error) {
             console.error("Eroare la trimitere:", error);
             setMesaj("A apărut o eroare.");
@@ -188,10 +197,17 @@ const Concursuri = () => {
                             <td>{c.perioada}</td>
                             <td>{c.nume}</td>
                             <td>{c.locatie}</td>
-                            <td>
-                                <button onClick={() => handleTrimiteCerere(c.nume)}>
+                            <td style={{display: "flex", flexDirection: "column", gap: "6px"}}>
+                                <button className="btn-inscriere" onClick={() => handleTrimiteCerere(c.nume)}>
                                     Înscrie-te la concurs
                                 </button>
+                                {rol && (rol === "admin" || rol === "Antrenor") && (
+                                    <Link to={`/inscrisi/${encodeURIComponent(c.nume)}`}>
+                                        <button>
+                                            Vezi înscrieri: {numarInscrisi[c.nume] ?? 0}
+                                        </button>
+                                    </Link>
+                                )}
                             </td>
                         </tr>
                     ))}

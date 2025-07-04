@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "aos": "^2.3.4",
+    "date-fns": "^4.1.0",
     "react": "^18.0.0",
+    "react-datepicker": "^8.4.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^7.6.2",
     "react-select": "^5.10.1",
