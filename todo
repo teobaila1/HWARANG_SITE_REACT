@@ -38,12 +38,24 @@ am creat toate paginile, mai sunt cele de regulament, etc.
 
 lista separata cu cine s-a inscris la concurs langa butonul de 'inscriere'
 sa copiez clanedarul online direct in site (admin pt admin si reader pentru useri diferiti)
-sa creez eveniment/concurs direct din site ======= mai la final asta
+sa creez eveniment/concurs direct din site =======> mai la final astea toate
 
 
-sa mai creez un cont de antrenor extern (acces la inscrieri cupa HW), sa aiba voie la un anumit cocnurs
+sa mai creez un cont de antrenor extern (acces la inscrieri cupa HW), sa aiba voie la un anumit cocnurs =======> facut
 pentru contul de Parinte si Sportivi, informatii despre plata
 pentru Admini, sa se poata vedea cine a platit si cine nu, si sa valideze platile
 Sistem de notificari pentru plata :D
-un cont de parinte sa aiba sub componenta lui si pe copii
-la inregistrare sa se adauge si grupa din care se face parte, si parintii sa adauge copiii, pentru plati viitaore
+un cont de parinte sa aiba sub componenta lui si pe copii ========> facut
+la inregistrare sa se adauge si grupa din care se face parte, si parintii sa adauge copiii =========> facut
+
+sa pun undeva un buton de unde apar toti care sunt inscrisi la concursuri ===> facut
+
+de continuat de ce nu apar copiii ====> facut
+
+
+
+am facut pentru antrneori externi, am facut parinti si copii, urmeaza designul, legaturile catre ele, adica
+linkuri catre ele etc, raman celelalte de facut dupa
+
+adminul sa poata vedea toate grupele de la antrenori (antrenor_dashboard) ===> facut
+sa pot sterge inscrierile daca vreau, urmeaza celelalte pagini si cerinte => 3 iulie 2025

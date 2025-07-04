@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Select from 'react-select';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -56,6 +56,8 @@ const Concursuri = () => {
     ];
 
     const concursuriViitoare = concursuri.filter(c => new Date(c.dataStart) > new Date());
+
+
 
     const calculateAge = (dateString) => {
         const today = new Date();
@@ -142,6 +144,26 @@ const Concursuri = () => {
             setMesaj("A apărut o eroare.");
         }
     };
+
+
+    // useEffect(() => {
+    //     const fetchConcurs = async () => {
+    //         const res = await fetch("http://localhost:5000/api/concurs_permis", {
+    //             method: "POST",
+    //             headers: {"Content-Type": "application/json"},
+    //             body: JSON.stringify({username: localStorage.getItem("username")})
+    //         });
+    //
+    //         const result = await res.json();
+    //         if (result.status === "success") {
+    //             setConcurs(result.concurs); // ex: Cupa Hwarang 2025
+    //         } else {
+    //             navigate("/access-denied");
+    //         }
+    //     };
+    //
+    //     fetchConcurs();
+    // }, []);
 
 
     return (

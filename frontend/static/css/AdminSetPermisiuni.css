@@ -1,0 +1,95 @@
+.selector-antrenor {
+    margin-bottom: 2rem;
+    font-size: 18px;
+    color: white;
+}
+
+.selector-antrenor label {
+    font-weight: bold;
+    color: white;
+}
+
+.selector-antrenor select {
+    background-color: #111;
+    color: white;
+    border: 2px solid #ff1a1a;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    box-shadow: 0 0 5px #ff1a1a55;
+}
+
+.selector-antrenor select:focus {
+    outline: none;
+    border-color: #cc0000;
+    box-shadow: 0 0 5px #ff1a1a66;
+}
+
+
+.permisiuni-container {
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+
+.tabel-concursuri {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background-color: #111; /* fundal negru */
+    border: 2px solid #ff1a1a; /* roșu */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabel-concursuri th,
+.tabel-concursuri td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #333;
+    color: white;
+    font-size: 16px;
+}
+
+.tabel-concursuri th {
+    background-color: #ff1a1a; /* roșu intens */
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+
+.tabel-concursuri tr:nth-child(even) {
+    background-color: #1a1a1a;
+}
+
+.tabel-concursuri tr:last-child td {
+    border-bottom: none;
+}
+
+.tabel-concursuri input[type="checkbox"] {
+    transform: scale(1.3);
+    accent-color: #ff1a1a; /* culoarea bifei */
+}
+
+.buton-salveaza {
+    margin-top: 1rem;
+    padding: 10px 18px;
+    background-color: #ff1a1a;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.buton-salveaza:hover {
+    background-color: #cc0000;
+}
+
+
+
+
+

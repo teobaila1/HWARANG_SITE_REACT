@@ -1,6 +1,12 @@
 from flask import Flask
 from flask_cors import CORS
 from autentificare import autentificare_bp
+from antrenori_externi import antrenori_externi_bp
+from antrenor_dashboard_copii_parinti import antrenor_dashboard_copii_parinti_bp
+from toti_copiii_parintilor import toti_copiii_parintilor_bp
+from toate_grupele_antrenori import toate_grupele_antrenori_bp
+from inscrieri_concursuri_toti import inscriere_concurs_toti_bp
+from concurs_permis_antrenori_externi import concurs_permis_antrenori_externi_bp
 from upload_document import upload_document_bp
 from inscriere_concurs import inscriere_concurs_bp
 from toti_userii import toti_userii_bp
@@ -20,6 +26,13 @@ app.register_blueprint(toti_userii_bp)
 app.register_blueprint(modifica_rol_bp)
 app.register_blueprint(inscriere_concurs_bp)
 app.register_blueprint(upload_document_bp)
+app.register_blueprint(antrenori_externi_bp)
+app.register_blueprint(concurs_permis_antrenori_externi_bp)
+app.register_blueprint(antrenor_dashboard_copii_parinti_bp)
+app.register_blueprint(inscriere_concurs_toti_bp)
+app.register_blueprint(toate_grupele_antrenori_bp)
+app.register_blueprint(toti_copiii_parintilor_bp)
+
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000)

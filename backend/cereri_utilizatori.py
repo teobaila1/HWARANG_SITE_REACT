@@ -50,23 +50,28 @@ def accepta_cerere(cerere_id):
     try:
         with sqlite3.connect(DB_PATH) as conn:
             cur = conn.cursor()
-            cur.execute("SELECT id, username, email, parola, tip FROM cereri_utilizatori WHERE id = ?", (cerere_id,))
+            cur.execute("SELECT id, username, email, parola, tip, copii, grupe FROM cereri_utilizatori WHERE id = ?", (cerere_id,))
             row = cur.fetchone()
 
             if not row:
                 return jsonify({"error": "Cerere inexistentă"}), 404
 
-            id, username, email, parola, tip = row
-            cur.execute("INSERT INTO utilizatori (id, username, parola, rol, email) VALUES (?, ?, ?, ?, ?)",
-                        (id, username, parola, tip, email))
+            id, username, email, parola, tip, copii, grupe = row
+
+            cur.execute("""
+                INSERT INTO utilizatori (id, username, parola, rol, email, grupe, copii)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (id, username, parola, tip, email, grupe, copii))
+
             cur.execute("DELETE FROM cereri_utilizatori WHERE id = ?", (cerere_id,))
 
             trimite_email_acceptare(email, username)
-
             conn.commit()
+
         return jsonify({"status": "success"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 
 @cereri_utilizatori_bp.route("/api/cereri/respingere/<int:cerere_id>", methods=["DELETE"])

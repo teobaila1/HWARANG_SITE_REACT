@@ -85,6 +85,10 @@ const AdminDashboard = () => {
                     <div style={{display: "flex", gap: "1rem", flexWrap: "wrap"}}>
                         <Link to="/cereri-conturi" className="btn-dashboard">Conturi în așteptare</Link>
                         <Link to="/toti-utilizatorii" className="btn-dashboard">Vezi toți utilizatorii</Link>
+                        <Link to="/admin-set-permisiuni" className="btn-dashboard">Setează permisiuni de concurs</Link>
+                        <Link to="/antrenori-grupe" className="btn-dashboard">Vezi grupele antrenorilor</Link>
+                        <Link to="/toti-copiii" className="btn-dashboard">Vezi toți copiii</Link>
+                        <Link to="/toti-inscrisi-concurs" className="btn-dashboard">Vezi toate inscrierile la concurs</Link>
                     </div>
                 </div>
 

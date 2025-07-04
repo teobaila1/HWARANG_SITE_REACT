@@ -3,6 +3,7 @@ import sqlite3
 
 inscriere_concurs_bp = Blueprint('inscriere_concurs', __name__)
 
+
 @inscriere_concurs_bp.route('/api/inscriere_concurs', methods=['POST'])
 def inscriere_concurs():
     data = request.get_json()
@@ -19,6 +20,7 @@ def inscriere_concurs():
     grad_centura = data.get("gradCentura")
     greutate = data.get("greutate")
     probe = data.get("probe")
+    gen = data.get("gen")
 
     # Emailul se obține din tabelul utilizatori
     conn = sqlite3.connect("users.db")
@@ -46,14 +48,12 @@ def inscriere_concurs():
 
     # Inserează cererea
     cursor.execute("""
-        INSERT INTO inscrieri_concursuri (
-            email, username, concurs, nume, data_nasterii,
-            categorie_varsta, grad_centura, greutate, probe
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO inscrieri_concursuri 
+        (email, username, concurs, nume, data_nasterii, categorie_varsta, grad_centura, greutate, probe, gen)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (
         email, username, concurs, nume, data_nasterii,
-        categorie_varsta, grad_centura, greutate, probe
+        categorie_varsta, grad_centura, greutate, probe, gen
     ))
 
     conn.commit()

@@ -157,3 +157,80 @@ button:hover {
 
 
 
+.concurs-card {
+  background-color: #1a1a1a;
+  border: 2px solid #ff3333;
+  border-radius: 16px;
+  padding: 30px 40px;
+  max-width: 700px;
+  margin: 40px auto;
+  box-shadow: 0 0 25px rgba(255, 51, 51, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.concurs-card:hover {
+  transform: scale(1.01);
+}
+
+.concurs-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.concurs-table td {
+  padding: 12px 20px;
+  font-size: 18px;
+  color: #eaeaea;
+}
+
+.concurs-table td:first-child {
+  font-weight: 600;
+  color: #cccccc;
+  text-align: right;
+  width: 40%;
+}
+
+.concurs-table td:last-child {
+  font-weight: 500;
+  text-align: left;
+  color: #ffffff;
+}
+
+.concurs-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #42ff42;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.btn-inscriere {
+  background-color: #ff1f1f;
+  color: white;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  transition: background-color 0.3s ease;
+}
+
+.btn-inscriere:hover {
+  background-color: #e60000;
+}
+
+
+.concurs-card button:hover {
+  background-color: darkred;
+}
+
+
+
+
+
+
+
+

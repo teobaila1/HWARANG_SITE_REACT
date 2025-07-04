@@ -59,6 +59,12 @@ const LoginForm = () => {
                     if (["admin", "Parinte", "Sportiv"].includes(result.rol)) {
                         navigate("/acasa");
                     }
+                    if (["Antrenor"].includes(result.rol)) {
+                        navigate("/antrenor_dashboard");
+                    }
+                    if (["AntrenorExtern"].includes(result.rol)) {
+                        navigate("/concursuri-extern");
+                    }
                 }, 1500);
 
             } else {

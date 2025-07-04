@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Navbar.css";
 import LogoutButton from "./LogoutButton";
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
 const Navbar = () => {
     const isLoggedIn = localStorage.getItem("username") !== null;
@@ -99,7 +99,23 @@ const Navbar = () => {
                     ) : null}
 
 
+                    {/* Doar pentru părinți */}
+                    {rol === "Parinte" && (
+                        <Link to="/copiii-mei">Copiii mei</Link>
+                    )}
+
+
                     {rol === "admin" && <li><Link to="/admin-dashboard">Admin</Link></li>}
+
+
+                    {rol === "Antrenor" && (
+                        <li><Link to="/antrenor_dashboard">Panou Antrenor</Link></li>
+                    )}
+
+
+                    {rol === "AntrenorExtern" && (
+                        <li><Link to="/concursuri-extern">Concursuri</Link></li>
+                    )}
 
 
                     {rol && (
@@ -111,9 +127,21 @@ const Navbar = () => {
                     {!isLoggedIn && (
                         <>
                             <li><Link to="/autentificare">Login</Link></li>
-                            <li className="join-linkv2"><Link to="/inregistrare">Înregistrare</Link></li>
+                            <li><Link to="/inregistrare">Înregistrare</Link></li>
+                            {/*<li><Link to="/inregistrare-extern">Antrenor Extern</Link></li>*/}
                         </>
                     )}
+
+
+                    {/*{rol !== 'AntrenorExtern' && (*/}
+                    {/*    <>*/}
+                    {/*        <NavLink to="/admin_dashboard">Admin Dashboard</NavLink>*/}
+                    {/*        <NavLink to="/antrenor_dashboard">Antrenor Dashboard</NavLink>*/}
+                    {/*        <NavLink to="/registerForm">Înregistrare</NavLink>*/}
+                    {/*        /!* Alte linkuri specifice altor roluri *!/*/}
+                    {/*    </>*/}
+                    {/*)}*/}
+
 
                 </ul>
             </nav>

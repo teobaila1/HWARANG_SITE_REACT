@@ -1,3 +1,4 @@
+import json
 import smtplib
 from email.mime.text import MIMEText
 
@@ -16,9 +17,34 @@ def register():
     parola = data.get("password")
     tip = data.get("tip")
     varsta = data.get("varsta")
+    # grupe = data.get("grupe", None)
+    copii = data.get("copii", [])  # nou
+    copii_json = json.dumps(copii) if copii else None
 
-    if not all([username, email, parola, tip, varsta]):
-        return jsonify({"status": "error", "message": "Toate câmpurile sunt obligatorii"}), 400
+
+    # dacă e părinte → extragem grupele din copii
+    if tip == "Parinte":
+        grupe_set = set()
+        for copil in copii:
+            grupa = copil.get("grupa")
+            if grupa:
+                grupe_set.add(grupa.strip())
+        grupe = ", ".join(sorted(grupe_set)) if grupe_set else None
+    else:
+        # dacă e antrenor, luăm grupe direct din formular
+        grupe = data.get("grupe", None)
+
+    if tip == "Parinte" or tip == "Sportiv":
+        if not all([username, email, parola, tip, varsta]):
+            return jsonify({"status": "error", "message": "Toate câmpurile sunt obligatorii"}), 400
+    elif tip == "Antrenor":
+        if not all([username, email, parola, tip, grupe]):
+            return jsonify({"status": "error", "message": "Toate câmpurile sunt obligatorii (antrenor)"}), 400
+    elif tip == "AntrenorExtern":
+        if not all([username, email, parola, tip]):
+            return jsonify({"status": "error", "message": "Toate câmpurile sunt obligatorii (antrenor extern)"}), 400
+    else:
+        return jsonify({"status": "error", "message": "Tip de utilizator necunoscut"}), 400
 
     try:
         with sqlite3.connect(DB_PATH) as conn:
@@ -42,11 +68,10 @@ def register():
             if cur.fetchone()[0] > 0:
                 return jsonify({"status": "error", "message": "Username deja folosit"}), 409
 
-            # Inserare cerere
-            cur.execute(
-                "INSERT INTO cereri_utilizatori (username, email, parola, tip, varsta) VALUES (?, ?, ?, ?, ?)",
-                (username, email, parola, tip, varsta)
-            )
+            cur.execute("""
+                INSERT INTO cereri_utilizatori (username, email, parola, tip, varsta, copii, grupe)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (username, email, parola, tip, varsta, copii_json, grupe))
 
             conn.commit()
 
@@ -57,6 +82,7 @@ def register():
 
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
+
 
 
 
@@ -95,6 +121,8 @@ def trimite_email_acceptare(destinatar, username):
         print("Eroare trimitere email acceptare:", e)
 
 
+
+
 def trimite_email_respingere(destinatar, username):
     mesaj = MIMEText(
         f"Bună, {username}!\n\nCererea ta de creare cont a fost RESPINSĂ. Dacă ai întrebări, te rugăm să ne contactezi."
@@ -110,3 +138,9 @@ def trimite_email_respingere(destinatar, username):
             server.send_message(mesaj)
     except Exception as e:
         print("Eroare trimitere email respingere:", e)
+
+
+
+
+
+

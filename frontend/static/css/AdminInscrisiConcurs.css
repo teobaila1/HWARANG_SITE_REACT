@@ -1,0 +1,31 @@
+.inscrisi-container {
+    padding: 2rem;
+    color: white;
+    background-color: #0e0e0e;
+    min-height: 100vh;
+}
+
+.inscrisi-container h2 {
+    text-align: center;
+    color: #ff3333;
+    margin-bottom: 2rem;
+}
+
+.inscrisi-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.inscrisi-table th,
+.inscrisi-table td {
+    border: 1px solid #444;
+    padding: 0.75rem;
+    text-align: center;
+}
+
+.inscrisi-table th {
+    background-color: #292929;
+    color: #ff3333;
+}

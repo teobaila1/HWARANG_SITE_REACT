@@ -8,7 +8,7 @@ export default defineConfig({
     host: '0.0.0.0',      // ✅ Aici e cheia
     port: 5173,
     proxy: {
-      '/api': 'http://192.168.100.87:5000',
+      '/api': 'http://localhost:5000',
     },
   },
 });

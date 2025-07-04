@@ -21,6 +21,7 @@ const Register = () => {
     const [success, setSuccess] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
+    const [copii, setCopii] = useState([{nume: "", varsta: "", grupa: ""}]);
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -59,7 +60,7 @@ const Register = () => {
             const res = await fetch("http://localhost:5000/api/register", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(formData),
+                body: JSON.stringify({...formData, copii}),
             });
 
             const result = await res.json();
@@ -93,6 +94,19 @@ const Register = () => {
             });
         }
     };
+
+
+    const adaugaCopil = () => {
+        setCopii([...copii, {nume: "", varsta: "", grupa: ""}]);
+    };
+
+
+    const handleCopilChange = (index, field, value) => {
+        const noiCopii = [...copii];
+        noiCopii[index][field] = value;
+        setCopii(noiCopii);
+    };
+
 
     return (
         <>
@@ -156,6 +170,7 @@ const Register = () => {
                         <option value="">Selectează</option>
                         <option value="Parinte">Părinte</option>
                         <option value="Sportiv">Sportiv/Copil</option>
+                        <option value="Antrenor">Antrenor</option>
                     </select>
 
                     {/* Afișăm vârsta doar dacă este Sportiv */}
@@ -169,6 +184,59 @@ const Register = () => {
                             </select>
                         </>
                     )}
+
+
+                    {/* Afișăm lista de copii doar dacă este Părinte */}
+                    {formData.tip === "Parinte" && (
+                        <>
+                            <h4>Copii înscriși:</h4>
+                            {copii.map((copil, index) => (
+                                <div key={index} className="copil-fields" style={{marginBottom: "15px"}}>
+                                    <input
+                                        type="text"
+                                        placeholder={`Nume copil ${index + 1}`}
+                                        value={copil.nume}
+                                        onChange={(e) => handleCopilChange(index, "nume", e.target.value)}
+                                        required
+                                    />
+                                    <input
+                                        type="number"
+                                        placeholder="Vârstă"
+                                        min="1"
+                                        max="30"
+                                        value={copil.varsta}
+                                        onChange={(e) => handleCopilChange(index, "varsta", e.target.value)}
+                                        required
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Grupa (ex: A1, B2)"
+                                        value={copil.grupa}
+                                        onChange={(e) => handleCopilChange(index, "grupa", e.target.value)}
+                                        required
+                                    />
+                                </div>
+                            ))}
+                            <button type="button" onClick={adaugaCopil} className="adauga-copil">+ Adaugă copil</button>
+                        </>
+                    )}
+
+
+                    {formData.tip === "Antrenor" && (
+                        <>
+                            <label>Grupele gestionate:</label>
+                            <input
+                                type="text"
+                                name="grupe"
+                                placeholder="Ex: A1, B2, C3"
+                                value={formData.grupe || ""}
+                                onChange={(e) => setFormData({...formData, grupe: e.target.value})}
+                                required
+                            />
+                            <small>Separă grupele prin virgulă.</small>
+                        </>
+                    )}
+
 
                     {error && <p className="error-msg">{error}</p>}
                     {success && <p className="success-msg">Cererea a fost trimisă cu succes!</p>}

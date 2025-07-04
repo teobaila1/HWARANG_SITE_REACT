@@ -1,0 +1,39 @@
+.copii-parinte {
+    padding: 2rem;
+    color: white;
+    background-color: #0e0e0e;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.copii-parinte h2 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #ff3333;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.copii-parinte ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+}
+
+.copii-parinte li {
+    background-color: #1e1e1e;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+    font-size: 1rem;
+}
+
+.copii-parinte li strong {
+    color: #fff;
+    margin-right: 0.5rem;
+}
+
+.copii-parinte li span {
+    color: #ccc;
+}
