@@ -32,6 +32,7 @@ import AdminInscrisiConcurs from "./pages/AdminInscrisiConcurs";
 import AdminAntrenoriGrupe from "./pages/AdminAntrenoriGrupe";
 import CreeazaConcurs from "./pages/CreeazaConcurs";
 import InscrisiConcurs from "./pages/InscrisiConcurs";
+import AdminPlati from "./pages/AdminPlati";
 
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
                     <Route path="/antrenori-grupe" element={<AdminAntrenoriGrupe/>}/>
                     <Route path="/creeaza-concurs" element={<CreeazaConcurs/>}/>
                     <Route path="/inscrisi/:numeConcurs" element={<InscrisiConcurs/>}/>
+                    <Route path="/plati" element={<AdminPlati/>}/>
 
 
                     <Route

@@ -203,7 +203,7 @@ const Concursuri = () => {
                                 </button>
                                 {rol && (rol === "admin" || rol === "Antrenor") && (
                                     <Link to={`/inscrisi/${encodeURIComponent(c.nume)}`}>
-                                        <button>
+                                        <button className="btn-inscriere">
                                             Vezi înscrieri: {numarInscrisi[c.nume] ?? 0}
                                         </button>
                                     </Link>

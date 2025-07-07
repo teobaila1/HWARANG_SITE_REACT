@@ -11,6 +11,9 @@ const AdminInscrisiConcurs = () => {
     const [editIndex, setEditIndex] = useState(null);
     const [editData, setEditData] = useState({});
 
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filteredSportivi, setFilteredSportivi] = useState([]);
+
     useEffect(() => {
         const rol = localStorage.getItem("rol");
         if (rol !== "admin") {
@@ -22,6 +25,7 @@ const AdminInscrisiConcurs = () => {
             .then(data => {
                 if (data.status === "success") {
                     setSportivi(data.sportivi);
+                    setFilteredSportivi(data.sportivi); // 👈 filtrul de start
                 }
             });
     }, []);
@@ -74,11 +78,38 @@ const AdminInscrisiConcurs = () => {
     };
 
 
+    const handleSearch = (e) => {
+        const term = e.target.value.toLowerCase();
+        setSearchTerm(term);
+
+        const filtered = sportivi.filter((s) =>
+            s.nume.toLowerCase().includes(term) ||
+            s.categorie?.toLowerCase().includes(term) ||
+            s.grad?.toLowerCase().includes(term) ||
+            s.gen?.toLowerCase().includes(term) ||
+            s.concurs?.toLowerCase().includes(term)
+        );
+
+        setFilteredSportivi(filtered);
+    };
+
+
     return (
         <>
             <Navbar/>
             <div className="inscrisi-container">
-                <h2>🏅 Sportivi înscriși la concursuri</h2>
+                <h2>Sportivi înscriși la concursuri</h2>
+
+
+                <input
+                    type="text"
+                    className="search-bar"
+                    placeholder="Caută după nume, categorie, centură, concurs..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                />
+
+
                 <table className="inscrisi-table">
                     <thead>
                     <tr>
@@ -94,7 +125,7 @@ const AdminInscrisiConcurs = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {sportivi.map((s, idx) => (
+                    {filteredSportivi.map((s, idx) => (
                         <tr key={s.id}>
                             {editIndex === s.id ? (
                                 <>

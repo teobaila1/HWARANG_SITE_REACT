@@ -29,3 +29,18 @@
     background-color: #292929;
     color: #ff3333;
 }
+
+
+
+.search-bar {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    margin: 0 auto 20px;
+    display: block;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background-color: #1c1c1c;
+    color: white;
+    font-size: 15px;
+}

@@ -4,6 +4,7 @@ from autentificare import autentificare_bp
 from antrenori_externi import antrenori_externi_bp
 from antrenor_dashboard_copii_parinti import antrenor_dashboard_copii_parinti_bp
 from adauga_concurs import adauga_concurs_bp
+from evidenta_plati import evidenta_plati_bp
 from numar_inscrisi import numar_inscrisi_bp
 from creare_get_concurs import creare_get_concurs_bp
 from toti_copiii_parintilor import toti_copiii_parintilor_bp
@@ -38,6 +39,7 @@ app.register_blueprint(toti_copiii_parintilor_bp)
 app.register_blueprint(adauga_concurs_bp)
 app.register_blueprint(creare_get_concurs_bp)
 app.register_blueprint(numar_inscrisi_bp)
+app.register_blueprint(evidenta_plati_bp)
 
 
 if __name__ == "__main__":

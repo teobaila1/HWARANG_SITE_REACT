@@ -90,6 +90,7 @@ const AdminDashboard = () => {
                         <Link to="/toti-copiii" className="btn-dashboard">Vezi toți copiii cu parintii</Link>
                         <Link to="/toti-inscrisi-concurs" className="btn-dashboard">Vezi toate inscrierile la concurs</Link>
                         <Link to="/creeaza-concurs" className="btn-dashboard">Creează concurs nou</Link>
+                        <Link to="/plati" className="btn-dashboard">Platile</Link>
                     </div>
                 </div>
 
