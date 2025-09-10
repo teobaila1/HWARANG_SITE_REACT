@@ -37,3 +37,56 @@
 .copii-parinte li span {
     color: #ccc;
 }
+
+
+
+.formular-copil {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+    max-width: 600px;
+}
+
+.formular-copil input {
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #fff;
+    color: #000;
+    transition: all 0.3s ease;
+}
+
+.formular-copil input:focus {
+    outline: none;
+    box-shadow: 0 0 5px #ff3333;
+}
+
+.formular-copil button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    align-self: start;
+    transition: background-color 0.3s ease;
+}
+
+.formular-copil button:hover {
+    background-color: darkred;
+}
+
+
+
+.formular-copil select {
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #fff;
+    color: #000;
+    transition: all 0.3s ease;
+}

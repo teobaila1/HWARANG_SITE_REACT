@@ -72,3 +72,10 @@ calendarul oonline integrat
 sa adauge admin concursuri
 
 de facut: toate paginile astea trebuie proteajte sa nu poata fi accesate daca nu esti logat sau daca nu esti autnetificat cu contul corect
+
+de facut: sa pun gen (masculin, feminin) la copii unde apar de se vad parintii si la antrenori la fel
+
+fiecare antrnor sa poata adauga un elev, sa editeze, sa stearga
+
+trebuie sa repar caile pentru baza de date, in fiecare fisier, vezi chatgpt si exemplu in fisierul inscrieri_concursuri_toti.py
+si autentificare.py, urmeaza restul

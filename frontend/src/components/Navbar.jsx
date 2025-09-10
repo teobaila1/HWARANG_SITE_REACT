@@ -60,6 +60,7 @@ const Navbar = () => {
                             <li><a href="/antrenori">Antrenori</a></li>
                             <li><a href="#">Galerie</a></li>
                             <li><a href="#footer">Contact</a></li>
+                            {/*<li><a href="/autentificare">Login</a></li>*/}
                         </ul>
                     </li>
 
@@ -85,9 +86,9 @@ const Navbar = () => {
 
                     {isLoggedIn && <li><a href="#">Regulamente</a></li>}
 
-                    <li>
-                        {isLoggedIn && <li><a href="/documente">Documente</a></li>}
-                    </li>
+                    {isLoggedIn && rol !== "AntrenorExtern" && (
+                        <li><a href="/documente">Documente</a></li>
+                    )}
 
 
                     {rol === "admin" ? (
@@ -95,7 +96,7 @@ const Navbar = () => {
                     ) : null}
 
                     {rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor" ? (
-                        <li><a href="/concursuri">Înscriere concursuri</a></li>
+                        <li><a href="/concursuri">Concursuri</a></li>
                     ) : null}
 
 
@@ -109,7 +110,7 @@ const Navbar = () => {
 
 
                     {rol === "Antrenor" && (
-                        <li><Link to="/antrenor_dashboard">Meniu</Link></li>
+                        <li><Link to="/antrenor_dashboard">Meniu Principal</Link></li>
                     )}
 
 
@@ -126,7 +127,9 @@ const Navbar = () => {
 
                     {!isLoggedIn && (
                         <>
-                            <li><Link to="/autentificare">Login</Link></li>
+                            <li style={{ marginLeft: '20px' }} >
+                                <Link to="/autentificare">Login</Link>
+                            </li>
                             <li><Link to="/inregistrare">Înregistrare</Link></li>
                             {/*<li><Link to="/inregistrare-extern">Antrenor Extern</Link></li>*/}
                         </>

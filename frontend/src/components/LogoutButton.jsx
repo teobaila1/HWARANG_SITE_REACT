@@ -14,7 +14,7 @@ const LogoutButton = () => {
 
         toast.success("Te-ai deconectat cu succes!", {
             position: "bottom-center",
-            autoClose: 1500,
+            autoClose: 1000,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
@@ -22,7 +22,7 @@ const LogoutButton = () => {
         });
         setTimeout(() => {
             navigate("/autentificare", {replace: true});
-        }, 1500)
+        }, 750)
     };
 
     return (
