@@ -20,6 +20,8 @@ from backend.users.cereri_utilizatori import cereri_utilizatori_bp
 from backend.mails.modifica_rol import modifica_rol_bp
 from backend.competitions.stergere_concurs import stergere_concurs_bp
 from backend.passwords.resetare_parola import resetare_bp
+from backend.users.parinti import parinti_bp
+from backend.users.elevi import elevi_bp
 
 app = Flask(__name__)
 CORS(app)
@@ -44,6 +46,8 @@ app.register_blueprint(numar_inscrisi_bp)
 app.register_blueprint(evidenta_plati_bp)
 app.register_blueprint(stergere_concurs_bp)
 app.register_blueprint(resetare_bp)
+app.register_blueprint(parinti_bp)
+app.register_blueprint(elevi_bp)
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000)

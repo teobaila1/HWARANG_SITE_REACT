@@ -1,46 +1,223 @@
-.inscrisi-container {
-    padding: 2rem;
-    color: white;
-    background-color: #0e0e0e;
-    min-height: 100vh;
+/* ===== AdminInscrisiConcurs – elegant dark+red, responsive ===== */
+:root{
+  --ai-bg: #0f0f11;
+  --ai-surface: #111114;
+  --ai-surface-2: #16161b;
+  --ai-text: #ffffff;
+  --ai-muted: #c9c9d2;
+  --ai-border: #26262f;
+  --ai-accent: #ff1a1a;
+  --ai-accent-2: #cc0000;
+  --ai-shadow: 0 18px 50px rgba(0,0,0,.35);
+  --ai-radius: 14px;
 }
 
-.inscrisi-container h2 {
-    text-align: center;
-    color: #ff3333;
-    margin-bottom: 2rem;
+.inscrisi-container{
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--ai-bg), #0b0b0d);
+  color: var(--ai-text);
+  padding: clamp(1.25rem, 3vw, 2rem);
 }
 
-.inscrisi-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #1a1a1a;
-    color: white;
-}
-
-.inscrisi-table th,
-.inscrisi-table td {
-    border: 1px solid #444;
-    padding: 0.75rem;
-    text-align: center;
-}
-
-.inscrisi-table th {
-    background-color: #292929;
-    color: #ff3333;
+.inscrisi-container h2{
+  margin: 0 0 1.25rem;
+  text-align: center;
+  font-weight: 900;
+  letter-spacing: .2px;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255,0,0,.15);
 }
 
 
-
-.search-bar {
-    width: 100%;
-    max-width: 400px;
-    padding: 10px;
-    margin: 0 auto 20px;
-    display: block;
-    border-radius: 6px;
-    border: 1px solid #444;
-    background-color: #1c1c1c;
-    color: white;
-    font-size: 15px;
+/* ===== Tabel ===== */
+.inscrisi-table{
+  width: 100%;
+  border-collapse: collapse;
+  background: linear-gradient(180deg, var(--ai-surface), var(--ai-surface-2));
+  border: 1px solid var(--ai-border);
+  border-radius: var(--ai-radius);
+  overflow: hidden;
+  box-shadow: var(--ai-shadow);
 }
+
+.inscrisi-table thead th{
+  background: #1b1b22;
+  color:#e9e9f0;
+  padding: 1rem .9rem;
+  font-weight: 800;
+  text-transform: none;
+  letter-spacing: .2px;
+  text-align: center;
+  border-bottom: 1px solid #23232d;
+}
+
+.inscrisi-table tbody td{
+  padding: .9rem .75rem;
+  border-top: 1px solid #23232d;
+  text-align: center;
+  color: #f3f3f6;
+  vertical-align: middle;
+}
+
+.inscrisi-table tbody tr:nth-child(odd) td{
+  background: rgba(255,255,255,.02);
+}
+
+.inscrisi-table tbody tr:hover td{
+  background: rgba(255,26,26,.06);
+}
+
+/* ===== Inputs/Select în modul edit ===== */
+.inscrisi-table input[type="text"],
+.inscrisi-table input[type="number"],
+.inscrisi-table input[type="date"],
+.inscrisi-table select{
+  width: 100%;
+  max-width: 220px;
+  padding: .65rem .7rem;
+  border-radius: 10px;
+  border: 1px solid #2a2a34;
+  background: #0c0c10;
+  color: #fff;
+  outline: none;
+  transition: border .22s ease, box-shadow .22s ease, background .22s ease;
+}
+.inscrisi-table input:focus,
+.inscrisi-table select:focus{
+  border-color: var(--ai-accent);
+  box-shadow: 0 0 0 3px rgba(255,26,26,.22);
+  background: #111117;
+}
+
+/* ===== Butoane acțiuni din tabel ===== */
+.inscrisi-table td button{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .35rem;
+  padding: .5rem .7rem;
+  min-width: 44px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 900;
+  color:#fff;
+  background: linear-gradient(180deg, var(--ai-accent), var(--ai-accent-2));
+  cursor: pointer;
+  transition: transform .16s ease, box-shadow .2s ease, filter .16s ease;
+  box-shadow: 0 8px 22px rgba(255,0,0,.18);
+}
+.inscrisi-table td button:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 14px 34px rgba(255,0,0,.28);
+}
+
+/* al 2-lea buton (Delete/Anulează) – variantă neutră/închisă */
+.inscrisi-table td button:nth-child(2){
+  background: linear-gradient(180deg, #2a2a2a, #1b1b1b);
+  color:#fff;
+  box-shadow: none;
+  border: 1px solid var(--ai-border);
+}
+.inscrisi-table td button:nth-child(2):hover{
+  background:#2f2f2f;
+}
+
+/* dacă îți scoți stilurile inline din JSX pentru save/cancel,
+   poți activa următoarele pentru culori clare:
+   .btn-save{ background: linear-gradient(180deg, #17b13f, #0f8c31) !important; }
+   .btn-cancel{ background: linear-gradient(180deg, #2a2a2a, #1b1b1b) !important; }
+*/
+
+/* ===== Responsive: tabel -> carduri ===== */
+@media (max-width: 920px){
+  .inscrisi-table,
+  .inscrisi-table thead,
+  .inscrisi-table tbody,
+  .inscrisi-table th,
+  .inscrisi-table td,
+  .inscrisi-table tr{
+    display:block;
+  }
+
+  .inscrisi-table thead{ display:none; }
+
+  .inscrisi-table tbody tr{
+    background: linear-gradient(180deg, #121216, #181821);
+    margin: .9rem 0;
+    border: 1px solid var(--ai-border);
+    border-radius: 12px;
+    padding: .75rem;
+    box-shadow: 0 10px 26px rgba(0,0,0,.26);
+  }
+
+  .inscrisi-table tbody td{
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .55rem .25rem;
+    text-align: right;
+  }
+
+  /* Etichete pentru fiecare câmp (fără să schimbi JSX) */
+  .inscrisi-table tbody td:nth-child(1)::before{ content:"Nume"; }
+  .inscrisi-table tbody td:nth-child(2)::before{ content:"Gen"; }
+  .inscrisi-table tbody td:nth-child(3)::before{ content:"Categoria"; }
+  .inscrisi-table tbody td:nth-child(4)::before{ content:"Grad"; }
+  .inscrisi-table tbody td:nth-child(5)::before{ content:"Greutate"; }
+  .inscrisi-table tbody td:nth-child(6)::before{ content:"Probe"; }
+  .inscrisi-table tbody td:nth-child(7)::before{ content:"Concurs"; }
+  .inscrisi-table tbody td:nth-child(8)::before{ content:"Data nașterii"; }
+  .inscrisi-table tbody td:nth-child(9)::before{ content:"Acțiuni"; }
+
+  .inscrisi-table tbody td::before{
+    color: var(--ai-muted);
+    font-weight: 800;
+    padding-right: .75rem;
+    text-align: left;
+  }
+
+  /* acțiunile pe mobil una sub alta */
+  .inscrisi-table tbody td:last-child{
+    justify-content: flex-end;
+    gap: .5rem;
+    flex-wrap: wrap;
+  }
+
+  .inscrisi-table input[type="text"],
+  .inscrisi-table input[type="number"],
+  .inscrisi-table input[type="date"],
+  .inscrisi-table select{
+    max-width: 60%;
+  }
+}
+
+/* ——— Search bar: implicit gri, roșu doar la focus ——— */
+.inscrisi-container .search-bar {
+  border: 1px solid #2e2e2e !important;   /* reset hard */
+  background: #1c1c1c;
+  color: #fff;
+  box-shadow: none !important;
+  transition: border .25s ease, box-shadow .25s ease, background .25s ease;
+}
+
+.inscrisi-container .search-bar:hover {
+  border-color: #3a3a3a;
+}
+
+.inscrisi-container .search-bar:focus,
+.inscrisi-container .search-bar:focus-visible {
+  outline: none;
+  border-color: #ff1a1a !important;
+  background: #1e1e1e;
+  box-shadow: 0 0 0 3px rgba(255,26,26,.20), 0 0 12px rgba(255,0,0,.18) !important;
+}
+
+/* dacă vreun stil global colorează la 'valid/invalid', anulăm aici */
+.inscrisi-container .search-bar:valid,
+.inscrisi-container .search-bar:invalid {
+  box-shadow: none;
+}
+
+
+

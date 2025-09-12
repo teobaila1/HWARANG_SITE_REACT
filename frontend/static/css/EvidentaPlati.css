@@ -1,128 +1,197 @@
-.evidenta-container {
-    padding: 30px;
-    font-family: sans-serif;
-    color: #fff;
+:root{
+  --bg:#0f0f10;
+  --surface:#111114;
+  --surface2:#16161b;
+  --text:#ffffff;
+  --muted:#b8b8c2;
+  --border:#25252e;
+  --accent:#ff1a1a;
+  --accent2:#cc0000;
+  --shadow:0 18px 50px rgba(0,0,0,.35);
+  --radius:14px;
 }
 
-.evidenta-container h2 {
-    margin-bottom: 20px;
+/* container */
+.evidenta-container{
+  padding: clamp(1.25rem, 2.8vw, 2rem);
+  min-height: 100vh;
+  color: var(--text);
+  background: linear-gradient(180deg, var(--bg), #0b0b0d);
 }
 
-.plata-form {
-    margin-bottom: 20px;
-    background-color: #222;
-    padding: 15px;
-    border-radius: 8px;
-    display: flex;
+.header-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 1rem;
+  margin-bottom: .8rem;
+}
+.evidenta-container h2{
+  margin:0;
+  font-weight: 900;
+  letter-spacing:.2px;
+  text-shadow: 0 0 10px rgba(255,0,0,.15);
+}
+
+.evidenta-container h2::after{
+  content: "";
+  display: block;
+  height: 3px;
+  width: clamp(120px, 18vw, 185px);            /* lățime adaptivă */
+  margin-top: .55rem;                          /* distanță de titlu */
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--cc-accent), var(--cc-accent-2));
+  box-shadow: 0 0 10px rgba(255,26,26,.35);
+}
+
+/* search */
+.search-bar{
+  width:100%;
+  max-width: 520px;
+  padding: .8rem 1rem;
+  margin: .4rem 0 1rem;
+  border-radius: 12px;
+  border:1px solid #2a2a34;
+  background:#141418;
+  color:#fff;
+  outline:none;
+  transition: border .22s ease, box-shadow .22s ease, background .22s ease;
+}
+.search-bar::placeholder{ color:#9fa1ac; }
+.search-bar:focus{
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255,26,26,.2), 0 0 14px rgba(255,0,0,.25);
+  background:#17171c;
+}
+
+/* buttons */
+.btn{
+  border:none; cursor:pointer; border-radius: 10px;
+  font-weight: 800; color:#fff; display:inline-flex; align-items:center; gap:.5rem;
+  transition: transform .18s ease, box-shadow .22s ease, filter .18s ease, opacity .18s ease;
+}
+.btn:disabled{ opacity:.5; cursor:not-allowed; }
+.btn-primary{
+  background: linear-gradient(180deg, var(--accent), var(--accent2));
+  padding: .6rem 1rem;
+  box-shadow: 0 10px 24px rgba(255,0,0,.22);
+}
+.btn-primary:hover{ transform: translateY(-1px); box-shadow: 0 16px 34px rgba(255,0,0,.28); }
+.btn-ghost{
+  background: transparent; color:#fff; padding:.4rem .6rem;
+}
+.btn-ghost:hover{ background: rgba(255,26,26,.12); }
+.btn-icon{
+  background:orange; padding:.45rem .55rem; border:1px solid rgba(255,255,255,.06);
+  border-radius: 10px;
+}
+.btn-icon:hover{ background:#303030; }
+.btn-danger{ background: darkred; }
+.btn-danger:hover{ background:#303030; }
+
+/* card form */
+.card{
+  background: linear-gradient(180deg, var(--surface), var(--surface2));
+  border:1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.plata-form{ padding: 1rem; margin: 0 0 1rem; }
+.form-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:.4rem;}
+.plata-form h4{ margin:0; font-weight:900; }
+
+.form-grid{
+  display:grid; grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 12px; margin-top: .4rem;
+}
+.field{ display:flex; flex-direction:column; gap:6px; }
+.field label{ color:#d7d7dd; font-size:.92rem; }
+
+.plata-form input,
+.plata-form select{
+  padding: .78rem .9rem; border-radius: 12px;
+  border:1px solid #2e2e38; background:#0c0c0f; color:#fff;
+  outline:none; transition: border .22s ease, box-shadow .22s ease, background .22s ease;
+}
+.plata-form input:focus,
+.plata-form select:focus{
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255,26,26,.2);
+  background:#101015;
+}
+
+.form-actions{ display:flex; gap:.6rem; margin-top:.6rem; }
+
+/* table */
+.table-wrap{ overflow-x:auto; }
+.plati-table{
+  width:100%;
+  border-collapse: collapse;
+  background: linear-gradient(180deg, #111114, #15151a);
+  border:1px solid var(--border);
+  border-radius: 14px; overflow:hidden;
+  box-shadow: 0 16px 40px rgba(0,0,0,.35);
+}
+.plati-table thead th{
+  background:#1b1b22; color:#e9e9f0; padding: .9rem .8rem; text-align:left; font-weight:800;
+}
+.plati-table tbody td{
+  padding: .8rem; border-top:1px solid #222230; color:#f3f3f6; vertical-align: middle;
+  text-align:left;
+}
+.plati-table tbody tr:nth-child(odd) td{ background: rgba(255,255,255,.02); }
+
+.cell-name{ font-weight:800; }
+.cell-month{ text-transform: capitalize; }
+.cell-amount{ text-align:right; white-space:nowrap; }
+
+/* chips & status */
+.chip{
+  display:inline-flex; align-items:center; padding:.2rem .5rem;
+  border-radius:999px; font-weight:800; font-size:.86rem;
+  border:1px solid rgba(255,255,255,.06);
+}
+.chip--cash{ background:#222; }
+.chip--card{ background:#1a1f2d; }
+
+.status{
+  padding:.25rem .6rem; border-radius:999px; font-weight:900; text-transform: capitalize;
+  border:1px solid rgba(255,255,255,.06);
+}
+.status--ok{ background:#113918; color:#d6ffd8; }
+.status--no{ background:#3a1515; color:#ffd8d8; }
+
+.actions{ display:flex; gap:.4rem; justify-content:flex-end; }
+
+/* responsive */
+@media (max-width: 720px){
+  .form-grid{ grid-template-columns: 1fr; }
+  .cell-amount{ text-align:left; }
+}
+
+
+/* butonul din header să NU se întindă pe toată lățimea */
+.header-row .btn{
+  flex: 0 0 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+}
+
+/* variantă mai mică a butonului */
+.btn-sm{
+  padding: .45rem .8rem;
+  font-size: .95rem;
+  border-radius: 10px;
+}
+
+/* opțional: pe ecrane foarte mici îl facem full-width ca să fie ușor de apăsat */
+@media (max-width: 560px){
+  .header-row{
     flex-wrap: wrap;
-    gap: 10px;
+    gap: .6rem;
+  }
+  .header-row .btn{
+    width: 100% !important;
+  }
 }
 
-.plata-form input,
-.plata-form select {
-    padding: 6px;
-    border-radius: 4px;
-    border: 1px solid #aaa;
-    background-color: #333;
-    color: #fff;
-}
-
-.plata-form button {
-    padding: 6px 12px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.plata-form button:hover {
-    background-color: #45a049;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #1a1a1a;
-}
-
-th, td {
-    border: 1px solid #444;
-    padding: 8px;
-    text-align: left;
-    color: #fff;
-}
-
-th {
-    background-color: #333;
-}
-
-tr:nth-child(even) {
-    background-color: #2a2a2a;
-}
-
-button[disabled] {
-    background-color: #888 !important;
-    cursor: not-allowed !important;
-    opacity: 0.5;
-}
-
-
-.search-bar {
-    margin-bottom: 20px;
-    padding: 8px;
-    width: 100%;
-    max-width: 400px;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: #1e1e1e;
-    color: white;
-    border: 1px solid red;
-}
-
-
-.plata-form {
-    background-color: #1a1a1a;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 25px;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.plata-form h4 {
-    color: white;
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.plata-form input,
-.plata-form select {
-    padding: 10px;
-    font-size: 15px;
-    border: none;
-    border-radius: 6px;
-    background-color: #fff;
-    color: black;
-    outline: none;
-}
-
-.plata-form button {
-    background-color: #e50914;
-    color: white;
-    padding: 10px 18px;
-    font-size: 15px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    align-self: start;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.plata-form button:hover {
-    background-color: #c40610;
-}

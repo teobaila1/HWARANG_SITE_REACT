@@ -1,0 +1,190 @@
+/* ===== CereriConturi – elegant dark+red ===== */
+:root{
+  --cc-bg: #0f0f11;
+  --cc-surface: #111114;
+  --cc-surface-2: #16161b;
+  --cc-text: #ffffff;
+  --cc-muted: #c9c9d2;
+  --cc-border: #26262f;
+  --cc-accent: #ff1a1a;
+  --cc-accent-2: #cc0000;
+  --cc-green: #1db954;
+  --cc-shadow: 0 18px 50px rgba(0,0,0,.35);
+  --cc-radius: 14px;
+}
+
+.cereri-page{
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--cc-bg), #0b0b0d);
+  color: var(--cc-text);
+}
+
+.cereri-inner{
+  margin: 0 auto;
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.cereri-title{
+  margin: 0 0 1rem;
+  font-weight: 900;
+  letter-spacing: .2px;
+  text-shadow: 0 0 10px rgba(255,0,0,.15);
+}
+
+/* linia sub titlu */
+.cereri-title::after{
+  content: "";
+  display: block;
+  height: 3px;
+  width: clamp(120px, 18vw, 300px);            /* lățime adaptivă */
+  margin-top: .55rem;                          /* distanță de titlu */
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--cc-accent), var(--cc-accent-2));
+  box-shadow: 0 0 10px rgba(255,26,26,.35);
+}
+
+/* Status (loading / error) */
+.status{
+  padding: .9rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--cc-border);
+  background: linear-gradient(180deg, var(--cc-surface), var(--cc-surface-2));
+  box-shadow: var(--cc-shadow);
+  margin: .75rem 0 1rem;
+  font-weight: 800;
+}
+.status-loading{ color: var(--cc-muted); }
+.status-error{
+  color: #ffd7d7;
+  border-color: rgba(255,26,26,.35);
+  box-shadow: 0 0 0 1px rgba(255,26,26,.15) inset, var(--cc-shadow);
+}
+
+/* Mesaj empty */
+.empty{
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--cc-border);
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+  color: var(--cc-muted);
+  font-weight: 800;
+}
+
+/* Card tabel */
+.table-card{
+  background: linear-gradient(180deg, var(--cc-surface), var(--cc-surface-2));
+  border: 1px solid var(--cc-border);
+  border-radius: var(--cc-radius);
+  box-shadow: var(--cc-shadow);
+  padding: clamp(1rem, 2vw, 1.25rem);
+}
+
+/* Tabel */
+.cereri-table{
+  width: 100%;
+  border-collapse: collapse;
+  background: linear-gradient(180deg, #111114, #15151a);
+  border: 1px solid #2a2a34;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 34px rgba(0,0,0,.3);
+}
+.cereri-table thead th{
+  background: #1b1b22;
+  color: #e9e9f0;
+  padding: .95rem 1rem;
+  text-align: left;
+  font-weight: 900;
+}
+.cereri-table .th-right{ text-align: right; }
+
+.cereri-table tbody td{
+  padding: .85rem 1rem;
+  border-top: 1px solid #222230;
+  color: #f3f3f6;
+  vertical-align: middle;
+}
+.cereri-table tbody tr:nth-child(odd) td{ background: rgba(255,255,255,.02); }
+.cereri-table tbody tr:hover td{ background: rgba(255,26,26,.06); }
+
+.td-right{ text-align: right; }
+
+/* Badge Tip */
+.badge{
+  display: inline-block;
+  padding: .25rem .55rem;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: .85rem;
+  letter-spacing: .2px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.1);
+}
+
+/* Buttons */
+.btn{
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: .55rem .85rem;
+  font-weight: 900;
+  margin-left: .5rem;
+  transition: transform .18s ease, box-shadow .22s ease, filter .18s ease;
+}
+.btn:focus-visible{
+  outline: 3px solid rgba(255,26,26,.35);
+  outline-offset: 2px;
+}
+.btn-accept{
+  background: linear-gradient(180deg, var(--cc-green), #0f8f40);
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(29,185,84,.25);
+}
+.btn-accept:hover{ transform: translateY(-1px); box-shadow: 0 16px 32px rgba(29,185,84,.32); }
+
+.btn-reject{
+  background: linear-gradient(180deg, var(--cc-accent), var(--cc-accent-2));
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(255,0,0,.22);
+}
+.btn-reject:hover{ transform: translateY(-1px); box-shadow: 0 16px 32px rgba(255,0,0,.3); }
+
+/* ===== Responsive: tabel -> carduri ===== */
+@media (max-width: 760px){
+  .cereri-table, .cereri-table thead, .cereri-table tbody,
+  .cereri-table th, .cereri-table td, .cereri-table tr{
+    display: block;
+  }
+  .cereri-table thead{ display: none; }
+  .cereri-table tr{
+    border: 1px solid #2a2a34;
+    border-radius: 12px;
+    margin-bottom: .9rem;
+    overflow: hidden;
+    box-shadow: 0 8px 22px rgba(0,0,0,.25);
+  }
+  .cereri-table td{
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .75rem .95rem;
+    border-bottom: 1px solid #222230;
+  }
+  .cereri-table td:last-child{ border-bottom: none; }
+
+  /* Etichete pentru fiecare coloană */
+  .cereri-table td:nth-child(1)::before{ content: "ID"; color: var(--cc-muted); font-weight: 900; }
+  .cereri-table td:nth-child(2)::before{ content: "Username"; color: var(--cc-muted); font-weight: 900; }
+  .cereri-table td:nth-child(3)::before{ content: "Email"; color: var(--cc-muted); font-weight: 900; }
+  .cereri-table td:nth-child(4)::before{ content: "Tip"; color: var(--cc-muted); font-weight: 900; }
+  .cereri-table td:nth-child(5)::before{ content: "Vârstă"; color: var(--cc-muted); font-weight: 900; }
+  .cereri-table td:nth-child(6){
+    display:block;
+    padding:.75rem .95rem;
+  }
+  .cereri-table td:nth-child(6)::before{ content: "Acțiuni"; display:block; color: var(--cc-muted); font-weight: 900; margin-bottom:.4rem; }
+  .td-right, .th-right{ text-align: left; }
+  .btn{ margin:.3rem .35rem 0 0; }
+}

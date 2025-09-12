@@ -1,92 +1,226 @@
-.copii-parinte {
-    padding: 2rem;
-    color: white;
-    background-color: #0e0e0e;
-    min-height: 100vh;
-    font-family: 'Segoe UI', sans-serif;
+/* ===== ParinteCopii.css – elegant dark+red, fără modificări în JSX ===== */
+
+:root{
+  --pc-bg: #0e0e10;
+  --pc-surface: #111114;
+  --pc-surface-2: #17171c;
+  --pc-text: #ffffff;
+  --pc-muted: #b8b8c2;
+  --pc-border: #272733;
+  --pc-accent: #ff1a1a;
+  --pc-accent-2: #cc0000;
+  --pc-shadow: 0 18px 50px rgba(0,0,0,.35);
+  --pc-radius: 14px;
 }
 
-.copii-parinte h2 {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-    border-bottom: 2px solid #ff3333;
-    display: inline-block;
-    padding-bottom: 0.5rem;
+.copii-parinte{
+  background: linear-gradient(180deg, var(--pc-bg), #0b0b0d);
+  color: var(--pc-text);
+  min-height: 100vh;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  margin: 0 auto;
 }
 
-.copii-parinte ul {
-    list-style: none;
-    padding-left: 0;
-    margin-top: 1rem;
+/* ===== Titlu ===== */
+.copii-parinte h2{
+  margin: 0 0 1rem 0;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  font-weight: 900;
+  letter-spacing: .2px;
+  text-shadow: 0 0 10px rgba(255,0,0,.15);
+  position: relative;
+  display: inline-block;
+  padding-bottom: .35rem;
+}
+.copii-parinte h2::after{
+  content:"";
+  position:absolute;
+  left:0; bottom:0;
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--pc-accent), var(--pc-accent-2));
+  border-radius: 999px;
 }
 
-.copii-parinte li {
-    background-color: #1e1e1e;
-    padding: 0.75rem 1rem;
-    margin-bottom: 0.75rem;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
-    font-size: 1rem;
+/* Empty state */
+.copii-parinte > p{
+  color: var(--pc-muted);
+  background: linear-gradient(180deg, var(--pc-surface), var(--pc-surface-2));
+  border: 1px solid var(--pc-border);
+  border-radius: var(--pc-radius);
+  box-shadow: var(--pc-shadow);
+  padding: 1rem 1.2rem;
+  margin: .6rem 0 1.4rem;
 }
 
-.copii-parinte li strong {
-    color: #fff;
-    margin-right: 0.5rem;
+/* ===== Lista copiilor ===== */
+.copii-parinte ul{
+  list-style: none;
+  margin: .5rem 0 1.5rem 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .75rem;
 }
 
-.copii-parinte li span {
-    color: #ccc;
+.copii-parinte li{
+  position: relative;
+  background: linear-gradient(180deg, var(--pc-surface), var(--pc-surface-2));
+  border: 1px solid var(--pc-border);
+  border-radius: 12px;
+  padding: .8rem 1rem .8rem 1.1rem;
+  box-shadow: 0 10px 26px rgba(0,0,0,.22);
+  line-height: 1.55;
+  color: #f5f5f8;
+}
+
+/* mic indicator la stânga */
+.copii-parinte li::before{
+  content:"";
+  position:absolute;
+  left: 10px; top: 50%;
+  transform: translateY(-50%);
+  width: 6px; height: 70%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--pc-accent), var(--pc-accent-2));
+  box-shadow: 0 0 0 3px rgba(255,26,26,.12);
+}
+.copii-parinte li{ padding-left: 1.6rem; }
+
+.copii-parinte li strong{
+  color: #fff;
+  font-weight: 900;
+  margin-right: .35rem;
+}
+
+/* ===== Separator ===== */
+.copii-parinte hr{
+  border: none;
+  height: 1px;
+  margin: 1.2rem 0 1.1rem;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+}
+
+/* ===== Formular – card compact pe grid ===== */
+.formular-copil{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .9rem;
+  margin-top: 1.2rem;
+  background: linear-gradient(180deg, var(--pc-surface), var(--pc-surface-2));
+  border: 1px solid var(--pc-border);
+  border-radius: var(--pc-radius);
+  box-shadow: var(--pc-shadow);
+  padding: clamp(1rem, 2.6vw, 1.3rem);
+  max-width: 720px;
+}
+
+/* câmpuri full width pe ultimul rând dacă e nevoie */
+.formular-copil > :nth-last-child(1){ grid-column: 1 / -1; }
+
+/* Inputs & Select – stil dark */
+.formular-copil input,
+.formular-copil select{
+  width: 100%;
+  padding: .78rem .95rem;
+  border-radius: 12px;
+  border: 1px solid #2b2b38;
+  background: #0c0c0f;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: border .22s ease, box-shadow .22s ease, background .22s ease;
+}
+.formular-copil input::placeholder{ color:#a8a8b4; }
+
+.formular-copil input:focus,
+.formular-copil select:focus{
+  border-color: var(--pc-accent);
+  box-shadow: 0 0 0 3px rgba(255,26,26,.22), 0 0 12px rgba(255,0,0,.18);
+  background: #101015;
+}
+
+/* Buton */
+.formular-copil button{
+  justify-self: start;
+  align-self: center;
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 12px;
+  font-weight: 900;
+  letter-spacing: .2px;
+  background: linear-gradient(180deg, var(--pc-accent), var(--pc-accent-2));
+  color: #fff;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .22s ease, filter .18s ease;
+  box-shadow: 0 10px 26px rgba(255,0,0,.22);
+}
+.formular-copil button:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 16px 34px rgba(255,0,0,.28);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 720px){
+  .formular-copil{ grid-template-columns: 1fr; }
+  .formular-copil button{ width: 100%; justify-self: stretch; }
+}
+
+/* Focus accesibil pe carduri */
+.copii-parinte a:focus-visible,
+.formular-copil button:focus-visible{
+  outline: 3px solid rgba(255,26,26,.35);
+  outline-offset: 2px;
+  border-radius: 12px;
 }
 
 
-
-.formular-copil {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 2rem;
-    max-width: 600px;
+/* —— layout pe rânduri pentru fiecare copil —— */
+.kid-item{ padding-left: 1.6rem; } /* păstrează indicatorul din stânga */
+.kid-row{
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin: .15rem 0;
 }
 
-.formular-copil input {
-    padding: 0.75rem 1rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    background-color: #fff;
-    color: #000;
-    transition: all 0.3s ease;
+/* etichete + valori */
+.kid-label{
+  min-width: 90px;                  /* aliniere frumoasă pe coloană */
+  color: #d8d8de;
+  font-weight: 800;
+  letter-spacing: .2px;
 }
-
-.formular-copil input:focus {
-    outline: none;
-    box-shadow: 0 0 5px #ff3333;
-}
-
-.formular-copil button {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    align-self: start;
-    transition: background-color 0.3s ease;
-}
-
-.formular-copil button:hover {
-    background-color: darkred;
+.kid-value{
+  display: inline-flex;
+  align-items: center;
+  padding: .15rem .55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.08);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: .2px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
 }
 
 
+/* badge pentru Gen */
+.kid-chip{
+  display: inline-flex;
+  align-items: center;
+  padding: .15rem .55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.08);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: .2px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
+}
 
-.formular-copil select {
-    padding: 0.75rem 1rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    background-color: #fff;
-    color: #000;
-    transition: all 0.3s ease;
+/* mobil: etichetele sus, valorile jos pentru spațiu îngust */
+@media (max-width: 520px){
+  .kid-row{ flex-direction: column; align-items: flex-start; }
+  .kid-label{ min-width: 0; }
 }

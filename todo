@@ -71,11 +71,44 @@ pt admin, am facut sa se vada toti parintii si toti copiii
 calendarul oonline integrat
 sa adauge admin concursuri
 
-de facut: toate paginile astea trebuie proteajte sa nu poata fi accesate daca nu esti logat sau daca nu esti autnetificat cu contul corect
+de facut: toate paginile astea trebuie proteajte sa nu poata fi accesate daca nu esti logat sau daca nu esti
+autnetificat cu contul corect => deja am facut
 
-de facut: sa pun gen (masculin, feminin) la copii unde apar de se vad parintii si la antrenori la fel
+de facut: sa pun gen (masculin, feminin) la copii unde apar de se vad parintii si la antrenori la fel => cred ca am facut
 
-fiecare antrnor sa poata adauga un elev, sa editeze, sa stearga
+fiecare antrnor sa poata adauga un elev, sa editeze, sa stearga => sa vedem
 
 trebuie sa repar caile pentru baza de date, in fiecare fisier, vezi chatgpt si exemplu in fisierul inscrieri_concursuri_toti.py
-si autentificare.py, urmeaza restul
+si autentificare.py, urmeaza restul => facut
+
+
+
+
+TODO:
+
+de refacut aia cu elevii si adaugarea elevilor la grupa
+
+sa pun scrisul care este pe tricourile clubului
+
+font-weight, cu ala pot schimba grosimea scrisului!!!!!!!!!!
+
+vreau sa refac designul sa fie mai elegant, cu AI
+1) am inceput cu footer = gata
+2) login page = gata
+3) admindashboard = gata
+4) concursuri = gata
+5) formular concursuri
+6) inscrieri concursuri
+7) navbar
+8) parintecopii - copiii fiecarui parinte
+9) antrenordashboard
+10) conturi in asteptare
+11) toti userii
+12) permisiuni antrenori externi
+12) grupele tuturor antrenorilor
+13) toti copiii parintilor
+14) toate inscrierile la concurs
+15) pentru adaugare concurs
+16) platile
+
+am facut la toate modificare de design

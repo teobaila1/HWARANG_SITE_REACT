@@ -1,100 +1,209 @@
+/* ===== Documente.css – dark+red, elegant & responsive ===== */
+
+a { text-decoration: none; color: inherit; }
+
 .documents-wrapper {
-  padding: 2rem;
-  background-color: #161616;
-  color: white;
+  padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+  background: linear-gradient(180deg, #161616, #0d0d0d);
+  color: #fff;
+  min-height: 100vh;   /* centrare și lățime confortabilă */
+  margin: 0 auto;
 }
 
 .documents-title {
-  font-size: 2rem;
-  color: red;
-  margin-bottom: 1.5rem;
+  font-size: clamp(1.6rem, 2.2vw, 2rem);
+  color: #ff1a1a;
+  margin: 0 0 1.25rem;
+  font-weight: 800;
+  letter-spacing: .2px;
+  text-align: center;
+  text-shadow: 0 0 8px rgba(255,0,0,.25);
 }
 
-
-
-
-.documents-table {
-  width: 100%;
-  border-collapse: collapse;
-  color: white;
-  font-size: 1rem;
-  background-color: #121212;
-  border: 1px solid #333;
-}
-
-.documents-table th,
-.documents-table td {
-  padding: 0.75rem 1rem;
-  text-align: left;
-  border-bottom: 1px solid #333;
-}
-
-.documents-table th {
-  background-color: #1e1e1e;
-  color: #ff4d4d;
-}
-
-.btn-descarca,
-.btn-sterge {
-  margin-right: 0.5rem;
-  padding: 0.4rem 0.8rem;
-  font-weight: bold;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.btn-descarca {
-  background-color: red;
-  color: white;
-}
-
-.btn-sterge {
-  background-color: black;
-  border: 1px solid red;
-  color: red;
-}
-
-.btn-sterge:hover {
-  background-color: red;
-  color: white;
-}
-
-
-.search-input {
-  width: 250px;
-  padding: 0.6rem 2.5rem 0.6rem 1rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  background-color: #1e1e1e;
-  color: white;
-  border: 1px solid red;
-}
-
-
-
+/* ===== Căutare ===== */
 .search-bar-wrapper {
   position: relative;
-  width: fit-content;
-  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto 1.25rem auto;
 }
 
-
-
-.search-input::placeholder {
-  color: #bbb;
+.search-input {
+  width: 100%;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #1b1b1b;
+  color: #fff;
+  border: 1px solid #2e2e2e;
+  outline: none;
+  transition: border .25s ease, box-shadow .25s ease, background .25s ease;
 }
 
+.search-input::placeholder { color: #9c9c9c; }
+
+.search-input:focus {
+  border: 1px solid #ff1a1a;
+  box-shadow: 0 0 0 3px rgba(255,26,26,.2), 0 0 14px rgba(255,0,0,.25);
+  background: #1e1e1e;
+}
 
 .reset-button {
   position: absolute;
-
+  right: .6rem;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   font-size: 1.1rem;
-  color: red;
+  color: #ff1a1a;
   cursor: pointer;
+  line-height: 1;
+  padding: .2rem;
+  border-radius: 8px;
 }
+.reset-button:hover { background: rgba(255,26,26,.12); }
+
+/* ===== Tabel (desktop) ===== */
+.documents-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: linear-gradient(180deg, #111114, #15151a);
+  color: #fff;
+  font-size: 1rem;
+  border: 1px solid #2a2a34;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0,0,0,.35);
+  table-layout: fixed;
+}
+
+.documents-table thead th {
+  position: sticky; top: 0; z-index: 1;
+  background: #1b1b22;
+  color: #e9e9f0;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 700;
+  letter-spacing: .2px;
+  border-bottom: 1px solid #2a2a34;
+}
+
+.documents-table th,
+.documents-table td {
+  padding: 1rem;
+}
+
+.documents-table tbody td {
+  border-top: 1px solid #222230;
+  color: #f3f3f6;
+  vertical-align: middle;
+  word-wrap: break-word;
+}
+
+.documents-table tbody tr:nth-child(odd) td { background: rgba(255,255,255,.02); }
+.documents-table tbody tr:hover td { background: rgba(255,26,26,.06); }
+
+/* Coloană acțiuni – grupare frumoasă a butoanelor */
+.documents-table tbody td:last-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ===== Butoane ===== */
+.btn-descarca,
+.btn-sterge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  min-width: 120px;         /* dimensiune uniformă */
+  padding: .55rem .9rem;
+  font-weight: 800;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.06);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .22s ease, filter .18s ease;
+  box-shadow: 0 10px 26px rgba(0,0,0,.18);
+}
+
+.btn-descarca {
+  background: linear-gradient(180deg, #ff1a1a, #cc0000);
+  color: #fff;
+}
+.btn-descarca:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 34px rgba(255,0,0,.28);
+}
+
+.btn-sterge {
+  background: linear-gradient(180deg, #2a2a2a, #1b1b1b);
+  color: #fff;
+  border: 1px solid #2e2e38;
+}
+.btn-sterge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.28);
+  filter: saturate(1.05);
+}
+
+/* Linkul care învelește butonul de descărcare */
+.documents-table a { text-decoration: none; }
+
+/* ===== Card view pe mobil (fără modificări în JSX) ===== */
+@media (max-width: 820px){
+  .documents-table,
+  .documents-table thead,
+  .documents-table tbody,
+  .documents-table th,
+  .documents-table td,
+  .documents-table tr {
+    display: block;
+  }
+
+  .documents-table thead { display: none; }
+
+  .documents-table tbody tr {
+    background: linear-gradient(180deg, #121216, #18181f);
+    margin: 0 0 1rem 0;
+    border: 1px solid #2a2a34;
+    border-radius: 12px;
+    padding: .75rem .9rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  }
+
+  .documents-table tbody td {
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .55rem 0;
+    text-align: left;
+  }
+
+  /* Etichete auto pentru fiecare coloană */
+  .documents-table tbody td:nth-child(1)::before { content: "Fișier"; }
+  .documents-table tbody td:nth-child(2)::before { content: "Încărcat de"; }
+  .documents-table tbody td:nth-child(3)::before { content: "Data"; }
+  .documents-table tbody td:nth-child(4)::before { content: "Acțiuni"; }
+
+  .documents-table tbody td::before {
+    font-weight: 700;
+    color: #c7c7d2;
+    margin-right: 12px;
+    flex: 0 0 42%;
+  }
+
+  /* Acțiuni pe coloană, butoane pe lățime completă */
+  .documents-table tbody td:last-child {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .btn-descarca, .btn-sterge { width: 100%; min-width: 0; }
+}
+
+/* ===== Select & text selection mici îmbunătățiri ===== */
+::selection { background: rgba(255,26,26,.35); color: #fff; }

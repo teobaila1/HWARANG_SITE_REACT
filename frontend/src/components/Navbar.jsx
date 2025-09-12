@@ -1,72 +1,68 @@
 import React, {useEffect, useState} from "react";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Navbar.css";
+import {Link} from "react-router-dom";
 import LogoutButton from "./LogoutButton";
-import {Link, NavLink} from "react-router-dom";
+import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Navbar.css";
 
 const Navbar = () => {
     const isLoggedIn = localStorage.getItem("username") !== null;
     const [rol, setRol] = useState(null);
     const username = localStorage.getItem("username");
     const [hideNavbar, setHideNavbar] = useState(false);
-    let lastScrollY = window.scrollY;
 
-
+    // nu schimbăm logica ta; doar citim rolul
     useEffect(() => {
         const storedRol = localStorage.getItem("rol");
         setRol(storedRol);
     }, []);
 
-
+    // păstrăm logica ta de ascundere la scroll
+    let lastScrollY = window.scrollY;
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
-
             if (currentScrollY > lastScrollY && currentScrollY > 50) {
-                setHideNavbar(true); // scroll down
+                setHideNavbar(true);
             } else {
-                setHideNavbar(false); // scroll up
+                setHideNavbar(false);
             }
-
             lastScrollY = currentScrollY;
         };
-
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-
     return (
         <header>
             <nav className={`navbar ${hideNavbar ? "hide-navbar" : ""}`}>
+                {/* stânga: logo */}
                 <div className="navbar-flex-container">
                     <div className="logo">
-                        <Link to="/acasa">
+                        <Link to="/acasa" aria-label="Acasă">
                             <img src="/images/favicon_circle_BANNER.png" alt="Logo Club"/>
                         </Link>
                     </div>
-
-                    {username && (
-                        <div className="welcome-text">
-                            Bine ai venit, <strong>{username}</strong>
-                        </div>
-                    )}
                 </div>
+
+                {/* dreapta: linkuri */}
                 <ul className="nav-links">
                     <li className="dropdown">
-                        <a className="text-danger" href="#">TaeKwon-Do</a>
+                        <a href="#" className="text-danger" tabIndex={0} aria-haspopup="true" aria-expanded="false">
+                            TaeKwon-Do
+                        </a>
                         <ul className="dropdown-menu">
                             <li><a href="/acasa">Acasă</a></li>
                             <li><a href="/desprenoi">Despre</a></li>
                             <li><a href="/antrenori">Antrenori</a></li>
                             <li><a href="#">Galerie</a></li>
                             <li><a href="#footer">Contact</a></li>
-                            {/*<li><a href="/autentificare">Login</a></li>*/}
                         </ul>
                     </li>
 
                     {isLoggedIn && (
                         <li className="dropdown">
-                            <a>Calendar</a>
+                            <a href="#" tabIndex={0} aria-haspopup="true" aria-expanded="false">
+                                Calendar
+                            </a>
                             <ul className="dropdown-menu">
                                 <li><a href="/calendar2025">Calendar 2025</a></li>
                             </ul>
@@ -74,15 +70,19 @@ const Navbar = () => {
                     )}
 
                     <li className="dropdown">
-                        <a href="#">Kickbox</a>
+                        <a href="#" tabIndex={0} aria-haspopup="true" aria-expanded="false">
+                            Kickbox
+                        </a>
                         <ul className="dropdown-menu">
                             <li><a href="#">Antrenamente</a></li>
                         </ul>
                     </li>
 
-                    {!isLoggedIn &&
-                        <li className="join-link"><a href="/inscriere">Alătură-te</a></li>
-                    }
+                    {!isLoggedIn && (
+                        <li className="join-link">
+                            <a href="/inscriere">Alătură-te</a>
+                        </li>
+                    )}
 
                     {isLoggedIn && <li><a href="#">Regulamente</a></li>}
 
@@ -90,62 +90,46 @@ const Navbar = () => {
                         <li><a href="/documente">Documente</a></li>
                     )}
 
-
-                    {rol === "admin" ? (
+                    {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") && (
                         <li><a href="/concursuri">Concursuri</a></li>
-                    ) : null}
-
-                    {rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor" ? (
-                        <li><a href="/concursuri">Concursuri</a></li>
-                    ) : null}
-
-
-                    {/* Doar pentru părinți */}
-                    {rol === "Parinte" && (
-                        <Link to="/copiii-mei">Copiii mei</Link>
                     )}
 
+                    {rol === "Parinte" && (
+                        <li><Link to="/copiii-mei">Copiii mei</Link></li>
+                    )}
 
                     {rol === "admin" && <li><Link to="/admin-dashboard">Admin</Link></li>}
+                    {rol === "Antrenor" && <li><Link to="/antrenor_dashboard">Meniu Principal</Link></li>}
+                    {rol === "AntrenorExtern" && <li><Link to="/concursuri-extern">Concursuri</Link></li>}
 
+                    {/* user chip cu dropdown (bine ai venit + logout) */}
+                    {isLoggedIn ? (
+                        <li className="dropdown user-menu">
+                            <button className="user-chip" aria-haspopup="true" aria-expanded="false">
+                                <span className="avatar">{(username || "?")[0].toUpperCase()}</span>
+                                <span className="greet">
+      Bine ai venit,&nbsp;
+                                    <strong className="name" title={username}>{username}</strong>
+    </span>
+                            </button>
 
-                    {rol === "Antrenor" && (
-                        <li><Link to="/antrenor_dashboard">Meniu Principal</Link></li>
-                    )}
-
-
-                    {rol === "AntrenorExtern" && (
-                        <li><Link to="/concursuri-extern">Concursuri</Link></li>
-                    )}
-
-
-                    {rol && (
-                        <li>
-                            <LogoutButton/>
+                            <ul className="dropdown-menu dropdown-menu--right">
+                                <li className="dropdown-caption">
+                                    Conectat ca <strong>{username}</strong>
+                                </li>
+                                <li className="logout-item">
+                                    <LogoutButton/>
+                                </li>
+                            </ul>
                         </li>
-                    )}
-
-                    {!isLoggedIn && (
+                    ) : (
                         <>
-                            <li style={{ marginLeft: '20px' }} >
+                            <li style={{marginLeft: "20px"}}>
                                 <Link to="/autentificare">Login</Link>
                             </li>
                             <li><Link to="/inregistrare">Înregistrare</Link></li>
-                            {/*<li><Link to="/inregistrare-extern">Antrenor Extern</Link></li>*/}
                         </>
                     )}
-
-
-                    {/*{rol !== 'AntrenorExtern' && (*/}
-                    {/*    <>*/}
-                    {/*        <NavLink to="/admin_dashboard">Admin Dashboard</NavLink>*/}
-                    {/*        <NavLink to="/antrenor_dashboard">Antrenor Dashboard</NavLink>*/}
-                    {/*        <NavLink to="/registerForm">Înregistrare</NavLink>*/}
-                    {/*        /!* Alte linkuri specifice altor roluri *!/*/}
-                    {/*    </>*/}
-                    {/*)}*/}
-
-
                 </ul>
             </nav>
         </header>

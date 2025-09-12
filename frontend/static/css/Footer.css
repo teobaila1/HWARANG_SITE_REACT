@@ -1,78 +1,108 @@
-.footer {
-  background: #161616;
+:root{
+  --_bg: var(--surface, #161616);
+  --_bg2: #0B0B18;
+  --_text: var(--text, #F7F7FB);
+  --_muted: var(--muted, #A0A3B1);
+  /*--_border: var(--border, #2A2B3F);*/
+  --_accent: var(--accent, #E11D48);
+  --_radius: var(--radius, 16px);
+}
+
+/* containerul general */
+.footer{
+  width: 100%;
+  color: var(--_text);
+  background: linear-gradient(180deg, var(--_bg), var(--_bg2));
+
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2rem);
+  display: grid;
+  grid-template-columns: 1.8fr 0.8fr; /* harta mai lungă, info mai mic */
+  gap: clamp(1rem, 3vw, 2rem);
+}
+@media (max-width: 768px){
+  .footer{ grid-template-columns: 1fr; }
+}
+
+/* Harta */
+.map-container{
+  border: 1px solid var(--_border);
+  border-radius: var(--_radius);
+  overflow: hidden;
+}
+.map-container iframe{
+  width: 100%;
+  height: 380px; /* mai lungă */
+  border: 0;
+  filter: grayscale(.1);
+}
+
+/* Info (mai mic și centrat, dar scrisul mai mare) */
+.footer-info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* centru vertical */
   text-align: center;
-  padding: 2rem 1rem;
-  color: black;
+  background: linear-gradient(180deg, var(--_bg), var(--_bg2));
+  border-radius: var(--_radius);
+  padding: 1.2rem;
+  font-size: 1.15rem;   /* mai mare decât înainte */
+  line-height: 1.7;     /* aerisit */
+}
+.footer-info p{
+  margin: .4rem 0;
+}
+.footer-info .red-title{
+  margin: 1.2rem 0 .6rem;
+  font-weight: 700;
+  font-size: 1.1rem; /* și titlul puțin mai mare */
+  color: var(--_text);
+  border-bottom: 1px solid var(--_border);
+  padding-bottom: .4rem;
 }
 
-.map-container iframe {
-  width: 90%;
-  height: 300px;
-  border: none;
-  margin-bottom: 2rem;
+/* Social */
+.social-icons{
+  display: flex;
+  gap: .75rem;
+  justify-content: center;
 }
-
-.footer-info {
-    text-align: center;
-    margin-bottom: -10px;
-    color: white;
+.social-icons img{
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--_border);
+  transition: transform .15s ease;
 }
+.social-icons img:hover{ transform: translateY(-2px); }
 
-.footer-info h4 {
-  font-weight: bold;
-}
-
-.red-title {
-  color: red;
-  font-size: 1.5rem;
+/* Sigla federației + nume */
+.frtkd-block{
+  grid-column: 1 / -1;
+  text-align: center;
   margin-top: 2rem;
 }
-
-.social-icons {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin: 1rem 0;
+.frtkd-logo{
+  width: 95px;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--_border);
+  margin: 0 auto .5rem;
+}
+.frtkd-name{
+  font-weight: 600;
+  color: var(--_text);
+  margin: 0;
+  font-size: 1.05rem; /* ușor mai mare */
 }
 
-.social-icons img {
-  width: 40px;
-  height: 40px;
-}
-
-
-footer p {
-  margin: 0.2rem 0;
-}
-
-footer .copyright {
-  font-size: 0.85rem;
-  color: gray;
-}
-
-
-.frtkd-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 30px;
-  gap: 20px;
-}
-
-.frtkd-logo {
-  height: 80px;
-}
-
-.frtkd-text {
+/* Copyright */
+.copyright{
+  grid-column: 1 / -1;
+  margin-top: 1rem;
   text-align: center;
-  color: white;
+  font-size: .9rem;
+  color: var(--_muted);
+  border-top: 1px solid var(--_border);
+  padding-top: .75rem;
 }
-
-.frtkd-title {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-
-

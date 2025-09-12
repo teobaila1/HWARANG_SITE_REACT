@@ -1,0 +1,170 @@
+/*:root{*/
+/*  !* culori brand *!*/
+/*  --brand-900:#110F2A;*/
+/*  --brand-800:#1A1838;*/
+/*  --brand-700:#22204A;*/
+/*  --brand-600:#2E2B63;*/
+/*  --brand-500:#3B3880;*/
+/*  --brand-400:#6C6AA9;*/
+/*  --brand-300:#9EA0CD;*/
+/*  --brand-200:#C9CBEB;*/
+/*  --brand-100:#EEF0FF;*/
+
+/*  --accent:#E11D48;   !* roșu Hwarang *!*/
+/*  --accent-2:#F59E0B; !* auriu *!*/
+/*  --success:#22C55E;*/
+/*  --warning:#F59E0B;*/
+/*  --danger:#EF4444;*/
+
+/*  --bg:#070711;*/
+/*  --surface:#0C0C1C;*/
+/*  --surface-2:#14142A;*/
+/*  --text:#F7F7FB;*/
+/*  --muted:#A0A3B1;*/
+/*  --border:#2A2B3F;*/
+/*  --shadow: 0 8px 24px rgba(0,0,0,.35);*/
+
+/*  --radius: 16px;*/
+/*  --radius-sm: 10px;*/
+/*  --radius-lg: 22px;*/
+
+/*  --space-1: .25rem;*/
+/*  --space-2: .5rem;*/
+/*  --space-3: .75rem;*/
+/*  --space-4: 1rem;*/
+/*  --space-5: 1.25rem;*/
+/*  --space-6: 1.5rem;*/
+/*  --space-8: 2rem;*/
+/*  --space-10: 2.5rem;*/
+
+/*  --font: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";*/
+/*}*/
+
+/**{box-sizing:border-box}*/
+/*html,body,#root{height:100%}*/
+/*body{*/
+/*  margin:0; background:linear-gradient(180deg, var(--bg), #0B0B17);*/
+/*  color:var(--text); font-family:var(--font); -webkit-font-smoothing:antialiased;*/
+/*}*/
+/*a{color:inherit; text-decoration:none}*/
+/*img{max-width:100%; display:block}*/
+
+/*.container{width:100%; max-width:1200px; margin:0 auto; padding:0 var(--space-4)}*/
+/*.section{padding: clamp(2rem, 4vw, 4rem) 0}*/
+/*.grid{display:grid; gap:var(--space-6)}*/
+/*.grid-2{grid-template-columns: repeat(2, minmax(0,1fr));}*/
+/*.grid-3{grid-template-columns: repeat(3, minmax(0,1fr));}*/
+/*@media (max-width: 900px){ .grid-2,.grid-3{grid-template-columns:1fr}}*/
+
+/*.card{*/
+/*  background: linear-gradient(180deg, var(--surface), var(--surface-2));*/
+/*  border:1px solid var(--border);*/
+/*  border-radius:var(--radius);*/
+/*  box-shadow:var(--shadow);*/
+/*  padding: var(--space-6);*/
+/*}*/
+
+/*.btn{*/
+/*  display:inline-flex; align-items:center; justify-content:center;*/
+/*  padding: .8rem 1rem; border-radius: var(--radius-sm);*/
+/*  border:1px solid transparent; font-weight:600; cursor:pointer;*/
+/*  transition: transform .12s ease, opacity .2s ease, background .2s ease, border .2s ease;*/
+/*}*/
+/*.btn:active{ transform: translateY(1px) scale(.99); }*/
+/*.btn-primary{ background: var(--accent); color:white; }*/
+/*.btn-primary:hover{ opacity:.92 }*/
+/*.btn-outline{ background:transparent; color:var(--text); border-color:var(--border)}*/
+/*.btn-outline:hover{ border-color:var(--accent); color:white }*/
+
+/*.input, .select{*/
+/*  width:100%; background: #0B0B1A; color:var(--text);*/
+/*  border:1px solid var(--border); border-radius: var(--radius-sm);*/
+/*  padding:.9rem 1rem; outline:none;*/
+/*}*/
+/*.input:focus, .select:focus{ border-color: var(--accent) }*/
+
+/*.label{ display:block; font-size:.9rem; color:var(--muted); margin-bottom:.4rem }*/
+/*.help{ font-size:.85rem; color:var(--muted); margin-top:.35rem }*/
+
+/*.table{*/
+/*  width:100%; border-collapse: collapse; border-radius: var(--radius); overflow:hidden;*/
+/*}*/
+/*.table th, .table td{ padding: .9rem 1rem; border-bottom: 1px solid var(--border)}*/
+/*.table th{ text-align:left; color:var(--muted); background: #0E0E20 }*/
+/*.table tr:hover td{ background:#0F1024 }*/
+
+/*.kbd{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;*/
+/*  font-size:.85rem; background:#10122a; border:1px solid var(--border); border-radius:8px; padding:.15rem .4rem*/
+/*}*/
+/*.badge{ display:inline-block; padding:.25rem .5rem; border-radius:999px; font-size:.8rem; border:1px solid var(--border); background:#0E0F23}*/
+/*.badge.red{ border-color: var(--accent); color:#fff; background: linear-gradient(180deg, #2a0b16, #3a0f1d)}*/
+
+/*.hr{ height:1px; background:var(--border); border:0; margin: var(--space-6) 0 }*/
+
+/*.toast{ position:fixed; right:1rem; bottom:1rem; z-index:9999; background:#101022; border:1px solid var(--border);*/
+/*  color:var(--text); border-radius:12px; padding:.8rem 1rem; box-shadow:var(--shadow)*/
+/*}*/
+
+/*!* Navbar/ Footer helpers *!*/
+/*.navbar{*/
+/*  position:sticky; top:0; z-index:1000; backdrop-filter: blur(10px);*/
+/*  background: rgba(13,13,27,.6); border-bottom:1px solid var(--border)*/
+/*}*/
+/*.navbar-inner{ display:flex; align-items:center; justify-content:space-between; gap:var(--space-4); height:72px }*/
+/*.nav-links{ display:flex; gap:var(--space-4); align-items:center }*/
+/*.nav-links a{ opacity:.9 }*/
+/*.nav-links a.active{ color:white; border-bottom:2px solid var(--accent) }*/
+
+/*.footer{*/
+/*  margin-top: var(--space-10); border-top:1px solid var(--border); background: #0B0B18;*/
+/*}*/
+/*.footer-grid{ display:grid; grid-template-columns: 1.4fr .6fr; gap:var(--space-6); padding: var(--space-8) 0 }*/
+/*@media (max-width: 900px){ .footer-grid{ grid-template-columns:1fr } }*/
+/*.footer .map{ border:0; width:100%; height:320px; border-radius: var(--radius); filter: grayscale(.15) }*/
+/*.footer .social{ display:flex; gap:.75rem; align-items:center }*/
+
+
+
+
+/* ===== Gridlines verticale pentru TOATE tabelele ===== */
+:root{
+  --tbl-vline: rgba(255,255,255,.12);   /* culoarea liniilor verticale (dark) */
+  --tbl-vline-head: rgba(255,255,255,.16);
+}
+
+/* păstrăm collapse ca să nu apară spații între celule */
+table{ border-collapse: collapse; }
+
+/* linii verticale între coloane */
+thead th, tbody td, tfoot td{
+  border-right: 1px solid var(--tbl-vline);
+}
+
+/* prima coloană nu are nevoie de border stânga */
+thead th:first-child,
+tbody td:first-child,
+tfoot td:first-child{
+  border-left: none;
+}
+
+/* ultima coloană: fără dublură pe marginea din dreapta */
+thead th:last-child,
+tbody td:last-child,
+tfoot td:last-child{
+  border-right: none;
+}
+
+/* headerul poate avea un contrast un pic mai mare */
+thead th{ border-right-color: var(--tbl-vline-head); }
+
+/* opțional: dacă vrei separatoare orizontale discrete între rânduri */
+tbody tr + tr td{
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+/* ===== Opt-out: adaugă data-no-gridlines pe tabel dacă NU vrei linii ===== */
+table[data-no-gridlines] th,
+table[data-no-gridlines] td{
+  border-right: none !important;
+  border-top: none !important;
+}

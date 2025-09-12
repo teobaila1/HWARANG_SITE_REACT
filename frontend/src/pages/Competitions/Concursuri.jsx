@@ -10,7 +10,7 @@ import {Link} from "react-router-dom";
 const Concursuri = () => {
     const [rol, setRol] = useState("");
     const [mesaj, setMesaj] = useState("");
-    const [formVisible, setFormVisible] = useState(false);
+    const [openFormFor, setOpenFormFor] = useState(null);
     const [concursSelectat, setConcursSelectat] = useState("");
     const [gender, setGender] = useState('');
     const [searchTerm, setSearchTerm] = useState("");
@@ -97,20 +97,23 @@ const Concursuri = () => {
 
     const handleTrimiteCerere = (numeConcurs) => {
         setConcursSelectat(numeConcurs);
-        setFormVisible(true);
+        setOpenFormFor(prev => prev === numeConcurs ? null : numeConcurs); // toggle pe același concurs
         setMesaj("");
     };
 
     const handleAnuleaza = () => {
-        setFormVisible(false);
+        setOpenFormFor(null);
         setFormData({
             nume: "",
             dataNasterii: "",
             categorieVarsta: "",
             gradCentura: "",
             greutate: "",
-            probe: ""
+            probe: "",
+            gen: ""
         });
+        setSelectedProbes([]);
+        setGender("");
     };
 
     const handleSubmit = async (e) => {
@@ -129,25 +132,12 @@ const Concursuri = () => {
                     concurs: concursSelectat,
                     ...formData,
                     probe: probeTrimise,
-                    gen: gender // ✅ trimitem și genul
+                    gen: gender
                 })
             });
 
             toast.success("Inscrierea a fost facuta cu succes!");
-            setFormVisible(false);
-
-            // ✅ Resetare formular complet
-            setFormData({
-                nume: "",
-                dataNasterii: "",
-                categorieVarsta: "",
-                gradCentura: "",
-                greutate: "",
-                probe: "",
-                gen: ""
-            });
-            setSelectedProbes([]);
-            setGender(""); // ✅ resetăm și genul
+            handleAnuleaza();                  // <- închide și resetează
             await fetchNumarInscrisi(concursSelectat);
         } catch (error) {
             console.error("Eroare la trimitere:", error);
@@ -198,15 +188,15 @@ const Concursuri = () => {
     };
 
     const concursuriFiltrate = concursuriViitoare.filter(c =>
-    c.nume.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    c.locatie.toLowerCase().includes(searchTerm.toLowerCase())
-);
+        c.nume.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        c.locatie.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
 
     return (
         <>
             <Navbar/>
-            <div className="concursuri-container">
+            <div className="concursuri-container concursuri-intern">
                 <h2 className="concursuri-title">Concursuri viitoare</h2>
 
                 <input
@@ -228,123 +218,168 @@ const Concursuri = () => {
                         <th>Acțiune</th>
                     </tr>
                     </thead>
+
                     <tbody>
                     {concursuriFiltrate.map((c, index) => (
-                        <tr key={index}>
-                            <td>{c.perioada}</td>
-                            <td>{c.nume}</td>
-                            <td>{c.locatie}</td>
-                            <td style={{display: "flex", flexDirection: "column", gap: "6px"}}>
-                                <button className="btn-inscriere" onClick={() => handleTrimiteCerere(c.nume)}>
-                                    Înscrie-te la concurs
-                                </button>
-                                {rol && (rol === "admin" || rol === "Antrenor") && (
-                                    <>
-                                        <Link to={`/inscrisi/${encodeURIComponent(c.nume)}`}>
-                                            <button className="btn-inscriere">
-                                                Vezi înscrieri: {numarInscrisi[c.nume] ?? 0}
-                                            </button>
-                                        </Link>
+                        <React.Fragment key={index}>
+                            <tr>
+                                <td>{c.perioada}</td>
+                                <td>{c.nume}</td>
+                                <td>{c.locatie}</td>
+                                <td style={{display: "flex", flexDirection: "column", gap: "6px"}}>
+                                    <button className="btn-inscriere" onClick={() => handleTrimiteCerere(c.nume)}>
+                                        {openFormFor === c.nume ? "Ascunde formularul" : "Înscrie-te la concurs"}
+                                    </button>
 
-                                        <button
-                                            className="btn-inscriere"
-                                            onClick={(e) => {
-                                                e.preventDefault(); // prevenim comportamente nedorite
-                                                e.stopPropagation(); // dacă e într-un container clicabil
-                                                handleDeleteConcurs(c.nume);
-                                            }}
-                                        >
-                                            Șterge concursul
-                                        </button>
-                                    </>
-                                )}
-                            </td>
-                        </tr>
+                                    {rol && (rol === "admin" || rol === "Antrenor") && (
+                                        <>
+                                            <Link to={`/inscrisi/${encodeURIComponent(c.nume)}`}>
+                                                <button className="btn-inscriere">
+                                                    Vezi înscrieri: {numarInscrisi[c.nume] ?? 0}
+                                                </button>
+                                            </Link>
+
+                                            <button
+                                                className="btn-inscriere"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    handleDeleteConcurs(c.nume);
+                                                }}
+                                            >
+                                                Șterge concursul
+                                            </button>
+                                        </>
+                                    )}
+                                </td>
+                            </tr>
+
+                            {/* ✅ Formularul apare fix sub concursul selectat */}
+                            {openFormFor === c.nume && (
+                                <tr className="form-row">
+                                    <td colSpan={4}>
+                                        <form onSubmit={handleSubmit} className="form-inscriere form-inscriere--inline">
+                                            <h2>Înscriere la: <span className="form-concurs-nume">{c.nume}</span></h2>
+
+                                            <div className="form-grid">
+                                                <div className="form-field">
+                                                    <label>Nume complet sportiv</label>
+                                                    <input
+                                                        type="text"
+                                                        name="nume"
+                                                        placeholder="Nume complet sportiv"
+                                                        value={formData.nume}
+                                                        onChange={handleFormChange}
+                                                        required
+                                                    />
+                                                </div>
+
+                                                <div className="form-field">
+                                                    <label>Data nașterii</label>
+                                                    <input
+                                                        type="date"
+                                                        name="dataNasterii"
+                                                        value={formData.dataNasterii}
+                                                        onChange={handleFormChange}
+                                                        required
+                                                    />
+                                                </div>
+
+                                                <div className="form-field">
+                                                    <label>Categorie de vârstă</label>
+                                                    <input
+                                                        type="text"
+                                                        name="categorieVarsta"
+                                                        value={formData.categorieVarsta}
+                                                        readOnly
+                                                        placeholder="Categorie de vârstă"
+                                                    />
+                                                </div>
+
+                                                <div className="form-field">
+                                                    <label>Grad (centură)</label>
+                                                    <select
+                                                        name="gradCentura"
+                                                        value={formData.gradCentura}
+                                                        onChange={handleFormChange}
+                                                        required
+                                                    >
+                                                        <option value="">Alege gradul</option>
+                                                        <option value="Galbena">Galbenă</option>
+                                                        <option value="Galben_cu_tresă_verde">Galben cu tresă verde
+                                                        </option>
+                                                        <option value="Verde">Verde</option>
+                                                        <option value="Verde_cu_tresă_albastru">Verde cu tresă
+                                                            albastru
+                                                        </option>
+                                                        <option value="Albastră">Albastră</option>
+                                                        <option value="Albastră_cu_tresă_roșie">Albastră cu tresă
+                                                            roșie
+                                                        </option>
+                                                        <option value="Roșie">Roșie</option>
+                                                        <option value="Roșie_cu_tresă_neagră">Roșie cu tresă neagră
+                                                        </option>
+                                                        <option value="Neagră">Neagră</option>
+                                                    </select>
+                                                </div>
+
+                                                <div className="form-field">
+                                                    <label>Greutate (kg)</label>
+                                                    <input
+                                                        type="number"
+                                                        name="greutate"
+                                                        placeholder="Greutate (kg)"
+                                                        value={formData.greutate}
+                                                        onChange={handleFormChange}
+                                                        required
+                                                    />
+                                                </div>
+
+                                                <div className="form-field">
+                                                    <label>Gen</label>
+                                                    <select
+                                                        name="gen"
+                                                        value={gender}
+                                                        onChange={(e) => setGender(e.target.value)}
+                                                        required
+                                                    >
+                                                        <option value="">Alege genul</option>
+                                                        <option value="Masculin">Masculin</option>
+                                                        <option value="Feminin">Feminin</option>
+                                                    </select>
+                                                </div>
+
+                                                <div className="form-field form-field--full">
+                                                    <label>Probele la care participă</label>
+                                                    <Select
+                                                        options={probeOptions}
+                                                        isMulti
+                                                        value={selectedProbes}
+                                                        onChange={setSelectedProbes}
+                                                        className="react-select-container"
+                                                        classNamePrefix="react-select"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="form-actions">
+                                                <button type="submit">Trimite înscrierea</button>
+                                                <button type="button" className="btn-cancel" onClick={handleAnuleaza}>
+                                                    Anulează
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                            )}
+                        </React.Fragment>
                     ))}
                     </tbody>
                 </table>
 
-                {formVisible && (
-                    <form onSubmit={handleSubmit} className="form-inscriere">
-                        <h2 style={{color: "red"}}>Înscriere la Concurs</h2>
-                        <input
-                            type="text"
-                            name="nume"
-                            placeholder="Nume complet sportiv"
-                            value={formData.nume}
-                            onChange={handleFormChange}
-                            required
-                        />
-                        <input
-                            type="date"
-                            name="dataNasterii"
-                            value={formData.dataNasterii}
-                            onChange={handleFormChange}
-                            required
-                        />
-                        <input
-                            type="text"
-                            name="categorieVarsta"
-                            value={formData.categorieVarsta}
-                            readOnly
-                            placeholder="Categorie de vârstă"
-                        />
-                        <select
-                            name="gradCentura"
-                            value={formData.gradCentura}
-                            onChange={handleFormChange}
-                            required
-                        >
-                            <option value="">Alege gradul</option>
-                            <option value="Galbena">Galbenă</option>
-                            <option value="Galben_cu_tresă_verde">Galben cu tresă verde</option>
-                            <option value="Verde">Verde</option>
-                            <option value="Verde_cu_tresă_albastru">Verde cu tresă albastru</option>
-                            <option value="Albastră">Albastră</option>
-                            <option value="Albastră_cu_tresă_roșie">Albastră cu tresă roșie</option>
-                            <option value="Roșie">Roșie</option>
-                            <option value="Roșie_cu_tresă_neagră">Roșie cu tresă neagră</option>
-                            <option value="Neagră">Neagră</option>
-                        </select>
-                        <input
-                            type="number"
-                            name="greutate"
-                            placeholder="Greutate (kg)"
-                            value={formData.greutate}
-                            onChange={handleFormChange}
-                            required
-                        />
-                        <select
-                            name="gen"
-                            value={gender}
-                            onChange={(e) => setGender(e.target.value)}
-                            required
-                        >
-                            <option value="">Alege genul</option>
-                            <option value="Masculin">Masculin</option>
-                            <option value="Feminin">Feminin</option>
-                        </select>
-                        <label className="label">Probele la care participă</label>
-                        <Select
-                            options={probeOptions}
-                            isMulti
-                            value={selectedProbes}
-                            onChange={setSelectedProbes}
-                            className="react-select-container"
-                            classNamePrefix="react-select"
-
-                        />
-                        <div style={{display: "flex", justifyContent: "space-between", gap: "10px"}}>
-                            <button type="submit">
-                                Trimite Înscrierea
-                            </button>
-                            <button style={{backgroundColor: "gray"}} type="button" onClick={handleAnuleaza}>
-                                Anulează
-                            </button>
-                        </div>
-                    </form>
-                )}
+                {/* formularul global NU mai e necesar */}
             </div>
+
             <ToastContainer
                 position="top-center"
                 autoClose={4000}

@@ -1,53 +1,115 @@
+/* ===== Login.css (doar stiluri – markup-ul tău rămâne neschimbat) ===== */
+
 .login-container {
-  background-color: #161616;
-  color: white;
-  padding: 3rem 2rem;
-  max-width: 500px;
+  --_bg: var(--surface, #161616);
+  color: #ffffff;
+  padding: clamp(2.5rem, 3vw, 3rem) clamp(1.25rem, 3vw, 2rem);
+  max-width: 520px;
   margin: 5rem auto;
-  border-radius: 12px;
-  box-shadow: 0 0 10px red;
+  border-radius: 14px;
+  box-shadow: 0 0 22px rgba(255, 0, 0, 0.25), 0 20px 60px rgba(0, 0, 0, 0.35);
   text-align: center;
+  border: 1px solid #2a2a2a;
 }
 
 .login-container h2 {
-  color: red;
-  margin-bottom: 2rem;
+  color: #ff1a1a; /* roșu intens */
+  margin-bottom: 1.75rem;
+  font-weight: 800;
+  letter-spacing: .3px;
+  text-shadow: 0 0 6px rgba(255, 0, 0, 0.35);
 }
 
 .login-container form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  text-align: left; /* pentru alinierea labelurilor */
 }
 
+/* Labels */
+.login-container label {
+  font-size: .95rem;
+  color: #dcdcdc;
+  margin: .25rem 0 .25rem;
+}
+
+/* Inputs */
 .login-container input {
-  padding: 0.7rem;
+  padding: 0.8rem 0.9rem;
   font-size: 1rem;
-  border-radius: 6px;
-  border: none;
+  border-radius: 8px;
+  border: 1px solid #2f2f2f;
+  color: #ffffff;
+  outline: none;
+  transition: border .25s ease, box-shadow .25s ease, background .25s ease;
 }
 
+.login-container input::placeholder {
+  color: #8a8a8a;
+}
+
+.login-container input:focus,
+.login-container input:focus-visible {
+  border: 1px solid #ff1a1a;
+  box-shadow: 0 0 0 3px rgba(255, 26, 26, 0.2), 0 0 14px rgba(255, 0, 0, 0.25);
+  background: #0f0f0f;
+}
+
+/* Fix pentru autofill (Chrome) */
+.login-container input:-webkit-autofill {
+  -webkit-text-fill-color: black;
+  transition: background-color 5000s ease-in-out 0s;
+  border: 1px solid #2f2f2f;
+}
+
+/* Buton */
 .login-container button {
-  background-color: red;
+  background: linear-gradient(180deg, #ff1a1a, #cc0000);
   color: white;
   font-size: 1rem;
+  font-weight: 700;
   border: none;
-  padding: 0.8rem;
-  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  border-radius: 10px;
   cursor: pointer;
-  transform: scale(1.03);
-  transition: all 0.3s ease-in-out;
+  transition: transform .2s ease, box-shadow .25s ease, filter .2s ease, opacity .2s ease;
+  will-change: transform;
+  margin-top: .25rem;
 }
-
 
 .login-container button:hover {
-  background-color: firebrick;
-  transform: scale(1.03);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(255, 0, 0, 0.25);
+  filter: saturate(1.05);
 }
 
+.login-container button:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 16px rgba(255, 0, 0, 0.22);
+}
 
+/* Mesaj eroare */
 .error-msg {
-  color: orange;
-  font-weight: bold;
-  margin-top: -0.5rem;
+  color: #ffb84d; /* orange cald */
+  font-weight: 700;
+  margin-top: .25rem;
+  text-align: center;
+}
+
+/* Linkuri din subsolul formularului (respectă inline style-ul tău, dar adaugă hover uniform) */
+.login-container a:hover {
+  text-decoration: underline;
+  opacity: .95;
+}
+
+/* Responsive mic */
+@media (max-width: 480px) {
+  .login-container {
+    margin: 3rem 1rem;
+    padding: 2rem 1.25rem;
+  }
+  .login-container h2 {
+    margin-bottom: 1.25rem;
+  }
 }

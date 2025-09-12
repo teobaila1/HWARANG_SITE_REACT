@@ -68,18 +68,31 @@ const ParinteCopii = () => {
         <>
             <Navbar/>
             <div className="copii-parinte">
-                <h2>Copiii tăi înregistrați</h2>
+                <h2>Copiii mei înregistrați</h2>
 
                 {copii.length === 0 ? (
                     <p>Nu ai copii înregistrați.</p>
                 ) : (
                     <ul>
                         {copii.map((copil, index) => (
-                            <li key={index}>
-                                <strong>{copil.nume}</strong> ({copil.gen ?? "N/A"}) – {copil.varsta} ani
-                                – {copil.grupa}
+                            <li key={index} className="kid-item">
+                                <div className="kid-row">
+                                    <span className="kid-label">Nume:</span>
+                                    <span className="kid-value">{copil.nume}</span>
+                                </div>
+                                <div className="kid-row">
+                                    <span className="kid-label">Gen:</span>
+                                    <span className="kid-chip">{copil.gen ?? "N/A"}</span>
+                                </div>
+                                <div className="kid-row">
+                                    <span className="kid-label">Vârstă:</span>
+                                    <span className="kid-value">{copil.varsta} ani</span>
+                                </div>
+                                <div className="kid-row">
+                                    <span className="kid-label">Grupa:</span>
+                                    <span className="kid-value">{copil.grupa}</span>
+                                </div>
                             </li>
-
                         ))}
                     </ul>
                 )}

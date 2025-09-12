@@ -120,7 +120,7 @@ const AdminDashboard = () => {
                     )}
 
                     <br/>
-                    <button onClick={handleUpload}>Încarcă fișierele</button>
+                    <button className="btn-upload" onClick={handleUpload}>Încarcă fișierele</button>
                     {uploadStatus && <p style={{color: 'lime', marginTop: '10px'}}>{uploadStatus}</p>}
 
                     <h3 style={{marginTop: "2rem"}}></h3>

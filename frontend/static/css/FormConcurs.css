@@ -1,120 +1,173 @@
-.form-concurs-wrapper {
-    max-width: 650px;
-    margin: 80px auto;
-    background-color: #111;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
-    color: #fff;
-    font-family: "Segoe UI", sans-serif;
+/* ========= FormConcurs.css – elegant dark+red ========= */
+
+:root{
+  --fc-bg: #0f0f12;
+  --fc-surface: #111114;
+  --fc-surface-2: #16161b;
+  --fc-text: #ffffff;
+  --fc-muted: #c8c8d0;
+  --fc-border: #2a2a34;
+  --fc-accent: #ff1a1a;
+  --fc-accent-2: #cc0000;
+  --fc-shadow: 0 22px 60px rgba(0,0,0,.35);
+  --fc-radius: 16px;
 }
 
-.form-concurs-wrapper h2 {
-    text-align: center;
-    font-size: 26px;
-    margin-bottom: 30px;
-    color: #ff2e2e;
+/* Card wrapper */
+.form-concurs-wrapper{
+  max-width: 760px;
+  margin: 96px auto 56px;
+  padding: clamp(1.25rem, 3.5vw, 2rem);
+  background: linear-gradient(180deg, var(--fc-surface), var(--fc-surface-2));
+  color: var(--fc-text);
+  border: 1px solid var(--fc-border);
+  border-radius: var(--fc-radius);
+  box-shadow: var(--fc-shadow);
 }
 
-.form-concurs {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
+.form-concurs-wrapper h2{
+  margin: 0 0 .9rem;
+  text-align: center;
+  font-weight: 900;
+  letter-spacing: .3px;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255,0,0,.18);
 }
 
-
-.form-concurs label {
-    font-weight: bold;
-    font-size: 15px;
-    margin-bottom: 4px; /* mai mic între label și input */
-    margin-top: 12px; /* mai mare față de elementul anterior */
-    color: #ccc;
+/* Form layout */
+.form-concurs{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
 }
 
-.form-concurs input {
-    padding: 10px;
-    margin-bottom: 10px; /* distanță între inputuri */
-    border-radius: 8px;
-    border: 1px solid #666;
-    background-color: #f8f8f8;
-    font-size: 14px;
-    transition: 0.3s;
+/* Labels */
+.form-concurs label{
+  margin-top: 10px;
+  margin-bottom: 4px;
+  font-size: .95rem;
+  font-weight: 700;
+  color: #e9e9f2;
 }
 
-.form-concurs input:focus {
-    outline: none;
-    border-color: crimson;
-    background-color: #fff;
+/* Inputs (inclusiv cele generate de react-datepicker) */
+.form-concurs input,
+.form-concurs .react-datepicker__input-container input{
+  width: 100%;
+  padding: .78rem .9rem;
+  border-radius: 12px;
+  border: 1px solid #2e2e38;
+  background: #0c0c10;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: border .25s ease, box-shadow .25s ease, background .25s ease;
 }
 
-.date-range-picker {
-    display: flex;
-    gap: 15px;
-    justify-content: space-between;
+.form-concurs input::placeholder,
+.form-concurs .react-datepicker__input-container input::placeholder{
+  color: #a7a7b0;
 }
 
-.date-range-picker input {
-    width: 100%;
+.form-concurs input:hover,
+.form-concurs .react-datepicker__input-container input:hover{
+  border-color: #3a3a46;
 }
 
-.form-concurs button {
-    margin-top: 10px;
-    padding: 12px;
-    font-size: 16px;
-    background: crimson;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease;
+.form-concurs input:focus,
+.form-concurs .react-datepicker__input-container input:focus{
+  border-color: var(--fc-accent);
+  background: #101015;
+  box-shadow: 0 0 0 3px rgba(255,26,26,.22), 0 0 12px rgba(255,0,0,.18);
 }
 
-.form-concurs button:hover {
-    background: #ff0000;
+/* Range picker (2 coloane pe ecrane medii+) */
+.date-range-picker{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 560px){
+  .date-range-picker{ grid-template-columns: 1fr 1fr; }
 }
 
-.status-msg {
-    margin-top: 15px;
-    color: lime;
-    font-weight: bold;
-    text-align: center;
-    font-size: 14px;
+/* Button */
+.form-concurs button{
+  margin-top: .6rem;
+  padding: .9rem 1.1rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--fc-accent), var(--fc-accent-2));
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: .2px;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(255,0,0,.22);
+  transition: transform .18s ease, box-shadow .22s ease, filter .18s ease;
+}
+.form-concurs button:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 18px 42px rgba(255,0,0,.30);
+  filter: saturate(1.04);
 }
 
-
-
-.react-datepicker {
-    font-size: 13px; /* ⬅️ font general mai mic */
-    font-family: 'Segoe UI', sans-serif;
+/* Status */
+.status-msg{
+  margin-top: .75rem;
+  text-align: center;
+  font-weight: 800;
+  color: #6bff93;              /* lime plăcut pe dark */
+  text-shadow: 0 0 10px rgba(0,255,120,.22);
 }
 
+/* ========= React DatePicker – dark theme ========= */
 
-.react-datepicker-popper {
-    z-index: 9999 !important;
+.react-datepicker{
+  background: #0e0e13;
+  border: 1px solid var(--fc-border);
+  border-radius: 12px;
+  color: #fff;
+  box-shadow: 0 20px 50px rgba(0,0,0,.45);
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
 }
+.react-datepicker-popper{ z-index: 9999 !important; }
 
-
-.react-datepicker__current-month {
-    font-size: 16px; /* ⬅️ luna și anul mai mic */
+.react-datepicker__header{
+  background: #151519;
+  border-bottom: 1px solid var(--fc-border);
 }
-
+.react-datepicker__current-month{
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+}
 .react-datepicker__day-name,
 .react-datepicker__day,
-.react-datepicker__time-name {
-    width: 2rem;
-    line-height: 2rem;
-    font-size: 13px; /* ⬅️ zilele să fie mai compacte */
+.react-datepicker__time-name{
+  color: #e8e8ef;
+  width: 2rem;
+  line-height: 2rem;
 }
 
-.react-datepicker__navigation {
-    width: 28px;
-    height: 28px;
+.react-datepicker__day:hover{
+  background: rgba(255,26,26,.14);
+  border-radius: 8px;
 }
 
-.react-datepicker__navigation-icon::before {
-    border-color: white;
-    border-width: 2px 2px 0 0;
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected{
+  background: var(--fc-accent) !important;
+  color: #fff !important;
+  border-radius: 8px;
 }
 
+.react-datepicker__navigation{
+  top: 10px;
+  width: 28px; height: 28px;
+}
+.react-datepicker__navigation-icon::before{
+  border-color: #fff;
+  border-width: 2px 2px 0 0;
+}

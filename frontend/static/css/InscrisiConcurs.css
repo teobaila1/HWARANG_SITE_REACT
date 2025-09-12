@@ -1,68 +1,150 @@
-.container {
-    max-width: 1000px;
-    margin: 60px auto;
-    background-color: #111;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 0 25px rgba(255, 0, 0, 0.1);
-    color: white;
-    font-family: 'Segoe UI', sans-serif;
+/* ===== InscrisiConcurs.css – dark+red, elegant & responsive ===== */
+
+a { text-decoration: none; color: inherit; }
+
+.inscrisi-container{
+  padding: clamp(2.5rem, 4vw, 4rem) clamp(1rem, 3vw, 2rem);
+  background: linear-gradient(180deg, #161616, #0d0d0d);
+  min-height: 100vh;
+  color:#fff;
+  text-align: center;
 }
 
-.container h2 {
-    color: #ff2e2e;
-    font-size: 24px;
-    margin-bottom: 25px;
-    text-align: center;
-    text-transform: uppercase;
+.inscrisi-title{
+  color:#ff1a1a;
+  font-weight: 800;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  margin: 0 0 1.25rem;
+  letter-spacing:.2px;
+  text-shadow:0 0 8px rgba(255,0,0,.25);
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #181818;
-    color: white;
-    font-size: 14px;
+/* ===== Tabel desktop ===== */
+.inscrisi-table{
+  width:100%;
+  border-collapse: separate;
+  border-spacing:0;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #111114, #15151a);
+  border:1px solid #2a2a34;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 16px 40px rgba(0,0,0,.35);
+  table-layout: fixed;
 }
 
-th, td {
-    padding: 12px 15px;
-    border: 1px solid #333;
-    text-align: center;
+.inscrisi-table thead th{
+  position: sticky; top: 0; z-index: 1;
+  background:#1b1b22;
+  color:#e9e9f0;
+  text-align:left;
+  padding:1rem;
+  font-weight:700;
+  letter-spacing:.2px;
+  border-bottom:1px solid #2a2a34;
 }
 
-th {
-    background-color: #222;
-    color: #f1f1f1;
-    text-transform: uppercase;
-    font-size: 13px;
+.inscrisi-table tbody td{
+  padding:1rem;
+  border-bottom:1px solid #222230;
+  color:#f3f3f6;
+  vertical-align: middle;
+  word-wrap: break-word;
 }
 
-tr:nth-child(even) {
-    background-color: #1a1a1a;
+.inscrisi-table tbody tr:nth-child(odd) td{ background: rgba(255,255,255,.02); }
+.inscrisi-table tbody tr:hover td{ background: rgba(255,26,26,.06); }
+
+/* Align numeric-ish cells a bit nicer (greutate) */
+.inscrisi-table tbody td:nth-child(5){ text-align: right; }
+
+/* ===== Card view pe mobil (fără schimbări în JSX) ===== */
+@media (max-width: 820px){
+  .inscrisi-table, .inscrisi-table thead, .inscrisi-table tbody, .inscrisi-table th, .inscrisi-table td, .inscrisi-table tr{
+    display:block;
+  }
+  .inscrisi-table thead{ display:none; }
+
+  .inscrisi-table tbody tr{
+    background: linear-gradient(180deg, #121216, #18181f);
+    margin: 0 0 1rem 0;
+    border:1px solid #2a2a34;
+    border-radius:12px;
+    padding: .5rem .9rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  }
+
+  .inscrisi-table tbody td{
+    border: none;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .6rem 0;
+    text-align: left;
+  }
+
+  /* etichete înaintea valorii, mapate pe coloane prin nth-child */
+  .inscrisi-table tbody td:nth-child(1)::before{ content:"Nume"; }
+  .inscrisi-table tbody td:nth-child(2)::before{ content:"Data nașterii"; }
+  .inscrisi-table tbody td:nth-child(3)::before{ content:"Vârstă"; }
+  .inscrisi-table tbody td:nth-child(4)::before{ content:"Centură"; }
+  .inscrisi-table tbody td:nth-child(5)::before{ content:"Greutate"; }
+  .inscrisi-table tbody td:nth-child(6)::before{ content:"Probe"; }
+  .inscrisi-table tbody td:nth-child(7)::before{ content:"Gen"; }
+
+  .inscrisi-table tbody td::before{
+    font-weight:700;
+    color:#c7c7d2;
+    margin-right: 12px;
+    flex: 0 0 46%;
+  }
+
+  .inscrisi-table tbody td{ color:#fff; }
 }
 
-tr:hover {
-    background-color: #292929;
+/* ===== Micro îmbunătățiri ===== */
+.inscrisi-container ::selection{
+  background: rgba(255,26,26,.35);
+  color:#fff;
 }
 
-@media screen and (max-width: 768px) {
-    table, thead, tbody, th, td, tr {
-        display: block;
-    }
+.inscrisi-table tbody td em{
+  color:#ffd166;
+  font-style: normal;
+  font-weight:700;
+}
 
-    td {
-        padding: 10px;
-        border: none;
-        border-bottom: 1px solid #333;
-        text-align: left;
-    }
+/* Scrollbar discret pe containere mici (opțional) */
+.inscrisi-container::-webkit-scrollbar{ width:10px; height:10px; }
+.inscrisi-container::-webkit-scrollbar-thumb{
+  background:#2b2b34; border-radius:999px;
+}
 
-    th {
-        display: none;
-    }
 
-    tr {
-        margin-bottom: 15px;
-    }
+/* Căutare (același stil ca la Concursuri) */
+.input-cautare.inscrisi-cautare{
+  padding: .75rem 1rem;
+  margin: 10px auto 8px;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 10px;
+  background: #1b1b1b;
+  color: #fff;
+  border: 1px solid #2e2e2e;
+  outline: none;
+  transition: border .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.input-cautare.inscrisi-cautare::placeholder{ color:#9c9c9c; }
+.input-cautare.inscrisi-cautare:focus{
+  border: 1px solid #ff1a1a;
+  box-shadow: 0 0 0 3px rgba(255,26,26,.2), 0 0 14px rgba(255,0,0,.25);
+  background:#1e1e1e;
+}
+
+/* Mic indicator de rezultate */
+.inscrisi-stats{
+  font-size: .95rem;
+  color:#cfcfda;
+  margin: 4px 0 14px 0;
 }

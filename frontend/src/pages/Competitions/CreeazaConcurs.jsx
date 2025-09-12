@@ -38,7 +38,7 @@ const CreeazaConcurs = () => {
 
         const data = { nume, perioada, locatie };
 
-        const res = await fetch("http://localhost:5000/adauga_concurs", {
+        const res = await fetch("http://localhost:5000/api/adauga_concurs", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
