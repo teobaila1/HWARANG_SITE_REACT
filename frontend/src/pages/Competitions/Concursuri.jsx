@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Select from 'react-select';
 import {ToastContainer, toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "../../components/Navbar";
 import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Concursuri.css";
 import Footer from "../../components/Footer";
@@ -176,14 +176,17 @@ const Concursuri = () => {
             });
 
             if (res.ok) {
-                toast.success("Concursul a fost șters cu succes!");
+                toast.success("Concursul a fost șters cu succes!",
+                );
                 setConcursuriViitoare(prev => prev.filter(c => c.nume !== numeConcurs));
             } else {
-                toast.error("Eroare la ștergerea concursului.");
+                toast.error("Eroare la ștergerea concursului.",
+                );
             }
         } catch (error) {
             console.error("Eroare la ștergere:", error);
-            toast.error("Eroare de rețea.");
+            toast.error("Eroare de rețea.",
+            );
         }
     };
 
@@ -198,7 +201,6 @@ const Concursuri = () => {
             <Navbar/>
             <div className="concursuri-container concursuri-intern">
                 <h2 className="concursuri-title">Concursuri viitoare</h2>
-
                 <input
                     type="text"
                     placeholder="Caută concurs..."
@@ -380,18 +382,18 @@ const Concursuri = () => {
                 {/* formularul global NU mai e necesar */}
             </div>
 
-            <ToastContainer
-                position="top-center"
-                autoClose={4000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-            />
+            {/*<ToastContainer*/}
+            {/*    position="top-center"*/}
+            {/*    autoClose={4000}*/}
+            {/*    hideProgressBar={false}*/}
+            {/*    newestOnTop={false}*/}
+            {/*    closeOnClick*/}
+            {/*    rtl={false}*/}
+            {/*    pauseOnFocusLoss*/}
+            {/*    draggable*/}
+            {/*    pauseOnHover*/}
+            {/*    theme="dark"*/}
+            {/*/>*/}
             <Footer/>
         </>
     );

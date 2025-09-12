@@ -1,3 +1,4 @@
+// frontend/pages/AntrenorDashboard.jsx
 import React, {useEffect, useState} from "react";
 import Navbar from "../../components/Navbar";
 import {useNavigate} from "react-router-dom";
@@ -8,12 +9,16 @@ import ConfirmDialog from "../ConfirmDialog";
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const AntrenorDashboard = () => {
-    const [data, setData] = useState([]);         // [{ grupa, parinte:{id,username,email}, copii:[{id,nume,varsta,gen,grupa}] }]
+    // după agregare: [{ grupa, parents:[{id,username,email}], copii:[{..., _parent:{...}}] }]
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [mesaj, setMesaj] = useState("");
     const [showForm, setShowForm] = useState(false);
-    const [editElev, setEditElev] = useState(null); // null = add; object = edit (conține id/parinte_id etc.)
+    const [editElev, setEditElev] = useState(null);
     const [confirm, setConfirm] = useState({open: false, elevId: null, nume: ""});
+
+    // alegerea părintelui pt. “părinte existent” pe fiecare grupă
+    const [parentChoice, setParentChoice] = useState({}); // { "Grupa 1": parentId, ... }
 
     const navigate = useNavigate();
 
@@ -24,6 +29,36 @@ const AntrenorDashboard = () => {
             navigate("/access-denied");
         }
     }, [navigate]);
+
+    const groupByGrupa = (rows) => {
+        // rows: [{ grupa, parinte:{id,username,email}, copii:[...] }]
+        const map = new Map();
+
+        for (const row of rows || []) {
+            const g = row.grupa || "Fără grupă";
+            if (!map.has(g)) map.set(g, {grupa: g, parents: [], copii: [], _pk: new Set()});
+            const bucket = map.get(g);
+
+            const p = row.parinte || {};
+            // cheie de unicititate: id (dacă există) + username (lowercase)
+            const pKey = `${p.id ?? "null"}::${(p.username || "").toLowerCase()}`;
+            if ((p.id != null || p.username) && !bucket._pk.has(pKey)) {
+                bucket._pk.add(pKey);
+                bucket.parents.push(p);
+            }
+
+            // atașăm părintele la fiecare copil pentru afișare
+            for (const c of (row.copii || [])) {
+                bucket.copii.push({...c, _parent: p});
+            }
+        }
+
+        // scoatem setul intern și sortăm
+        return Array.from(map.values())
+            .map(({_pk, ...rest}) => rest)
+            .sort((a, b) => (a.grupa || "").localeCompare(b.grupa || ""));
+    };
+
 
     const loadData = async () => {
         setLoading(true);
@@ -36,7 +71,15 @@ const AntrenorDashboard = () => {
             });
             const result = await res.json();
             if (res.ok && result.status === "success") {
-                setData(result.date || []);
+                const grouped = groupByGrupa(result.date || []);
+                setData(grouped);
+
+                // setează selecția implicită a părintelui (primul din listă) pe fiecare grupă
+                const defaults = {};
+                grouped.forEach(g => {
+                    if (g.parents.length > 0) defaults[g.grupa] = g.parents[0].id;
+                });
+                setParentChoice(defaults);
             } else {
                 setMesaj(result.message || "Eroare la încărcarea datelor.");
             }
@@ -52,7 +95,6 @@ const AntrenorDashboard = () => {
         loadData();
     }, []);
 
-    // helper mic: afișează genul ca text frumos
     const prettyGen = (g) => {
         if (!g) return "N/A";
         const v = String(g).toLowerCase();
@@ -61,28 +103,31 @@ const AntrenorDashboard = () => {
         return g;
     };
 
-    // ADD: deschide formularul cu parinte_id + grupa presetate (pe cardul acelei grupe)
-    const handleAdd = (grupaData) => {
-        if (!grupaData?.parinte?.id) {
-            setMesaj("Nu am găsit ID-ul părintelui în datele grupei.");
+    // Add (părinte existent) — folosim alegerea din dropdown
+    const handleAddExisting = (grupaName) => {
+        const pid = parentChoice[grupaName];
+        if (!pid) {
+            setMesaj("Selectează un părinte pentru această grupă.");
             return;
         }
-        setEditElev({parinte_id: grupaData.parinte.id, grupa: grupaData.grupa}); // pentru Add
+        setEditElev({parinte_id: pid, grupa: grupaName});
         setShowForm(true);
     };
 
-    const handleAddWithNewParent = (grupaData) => {
-        setEditElev({grupa: grupaData.grupa}); // fără parinte_id -> formularul cere Nume părinte
+    // Add (părinte nou) — nu avem parinte_id, formularul cere numele părintelui
+    const handleAddNewParent = (grupaName) => {
+        setEditElev({grupa: grupaName});
         setShowForm(true);
     };
 
-    // EDIT
-    const handleEdit = (copil, grupaData) => {
-        setEditElev({...copil, parinte_id: grupaData.parinte.id}); // copil are deja id
+    // Edit
+    const handleEdit = (copil) => {
+        // pentru edit nu avem nevoie de parinte_id; backend găsește copilul după id
+        setEditElev({...copil});
         setShowForm(true);
     };
 
-    // DELETE (confirm)
+    // Delete (confirm)
     const handleDeleteAsk = (copil) => {
         setConfirm({open: true, elevId: copil.id, nume: copil.nume});
     };
@@ -143,19 +188,46 @@ const AntrenorDashboard = () => {
                     <div key={idx} className="grupa-card">
                         <div className="grupa-head">
                             <h3>{grupaData.grupa}</h3>
+
                             <div className="btn-group">
-                                <button className="btn btn-primary" onClick={() => handleAdd(grupaData)}>
-                                    Adaugă elev (părinte existent)
-                                </button>
-                                <button className="btn" onClick={() => handleAddWithNewParent(grupaData)}>
+                                {grupaData.parents.length > 0 && (
+                                    <>
+                                        {grupaData.parents.length > 1 && (
+                                            <select
+                                                className="parent-select"
+                                                value={parentChoice[grupaData.grupa] ?? ""}
+                                                onChange={(e) =>
+                                                    setParentChoice(prev => ({
+                                                        ...prev,
+                                                        [grupaData.grupa]: Number(e.target.value)
+                                                    }))
+                                                }
+                                            >
+                                                {grupaData.parents.map(p => (
+                                                    <option key={p.id} value={p.id}>
+                                                        {p.username || `Parinte #${p.id}`}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        )}
+                                        <button
+                                            className="btn btn-primary"
+                                            onClick={() => handleAddExisting(grupaData.grupa)}
+                                        >
+                                            Adaugă elev (părinte existent)
+                                        </button>
+                                    </>
+                                )}
+
+                                <button className="btn" onClick={() => handleAddNewParent(grupaData.grupa)}>
                                     Adaugă elev (părinte nou)
                                 </button>
                             </div>
                         </div>
 
                         <ul className="elevi-list">
-                            {grupaData.copii.map((copil, i) => (
-                                <li key={copil.id || i} className="elev-item">
+                            {grupaData.copii.map((copil) => (
+                                <li key={copil.id} className="elev-item">
                                     <div className="elev-info">
                                         <div><span className="elev-label">Nume:</span> <span
                                             className="elev-value">{copil.nume}</span></div>
@@ -164,13 +236,12 @@ const AntrenorDashboard = () => {
                                         <div><span className="elev-label">Vârstă:</span> <span
                                             className="elev-value">{copil.varsta} ani</span></div>
                                         <div><span className="elev-label">Părinte:</span> <span
-                                            className="elev-value">{grupaData.parinte.username}</span></div>
+                                            className="elev-value">{copil._parent?.username || "—"}</span></div>
                                         <div><span className="elev-label">Email părinte:</span> <span
-                                            className="elev-value">{grupaData.parinte.email}</span></div>
+                                            className="elev-value">{copil._parent?.email || "—"}</span></div>
                                     </div>
                                     <div className="elev-actions">
-                                        <button className="btn btn-sm"
-                                                onClick={() => handleEdit(copil, grupaData)}>Editează
+                                        <button className="btn btn-sm" onClick={() => handleEdit(copil)}>Editează
                                         </button>
                                         <button className="btn btn-sm btn-danger"
                                                 onClick={() => handleDeleteAsk(copil)}>Șterge
@@ -184,9 +255,9 @@ const AntrenorDashboard = () => {
 
                 {showForm && (
                     <ElevForm
-                        initial={editElev}            // pt Add: {parinte_id, grupa}; pt Edit: {id, nume, varsta, gen, grupa, parinte_id}
+                        initial={editElev}            // Add: {grupa} sau {parinte_id, grupa}; Edit: copilul
                         onClose={() => setShowForm(false)}
-                        onSubmit={handleSubmitForm}   // primește (payload, isEdit)
+                        onSubmit={handleSubmitForm}
                     />
                 )}
 

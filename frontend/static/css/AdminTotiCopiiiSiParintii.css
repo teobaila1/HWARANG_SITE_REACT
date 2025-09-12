@@ -67,54 +67,57 @@
   overflow: hidden;
 }
 
-/* IMPORTANT: reset complet pentru a NU mai moșteni stilurile globale de <header> (Navbar) */
+/* ===== header card părinte – mai compact între avatar și text ===== */
 .parent-head{
-  position: static !important;  /* NU fixed/sticky */
-  top: auto !important;
-  left: auto !important;
-  right: auto !important;
-  z-index: auto !important;
+  position: static !important;
   width: auto !important;
-
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;                 /* FLEX în loc de grid */
   align-items: center;
-  gap: .9rem;
-  padding: .95rem 1.1rem;
+  gap: .6rem;                    /* distanța avatar—text */
+  padding: .72rem 1rem;          /* mai puțin padding */
   border-bottom: 1px solid #23232d;
   background: #1b1b22;
-  border-radius: 0; /* va moșteni colțurile cardului */
 }
 
 .avatar{
-  width: 40px; height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  display: inline-flex; align-items: center; justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(180deg, var(--p-accent), var(--p-accent-2));
-  color:#fff; font-weight: 900;
+  color:#fff;
+  font-weight: 900;
   box-shadow: 0 10px 24px rgba(255,0,0,.25);
   flex: 0 0 auto;
 }
 
 .parent-meta{
-  min-width: 0; /* pentru elipsare dacă e foarte lung */
+  min-width: 0;
+  line-height: 1.15;            /* text mai “strâns” */
 }
-.parent-name{
-  margin: 0;
-  line-height: 1.1;
-  font-weight: 900;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.parent-name{ margin:0; font-weight:900; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.parent-email{ color: var(--p-gold); font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* împinge elementele din dreapta (badge + acțiuni) la capătul rândului */
+.kids-badge{ margin-left: auto; }
+
+/* butoanele din dreapta, pe același rând */
+.parent-actions{
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  margin-left: .6rem;
 }
-.parent-email{
-  color: var(--p-gold);
-  font-weight: 800;
-  letter-spacing: .2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+
+/* pe ecrane mici, lasă badge-ul și butoanele pe rând nou */
+@media (max-width: 700px){
+  .parent-head{ flex-wrap: wrap; row-gap: .4rem; }
+  .kids-badge{ margin-left: 0; order: 3; }
+  .parent-actions{ order: 4; width: 100%; justify-content: flex-start; }
 }
+
 
 .kids-badge{
   display: inline-block;

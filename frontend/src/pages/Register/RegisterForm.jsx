@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import {ToastContainer, toast} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Register.css";
 import {Link} from "react-router-dom";
 
@@ -39,20 +39,12 @@ const Register = () => {
         setError(null);
 
         if (formData.password !== formData.confirm) {
-            toast.error("Parolele nu coincid.", {
-                position: "top-center",
-                autoClose: 4000,
-                theme: "colored",
-            });
+            toast.error("Parolele nu coincid.");
             return;
         }
 
         if (formData.tip === "Sportiv" && formData.varsta === "Sub 18") {
-            toast.error("Sportivii sub 18 ani nu pot crea cont. Rugăm părintele să se înregistreze.", {
-                position: "top-center",
-                autoClose: 4000,
-                theme: "colored",
-            });
+            toast.error("Sportivii sub 18 ani nu pot crea cont. Rugăm părintele să se înregistreze.");
             return;
         }
 
@@ -66,11 +58,7 @@ const Register = () => {
             const result = await res.json();
             if (result.status === "success") {
                 setSuccess(true);
-                toast.success("Cererea a fost trimisă! Vei primi un email de confirmare.", {
-                    position: "top-center",
-                    autoClose: 4000,
-                    theme: "colored",
-                });
+                toast.success("Cererea a fost trimisă! Vei primi un email de confirmare.", );
                 setFormData({
                     username: "",
                     email: "",
@@ -80,18 +68,10 @@ const Register = () => {
                     varsta: "",
                 });
             } else {
-                toast.error(result.message || "Eroare la înregistrare.", {
-                    position: "top-center",
-                    autoClose: 4000,
-                    theme: "colored",
-                });
+                toast.error(result.message || "Eroare la înregistrare.", );
             }
         } catch (err) {
-            toast.error("Eroare server. Încearcă mai târziu.", {
-                position: "top-center",
-                autoClose: 4000,
-                theme: "colored",
-            });
+            toast.error("Eroare server. Încearcă mai târziu.", );
         }
     };
 
@@ -111,7 +91,7 @@ const Register = () => {
     return (
         <>
             <Navbar/>
-            <ToastContainer/>
+            {/*<ToastContainer/>*/}
             <section className="register-container">
                 <h2>Cerere Cont HWARANG</h2>
                 <form onSubmit={handleSubmit}>

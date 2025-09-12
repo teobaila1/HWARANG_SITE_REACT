@@ -1,0 +1,213 @@
+/* ========= ConcursuriExtern.css — stil dedicat & izolat ========= */
+
+:root{
+  /* paletă dark+red */
+  --ce-bg: #161616;
+  --ce-surface: #111114;
+  --ce-surface-2: #18181f;
+  --ce-text: #ffffff;
+  --ce-muted: #c9c9d2;
+  --ce-border: #2a2a34;
+  --ce-accent: #ff1a1a;
+  --ce-accent-2: #cc0000;
+  --ce-shadow: 0 18px 60px rgba(0,0,0,.35);
+  --ce-radius: 16px;
+
+  /* înălțimea Navbar-ului ca să împingem toast-ul sub el */
+  --nav-h: 86px;
+}
+
+@media (max-width: 860px){ :root{ --nav-h: 64px; } }
+@media (max-width: 720px){ :root{ --nav-h: 56px; } }
+
+/* ====== container/page ====== */
+.concursuri-container.concursuri-extern{
+  background: var(--ce-bg);
+  color: var(--ce-text);
+  min-height: 100vh;
+  padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+  text-align: left; /* doar extern: aliniere la stânga */
+}
+
+/* titlu + underline */
+.concursuri-extern .concursuri-title{
+  margin: 0 0 1rem 0;
+  font-weight: 900;
+  font-size: clamp(1.6rem, 2.2vw, 2rem);
+  letter-spacing: .2px;
+  text-shadow: 0 0 8px rgba(255,0,0,.25);
+}
+.concursuri-extern .concursuri-title::after{
+  content: "";
+  display: block;
+  height: 3px;
+  width: clamp(180px, 32vw, 340px);
+  margin-top: .55rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ce-accent), var(--ce-accent-2));
+  box-shadow: 0 0 10px rgba(255,26,26,.35);
+}
+
+/* ====== grid de carduri ====== */
+.concursuri-extern .extern-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin-top: .5rem;
+}
+
+/* ====== card concurs ====== */
+.concursuri-extern .concurs-card{
+  background: linear-gradient(180deg, var(--ce-surface), var(--ce-surface-2));
+  border: 1px solid var(--ce-border);
+  border-radius: var(--ce-radius);
+  padding: 1rem;
+  box-shadow: var(--ce-shadow);
+}
+
+.concursuri-extern .concurs-name{
+  font-weight: 900;
+  color: #fff;
+  font-size: 1.05rem;
+  margin-bottom: .65rem;
+  text-shadow: 0 0 10px rgba(255,0,0,.18);
+}
+
+/* mini-tabel info */
+.concursuri-extern .concurs-table{
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #242432;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: .8rem;
+  background: linear-gradient(180deg, #0f0f13, #121218);
+}
+.concursuri-extern .concurs-table td{
+  padding: .7rem .9rem;
+  border-top: 1px solid #1f1f2a;
+  vertical-align: middle;
+  color: #f3f3f6;
+}
+.concursuri-extern .concurs-table tr:first-child td{ border-top: none; }
+.concursuri-extern .concurs-table td:first-child{
+  width: 36%;
+  color: #bfbfd4;
+  font-weight: 800;
+}
+
+/* ====== butoane ====== */
+.concursuri-extern .btn-inscriere{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .6rem 1.1rem;
+  min-height: 44px;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 12px;
+  font-weight: 800;
+  color:#fff;
+  background: linear-gradient(180deg, var(--ce-accent), var(--ce-accent-2));
+  box-shadow: 0 10px 24px rgba(255,0,0,.18);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .22s ease, filter .18s ease;
+}
+.concursuri-extern .btn-inscriere:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 16px 34px rgba(255,0,0,.28);
+}
+
+/* ====== formular extern (inline în card) ====== */
+.concursuri-extern .form-inscriere--extern{
+  margin-top: .9rem;
+  padding: 1rem 1.1rem;
+  border-radius: 18px;
+  background: linear-gradient(180deg, var(--ce-surface), var(--ce-surface-2));
+  border: 1px solid var(--ce-border);
+  box-shadow: 0 12px 34px rgba(0,0,0,.28), 0 0 12px rgba(255,0,0,.10) inset;
+  animation: ceFormIn .18s ease-out;
+}
+@keyframes ceFormIn{
+  from{ transform: translateY(-6px); opacity: .6; }
+  to{ transform: translateY(0); opacity: 1; }
+}
+
+/* grid 2 coloane unde încape */
+.concursuri-extern .extern-row{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+@media (max-width: 560px){
+  .concursuri-extern .extern-row{ grid-template-columns: 1fr; }
+}
+
+/* input/select */
+.concursuri-extern .form-inscriere--extern input,
+.concursuri-extern .form-inscriere--extern select{
+  width: 100%;
+  padding: .78rem .9rem;
+  border-radius: 12px;
+  border: 1px solid #2e2e38;
+  background: #0c0c0f;
+  color: #fff;
+  outline: none;
+  transition: border .22s ease, box-shadow .22s ease, background .22s ease;
+}
+.concursuri-extern .form-inscriere--extern input::placeholder{ color:#a9a9b2; }
+.concursuri-extern .form-inscriere--extern input:focus,
+.concursuri-extern .form-inscriere--extern select:focus{
+  border-color: var(--ce-accent);
+  box-shadow: 0 0 0 3px rgba(255,26,26,.20), 0 0 10px rgba(255,0,0,.22);
+  background: #101015;
+}
+
+/* acțiuni formular */
+.concursuri-extern .extern-actions{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: .6rem;
+}
+.concursuri-extern .btn-cancel{
+  background: linear-gradient(180deg, #2a2a2a, #1b1b1b);
+  border-color: #2f2f2f;
+}
+.concursuri-extern .btn-cancel:hover{ background:#303030; }
+
+/* ====== react-select (doar pe extern) ====== */
+.extern-select .react-select__control{
+  background: #0c0c0f;
+  color:#fff;
+  border-radius: 12px;
+  min-height: 46px;
+  border: 1px solid #2e2e38;
+  box-shadow: none;
+}
+.extern-select .react-select__control--is-focused{
+  border-color: var(--ce-accent);
+  box-shadow: 0 0 0 3px rgba(255,26,26,.20);
+}
+.extern-select .react-select__placeholder{ color:#b8b8bf; font-style: italic; }
+.extern-select .react-select__input-container{ color:#fff; }
+
+.extern-select .react-select__menu{
+  background:#fff;
+  color:#000;
+  border-radius:12px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.35);
+  z-index: 9999;               /* peste tabel/card */
+}
+.extern-select .react-select__option--is-focused{ background:#fbe2e2; }
+.extern-select .react-select__option--is-selected{ background: var(--ce-accent); color:#fff; }
+.extern-select .react-select__multi-value{ background:#ffe1e1; border-radius:10px; }
+.extern-select .react-select__multi-value__label{ color:#000; font-weight:600; }
+.extern-select .react-select__multi-value__remove{ color:#cc0000; }
+
+/*!* ====== Toastify: sub navbar + peste tot ====== *!*/
+/*.Toastify__toast-container{ z-index: 3000; }*/
+/*.Toastify__toast-container--top-center,*/
+/*.Toastify__toast-container--top-right,*/
+/*.Toastify__toast-container--top-left{*/
+/*  top: calc(var(--nav-h) + 12px);*/
+/*}*/

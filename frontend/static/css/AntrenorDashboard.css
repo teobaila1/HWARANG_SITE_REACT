@@ -158,6 +158,67 @@
   border-radius: 8px;
 }
 
+/* ====== Grup butoane + SELECT uniformizat (revizuit) ====== */
+.btn-group{
+  display: inline-flex;
+  gap: .5rem;
+  align-items: center;
+}
+
+/* dropdown cu look de buton; fără contur roșu agresiv */
+.parent-select{
+  -webkit-appearance: none;
+  appearance: none;
+  height: 40px;                      /* la fel ca .btn */
+  min-width: 190px;
+  padding: 0 40px 0 12px;            /* loc pentru iconiță */
+  border-radius: 10px;
+  border: 1px solid #2a2a36;
+  background:
+    linear-gradient(180deg, #1b1b21, #131318);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: .2px;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
+
+  /* săgeată custom (SVG) – discretă, albă */
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='white' stroke-opacity='.85' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+}
+
+.parent-select:hover{
+  transform: translateY(-1px);
+  border-color: #38384a;
+  background: linear-gradient(180deg, #202028, #14141a);
+  box-shadow: 0 12px 28px rgba(0,0,0,.25);
+}
+
+.parent-select:focus{
+  outline: none;
+  border-color: #444459;
+  box-shadow: 0 0 0 2px rgba(255,26,26,.22);
+  background: linear-gradient(180deg, #22222a, #15151c);
+}
+
+/* nu toate browserele permit stilizarea listei, dar unde se poate: */
+.parent-select option{
+  background: #0f0f12;
+  color: #fff;
+}
+
+/* mobil */
+@media (max-width: 720px){
+  .btn-group{ width: 100%; flex-wrap: wrap; }
+  .parent-select{ width: 100%; min-width: 0; }
+}
+
+/* pentru Windows/IE vechi – ascunde săgeata clasică */
+.parent-select::-ms-expand{ display:none; }
+
 /* ===== Responsive ===== */
 @media (max-width: 720px){
   .elev-item{
@@ -167,6 +228,8 @@
   .elev-actions{ justify-content: flex-start; }
   .grupa-head{ flex-direction: column; align-items: flex-start; }
   .dashboard .btn-primary{ width: 100%; }
+  .btn-group{ width: 100%; flex-wrap: wrap; }
+  .parent-select{ width: 100%; min-width: 0; }
 }
 
 /* ===== Modal (ElevForm) – backdrop + card ===== */
@@ -263,7 +326,6 @@
   border-radius: 12px;
 }
 
-
 /* === Ajustare buton „Adaugă elev” (mai mic, nu mai ocupă tot rândul) === */
 .grupa-head{
   display: flex;
@@ -291,7 +353,5 @@
   }
 }
 
-
 .elev-info > div{ margin: 2px 0; }
 .elev-label{ min-width: 120px; display: inline-block; color:#d8d8df; font-weight: 800; letter-spacing:.2px; }
-

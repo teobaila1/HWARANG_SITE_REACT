@@ -22,6 +22,20 @@ body {
     margin-top: 150px; /* ajustează în funcție de înălțimea reală a navbar-ului */
 }
 
+
+
+/* pune toast-urile deasupra oricărui overlay/dropdown */
+.Toastify__toast-container {
+  z-index: 99999 !important;
+}
+
+/* dacă ai navbar fix de ~70-80px, coboară puțin toast-urile de sus */
+.Toastify__toast-container--top-center {
+  top: 84px; /* ajustează după înălțimea navbarului tău */
+}
+
+
+
 /*body, html {*/
 /*    margin: 0;*/
 /*    padding: 0;*/

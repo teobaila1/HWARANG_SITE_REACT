@@ -44,14 +44,7 @@ const JoinForm = () => {
                 phone: "",
                 message: "",
             });
-            toast.success("Înscriere trimisă cu succes! Vei primi un email de confirmare.", {
-                position: "bottom-center",
-                autoClose: 2000,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "colored",
-            });
+            toast.success("Înscriere trimisă cu succes! Vei primi un email de confirmare.");
         }
     };
 
@@ -59,7 +52,7 @@ const JoinForm = () => {
     return (
         <>
             <Navbar/>
-            <ToastContainer/>
+            {/*<ToastContainer/>*/}
             <section className="signup-container">
                 <h2>Înscriere la ACS Hwarang Academy</h2>
                 <form onSubmit={handleSubmit}>

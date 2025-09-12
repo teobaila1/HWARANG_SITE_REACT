@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {ToastContainer, toast} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import {useNavigate} from "react-router-dom";
@@ -65,7 +65,6 @@ const RegisterExtern = () => {
     return (
         <>
             <Navbar/>
-            <ToastContainer/>
             <section className="register-container">
                 <h2>Înregistrare Antrenor Extern</h2>
                 <form onSubmit={handleSubmit}>

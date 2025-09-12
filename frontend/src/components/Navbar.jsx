@@ -99,7 +99,7 @@ const Navbar = () => {
                     )}
 
                     {rol === "admin" && <li><Link to="/admin-dashboard">Admin</Link></li>}
-                    {rol === "Antrenor" && <li><Link to="/antrenor_dashboard">Meniu Principal</Link></li>}
+                    {rol === "Antrenor" && <li><Link to="/antrenor_dashboard">Grupe</Link></li>}
                     {rol === "AntrenorExtern" && <li><Link to="/concursuri-extern">Concursuri</Link></li>}
 
                     {/* user chip cu dropdown (bine ai venit + logout) */}

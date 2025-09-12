@@ -185,24 +185,30 @@ button.user-chip:focus-visible{
 /* ===== Dropdown-uri ===== */
 
 /* Chevron discret aliniat frumos, în loc de triunghi */
-.dropdown > a::after,
-.dropdown > .user-chip::after{
+.dropdown > a,
+.dropdown > .user-chip{
+  position: relative;
+  padding-right: .6rem; /* un pic de spațiu la dreapta pentru săgeată */
+}
+
+.dropdown > a::before,
+.dropdown > .user-chip::before{
   content: "▾";                 /* chevron unicode */
-  border: none;                 /* anulăm triunghiul */
+  display: inline-block;
+  margin-left: .35rem;
   font-size: .85em;
-  line-height: 1;               /* nu mai sare sub text */
-  transform: rotate(0deg);
+  line-height: 1;
+  transform: translateY(-1px) rotate(0deg); /* aliniere pe baseline */
   opacity: .75;
   transition: transform .18s ease, opacity .18s ease;
-  position: static;             /* fără translateY */
 }
 
 /* animăm la deschidere (hover sau focus-within) */
-.dropdown:hover > a::after,
-.dropdown:focus-within > a::after,
-.dropdown:hover > .user-chip::after,
-.dropdown:focus-within > .user-chip::after{
-  transform: rotate(180deg);
+.dropdown:hover > a::before,
+.dropdown:focus-within > a::before,
+.dropdown:hover > .user-chip::before,
+.dropdown:focus-within > .user-chip::before{
+  transform: translateY(-1px) rotate(180deg);
   opacity: 1;
 }
 
@@ -219,7 +225,7 @@ button.user-chip:focus-visible{
 .dropdown-menu{
   position:absolute;
   top:100%;
-  margin-top: 8px;           /* mic spațiu, dar avem "bridge" deasupra */
+  margin-top: 8px;
   left:0;
   min-width: 220px;
   background: rgba(10,10,14,.92);
@@ -230,8 +236,6 @@ button.user-chip:focus-visible{
   padding: 6px;
   box-shadow: 0 22px 50px rgba(0,0,0,.45);
   z-index: 1100;
-
-  /* animare apariție – nu folosim display:none ca să nu dispară pe “gol” */
   opacity: 0;
   visibility: hidden;
   transform: translateY(6px);
@@ -239,28 +243,16 @@ button.user-chip:focus-visible{
   transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
 }
 
-/* meniu ancorat la dreapta pentru user */
-.dropdown-menu--right{
-  right:0; left:auto;
-}
+.dropdown-menu--right{ right:0; left:auto; }
 
-.dropdown-menu li{ margin:0; }
-
-.dropdown-menu a{
-  display:block;
-  padding: .6rem .75rem;
-  font-weight:700;
-  border-radius: 8px;
-  color:#f5f5f8;
-  transition: background .18s ease, color .18s ease;
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu,
+.dropdown .dropdown-menu:hover{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
 }
-.dropdown-menu a:hover,
-.dropdown-menu a:focus-visible{
-  background: rgba(255,26,26,.12);
-  color:#fff;
-  outline:none;
-}
-
 /* ținem meniul deschis cât timp e hover/focus pe trigger SAU pe meniu */
 .dropdown:hover .dropdown-menu,
 .dropdown:focus-within .dropdown-menu,

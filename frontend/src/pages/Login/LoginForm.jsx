@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import {toast, ToastContainer} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Login.css";
 import {Link} from "react-router-dom";
 
@@ -42,14 +42,7 @@ const LoginForm = () => {
 
             const result = await res.json();
             if (result.status === "success") {
-                toast.success("Autentificare reușită!", {
-                    position: "bottom-center",
-                    autoClose: 1000,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    theme: "colored",
-                });
+                toast.success("Autentificare reușită!");
                 localStorage.setItem("username", result.user);
                 localStorage.setItem("rol", result.rol);
                 localStorage.setItem("email", result.email);
@@ -78,7 +71,7 @@ const LoginForm = () => {
     return (
         <>
             <Navbar/>
-            <ToastContainer/>
+            {/*<ToastContainer/>*/}
             <section className="login-container">
                 <h2>Autentificare</h2>
                 <form onSubmit={handleLogin}>

@@ -35,6 +35,8 @@ import InscrisiConcurs from "./pages/Competitions/InscrisiConcurs";
 import AdminPlati from "./pages/Admins/AdminPlati";
 import ResetareParolaForm from "./pages/ResetPassword/ResetareParolaForm";
 import CerereResetareParola from "./pages/ResetPassword/CerereResetareParola";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -77,7 +79,6 @@ function App() {
                     <Route path="/resetare-parola" element={<CerereResetareParola/>}/>
 
 
-
                     <Route
                         path="/admin_dashboard"
                         element={rol === 'admin' ? <AdminDashboard/> : <Navigate to="/access-denied"/>}
@@ -96,6 +97,20 @@ function App() {
 
                 </Routes>
             </Router>
+
+            <ToastContainer
+                position="top-center"     // mijloc sus
+                autoClose={1000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                pauseOnFocusLoss={false}
+                pauseOnHover={false}
+                draggable={false}
+                theme="dark"
+                limit={1}
+            />
+
         </>
     );
 }

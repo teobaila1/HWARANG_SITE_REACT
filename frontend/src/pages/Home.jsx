@@ -6,6 +6,7 @@ import 'aos/dist/aos.css';
 import Navbar from "../components/Navbar";
 import OrarSwiper from "../components/OrarSwiper";
 import Footer from "../components/Footer";
+import {toast} from "react-toastify";
 
 
 const Home = () => {
@@ -69,7 +70,8 @@ const Home = () => {
                     </div>
                     <div className="why-us-card">
                         <i className="fas fa-medal"></i>
-                        <p>Participare activă la competiții naționale, internaționale și susținere reală în evoluția ta</p>
+                        <p>Participare activă la competiții naționale, internaționale și susținere reală în evoluția
+                            ta</p>
                     </div>
                     <div className="why-us-card">
                         <i className="fas fa-map-marker-alt"></i>
@@ -109,6 +111,10 @@ const Home = () => {
                     style={{width: '100%', height: 'auto', display: 'block'}}
                 />
             </div>
+
+            import {toast} from "react-toastify";
+
+            {/*<button onClick={() => toast("Ping!")}>Test toast</button>*/}
 
             <Footer/>
         </>
