@@ -55,18 +55,29 @@ def trimite_email_respingere(destinatar: str, username: str):
     _send_email(destinatar, "Cerere respinsă - ACS Hwarang Academy", body)
 # ------------------------------------------------------------------------------
 
+def _norm_gen(v):
+    """Normalizează diverse forme în 'M' / 'F' sau None."""
+    if v is None:
+        return None
+    s = str(v).strip().lower()
+    if s in {"m", "masculin", "male", "b", "boy"}:
+        return "M"
+    if s in {"f", "feminin", "female", "g", "girl"}:
+        return "F"
+    return None
 
 @inregistrare_bp.post("/api/register")
 def register():
     data = request.get_json(silent=True) or {}
 
     username = (data.get("username") or "").strip()
+    full_name = (data.get("nume_complet") or "").strip()
     email = (data.get("email") or "").strip()
     parola = data.get("password") or data.get("parola")
     tip = (data.get("tip") or "").strip()            # "Parinte", "Sportiv", "Antrenor", "AntrenorExtern"
     varsta = data.get("varsta")
     grupe_input = data.get("grupe", None)            # pentru Antrenor / AntrenorExtern
-    copii = data.get("copii", [])                    # listă de copii pentru Parinte
+    copii = data.get("copii", [])                    # listă de copii pentru Părinte (opțional!)
 
     # Validări minime
     if not username or not email or not parola or not tip:
@@ -80,36 +91,46 @@ def register():
         if not grupe_input:
             return jsonify({"status": "error", "message": "Grupele sunt obligatorii pentru antrenor"}), 400
     elif tip_l == "antrenorextern":
-        # nimic special obligatoriu în plus
         pass
     else:
         return jsonify({"status": "error", "message": "Tip de utilizator necunoscut"}), 400
 
-    # Derivă grupe pentru părinte din copii (dacă există)
+    # Derivă grupe pentru părinte din copii (dacă există); copii sunt OPCIONALI
     grupe = None
+    copii_json = None
     if tip_l == "parinte":
         grupe_set = set()
         copii_curati = []
         for c in (copii or []):
-            nume_c = (c.get("nume") or "").strip()
-            grupa_c = (c.get("grupa") or "").strip()
+            # acceptă doar intrări cu măcar un câmp completat
+            nume_c   = (c.get("nume")  or "").strip()
+            grupa_c  = (c.get("grupa") or "").strip()
             varsta_c = c.get("varsta")
-            gen_c = c.get("gen") or None
+            gen_c    = _norm_gen(c.get("gen"))
+
+            if not (nume_c or grupa_c or varsta_c or gen_c):
+                continue  # rând gol -> ignor
+
             if grupa_c:
                 grupe_set.add(grupa_c)
-            # normalizăm varsta dacă e numerică în string
+
             if isinstance(varsta_c, str) and varsta_c.isdigit():
                 varsta_c = int(varsta_c)
+
             copii_curati.append({
-                "nume": nume_c,
-                "grupa": grupa_c,
+                "nume":   nume_c,
+                "grupa":  grupa_c,
                 "varsta": varsta_c,
-                "gen": gen_c
+                "gen":    gen_c
             })
-        copii_json = json.dumps(copii_curati, ensure_ascii=False) if copii_curati else None
-        grupe = ", ".join(sorted(g for g in grupe_set if g)) or None
+
+        if copii_curati:
+            copii_json = json.dumps(copii_curati, ensure_ascii=False)
+            grupe = ", ".join(sorted(g for g in grupe_set if g)) or None
+        else:
+            copii_json = None
+            grupe = None
     else:
-        # pentru antrenor(i), grupe vin direct din input
         copii_json = None
         grupe = (grupe_input or None)
 
@@ -136,17 +157,17 @@ def register():
         if cur.fetchone():
             return jsonify({"status": "error", "message": "Email deja folosit"}), 409
 
-        # Inserare cerere
+        # Inserare cerere (copii/grupe pot fi NULL)
         cur.execute("""
-            INSERT INTO cereri_utilizatori (username, email, parola, tip, varsta, copii, grupe)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (username, email, hashed_parola, tip, varsta, copii_json, grupe))
+            INSERT INTO cereri_utilizatori (username, email, parola, tip, varsta, copii, grupe, nume_complet)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (username, email, hashed_parola, tip, varsta, copii_json, grupe, full_name))
         con.commit()
 
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
-    # Trimitere email după commit (nu blocăm răspunsul dacă SMTP nu e configurat)
+    # Trimitere email după commit (non-blocking)
     try:
         trimite_email_confirmare(email, username)
     except Exception as e:

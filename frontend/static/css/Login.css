@@ -89,9 +89,9 @@
   box-shadow: 0 6px 16px rgba(255, 0, 0, 0.22);
 }
 
-/* Mesaj eroare */
-.error-msg {
-  color: #ffb84d; /* orange cald */
+/* nou: doar în login */
+.login-container .error-msg {
+  color: #ffb84d;
   font-weight: 700;
   margin-top: .25rem;
   text-align: center;

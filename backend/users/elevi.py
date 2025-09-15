@@ -77,12 +77,12 @@ def _find_parent_of_child(con, child_id):
                 return parent_id, parent_username, children, idx
     return None, None, None, None
 
+# backend/users/elevi.py  (înlocuiește integral funcția asta)
 def _create_placeholder_parent_by_name(con, parent_name):
     """
     Creează un părinte placeholder cu username=parent_name.
     Refolosește placeholder existent; dacă username-ul e ocupat, creează `<nume> (2)`, `(3)` etc.
     Returnează (parent_id_posibil, username_folosit, err).
-    Notă: pe schema actuală, `parent_id_posibil` poate fi None; vom folosi `username_folosit`.
     """
     uname = _normalize_text(parent_name)
     if not uname:
@@ -97,7 +97,7 @@ def _create_placeholder_parent_by_name(con, parent_name):
     if row:
         return row["id"], row["username"], None
 
-    # Găsește un username liber (evită coliziunea cu orice utilizator)
+    # Găsește un username liber
     base = uname
     cand = base
     i = 1
@@ -105,24 +105,28 @@ def _create_placeholder_parent_by_name(con, parent_name):
         i += 1
         cand = f"{base} ({i})"
 
-    # Construiește INSERT în funcție de coloanele existente
+    # Construiește dinamic lista de coloane/valori
     cols = ["rol", "username", "email", "copii", "grupe"]
     vals = ["parinte", cand, None, "[]", ""]
+
     if _table_has_column(con, "utilizatori", "is_placeholder"):
         cols.append("is_placeholder"); vals.append(1)
     if _table_has_column(con, "utilizatori", "claim_code"):
         cols.append("claim_code"); vals.append(uuid.uuid4().hex[:8].upper())
     if _table_has_column(con, "utilizatori", "created_by_trainer"):
         cols.append("created_by_trainer"); vals.append(1)
+    if _table_has_column(con, "utilizatori", "nume_complet"):
+        cols.append("nume_complet"); vals.append(uname)  # sau cand
 
     placeholders = ", ".join(["?"] * len(cols))
     sql = f"INSERT INTO utilizatori ({', '.join(cols)}) VALUES ({placeholders})"
     cur = con.execute(sql, tuple(vals))
 
-    # În schema ta, lastrowid e ROWID, nu `id`. Îl returnăm, dar folosim mereu și username-ul.
     parent_id = cur.lastrowid
     return parent_id, cand, None
+
 # -------------------------------------------
+
 
 
 @elevi_bp.post("/api/elevi")
@@ -229,6 +233,68 @@ def create_elev():
     except Exception as e:
         con.rollback()
         return jsonify({"status": "error", "message": str(e)}), 500
+
+
+
+@elevi_bp.patch("/api/elevi/<child_id>")
+def patch_elev(child_id):
+    data = request.get_json(silent=True) or {}
+
+    nume = (data.get("nume") or "").strip()
+    gen = (data.get("gen") or "").strip()
+    grupa = _normalize_grupa(data.get("grupa"))
+    varsta = data.get("varsta")
+    parent_name = (data.get("parent_name") or "").strip()
+
+    con = get_conn()
+    cur = con.cursor()
+
+    # găsește părintele care deține acest copil
+    rows = cur.execute("""
+        SELECT id, username, nume_complet, copii
+        FROM utilizatori
+        WHERE LOWER(rol)='parinte' AND copii IS NOT NULL AND copii <> ''
+    """).fetchall()
+
+    found = False
+    for r in rows:
+        try:
+            copii = json.loads(r["copii"] or "[]")
+        except Exception:
+            copii = []
+
+        changed = False
+        for c in copii:
+            if str(c.get("id")) == str(child_id):
+                if nume:   c["nume"]   = nume
+                if gen:    c["gen"]    = gen
+                if grupa:  c["grupa"]  = grupa
+                if varsta is not None:
+                    try: c["varsta"] = int(varsta)
+                    except Exception: pass
+                changed = True
+                found = True
+                break
+
+        if changed:
+            cur.execute(
+                "UPDATE utilizatori SET copii = ? WHERE id = ?",
+                (json.dumps(copii, ensure_ascii=False), r["id"])
+            )
+
+            # ✨ la nevoie, actualizăm și numele părintelui
+            if parent_name:
+                cur.execute(
+                    "UPDATE utilizatori SET nume_complet = ? WHERE id = ?",
+                    (parent_name, r["id"])
+                )
+
+            con.commit()
+            return jsonify({"status": "success"})
+
+    if not found:
+        return jsonify({"status": "error", "message": "Elevul nu a fost găsit."}), 404
+
 
 
 @elevi_bp.patch("/api/elevi/<child_id>")

@@ -50,55 +50,99 @@ def ensure_child_ids_and_normalize(children):
 @antrenor_dashboard_copii_parinti_bp.post("/api/antrenor_dashboard_data")
 def antrenor_dashboard_data():
     """
-    Răspuns: [{ grupa, parinte:{id,username,email}, copii:[{id,nume,varsta,gen,grupa}] }]
-    Include părinți placeholder (email NULL) și normaliza 'Grupa'.
+    Răspuns: listă de rânduri de forma:
+      { grupa: "Grupa X", parinte: {id,username,email,display} | None, copii: [...] }
+    - filtrează doar grupele pe care le are antrenorul
+    - include UN rând placeholder pentru fiecare grupă permisă (copii=[], parinte=None)
     """
     data = request.get_json(silent=True) or {}
-    _trainer_username = (data.get("username") or "").strip()  # nefolosit acum; păstrează dacă filtrezi pe viitor
+    trainer_username = (data.get("username") or "").strip()
+    if not trainer_username:
+        return jsonify({"status": "error", "message": "Lipsă username antrenor."}), 400
 
     con = get_conn()
     try:
-        # IMPORTANT: nu filtra pe email, include toți părinții
-        rows = con.execute(
-            "SELECT id, username, email, grupe, copii FROM utilizatori WHERE LOWER(rol)='parinte'"
-        ).fetchall()
+        # 1) Grupele antrenorului -> set normalizat "Grupa N"
+        tr = con.execute(
+            "SELECT grupe FROM utilizatori WHERE LOWER(rol)='antrenor' AND username = ?",
+            (trainer_username,)
+        ).fetchone()
+        if not tr:
+            return jsonify({"status": "success", "date": []}), 200
 
-        results = []
+        allowed = set()
+        for raw in (tr["grupe"] or "").split(","):
+            ng = _normalize_grupa(raw)
+            if ng:
+                allowed.add(ng)
+
+        if not allowed:
+            # antrenor fără grupe setate
+            return jsonify({"status": "success", "date": []}), 200
+
+        # 2) Începem cu câte un placeholder pentru fiecare grupă permisă
+        results = [{"grupa": g, "parinte": None, "copii": []} for g in allowed]
+
+        # 3) Părinții și copiii lor
+        rows = con.execute("""
+            SELECT
+                id,
+                username,
+                email,
+                copii,
+                COALESCE(nume_complet, username) AS display_name
+            FROM utilizatori
+            WHERE LOWER(rol) = 'parinte'
+        """).fetchall()
+
         for r in rows:
             children = _safe_load_children(r["copii"])
             if not children:
                 continue
 
-            # grupează copiii pe grupa normalizată
+            # copii grupați pe grupă, ținem doar grupele din allowed
             by_group = {}
             for c in children:
                 g = _normalize_grupa(c.get("grupa")) or "Fără grupă"
-                item = {
+                if g not in allowed:
+                    continue
+                by_group.setdefault(g, []).append({
                     "id": c.get("id"),
                     "nume": c.get("nume"),
                     "varsta": c.get("varsta"),
                     "gen": c.get("gen"),
                     "grupa": g,
-                }
-                by_group.setdefault(g, []).append(item)
+                })
 
+            if not by_group:
+                continue
+
+            # pentru fiecare grupă permisă la care am copii -> adaug un rând real
             for gname, kids in by_group.items():
                 results.append({
                     "grupa": gname,
                     "parinte": {
                         "id": r["id"],
                         "username": r["username"] or "—",
-                        "email": r["email"],   # poate fi None la placeholder
+                        "email": r["email"],
+                        "display": r["display_name"],
                     },
                     "copii": kids
                 })
 
-        # sortare mică pentru stabilitate
-        results.sort(key=lambda x: ((x["grupa"] or "").lower(), (x["parinte"]["username"] or "").lower()))
+        # 4) sortare stabilă: după numărul grupei, apoi după numele părintelui
+        def group_key(name: str):
+            import re
+            m = re.search(r"(\d+)", name or "")
+            return (int(m.group(1)) if m else 9999, (name or "").lower())
+
+        results.sort(key=lambda x: (group_key(x["grupa"]),
+                                    (x["parinte"] or {}).get("display", (x["parinte"] or {}).get("username", ""))).__str__())
         return jsonify({"status": "success", "date": results}), 200
 
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
+
 
 
 

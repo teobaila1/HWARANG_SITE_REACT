@@ -22,13 +22,13 @@ const Footer = () => {
                 <h4 className="red-title">Urmărește-ne</h4>
                 <div className="social-icons">
                     <a href="https://www.facebook.com/hwarang.sibiu" target="_blank" rel="noreferrer">
-                        <img src="/images/facebook_dark.jpg" alt="Facebook"/>
+                        <img src="/images/apps/facebook_dark.jpg" alt="Facebook"/>
                     </a>
                     <a href="https://www.instagram.com/a.c.s._hwarang_academy_sibiu/" target="_blank" rel="noreferrer">
-                        <img src="/images/insta_dark.jpg" alt="Instagram"/>
+                        <img src="/images/apps/insta_dark.jpg" alt="Instagram"/>
                     </a>
                     <a href="https://www.tiktok.com/@a.c.s._hwarang_academy" target="_blank" rel="noreferrer">
-                        <img src="/images/tiktok.png" alt="TikTok"/>
+                        <img src="/images/apps/tiktok_new.png" alt="TikTok"/>
                     </a>
                 </div>
             </div>
@@ -36,7 +36,7 @@ const Footer = () => {
             {/* Sigla Federației + nume */}
             <div className="frtkd-block">
                 <Link to="https://www.facebook.com/FRTaekwondoITF" target="_blank" rel="noreferrer">
-                    <img src="/images/frtkd_poza.png" alt="FRTKD" className="frtkd-logo"/>
+                    <img src="/images/apps/frtkd_poza.png" alt="FRTKD" className="frtkd-logo"/>
                 </Link>
                 <p className="frtkd-name">Federația Română de Taekwon-Do I.T.F.</p>
             </div>

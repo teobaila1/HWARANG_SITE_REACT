@@ -138,6 +138,11 @@
 .athlete-name{
   grid-column: 1 / -1;   /* numele pe toată lățimea */
   font-size: 1rem;
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;          /* spațiul dintre "Nume:" și nume */
+  margin-bottom: .5rem;
+  line-height: 1.2;
 }
 .athlete-name strong{ color: #fff; }
 

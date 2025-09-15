@@ -1,129 +1,161 @@
-import React, {useState} from "react";
-import Footer from "../../components/Footer";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Join.css";
-import {toast} from "react-toastify";
-import {ToastContainer} from "react-toastify";
+import React, { useState } from "react";
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import { toast, ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Join.css";
 
 const JoinForm = () => {
-    const [acceptTerms, setAcceptTerms] = useState(false);
-    const [formData, setFormData] = useState({
-        name: "",
-        prename: "",
-        email: "",
-        phone: "",
-        message: "",
-    });
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    prename: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
 
-    const handleChange = (e) => {
-        setFormData((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-        }));
-    };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
 
-        const response = await fetch("http://localhost:5000/api/inscriere", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(formData),
-        });
+    try {
+      const response = await fetch("http://localhost:5000/api/inscriere", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-        const result = await response.json();
-        if (result.status === "error") {
-            toast.error(result.message); // Ex: "Email deja folosit"
-            return;
-        }
-        if (result.status === "success") {
-            setFormData({
-                name: "",
-                prename: "",
-                email: "",
-                phone: "",
-                message: "",
-            });
-            toast.success("Înscriere trimisă cu succes! Vei primi un email de confirmare.");
-        }
-    };
+      const result = await response.json();
+      if (result.status === "error") {
+        toast.error(result.message || "Eroare la trimitere.");
+      } else if (result.status === "success") {
+        setFormData({ name: "", prename: "", email: "", phone: "", message: "" });
+        toast.success("Înscriere trimisă cu succes! Vei primi un email de confirmare.");
+      } else {
+        toast.error("A apărut o problemă. Încearcă din nou.");
+      }
+    } catch {
+      toast.error("Eroare server. Încearcă mai târziu.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
+  return (
+    <>
+      <Navbar />
+      {/* <ToastContainer /> */}
+      <section className="signup-container">
+        <div className="signup-head">
+          <h2>Înscriere la ACS Hwarang Academy</h2>
+          <p className="subtitle">Completează detaliile și te contactăm noi pentru următorii pași.</p>
+        </div>
 
-    return (
-        <>
-            <Navbar/>
-            {/*<ToastContainer/>*/}
-            <section className="signup-container">
-                <h2>Înscriere la ACS Hwarang Academy</h2>
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="name">Nume:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        required
-                        value={formData.name}
-                        onChange={handleChange}
-                    />
+        <form className="form-grid" onSubmit={handleSubmit}>
+          <label className="field">
+            <span>Nume</span>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Popescu"
+              required
+              value={formData.name}
+              onChange={handleChange}
+            />
+          </label>
 
-                    <label htmlFor="prename">Prenume:</label>
-                    <input
-                        type="text"
-                        id="prename"
-                        name="prename"
-                        required
-                        value={formData.prename}
-                        onChange={handleChange}
-                    />
+          <label className="field">
+            <span>Prenume</span>
+            <input
+              type="text"
+              id="prename"
+              name="prename"
+              placeholder="Ion"
+              required
+              value={formData.prename}
+              onChange={handleChange}
+            />
+          </label>
 
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        required
-                        value={formData.email}
-                        onChange={handleChange}
-                    />
+          <label className="field">
+            <span>Email</span>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="email@exemplu.com"
+              required
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </label>
 
-                    <label htmlFor="phone">Telefon:</label>
-                    <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        required
-                        value={formData.phone}
-                        onChange={handleChange}
-                    />
+          <label className="field">
+            <span>Telefon</span>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="07xx xxx xxx"
+              required
+              value={formData.phone}
+              onChange={handleChange}
+            />
+          </label>
 
-                    <label htmlFor="message">Mesaj (opțional):</label>
-                    <textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                    ></textarea>
+          <label className="field field--full">
+            <span>Mesaj (opțional)</span>
+            <textarea
+              id="message"
+              name="message"
+              placeholder="Scrie-ne câteva detalii utile (program, obiective etc.)"
+              rows={4}
+              value={formData.message}
+              onChange={handleChange}
+            />
+          </label>
 
-                    <div className="terms-checkbox">
-                        <input
-                            type="checkbox"
-                            id="acceptTerms"
-                            checked={acceptTerms}
-                            onChange={(e) => setAcceptTerms(e.target.checked)}
-                            required
-                        />
-                        <label htmlFor="acceptTerms">
-                            Am citit și accept <a href="/termeni_si_conditii" style={{color: '#ff0066'}}>Termenii și Condițiile</a>
-                        </label>
-                    </div>
+          <label className="terms-checkbox field--full">
+            <input
+              type="checkbox"
+              id="acceptTerms"
+              checked={acceptTerms}
+              onChange={(e) => setAcceptTerms(e.target.checked)}
+              required
+            />
+            <span>
+              Am citit și accept{" "}
+              <a href="/termeni_si_conditii">Termenii și Condițiile</a>.
+            </span>
+          </label>
 
-                    <button type="submit">Înscrie-te</button>
-                </form>
-            </section>
+          <div className="actions field--full">
+            <button className="btn btn-primary" type="submit" disabled={!acceptTerms || submitting}>
+              {submitting ? "Se trimite..." : "Înscrie-te"}
+            </button>
+          </div>
 
-            <Footer/>
-        </>
-    );
+          <p className="helper field--full">
+            Ai deja cont?{" "}
+            <a className="link" href="/autentificare">
+              Autentifică-te aici
+            </a>
+            .
+          </p>
+        </form>
+      </section>
+      <Footer />
+    </>
+  );
 };
 
 export default JoinForm;

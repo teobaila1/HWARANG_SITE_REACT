@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from "react";
+// frontend/pages/AdminTotiCopiiiSiParintii.jsx
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/AdminTotiCopiiiSiParintii.css";
 
 const API = "http://localhost:5000";
@@ -12,7 +13,7 @@ const AdminTotiCopiiiSiParintii = () => {
 
   // modale
   const [editChild, setEditChild] = useState(null);   // { parentUsername, child:{id,nume,varsta,gen,grupa} }
-  const [editParent, setEditParent] = useState(null); // { username, email }
+  const [editParent, setEditParent] = useState(null); // { username, email, nume_complet }
 
   const navigate = useNavigate();
 
@@ -43,7 +44,18 @@ const AdminTotiCopiiiSiParintii = () => {
     load();
   }, [navigate]);
 
-  const initialFrom = (s = "") => (s.trim()[0] || "P").toUpperCase();
+  // username (Nume Complet) dacă numele complet există și diferă
+  const parentLabel = (p) => {
+    if (!p) return "—";
+    const u = (p.username || "").trim();
+    const d = (p.display || p.nume_complet || "").trim();
+    if (!d || d.toLowerCase() === u.toLowerCase()) return u || "—";
+    return `${u} (${d})`;
+  };
+  const initialFrom = (p) => {
+    const t = ((p?.display || p?.username) || "P").trim();
+    return (t[0] || "P").toUpperCase();
+  };
 
   // --- acțiuni copil ---
   const openEditChild = (parentUsername, child) => {
@@ -54,8 +66,8 @@ const AdminTotiCopiiiSiParintii = () => {
         nume: child.nume || "",
         varsta: child.varsta ?? "",
         gen: child.gen || "",
-        grupa: child.grupa || ""
-      }
+        grupa: child.grupa || "",
+      },
     });
   };
   const cancelEditChild = () => setEditChild(null);
@@ -113,7 +125,9 @@ const AdminTotiCopiiiSiParintii = () => {
   };
 
   // --- acțiuni părinte ---
-  const openEditParent = (username, email) => setEditParent({ username, email: email || "" });
+  const openEditParent = (username, email, fullName) =>
+    setEditParent({ username, email: email || "", nume_complet: fullName || "" });
+
   const cancelEditParent = () => setEditParent(null);
 
   const saveEditParent = async () => {
@@ -121,15 +135,19 @@ const AdminTotiCopiiiSiParintii = () => {
     const admin_username = localStorage.getItem("username") || "";
 
     try {
-      const res = await fetch(`${API}/api/admin/parinte/${encodeURIComponent(editParent.username)}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          admin_username,
-          new_username: editParent.username.trim(), // poți lăsa la fel sau modifica în UI
-          email: editParent.email.trim() || null
-        }),
-      });
+      const res = await fetch(
+        `${API}/api/admin/parinte/${encodeURIComponent(editParent.username)}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            admin_username,
+            new_username: editParent.username.trim(),
+            email: (editParent.email || "").trim() || null,
+            nume_complet: (editParent.nume_complet || "").trim() || null, // 👈 trimitem numele complet
+          }),
+        }
+      );
       const js = await res.json().catch(() => ({}));
       if (res.ok) {
         setMesaj("Părinte actualizat.");
@@ -148,11 +166,14 @@ const AdminTotiCopiiiSiParintii = () => {
     if (!window.confirm(`Ștergi părintele „${username}” (cu toți copiii lui)?`)) return;
 
     try {
-      const res = await fetch(`${API}/api/admin/parinte/${encodeURIComponent(username)}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ admin_username }),
-      });
+      const res = await fetch(
+        `${API}/api/admin/parinte/${encodeURIComponent(username)}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ admin_username }),
+        }
+      );
       const js = await res.json().catch(() => ({}));
       if (res.ok) {
         setMesaj("Părinte șters.");
@@ -167,7 +188,7 @@ const AdminTotiCopiiiSiParintii = () => {
 
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <div className="atcp-page">
         <div className="atcp-inner">
           <h2 className="atcp-title">Toți copiii înregistrați ai părinților</h2>
@@ -175,59 +196,86 @@ const AdminTotiCopiiiSiParintii = () => {
           {mesaj && <div className="atcp-alert">{mesaj}</div>}
           {loading && <p className="atcp-empty">Se încarcă…</p>}
 
-          {!loading && (data.length === 0 ? (
-            <p className="atcp-empty">Nu există date disponibile.</p>
-          ) : (
-            <div className="parent-grid">
-              {data.map((entry, index) => (
-                <section className="parent-card" key={index}>
-                  <header className="parent-head">
-                    <div className="avatar">{initialFrom(entry.parinte?.username)}</div>
-                    <div className="parent-meta">
-                      <h4 className="parent-name">{entry.parinte?.username}</h4>
-                      <div className="parent-email">{entry.parinte?.email || "—"}</div>
-                    </div>
-                    <span className="kids-badge">{entry.copii?.length || 0} copii</span>
+          {!loading &&
+            (data.length === 0 ? (
+              <p className="atcp-empty">Nu există date disponibile.</p>
+            ) : (
+              <div className="parent-grid">
+                {data.map((entry, index) => (
+                  <section className="parent-card" key={index}>
+                    <header className="parent-head">
+                      <div className="avatar">{initialFrom(entry.parinte)}</div>
+                      <div className="parent-meta">
+                        <h4 className="parent-name">{parentLabel(entry.parinte)}</h4>
+                        <div className="parent-email">{entry.parinte?.email || "—"}</div>
+                      </div>
+                      <span className="kids-badge">{entry.copii?.length || 0} copii</span>
 
-                    <div className="parent-actions">
-                      <button className="btn btn-sm" onClick={() => openEditParent(entry.parinte.username, entry.parinte.email)}>Editează părinte</button>
-                      <button className="btn btn-sm btn-danger" onClick={() => deleteParent(entry.parinte.username)}>Șterge părinte</button>
-                    </div>
-                  </header>
+                      <div className="parent-actions">
+                        <button
+                          className="btn btn-sm"
+                          onClick={() =>
+                            openEditParent(
+                              entry.parinte.username,
+                              entry.parinte.email,
+                              entry.parinte.nume_complet // 👈 vine din backend
+                            )
+                          }
+                        >
+                          Editează părinte
+                        </button>
+                        <button
+                          className="btn btn-sm btn-danger"
+                          onClick={() => deleteParent(entry.parinte.username)}
+                        >
+                          Șterge părinte
+                        </button>
+                      </div>
+                    </header>
 
-                  <ul className="kids-list">
-                    {entry.copii.map((copil, i) => (
-                      <li className="kid-item" key={copil.id || i}>
-                        <div className="kid-row">
-                          <span className="label">Nume:</span>
-                          <strong>{copil.nume}</strong>
-                        </div>
-                        <div className="kid-row">
-                          <span className="label">Gen:</span>
-                          <span>{copil.gen ?? "N/A"}</span>
-                        </div>
-                        <div className="kid-row">
-                          <span className="label">Vârstă:</span>
-                          <span>{copil.varsta} ani</span>
-                        </div>
-                        {copil.grupa && (
+                    <ul className="kids-list">
+                      {entry.copii.map((copil, i) => (
+                        <li className="kid-item" key={copil.id || i}>
                           <div className="kid-row">
-                            <span className="label">Grupa:</span>
-                            <span>{copil.grupa}</span>
+                            <span className="label">Nume:</span>
+                            <strong>{copil.nume}</strong>
                           </div>
-                        )}
+                          <div className="kid-row">
+                            <span className="label">Gen:</span>
+                            <span>{copil.gen ?? "N/A"}</span>
+                          </div>
+                          <div className="kid-row">
+                            <span className="label">Vârstă:</span>
+                            <span>{copil.varsta} ani</span>
+                          </div>
+                          {copil.grupa && (
+                            <div className="kid-row">
+                              <span className="label">Grupa:</span>
+                              <span>{copil.grupa}</span>
+                            </div>
+                          )}
 
-                        <div className="kid-actions">
-                          <button className="btn btn-sm" onClick={() => openEditChild(entry.parinte.username, copil)}>Editează</button>
-                          <button className="btn btn-sm btn-danger" onClick={() => deleteChild(entry.parinte.username, copil)}>Șterge</button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              ))}
-            </div>
-          ))}
+                          <div className="kid-actions">
+                            <button
+                              className="btn btn-sm"
+                              onClick={() => openEditChild(entry.parinte.username, copil)}
+                            >
+                              Editează
+                            </button>
+                            <button
+                              className="btn btn-sm btn-danger"
+                              onClick={() => deleteChild(entry.parinte.username, copil)}
+                            >
+                              Șterge
+                            </button>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                ))}
+              </div>
+            ))}
 
           {/* Modal edit copil */}
           {editChild && (
@@ -239,14 +287,24 @@ const AdminTotiCopiiiSiParintii = () => {
                     Nume
                     <input
                       value={editChild.child.nume}
-                      onChange={(e) => setEditChild(st => ({...st, child:{...st.child, nume: e.target.value}}))}
+                      onChange={(e) =>
+                        setEditChild((st) => ({
+                          ...st,
+                          child: { ...st.child, nume: e.target.value },
+                        }))
+                      }
                     />
                   </label>
                   <label>
                     Gen
                     <select
                       value={editChild.child.gen || ""}
-                      onChange={(e) => setEditChild(st => ({...st, child:{...st.child, gen: e.target.value}}))}
+                      onChange={(e) =>
+                        setEditChild((st) => ({
+                          ...st,
+                          child: { ...st.child, gen: e.target.value },
+                        }))
+                      }
                     >
                       <option value="">—</option>
                       <option value="M">M</option>
@@ -260,21 +318,35 @@ const AdminTotiCopiiiSiParintii = () => {
                       min="3"
                       max="18"
                       value={editChild.child.varsta}
-                      onChange={(e) => setEditChild(st => ({...st, child:{...st.child, varsta: e.target.value}}))}
+                      onChange={(e) =>
+                        setEditChild((st) => ({
+                          ...st,
+                          child: { ...st.child, varsta: e.target.value },
+                        }))
+                      }
                     />
                   </label>
                   <label>
                     Grupa
                     <input
                       value={editChild.child.grupa}
-                      onChange={(e) => setEditChild(st => ({...st, child:{...st.child, grupa: e.target.value}}))}
+                      onChange={(e) =>
+                        setEditChild((st) => ({
+                          ...st,
+                          child: { ...st.child, grupa: e.target.value },
+                        }))
+                      }
                     />
                   </label>
                 </div>
 
                 <div className="form-actions">
-                  <button className="btn" onClick={cancelEditChild}>Renunță</button>
-                  <button className="btn btn-primary" onClick={saveEditChild}>Salvează</button>
+                  <button className="btn" onClick={cancelEditChild}>
+                    Renunță
+                  </button>
+                  <button className="btn btn-primary" onClick={saveEditChild}>
+                    Salvează
+                  </button>
                 </div>
               </div>
             </div>
@@ -290,7 +362,9 @@ const AdminTotiCopiiiSiParintii = () => {
                     Username
                     <input
                       value={editParent.username}
-                      onChange={(e) => setEditParent(st => ({...st, username: e.target.value}))}
+                      onChange={(e) =>
+                        setEditParent((st) => ({ ...st, username: e.target.value }))
+                      }
                     />
                   </label>
                   <label>
@@ -298,19 +372,33 @@ const AdminTotiCopiiiSiParintii = () => {
                     <input
                       type="email"
                       value={editParent.email || ""}
-                      onChange={(e) => setEditParent(st => ({...st, email: e.target.value}))}
+                      onChange={(e) =>
+                        setEditParent((st) => ({ ...st, email: e.target.value }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    Nume complet (opțional)
+                    <input
+                      value={editParent.nume_complet || ""}
+                      onChange={(e) =>
+                        setEditParent((st) => ({ ...st, nume_complet: e.target.value }))
+                      }
                     />
                   </label>
                 </div>
 
                 <div className="form-actions">
-                  <button className="btn" onClick={cancelEditParent}>Renunță</button>
-                  <button className="btn btn-primary" onClick={saveEditParent}>Salvează</button>
+                  <button className="btn" onClick={cancelEditParent}>
+                    Renunță
+                  </button>
+                  <button className="btn btn-primary" onClick={saveEditParent}>
+                    Salvează
+                  </button>
                 </div>
               </div>
             </div>
           )}
-
         </div>
       </div>
     </>

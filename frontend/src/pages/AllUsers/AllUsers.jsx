@@ -150,6 +150,14 @@ const TotiUtilizatorii = () => {
     }
   };
 
+  // Afișaj "username (Nume Complet)" dacă avem un display_name diferit
+const userLabel = (u) => {
+  const uName = (u.username || "").trim();
+  const disp = (u.display_name || u.nume_complet || "").trim();
+  if (!disp || disp.toLowerCase() === uName.toLowerCase()) return uName || "—";
+  return `${uName} (${disp})`;
+};
+
   return (
     <>
       <Navbar/>
@@ -190,7 +198,7 @@ const TotiUtilizatorii = () => {
                   <tr key={u.id}>
                     <td>{u.id}</td>
                     <td>
-                      <span className="cell-username">{u.username || u.nume}</span>
+                      <span className="cell-username">{userLabel(u)}</span>
                       {isAdmin && (
                         <button className="link-edit" onClick={() => openEdit(u)} title="Editează nume/email">
                           editează

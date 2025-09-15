@@ -20,6 +20,10 @@ const AntrenorDashboard = () => {
     // alegerea părintelui pt. “părinte existent” pe fiecare grupă
     const [parentChoice, setParentChoice] = useState({}); // { "Grupa 1": parentId, ... }
 
+    // afișează nume complet dacă există, altfel username
+    const parentName = (p) =>
+        (p?.display && String(p.display).trim()) || p?.username || "—";
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -104,26 +108,43 @@ const AntrenorDashboard = () => {
     };
 
     // Add (părinte existent) — folosim alegerea din dropdown
+    // în AntrenorDashboard.jsx
     const handleAddExisting = (grupaName) => {
         const pid = parentChoice[grupaName];
         if (!pid) {
             setMesaj("Selectează un părinte pentru această grupă.");
             return;
         }
-        setEditElev({parinte_id: pid, grupa: grupaName});
+
+        const g = data.find(x => x.grupa === grupaName);
+        const p = g?.parents?.find(x => x.id === pid);
+
+        setEditElev({
+            parinte_id: pid,
+            grupa: grupaName,
+            parent_id: pid,
+            parent_name: parentName(p),
+            parent_display: (p?.display && String(p.display).trim()) || p?.username || `Părinte #${pid}`
+        });
         setShowForm(true);
     };
 
+
     // Add (părinte nou) — nu avem parinte_id, formularul cere numele părintelui
     const handleAddNewParent = (grupaName) => {
-        setEditElev({grupa: grupaName});
+        setEditElev({grupa: grupaName, parent_id: null, parent_name: ""});
         setShowForm(true);
     };
 
     // Edit
     const handleEdit = (copil) => {
         // pentru edit nu avem nevoie de parinte_id; backend găsește copilul după id
-        setEditElev({...copil});
+        setEditElev({
+            ...copil,
+            parent_id: copil._parent?.id     ?? null,
+            parent_name: parentName(copil._parent)   // ✨ apare în formular la edit
+        });
+
         setShowForm(true);
     };
 
@@ -205,9 +226,10 @@ const AntrenorDashboard = () => {
                                             >
                                                 {grupaData.parents.map(p => (
                                                     <option key={p.id} value={p.id}>
-                                                        {p.username || `Parinte #${p.id}`}
+                                                        {parentName(p)}
                                                     </option>
                                                 ))}
+
                                             </select>
                                         )}
                                         <button
@@ -235,8 +257,10 @@ const AntrenorDashboard = () => {
                                             className="elev-value">{prettyGen(copil.gen)}</span></div>
                                         <div><span className="elev-label">Vârstă:</span> <span
                                             className="elev-value">{copil.varsta} ani</span></div>
-                                        <div><span className="elev-label">Părinte:</span> <span
-                                            className="elev-value">{copil._parent?.username || "—"}</span></div>
+                                        <div>
+                                            <span className="elev-label">Părinte:</span>{" "}
+                                            <span className="elev-value">{parentName(copil._parent)}</span>
+                                        </div>
                                         <div><span className="elev-label">Email părinte:</span> <span
                                             className="elev-value">{copil._parent?.email || "—"}</span></div>
                                     </div>

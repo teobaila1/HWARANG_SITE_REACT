@@ -5,6 +5,15 @@ from ..accounts.inregistrare import trimite_email_acceptare, trimite_email_respi
 
 cereri_utilizatori_bp = Blueprint("cereri_utilizatori", __name__)
 
+# --- util: asigură existența coloanei (migrare non-destructivă) ----------------
+def _ensure_column(con, table: str, column: str, sql_type: str = "TEXT"):
+    cols = {row[1] for row in con.execute(f"PRAGMA table_info({table})").fetchall()}
+    if column not in cols:
+        con.execute(f"ALTER TABLE {table} ADD COLUMN {column} {sql_type}")
+        con.commit()
+# -------------------------------------------------------------------------------
+
+
 @cereri_utilizatori_bp.get("/api/cereri")
 def get_cereri():
     username = (request.args.get("username") or "").strip()
@@ -13,6 +22,10 @@ def get_cereri():
 
     try:
         con = get_conn()
+
+        # asigurăm coloanele noi (rulă doar dacă lipsesc)
+        _ensure_column(con, "cereri_utilizatori", "nume_complet")
+        _ensure_column(con, "utilizatori", "nume_complet")
 
         # verifică rolul de admin
         row = con.execute(
@@ -24,8 +37,14 @@ def get_cereri():
         if (row["rol"] or "").lower() != "admin":
             return jsonify({"error": "Acces interzis"}), 403
 
+        # expunem și numele pentru afișaj (fallback pe username)
         cereri = con.execute("""
-            SELECT id, username, email, tip, varsta
+            SELECT id,
+                   username,
+                   email,
+                   tip,
+                   varsta,
+                   COALESCE(nume_complet, username) AS afisaj
             FROM cereri_utilizatori
             ORDER BY id DESC
         """).fetchall()
@@ -37,6 +56,7 @@ def get_cereri():
                 "email": r["email"],
                 "tip": r["tip"],
                 "varsta": r["varsta"],
+                "nume_complet": r["afisaj"],    # numele de afișat în listă
             }
             for r in cereri
         ]
@@ -52,8 +72,12 @@ def accepta_cerere(cerere_id: int):
         con = get_conn()
         cur = con.cursor()
 
+        # asigurăm coloanele noi (rulă doar dacă lipsesc)
+        _ensure_column(con, "cereri_utilizatori", "nume_complet")
+        _ensure_column(con, "utilizatori", "nume_complet")
+
         row = cur.execute("""
-            SELECT id, username, email, parola, tip, copii, grupe
+            SELECT id, username, email, parola, tip, copii, grupe, nume_complet
             FROM cereri_utilizatori
             WHERE id = ?
         """, (cerere_id,)).fetchone()
@@ -61,8 +85,9 @@ def accepta_cerere(cerere_id: int):
         if not row:
             return jsonify({"error": "Cerere inexistentă"}), 404
 
-        _, username, email, parola, tip, copii, grupe = (
-            row["id"], row["username"], row["email"], row["parola"], row["tip"], row["copii"], row["grupe"]
+        _, username, email, parola, tip, copii, grupe, nume_complet = (
+            row["id"], row["username"], row["email"], row["parola"],
+            row["tip"], row["copii"], row["grupe"], row["nume_complet"]
         )
 
         # verifică duplicate în utilizatori
@@ -73,21 +98,20 @@ def accepta_cerere(cerere_id: int):
         if exists:
             return jsonify({"error": "Există deja un utilizator cu acest username/email"}), 409
 
-        # inserăm în utilizatori (lăsăm SQLite să aloce id-ul)
+        # inserăm în utilizatori și numele complet (fallback pe username)
         cur.execute("""
-            INSERT INTO utilizatori (username, parola, rol, email, grupe, copii)
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (username, parola, tip, email, grupe, copii))
+            INSERT INTO utilizatori (username, parola, rol, email, grupe, copii, nume_complet)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (username, parola, tip, email, grupe, copii, (nume_complet or username)))
 
         # ștergem cererea
         cur.execute("DELETE FROM cereri_utilizatori WHERE id = ?", (cerere_id,))
         con.commit()
 
-        # trimitem emailul DUPĂ commit
+        # e-mail după commit (non-blocking)
         try:
             trimite_email_acceptare(email, username)
         except Exception as e:
-            # nu blocăm succesul pe e-mail
             print("[WARN] Email acceptare eșuat:", e)
 
         return jsonify({"status": "success"}), 200
@@ -112,11 +136,9 @@ def respinge_cerere(cerere_id: int):
 
         username, email = row["username"], row["email"]
 
-        # ștergem cererea
         cur.execute("DELETE FROM cereri_utilizatori WHERE id = ?", (cerere_id,))
         con.commit()
 
-        # e-mail (non-blocking)
         try:
             trimite_email_respingere(email, username)
         except Exception as e:

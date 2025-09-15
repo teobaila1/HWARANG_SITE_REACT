@@ -6,7 +6,7 @@ function EvidentaPlati() {
   const [plati, setPlati] = useState([]);
   const [filteredPlati, setFilteredPlati] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [editingPlata, setEditingPlata] = useState(null); // obiect sau null
+  const [editingPlata, setEditingPlata] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
   const [formData, setFormData] = useState({
@@ -16,6 +16,15 @@ function EvidentaPlati() {
     tip_plata: "cash",
     status: "neplatit",
   });
+
+  // Construieste eticheta "username (Nume Complet)"
+  const parentLabel = (row) => {
+    const u = (row.parinte_nume || row.parinte_username || "").trim();
+    const d = (row.parinte_display || "").trim();
+    if (!u) return d || "—";
+    if (!d || d.toLowerCase() === u.toLowerCase()) return u;
+    return `${u} (${d})`;
+  };
 
   useEffect(() => {
     fetch("/api/plati/filtrate")
@@ -114,6 +123,7 @@ function EvidentaPlati() {
           up.filter((p) =>
             (p.copil_nume || "").toLowerCase().includes(searchTerm) ||
             (p.parinte_nume || "").toLowerCase().includes(searchTerm) ||
+            (p.parinte_display || "").toLowerCase().includes(searchTerm) ||
             (p.luna || "").toLowerCase().includes(searchTerm)
           )
         );
@@ -129,6 +139,7 @@ function EvidentaPlati() {
         (p) =>
           (p.copil_nume || "").toLowerCase().includes(term) ||
           (p.parinte_nume || "").toLowerCase().includes(term) ||
+          (p.parinte_display || "").toLowerCase().includes(term) ||
           (p.luna || "").toLowerCase().includes(term)
       )
     );
@@ -246,7 +257,7 @@ function EvidentaPlati() {
               {filteredPlati.map((p, i) => (
                 <tr key={p.id ?? `${p.copil_nume}-${i}`}>
                   <td className="cell-name">{p.copil_nume}</td>
-                  <td>{p.parinte_nume}</td>
+                  <td>{parentLabel(p)}</td>
                   <td className="cell-month">{p.luna || "-"}</td>
                   <td className="cell-amount">
                     {p.suma != null ? `${p.suma} RON` : "-"}
@@ -267,7 +278,7 @@ function EvidentaPlati() {
                       title="Editează"
                       onClick={() => handleEdit(p)}
                     >
-                        Modifică
+                      Modifică
                     </button>
                     <button
                       className="btn btn-icon btn-danger"

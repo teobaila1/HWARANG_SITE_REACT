@@ -112,3 +112,19 @@ vreau sa refac designul sa fie mai elegant, cu AI
 16) platile
 
 am facut la toate modificare de design
+
+!!! de facut sa mai adaug numele complet in fisierele de backend sa nu puste, la fel si in frontend, vezi chatu
+ai pus pt tabelele cereri_utilizatori si utilizatori dar vezi ca mai trebuie undeva, in parinti, copii, elevi ceva parca
+!!!! de facut s apot edita si sterge la antrenori-grupe la admin => facut
+!!!! de facut la inregistrare pentru parinte sa puna si genul copilului pe care il inscrie => facut, poate alege optional
+!!! eventual sa poata crea cont parintii si daca nu introduc copiii la inregistrare => facut cred :))
+!!! sa pun username si numele complet in paranteza la fiecare pagina unde am parinte,
+antrenor, etc... => facut
+
+!!!! sa mai fac cateva modificari la navbar ca is cam departate alea scrise
+!!!! cateva modificari la pagina de antrenori cu titlu si asa
+!!! modificari minore si sa testez siteul ca merge fiecare functionalitate
+!!!! cand adaug un elev cu parinte existent la pagina de antrenori sa pot schimba parintele (poate merge daca am mai multi
+parinti cand sa selectez)
+!!!! sa fac stilul pentru copii la fel cum este la pagina copiii parintilor cu border in jurul numelui si kkt
+!!!! poate sa apara cand editez la antrenori-grupe sa pot modfiica si numele parintelui, la fel si la antrenor_dashboard,

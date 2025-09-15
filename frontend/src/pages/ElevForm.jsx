@@ -1,131 +1,114 @@
-// frontend/components/ElevForm.jsx
-import React, {useEffect, useState} from "react";
+// src/pages/ElevForm.jsx
+import React, { useMemo, useState } from "react";
 
-const genders = ["M", "F"];
+const ElevForm = ({ initial = {}, onClose, onSubmit }) => {
+  const isEdit = Boolean(initial.id);
 
-function ElevForm({initial, parentId, onSubmit, onClose}) {
-    const isEdit = Boolean(initial?.id);
+  const [nume, setNume] = useState(initial.nume || "");
+  const [varsta, setVarsta] = useState(initial.varsta || "");
+  const [gen, setGen] = useState(initial.gen || "");
+  const [grupa, setGrupa] = useState(initial.grupa || "");
+  const [parentId] = useState(
+    initial.parent_id ?? initial.parinte_id ?? null
+  );
+  const [parentName, setParentName] = useState(
+    initial.parent_name || initial.parent_display || ""
+  );
 
-    const [nume, setNume] = useState(initial?.nume || "");
-    const [gen, setGen] = useState(initial?.gen || "");
-    const [varsta, setVarsta] = useState(initial?.varsta ?? "");
-    const [grupa, setGrupa] = useState(initial?.grupa || "");
-    const [parinteNume, setParinteNume] = useState(""); // nou
-    const [err, setErr] = useState("");
+  const title = useMemo(
+    () => (isEdit ? "Editează elev" : "Adaugă elev"),
+    [isEdit]
+  );
 
-    const parinteId = (initial && initial.parinte_id) ?? parentId ?? null;
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    useEffect(() => {
-        const esc = (e) => e.key === "Escape" && onClose();
-        document.addEventListener("keydown", esc);
-        return () => document.removeEventListener("keydown", esc);
-    }, [onClose]);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setErr("");
-
-        if (!nume?.trim() || varsta === "" || !grupa?.trim()) {
-            setErr("Completează nume, vârsta și grupa.");
-            return;
-        }
-        if (!parinteId && !parinteNume.trim()) {
-            setErr("Trebuie să alegi un părinte sau să completezi numele părintelui.");
-            return;
-        }
-
-        const payload = {
-            id: initial?.id,
-            nume: nume.trim(),
-            gen: gen || null,
-            varsta: Number(varsta),
-            grupa: grupa.trim(),
-            ...(parinteId
-                    ? {parinte_id: parinteId}
-                    : {parinte_nume: parinteNume.trim()}   // <<< DOAR asta e nevoie
-            ),
-        };
-
-        await onSubmit(payload, isEdit);
+    const payload = {
+      ...(isEdit ? { id: initial.id } : {}),
+      nume: nume.trim(),
+      varsta: varsta === "" ? null : Number(varsta),
+      gen,
+      grupa: grupa.trim(),
     };
 
-    return (
-        <div className="modal-backdrop" onClick={onClose}>
-            <div className="modal" onClick={(e) => e.stopPropagation()}>
-                <h3>{isEdit ? "Editează elev" : "Adaugă elev"}</h3>
+    // opțional – dacă există / a fost modificat
+    if (parentId != null) payload.parent_id = parentId;
+    if (parentName && parentName.trim()) payload.parent_name = parentName.trim();
 
-                {err && <div className="alert alert-danger" role="alert">{err}</div>}
+    onSubmit(payload, isEdit);
+  };
 
-                <form onSubmit={handleSubmit} className="form-grid">
-                    <label>
-                        Nume și prenume elev*
-                        <input
-                            value={nume}
-                            onChange={(e) => setNume(e.target.value)}
-                            placeholder="Ex: Popescu Andrei"
-                            required
-                        />
-                    </label>
+  return (
+    <div className="modal-backdrop" role="dialog" aria-modal="true">
+      <div className="modal">
+        <h3>{title}</h3>
 
-                    <label>
-                        Gen
-                        <select value={gen} onChange={(e) => setGen(e.target.value)}>
-                            <option value="">—</option>
-                            {genders.map((g) => (
-                                <option key={g} value={g}>{g}</option>
-                            ))}
-                        </select>
-                    </label>
+        <form onSubmit={handleSubmit} className="form-grid">
+          <label>
+            <span>Nume elev</span>
+            <input
+              type="text"
+              value={nume}
+              onChange={(e) => setNume(e.target.value)}
+              required
+            />
+          </label>
 
-                    <label>
-                        Vârsta*
-                        <input
-                            type="number"
-                            min="3"
-                            max="18"
-                            value={varsta}
-                            onChange={(e) => setVarsta(e.target.value)}
-                            required
-                        />
-                    </label>
+          <label>
+            <span>Vârstă</span>
+            <input
+              type="number"
+              min="1"
+              max="99"
+              value={varsta}
+              onChange={(e) => setVarsta(e.target.value)}
+              required
+            />
+          </label>
 
-                    <label>
-                        Grupa*
-                        <input
-                            value={grupa}
-                            onChange={(e) => setGrupa(e.target.value)}
-                            placeholder="Ex: Grupa 7"
-                            required
-                        />
-                    </label>
+          <label>
+            <span>Gen</span>
+            <select value={gen} onChange={(e) => setGen(e.target.value)} required>
+              <option value="">Selectează</option>
+              <option value="M">Masculin</option>
+              <option value="F">Feminin</option>
+            </select>
+          </label>
 
-                    {!parinteId && !isEdit && (
-                        <label>
-                            Nume părinte (dacă nu există cont)
-                            <input
-                                value={parinteNume}
-                                onChange={(e) => setParinteNume(e.target.value)}
-                                placeholder="Ex: Popescu Ion"
-                            />
-                        </label>
-                    )}
+          <label>
+            <span>Grupa</span>
+            <input
+              type="text"
+              placeholder="Ex: Grupa 3"
+              value={grupa}
+              onChange={(e) => setGrupa(e.target.value)}
+              required
+            />
+          </label>
 
-                    {parinteId && (
-                        <div className="hint">
-                            <small>Părinte selectat (ID): {parinteId}</small>
-                        </div>
-                    )}
+          {/* ✨ câmpul nou: Nume părinte – apare și la edit, și la add */}
+          <label className="field--full">
+            <span>Nume părinte (opțional)</span>
+            <input
+              type="text"
+              placeholder="Ex: Popescu Maria"
+              value={parentName}
+              onChange={(e) => setParentName(e.target.value)}
+            />
+          </label>
 
-                    <div className="form-actions">
-                        <button type="button" className="btn" onClick={onClose}>Renunță</button>
-                        <button type="submit" className="btn btn-primary">
-                            {isEdit ? "Salvează" : "Adaugă"}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
-}
+          <div className="form-actions">
+            <button type="button" className="btn" onClick={onClose}>
+              Anulează
+            </button>
+            <button type="submit" className="btn btn-primary">
+              {isEdit ? "Salvează" : "Adaugă"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 export default ElevForm;

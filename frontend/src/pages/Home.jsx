@@ -44,7 +44,7 @@ const Home = () => {
             {/* Tranziție cu imagine */}
             <div style={{width: '100%', overflow: 'hidden', lineHeight: 0}}>
                 <img
-                    src="images/brush.png"
+                    src="images/brush_transition/brush.png"
                     alt="Tranziție Brush"
                     style={{width: '100%', height: 'auto', display: 'block'}}
                 />
@@ -81,38 +81,38 @@ const Home = () => {
             </section>
             {/*</div>*/}
 
-            {/*<div data-aos="flip-up">*/}
-            <section className="tarife-section">
-                <h2 className="tarife-title">Tarife</h2>
-                <div className="tarife-cards">
-                    <div className="tarif-card">
-                        <i className="fas fa-child"></i>
-                        <h3>Copii</h3>
-                        <p>200 RON / lună</p>
-                    </div>
-                    <div className="tarif-card">
-                        <i className="fas fa-user"></i>
-                        <h3>Adulți</h3>
-                        <p>200 RON / lună</p>
-                    </div>
-                    <div className="tarif-card">
-                        <i className="fas fa-trophy"></i>
-                        <h3>Performanță</h3>
-                        <p>200 RON / lună</p>
-                    </div>
-                </div>
-            </section>
-            {/*</div>*/}
+            {/*/!*<div data-aos="flip-up">*!/*/}
+            {/*<section className="tarife-section">*/}
+            {/*    <h2 className="tarife-title">Tarife</h2>*/}
+            {/*    <div className="tarife-cards">*/}
+            {/*        <div className="tarif-card">*/}
+            {/*            <i className="fas fa-child"></i>*/}
+            {/*            <h3>Copii</h3>*/}
+            {/*            <p>200 RON / lună</p>*/}
+            {/*        </div>*/}
+            {/*        <div className="tarif-card">*/}
+            {/*            <i className="fas fa-user"></i>*/}
+            {/*            <h3>Adulți</h3>*/}
+            {/*            <p>200 RON / lună</p>*/}
+            {/*        </div>*/}
+            {/*        <div className="tarif-card">*/}
+            {/*            <i className="fas fa-trophy"></i>*/}
+            {/*            <h3>Performanță</h3>*/}
+            {/*            <p>200 RON / lună</p>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</section>*/}
+            {/*/!*</div>*!/*/}
 
             <div style={{width: '100%', overflow: 'hidden', lineHeight: 0}}>
                 <img
-                    src="images/brush_invers.png"
+                    src="images//brush_transition/brush_invers.png"
                     alt="Tranziție Brush"
                     style={{width: '100%', height: 'auto', display: 'block'}}
                 />
             </div>
 
-            import {toast} from "react-toastify";
+            {/*import {toast} from "react-toastify";*/}
 
             {/*<button onClick={() => toast("Ping!")}>Test toast</button>*/}
 

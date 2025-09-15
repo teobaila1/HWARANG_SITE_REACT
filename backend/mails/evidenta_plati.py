@@ -1,4 +1,3 @@
-# backend/mails/evidenta_plati.py
 from flask import Blueprint, request, jsonify
 from ..config import get_conn, DB_PATH
 import json as _json
@@ -53,25 +52,32 @@ def get_plati_filtrate():
     """
     Combina:
       - toate plățile existente (join cu numele părintelui),
-      - cu „copiii fără plăți” (marcati 'status': 'neplatit').
+      - cu „copiii fără plăți” (marcați 'status': 'neplatit').
+    Include:
+      - parinte_nume    -> username
+      - parinte_display -> COALESCE(nume_complet, username)
     """
     try:
         ensure_tables()
         con = get_conn()
 
-        # Plăți existente
+        # Plăți existente (cu username și nume de afișat)
         rows = con.execute("""
-            SELECT p.*, u.username AS parinte_nume
+            SELECT
+              p.*,
+              u.username AS parinte_nume,
+              COALESCE(u.nume_complet, u.username) AS parinte_display
             FROM plati p
             JOIN utilizatori u ON u.id = p.parinte_id
             ORDER BY p.id DESC
         """).fetchall()
-        cols = [d[0] for d in rows.cursor_description] if hasattr(rows, "cursor_description") else []
         plati_existente = [dict(r) for r in rows]
 
-        # Parinți + copii lor
+        # Părinți + copiii lor (pentru a completa rândurile 'neplătit')
         parinti = con.execute("""
-            SELECT username, copii
+            SELECT username,
+                   COALESCE(nume_complet, username) AS parinte_display,
+                   copii
             FROM utilizatori
             WHERE LOWER(rol) = 'parinte' AND copii IS NOT NULL
         """).fetchall()
@@ -79,15 +85,18 @@ def get_plati_filtrate():
         copii_neplatiti = []
         for p in parinti:
             username = p["username"]
+            disp = p["parinte_display"]
             for copil in _safe_load_children(p["copii"]):
                 copil_nume = (copil.get("nume") or "").strip()
                 if not copil_nume:
                     continue
-                # dacă NU există nicio plată pentru copil (ignorăm luna aici, ca în codul tău original)
-                if not any((pe.get("copil_nume") or "").strip().upper() == copil_nume.upper() for pe in plati_existente):
+                # dacă NU există vreo plată pentru acest copil (indiferent de lună)
+                if not any((pe.get("copil_nume") or "").strip().upper() == copil_nume.upper()
+                           for pe in plati_existente):
                     copii_neplatiti.append({
                         "copil_nume": copil_nume,
                         "parinte_nume": username,
+                        "parinte_display": disp,
                         "luna": None,
                         "suma": None,
                         "tip_plata": None,
@@ -106,15 +115,16 @@ def get_plati():
         ensure_tables()
         con = get_conn()
         rows = con.execute("""
-            SELECT p.*, u.username AS parinte_nume
+            SELECT
+              p.*,
+              u.username AS parinte_nume,
+              COALESCE(u.nume_complet, u.username) AS parinte_display
             FROM plati p
             JOIN utilizatori u ON u.id = p.parinte_id
             ORDER BY p.id DESC
         """).fetchall()
-        print("[INFO] Am trimis toate plățile.")
         return jsonify([dict(r) for r in rows])
     except Exception as e:
-        print(f"[ERROR] La GET /api/plati: {e}")
         return jsonify({"error": str(e)}), 500
 
 
@@ -151,19 +161,16 @@ def add_plata():
                    SET suma = ?, tip_plata = ?, status = ?, parinte_id = ?
                  WHERE id = ?
             """, (suma, tip_plata, status, parinte_id, existing["id"]))
-            print(f"[INFO] UPDATE în loc de INSERT pentru {copil_nume} / {luna}")
         else:
             con.execute("""
                 INSERT INTO plati (parinte_id, copil_nume, luna, suma, tip_plata, status)
                 VALUES (?, ?, ?, ?, ?, ?)
             """, (parinte_id, copil_nume, luna, suma, tip_plata, status))
-            print(f"[INFO] Plată nouă inserată: {copil_nume} / {luna}")
 
         con.commit()
         return jsonify({"message": "OK"}), 200
 
     except Exception as e:
-        print(f"[ERROR] La POST /api/plati: {e}")
         return jsonify({"error": str(e)}), 500
 
 
@@ -171,7 +178,6 @@ def add_plata():
 def update_plata(id):
     # dacă vine -1 din UI, tratăm ca create
     data = request.get_json(silent=True) or {}
-    print(f"[INFO] Cerere actualizare plată ID {id}: {data}")
 
     try:
         ensure_tables()
@@ -192,7 +198,6 @@ def update_plata(id):
                 data.get("status"),
                 id
             ))
-            print(f"[INFO] Plată ID {id} actualizată.")
         else:
             parinte_id = get_parinte_id_by_copil(data.get("copil_nume"))
             if not parinte_id:
@@ -208,13 +213,11 @@ def update_plata(id):
                 data.get("tip_plata"),
                 data.get("status")
             ))
-            print("[INFO] Plată nouă inserată (deși era editare).")
 
         con.commit()
         return jsonify({"message": "OK"}), 200
 
     except Exception as e:
-        print(f"[ERROR] La PUT /api/plati/{id}: {e}")
         return jsonify({"error": str(e)}), 500
 
 
@@ -225,8 +228,6 @@ def delete_plata(id):
         con = get_conn()
         con.execute("DELETE FROM plati WHERE id = ?", (id,))
         con.commit()
-        print(f"[INFO] Plată ID {id} ștearsă.")
         return jsonify({"message": "Plată ștearsă"}), 200
     except Exception as e:
-        print(f"[ERROR] La DELETE /api/plati/{id}: {e}")
         return jsonify({"error": str(e)}), 500

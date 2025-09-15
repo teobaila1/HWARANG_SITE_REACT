@@ -29,21 +29,32 @@ def _is_admin(con, username):
     return bool(r and str(r["rol"]).lower() == "admin")
 
 # ---------------- GET toți copiii ----------------
+# ---------------- GET toți copiii ----------------
 @toti_copiii_parintilor_bp.get("/api/toti_copiii")
 def toti_copiii():
     try:
         con = get_conn()
-        rows = con.execute(
-            "SELECT username, email, copii FROM utilizatori "
-            "WHERE LOWER(rol) = 'parinte' AND copii IS NOT NULL"
-        ).fetchall()
+        rows = con.execute("""
+          SELECT
+            username,
+            email,
+            copii,
+            nume_complet,
+            COALESCE(nume_complet, username) AS display_name
+          FROM utilizatori
+          WHERE LOWER(rol)='parinte' AND copii IS NOT NULL
+        """).fetchall()
 
         rezultate = []
         for r in rows:
-            copii = _safe_load_list(r["copii"])
             rezultate.append({
-                "parinte": {"username": r["username"], "email": r["email"]},
-                "copii": copii
+                "parinte": {
+                    "username": r["username"],
+                    "email": r["email"],
+                    "nume_complet": r["nume_complet"],     # 👈 îl trimitem separat
+                    "display": r["display_name"],           # nume de afișat
+                },
+                "copii": _safe_load_list(r["copii"])
             })
 
         return jsonify({"status": "success", "date": rezultate})
@@ -174,6 +185,12 @@ def admin_delete_child(child_id):
         return jsonify({"status":"error","message":str(e)}), 500
 
 # ---------------- ADMIN: PATCH părinte (username/email) ----------------
+def _ensure_column(con, table, column, sql_type="TEXT"):
+    cols = {row[1] for row in con.execute(f"PRAGMA table_info({table})").fetchall()}
+    if column not in cols:
+        con.execute(f"ALTER TABLE {table} ADD COLUMN {column} {sql_type}")
+        con.commit()
+
 @toti_copiii_parintilor_bp.patch("/api/admin/parinte/<parent_username>")
 def admin_update_parent(parent_username):
     data = request.get_json(silent=True) or {}
@@ -181,16 +198,24 @@ def admin_update_parent(parent_username):
     if not admin_username:
         return jsonify({"status":"error","message":"Lipsește admin_username."}), 400
 
-    new_username = (data.get("new_username") or "").strip() or parent_username
-    email = data.get("email", None)
+    new_username  = (data.get("new_username") or "").strip() or parent_username
+    email         = (data.get("email") or None)
+    nume_complet  = (data.get("nume_complet") or "").strip() or None   # 👈 NOU
+
     try:
         con = get_conn()
         if not _is_admin(con, admin_username):
             return jsonify({"status":"error","message":"Doar adminul are voie."}), 403
 
+        # asigură coloana, dacă lipsește
+        _ensure_column(con, "utilizatori", "nume_complet", "TEXT")
+
         # dacă schimbăm username-ul, verificăm coliziuni
         if new_username.lower() != parent_username.lower():
-            exists = con.execute("SELECT 1 FROM utilizatori WHERE LOWER(username)=LOWER(?)", (new_username,)).fetchone()
+            exists = con.execute(
+                "SELECT 1 FROM utilizatori WHERE LOWER(username)=LOWER(?)",
+                (new_username,)
+            ).fetchone()
             if exists:
                 return jsonify({"status":"error","message":"Username deja folosit."}), 409
 
@@ -201,10 +226,14 @@ def admin_update_parent(parent_username):
         if not row:
             return jsonify({"status":"error","message":"Părinte inexistent."}), 404
 
-        con.execute(
-            "UPDATE utilizatori SET username=?, email=? WHERE id=?",
-            (new_username, email, row["id"])
-        )
+        # build dinamic (email poate fi None; nume_complet poate fi None)
+        fields, values = [], []
+        fields.append("username = ?");     values.append(new_username)
+        fields.append("email = ?");        values.append(email)
+        fields.append("nume_complet = ?"); values.append(nume_complet)
+
+        values.append(row["id"])
+        con.execute(f"UPDATE utilizatori SET {', '.join(fields)} WHERE id = ?", values)
         con.commit()
         return jsonify({"status":"success"})
     except Exception as e:

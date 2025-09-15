@@ -78,3 +78,31 @@
   margin: 5rem 0;
   font-weight: bold;
 }
+
+
+
+/* Lasă cardul cum e; doar adăugăm un container pentru poză ca să nu mai taie imaginea */
+.coach-photo {
+  position: relative;
+  aspect-ratio: 16 / 10;     /* schimbă la 4/5 dacă vrei mai portret */
+  background: #0b0b0b;
+  border-radius: 8px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  margin-bottom: 1rem;
+}
+
+/* lăsăm cardul să “iasă” din slide la hover, fără să fie tăiat */
+.coach-carousel .swiper,
+.coach-carousel .swiper-wrapper,
+.coach-carousel .swiper-slide {
+  overflow: visible;
+}
+
+/* mic polish la text */
+.coach-card p {
+  margin: .25rem 0 0;
+  opacity: .95;
+  line-height: 1.35;
+}

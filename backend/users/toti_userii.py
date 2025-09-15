@@ -4,11 +4,38 @@ from ..config import get_conn, DB_PATH
 
 toti_userii_bp = Blueprint("toti_userii", __name__)
 
+# util mic: dacă lipsesc coloanele noi, le adăugăm non-destructiv
+def _ensure_column(con, table: str, column: str, sql_type: str = "TEXT"):
+    cols = {row[1] for row in con.execute(f"PRAGMA table_info({table})").fetchall()}
+    if column not in cols:
+        con.execute(f"ALTER TABLE {table} ADD COLUMN {column} {sql_type}")
+        con.commit()
+
 @toti_userii_bp.get("/api/users")
 def get_all_users():
     con = get_conn()
-    rows = con.execute("SELECT id, username, email, rol FROM utilizatori ORDER BY id DESC").fetchall()
-    return jsonify([dict(r) for r in rows])
+    # asigură nume_complet (în caz că nu ai rulat deja alte rute care o crează)
+    _ensure_column(con, "utilizatori", "nume_complet")
+
+    rows = con.execute("""
+        SELECT
+            id,
+            username,
+            email,
+            rol,
+            COALESCE(nume_complet, username) AS display_name
+        FROM utilizatori
+        ORDER BY id DESC
+    """).fetchall()
+
+    # întoarcem și display_name ca să fie simplu în frontend
+    return jsonify([{
+        "id": r["id"],
+        "username": r["username"],
+        "email": r["email"],
+        "rol": r["rol"],
+        "display_name": r["display_name"],
+    } for r in rows])
 
 
 @toti_userii_bp.delete("/api/users/<string:username>")
@@ -28,10 +55,6 @@ def sterge_utilizator(username: str):
         if not admin_row or (admin_row["rol"] or "").lower() != "admin":
             return jsonify({"status": "error", "message": "Doar adminii pot șterge utilizatori"}), 403
 
-        # (opțional) împiedică ștergerea propriului cont de admin
-        # if admin.lower() == username.lower():
-        #     return jsonify({"status": "error", "message": "Nu îți poți șterge propriul cont"}), 400
-
         cur = con.execute("DELETE FROM utilizatori WHERE username = ?", (username,))
         con.commit()
 
@@ -42,7 +65,6 @@ def sterge_utilizator(username: str):
 
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
-
 
 
 @toti_userii_bp.patch("/api/users/<int:user_id>")
@@ -61,7 +83,6 @@ def update_user(user_id: int):
     try:
         con = get_conn()
 
-        # verifică admin
         admin_row = con.execute(
             "SELECT rol FROM utilizatori WHERE username = ? LIMIT 1",
             (admin,)
@@ -69,7 +90,6 @@ def update_user(user_id: int):
         if not admin_row or (admin_row["rol"] or "").lower() != "admin":
             return jsonify({"status": "error", "message": "Doar adminii pot modifica utilizatori"}), 403
 
-        # update username/email
         cur = con.execute("""
             UPDATE utilizatori
                SET username = ?, email = ?
@@ -82,8 +102,7 @@ def update_user(user_id: int):
 
         return jsonify({"status": "success", "message": "Utilizator actualizat"}), 200
 
-    except IntegrityError as ie:
-        # dacă ai UNIQUE pe username/email, prinde coliziuni
+    except IntegrityError:
         return jsonify({"status": "error", "message": "Username sau email deja folosit"}), 409
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500

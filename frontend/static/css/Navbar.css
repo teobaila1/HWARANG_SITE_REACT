@@ -427,3 +427,31 @@ button.user-chip:focus-visible{
   white-space: nowrap;
   max-width: none;         /* anulăm limita anterioară, dacă există */
 }
+
+
+/* === Fix gap dintre "Alătură-te" și "Login/Înregistrare" === */
+.nav-links .join-link{ margin-left: 0 !important; flex: 0 0 auto; }
+
+/* punem "Login" + "Înregistrare" în același LI, cu un gap mic între ele */
+.nav-links .auth-links{
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(.4rem, 1vw, .8rem);
+  margin-left: 0 !important;
+  flex: 0 0 auto;
+  padding: 0; /* nu vrem padding suplimentar pe LI */
+}
+.nav-links .auth-links a{
+  padding: .34rem .48rem;         /* același stil ca celelalte linkuri */
+  border-radius: 10px;
+  position: relative;
+}
+
+/* dacă vreun CSS vechi împinge ceva la dreapta, anulăm */
+.nav-links > li{ margin-left: 0; flex: 0 0 auto; }
+
+/* pe ecrane mici nu schimbăm comportamentul */
+@media (max-width: 860px){
+  .nav-links .auth-links a{ padding: .36rem .5rem; }
+}

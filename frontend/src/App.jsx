@@ -37,6 +37,9 @@ import ResetareParolaForm from "./pages/ResetPassword/ResetareParolaForm";
 import CerereResetareParola from "./pages/ResetPassword/CerereResetareParola";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Galerie from "./pages/Gallery/Galerie";
+import Training from "./Kickbox/Trainings";
+import FooterKickbox from "./components/FooterKickbox";
 
 
 function App() {
@@ -77,6 +80,9 @@ function App() {
                     <Route path="/plati" element={<AdminPlati/>}/>
                     <Route path="/resetare-parola/:token" element={<ResetareParolaForm/>}/>
                     <Route path="/resetare-parola" element={<CerereResetareParola/>}/>
+                    <Route path="/galerie" element={<Galerie/>}/>
+                    <Route path="/training" element={<Training/>} />
+
 
 
                     <Route

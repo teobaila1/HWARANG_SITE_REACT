@@ -28,7 +28,6 @@
   text-shadow: 0 0 10px rgba(255,0,0,.15);
 }
 
-
 /* ===== Tabel ===== */
 .inscrisi-table{
   width: 100%;
@@ -59,15 +58,10 @@
   vertical-align: middle;
 }
 
-.inscrisi-table tbody tr:nth-child(odd) td{
-  background: rgba(255,255,255,.02);
-}
+.inscrisi-table tbody tr:nth-child(odd) td{ background: rgba(255,255,255,.02); }
+.inscrisi-table tbody tr:hover td{ background: rgba(255,26,26,.06); }
 
-.inscrisi-table tbody tr:hover td{
-  background: rgba(255,26,26,.06);
-}
-
-/* ===== Inputs/Select în modul edit ===== */
+/* ===== Inputs/Select (stil general) ===== */
 .inscrisi-table input[type="text"],
 .inscrisi-table input[type="number"],
 .inscrisi-table input[type="date"],
@@ -89,7 +83,7 @@
   background: #111117;
 }
 
-/* ===== Butoane acțiuni din tabel ===== */
+/* ===== Butoane din tabel ===== */
 .inscrisi-table td button{
   display: inline-flex;
   align-items: center;
@@ -110,23 +104,10 @@
   transform: translateY(-1px);
   box-shadow: 0 14px 34px rgba(255,0,0,.28);
 }
-
-/* al 2-lea buton (Delete/Anulează) – variantă neutră/închisă */
-.inscrisi-table td button:nth-child(2){
-  background: linear-gradient(180deg, #2a2a2a, #1b1b1b);
-  color:#fff;
-  box-shadow: none;
-  border: 1px solid var(--ai-border);
+.inscrisi-table td .btn-danger{
+  background: linear-gradient(180deg, #5b0b0b, #370404);
+  border: 1px solid #3a0a0a;
 }
-.inscrisi-table td button:nth-child(2):hover{
-  background:#2f2f2f;
-}
-
-/* dacă îți scoți stilurile inline din JSX pentru save/cancel,
-   poți activa următoarele pentru culori clare:
-   .btn-save{ background: linear-gradient(180deg, #17b13f, #0f8c31) !important; }
-   .btn-cancel{ background: linear-gradient(180deg, #2a2a2a, #1b1b1b) !important; }
-*/
 
 /* ===== Responsive: tabel -> carduri ===== */
 @media (max-width: 920px){
@@ -135,9 +116,7 @@
   .inscrisi-table tbody,
   .inscrisi-table th,
   .inscrisi-table td,
-  .inscrisi-table tr{
-    display:block;
-  }
+  .inscrisi-table tr{ display:block; }
 
   .inscrisi-table thead{ display:none; }
 
@@ -159,7 +138,6 @@
     text-align: right;
   }
 
-  /* Etichete pentru fiecare câmp (fără să schimbi JSX) */
   .inscrisi-table tbody td:nth-child(1)::before{ content:"Nume"; }
   .inscrisi-table tbody td:nth-child(2)::before{ content:"Gen"; }
   .inscrisi-table tbody td:nth-child(3)::before{ content:"Categoria"; }
@@ -177,7 +155,6 @@
     text-align: left;
   }
 
-  /* acțiunile pe mobil una sub alta */
   .inscrisi-table tbody td:last-child{
     justify-content: flex-end;
     gap: .5rem;
@@ -192,32 +169,111 @@
   }
 }
 
-/* ——— Search bar: implicit gri, roșu doar la focus ——— */
-.inscrisi-container .search-bar {
-  border: 1px solid #2e2e2e !important;   /* reset hard */
+/* ——— Search bar ——— */
+.inscrisi-container .search-bar{
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto 1rem;
+  display: block;
+  padding: .7rem .85rem;
+  border-radius: 10px;
+  border: 1px solid #2e2e2e !important;
   background: #1c1c1c;
   color: #fff;
   box-shadow: none !important;
   transition: border .25s ease, box-shadow .25s ease, background .25s ease;
 }
-
-.inscrisi-container .search-bar:hover {
-  border-color: #3a3a3a;
-}
-
-.inscrisi-container .search-bar:focus,
-.inscrisi-container .search-bar:focus-visible {
+.inscrisi-container .search-bar:hover{ border-color: #3a3a3a; }
+.inscrisi-container .search-bar:focus{
   outline: none;
   border-color: #ff1a1a !important;
   background: #1e1e1e;
   box-shadow: 0 0 0 3px rgba(255,26,26,.20), 0 0 12px rgba(255,0,0,.18) !important;
 }
 
-/* dacă vreun stil global colorează la 'valid/invalid', anulăm aici */
-.inscrisi-container .search-bar:valid,
-.inscrisi-container .search-bar:invalid {
-  box-shadow: none;
+/* ========================================================= */
+/* =============  OVERRIDE SIGUR ÎN MODUL EDIT  ============ */
+/* ========================================================= */
+
+/* Scope clar pe această pagină + rândul editat */
+.admin-inscrisi .inscrisi-table tr.row-editing td{
+  background: linear-gradient(180deg, #19191f, #14141a) !important;
+  text-align: left;
 }
 
+/* bară roșie la stânga, ca accent */
+.admin-inscrisi .inscrisi-table tr.row-editing td:first-child{
+  position: relative;
+}
+.admin-inscrisi .inscrisi-table tr.row-editing td:first-child::before{
+  content:"";
+  position:absolute; left:0; top:8px; bottom:8px;
+  width:3px; border-radius:999px;
+  background: linear-gradient(180deg, var(--ai-accent), var(--ai-accent-2));
+}
 
+/* Controale uniformizate în rândul edit (bat stilurile globale) */
+.admin-inscrisi .inscrisi-table tr.row-editing td input[type="text"],
+.admin-inscrisi .inscrisi-table tr.row-editing td input[type="number"],
+.admin-inscrisi .inscrisi-table tr.row-editing td input[type="date"],
+.admin-inscrisi .inscrisi-table tr.row-editing td select,
+.admin-inscrisi .inscrisi-table tr.row-editing td .form-control{
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  height: 40px;
+  padding: .55rem .75rem;
+  border-radius: 10px;
+  border: 1px solid #2a2a34 !important;
+  background: #0c0c10 !important;
+  color: #fff !important;
+  outline: none;
+  transition: border .22s ease, box-shadow .22s ease, background .22s ease;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.03) !important;
+}
 
+.admin-inscrisi .inscrisi-table tr.row-editing td input::placeholder{ color:#a9a9b4; }
+
+/* focus consistent */
+.admin-inscrisi .inscrisi-table tr.row-editing td input:focus,
+.admin-inscrisi .inscrisi-table tr.row-editing td select:focus{
+  border-color: var(--ai-accent) !important;
+  box-shadow: 0 0 0 3px rgba(255,26,26,.22) !important;
+  background: #111117 !important;
+}
+
+/* icon date pe dark */
+.admin-inscrisi .inscrisi-table tr.row-editing td input[type="date"]::-webkit-calendar-picker-indicator{
+  filter: invert(1) opacity(.9);
+}
+
+/* scoatem săgețile number (look curat) */
+.admin-inscrisi .inscrisi-table tr.row-editing td input[type="number"]::-webkit-outer-spin-button,
+.admin-inscrisi .inscrisi-table tr.row-editing td input[type="number"]::-webkit-inner-spin-button{
+  -webkit-appearance: none;
+  margin: 0;
+}
+.admin-inscrisi .inscrisi-table tr.row-editing td input[type="number"]{ -moz-appearance:textfield; }
+
+/* săgeată custom pentru <select> */
+.admin-inscrisi .inscrisi-table tr.row-editing td select{
+  padding-right: 34px;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='white' stroke-opacity='.9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  background-size: 14px !important;
+}
+
+/* butoane clare în modul edit */
+.admin-inscrisi .inscrisi-table tr.row-editing td .btn-primary{
+  background: linear-gradient(180deg, var(--ai-accent), var(--ai-accent-2)) !important;
+  box-shadow: 0 10px 26px rgba(255,0,0,.22) !important;
+}
+.admin-inscrisi .inscrisi-table tr.row-editing td .btn-secondary{
+  background: linear-gradient(180deg, #2a2a2a, #1b1b1b) !important;
+  border: 1px solid var(--ai-border) !important;
+  box-shadow: none !important;
+}

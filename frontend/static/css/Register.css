@@ -1,87 +1,195 @@
+/* ===== Register.css – card modern, conținut centrat, SCOPE pe .register-container ===== */
+
 .register-container {
-  background-color: #161616 ;
-  color: white;
-  padding: 2.5rem 2rem;
-  max-width: 550px;
+  --_bg: var(--surface, #161616);
+  --ctrl-w: min(560px, 100%);        /* lățimea maximă a câmpurilor */
+  color: #ffffff;
+  padding: clamp(2.5rem, 3vw, 3rem) clamp(1.25rem, 3vw, 2rem);
+  max-width: 820px;                  /* puțin mai lat pentru respirare */
   margin: 5rem auto;
-  border-radius: 10px;
-  box-shadow: 0 0 10px red;
-  text-align: center;
+  border-radius: 14px;
+  border: 1px solid #2a2a2a;
+  box-shadow: 0 0 22px rgba(255, 0, 0, 0.25), 0 20px 60px rgba(0, 0, 0, 0.35);
+  background: var(--_bg);
+  text-align: center;                /* centram textele by default */
 }
 
+/* Titlu */
 .register-container h2 {
-  color: red;
-  margin-bottom: 2rem;
+  color: #ff1a1a;
+  margin: 0 0 1.5rem 0;
+  font-weight: 800;
+  letter-spacing: .3px;
+  text-shadow: 0 0 6px rgba(255,0,0,.35);
 }
 
+/* Formular – grid centrat + elemente centrate */
 .register-container form {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 1rem;
+  width: 100%;
+  justify-items: center;             /* centrează toate elementele din form */
 }
 
+/* Etichete */
+.register-container label {
+  font-size: .95rem;
+  color: #dcdcdc;
+  width: var(--ctrl-w);
+  text-align: center;                /* cerință: scrisul pe mijloc */
+}
+
+/* Inputs/selects – focus roșu + centrate ca bloc */
 .register-container input,
 .register-container select {
-  padding: 0.7rem;
+  width: var(--ctrl-w);
+  padding: 0.8rem 0.9rem;
   font-size: 1rem;
-  border-radius: 6px;
-  border: none;
+  border-radius: 8px;
+  border: 1px solid #2f2f2f;
+  color: #ffffff;
+  background: #111;
+  outline: none;
+  transition: border .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.register-container input::placeholder { color: #8a8a8a; }
+.register-container input:focus,
+.register-container select:focus {
+  border: 1px solid #ff1a1a;
+  box-shadow: 0 0 0 3px rgba(255, 26, 26, 0.2), 0 0 14px rgba(255, 0, 0, 0.25);
+  background: #0f0f0f;
 }
 
-.register-container button {
-  background-color: red;
-  color: white;
-  font-size: 1rem;
-  border: none;
-  padding: 0.8rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transform: scale(1.03);
-  transition: all 0.3s ease-in-out;
-}
-
-
-
-.register-container button:hover {
-  background-color: firebrick;
-  transform: scale(1.03);
-}
-
-
-.error-msg {
-  color: orange;
-  font-weight: bold;
-}
-
-.success-msg {
-  color: limegreen;
-  font-weight: bold;
-}
-
-
-
-.input-password-wrapper {
+/* Parola – wrapper + toggler (centrează și acestea) */
+.register-container .input-password-wrapper {
   position: relative;
-  width: 90%;
-  margin-bottom: 1.2rem;
+  width: var(--ctrl-w);
+  margin-bottom: .25rem;
 }
-
-.input-password-wrapper input {
+.register-container .input-password-wrapper input {
   width: 100%;
-  padding: 0.9rem 2.5rem 0.9rem 1rem; /* padding dreapta mai mare pentru ochi */
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  background-color: #f9f9f9;
-  color: black;
+  padding-right: 2.5rem;
 }
-
-.eye-toggle {
+.register-container .eye-toggle {
   position: absolute;
   top: 50%;
   right: 12px;
   transform: translateY(-50%);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
-  color: #333;
+  color: #cfcfd7;
+}
+
+/* Copii (opțional) */
+.register-container .checkbox-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;           /* centrat */
+  gap: 10px;
+  width: var(--ctrl-w);
+}
+
+.register-container h4 {
+  margin: .25rem 0 .5rem;
+  font-weight: 800;
+}
+
+/* containerul fiecărui copil – centrat și elastic */
+.register-container .copil-fields {
+  width: var(--ctrl-w);
+  display: grid;
+  grid-template-columns: 1.3fr .8fr 1fr .7fr auto; /* Nume / Vârstă / Grupa / Gen / Remove */
+  gap: 8px;
+  background: #121218;
+  border: 1px solid #2a2a2a;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.register-container .copil-fields > * { min-width: 0; }
+.register-container .copil-fields input,
+.register-container .copil-fields select { width: 100%; }
+.register-container .copil-fields .btn-ghost { white-space: nowrap; }
+
+@media (max-width: 720px) {
+  .register-container .copil-fields {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Butoane */
+.register-container button[type="submit"],
+.register-container .btn-primary {
+  background: linear-gradient(180deg, #ff1a1a, #cc0000);
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  padding: 0.9rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .25s ease, filter .2s ease, opacity .2s ease;
+  will-change: transform;
+  width: var(--ctrl-w);              /* butonul la fel de lat ca inputurile */
+}
+.register-container button[type="submit"]:hover,
+.register-container .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(255, 0, 0, 0.25);
+  filter: saturate(1.05);
+}
+
+.register-container .btn-ghost {
+  background: transparent;
+  color: #e9e9ee;
+  border: 1px solid #3b3f52;
+  padding: .6rem .8rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.register-container .btn-ghost:hover { background: #1b1d27; }
+
+.register-container .adauga-copil {
+  margin-top: .25rem;
+  background: #1e212b;
+  color: #e9e9ee;
+  border: 1px solid #3b3f52;
+  padding: .7rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  width: var(--ctrl-w);
+}
+.register-container .adauga-copil:hover { background: #272a36; }
+
+/* Mesaje – SCOPE la container */
+.register-container .error-msg {
+  color: #ffb84d;
+  font-weight: 700;
+  margin-top: .25rem;
+  text-align: center;
+}
+.register-container .success-msg {
+  color: #9be38f;
+  font-weight: 700;
+  margin-top: .25rem;
+  text-align: center;
+}
+
+/* Link “Autentifică-te aici” – îl centrăm și pe el */
+.register-container a[href="/autentificare"] {
+  display: inline-block;
+  margin-top: .5rem;
+}
+.register-container a:hover {
+  text-decoration: underline;
+  opacity: .95;
+}
+
+/* Responsive mic */
+@media (max-width: 480px) {
+  .register-container {
+    margin: 3rem 1rem;
+    padding: 2rem 1.25rem;
+  }
 }

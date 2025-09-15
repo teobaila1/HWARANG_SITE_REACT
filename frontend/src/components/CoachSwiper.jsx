@@ -9,48 +9,57 @@ import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css
 const coachData = [
     {
         nume: "Florin Bîrluț",
-        descriere: "Președintele clubului, antrenor principal cu experiență națională și internațională în Taekwon-Do ITF",
-        imagine: "/images/florin.jpg",
+        descriere: "Președintele clubului, antrenor principal, multiplu campion național, european și mondial",
+        imagine: "/images/people/florin.jpg",
     },
     {
         nume: "Răzvan Tudor",
-        descriere: "Antrenor Kickboxing, instructor certificat și multiplu campion național",
-        imagine: "/images/razvan_golden_boy.jpg",
+        descriere: "Antrenor Kickboxing, instructor certificat, multiplu campion european și național",
+        imagine: "/images/people/razvan_golden_boy.jpg",
     },
     {
-        nume: "Alex Băilă",
-        descriere: "Antrenor/Sportiv",
-        imagine: "/images/coach3.jpg",
+        nume: "Alexandru Băilă",
+        descriere: "Instructor, sportiv, multiplu campion național, balcanic, medaliat la campionatele" +
+            " europene și mondiale",
+        imagine: "/images/people/alex_poza_edit.jpg",
     },
     {
         nume: "Teodor Băilă",
-        descriere: "Instructor/Sportiv",
-        imagine: "/images/teo.png",
+        descriere: "Instructor, sportiv, multiplu campion național, balcanic, medaliat la campionatele" +
+            " europene",
+        imagine: "/images/people/teo_baila.jpg",
     },
     {
         nume: "Raul Hurdu",
-        descriere: "Instructor/Sportiv",
-        imagine: "/images/raul_hurdu.jpg",
+        descriere: "Instructor, sportiv, multiplu campion național, campion european la proba de Tehnici Speciale echipe",
+        imagine: "/images/people/raul_hurdu_senior.jpg",
     },
+
+    {
+        nume: "Andrei Dobră",
+        descriere: "Instructor/Sportiv",
+        imagine: "/images/people/raul_hurdu.jpg",
+    },
+
     {
         nume: "Daniel Cristache",
         descriere: "Instructor/Sportiv",
-        imagine: "/images/dani.jpg",
+        imagine: "/images/people/dani.jpg",
     },
     {
         nume: "Radu Mareș",
         descriere: "Instructor/Sportiv",
-        imagine: "/images/radu.jpg",
+        imagine: "/images/people/radu.jpg",
     },
     {
         nume: "Laurențiu Tatu",
         descriere: "Instructor",
-        imagine: "/images/lau.jpg",
+        imagine: "/images/people/lau.jpg",
     },
     {
         nume: "Oana Roșu",
         descriere: "Instructor/Sportiv",
-        imagine: "/images/oana.jpg",
+        imagine: "/images/people/oana.jpg",
     },
 ];
 

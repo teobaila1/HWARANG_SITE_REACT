@@ -9,28 +9,32 @@ const orarData = [
     {
         zi: "Luni",
         programe: [
-            "17:00 - 17:45 | Antrenor: Alex Băilă & Radu Mareș | 4-10 ani",
-            "17:00 - 17:45 | Antrenor: Raul Hurdu & Andrei Dobră | +10 ani",
+            "17:00 - 17:45 | Antrenor: Raul Hurdu & Andrei Dobră | 4-10 ani",
+            "17:00 - 17:45 | Antrenor: Alex Băilă & Radu Mareș | +10 ani",
             "19:00 - 20:30 | Antrenor: Răzvan Tudor | KickBox"
         ]
     },
     {
         zi: "Marți",
         programe: [
-            "17:00 - 18:00 | Antrenor: Florin Bîrluț | Începători 5-10 ani"
+            "17:00 - 18:00 | Antrenor: Oana Roșu | Începători 5-10 ani",
+            "18:00 - 19:30 | Antrenor: Teodor Băilă & Daniel Cristache | Avansați +8 ani",
+            "19:30 - 21:00 | Antrenor: Florin Bîrluț | Performanță +12 ani"
         ]
     },
     {
         zi: "Miercuri",
         programe: [
-            "17:00 - 17:45 | Antrenor: Raul Hurdu & Andrei Dobără | 5-10 ani"
+            "17:00 - 17:45 | Antrenor: Raul Hurdu & Andrei Dobră | 4-10 ani",
+            "17:00 - 17:45 | Antrenor: Alex Băilă & Radu Mareș | +10 ani",
+            "19:00 - 20:30 | Antrenor: Răzvan Tudor | KickBox"
         ]
     },
     {
         zi: "Joi",
         programe: [
-            "17:00 - 18:00 | Antrenor: Florin Bîrluț & Oana Roșu | Începători: 5-10 ani",
-            "18:00 - 19:30 | Antrenor: Florin Bîrluț & Daniel Cristache | Avansați: +10 ani",
+            "17:00 - 18:00 | Antrenor: Oana Roșu | Începători: 5-10 ani",
+            "18:00 - 19:30 | Antrenor: Teodor Băilă & Daniel Cristache | Avansați: +8 ani",
             "19:30 - 21:00 | Antrenor: Florin Bîrluț | Performanță: +12 ani"
         ]
     },
@@ -45,7 +49,10 @@ const orarData = [
         zi: "Sâmbătă",
         programe: [
             "10:00 - 11:00 | Antrenor: Florin Bîrluț | Tull",
-            "11:00 - 12:00 | Antrenor: Florin Bîrluț | Spargeri forță"
+
+            "11:00 - 12:00 | Antrenor: Florin Bîrluț | Spargeri forță",
+
+            "12:00 - 13:00 | Antrenor: Florin Bîrluț | Tehnici Speciale"
         ]
     }
 ];

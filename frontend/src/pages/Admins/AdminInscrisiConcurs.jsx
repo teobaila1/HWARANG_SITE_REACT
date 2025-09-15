@@ -91,7 +91,8 @@ const AdminInscrisiConcurs = () => {
   return (
     <>
       <Navbar/>
-      <div className="inscrisi-container">
+      {/* adăugăm un scope clar: admin-inscrisi */}
+      <div className="inscrisi-container admin-inscrisi">
         <h2>Sportivi înscriși la concursuri</h2>
 
         <input
@@ -119,7 +120,10 @@ const AdminInscrisiConcurs = () => {
 
           <tbody>
           {filteredSportivi.map((s) => (
-            <tr key={s.id}>
+            <tr
+              key={s.id}
+              className={editIndex === s.id ? "row-editing" : ""}
+            >
               {editIndex === s.id ? (
                 <>
                   <td>
