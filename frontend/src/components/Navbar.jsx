@@ -44,7 +44,7 @@ const Navbar = () => {
         {/* dreapta: linkuri */}
         <ul className="nav-links">
           <li className="dropdown">
-            <a href="#" className="text-danger" tabIndex={0} aria-haspopup="true" aria-expanded="false">
+            <a href="/acasa" className="text-danger" tabIndex={0} aria-haspopup="true" aria-expanded="false">
               TaeKwon-Do
             </a>
             <ul className="dropdown-menu">
@@ -68,7 +68,7 @@ const Navbar = () => {
           )}
 
           <li className="dropdown">
-            <a href="#" tabIndex={0} aria-haspopup="true" aria-expanded="false">
+            <a href="/training" tabIndex={0} aria-haspopup="true" aria-expanded="false">
               Kickbox
             </a>
             <ul className="dropdown-menu">

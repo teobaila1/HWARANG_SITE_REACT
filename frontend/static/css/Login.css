@@ -56,11 +56,16 @@
   background: #0f0f0f;
 }
 
-/* Fix pentru autofill (Chrome) */
-.login-container input:-webkit-autofill {
-  -webkit-text-fill-color: black;
-  transition: background-color 5000s ease-in-out 0s;
-  border: 1px solid #2f2f2f;
+/* Fix complet pentru autofill pe Chrome */
+.login-container input:-webkit-autofill,
+.login-container input:-webkit-autofill:hover,
+.login-container input:-webkit-autofill:focus,
+.login-container input:-webkit-autofill:active {
+  -webkit-text-fill-color: #fff !important;        /* text alb */
+  caret-color: #fff;                                /* culoarea cursorului */
+  box-shadow: 0 0 0 1000px #0f0f0f inset !important;/* „vopsește” fundalul, elimină galbenul */
+  -webkit-box-shadow: 0 0 0 1000px #0f0f0f inset !important;
+  transition: background-color 9999s ease-out 0s;   /* hack pt. a păstra culoarea */
 }
 
 /* Buton */

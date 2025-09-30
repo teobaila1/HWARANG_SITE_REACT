@@ -6,6 +6,7 @@ import 'aos/dist/aos.css';
 import Navbar from "../components/Navbar";
 import OrarSwiper from "../components/OrarSwiper";
 import Footer from "../components/Footer";
+import "../../static/css/FooterHome.css";
 import {toast} from "react-toastify";
 
 
@@ -27,7 +28,7 @@ const Home = () => {
 
             <div className="video-container">
                 <video autoPlay muted loop id="bg-video">
-                    <source src="/static/videos/hwarang.mp4" type="video/mp4"/>
+                    <source src="/video/hwarang.mp4" type="video/mp4"/>
                 </video>
                 <div className="video-overlay"/>
                 <div className="video-spacer"/>

@@ -11,7 +11,7 @@ const Kickboxing = () => {
             <Navbar/>
 
             <section className="about-section">
-                <h1 className="about-title">Kickboxing - Antrenamente Săptămânal</h1>
+                <h1 className="about-title">Kickboxing - Antrenamente</h1>
 
                 <picture className="hero-wrap">
                     {/* Dacă ai și webp, îl pui primul */}

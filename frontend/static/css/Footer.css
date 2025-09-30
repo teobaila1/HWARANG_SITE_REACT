@@ -25,7 +25,7 @@
 
 /* Harta */
 .map-container{
-  border: 1px solid var(--_border);
+  border: 1px solid var(--border);
   border-radius: var(--_radius);
   overflow: hidden;
 }
@@ -57,7 +57,7 @@
   font-weight: 700;
   font-size: 1.1rem; /* și titlul puțin mai mare */
   color: var(--_text);
-  border-bottom: 1px solid var(--_border);
+  border-bottom: 1px solid var(--border);
   padding-bottom: .4rem;
 }
 
@@ -71,7 +71,7 @@
   width: 34px;
   height: 34px;
   border-radius: 8px;
-  border: 1px solid var(--_border);
+  border: 1px solid var(--border);
   transition: transform .15s ease;
 }
 .social-icons img:hover{ transform: translateY(-2px); }
@@ -86,7 +86,7 @@
   width: 95px;
   height: auto;
   border-radius: 12px;
-  border: 1px solid var(--_border);
+  border: 1px solid var(--border);
   margin: 0 auto .5rem;
 }
 .frtkd-name{
@@ -103,6 +103,6 @@
   text-align: center;
   font-size: .9rem;
   color: var(--_muted);
-  border-top: 1px solid var(--_border);
+  border-top: 1px solid var(--border);
   padding-top: .75rem;
 }
