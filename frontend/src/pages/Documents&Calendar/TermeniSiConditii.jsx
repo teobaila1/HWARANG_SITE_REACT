@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/TermeniSiConditii.css";
+import "../../../static/css/TermeniSiConditii.css";
 
 const TermeniSiConditii = () => {
     return (

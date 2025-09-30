@@ -1,9 +1,9 @@
 // src/pages/TotiUtilizatorii.jsx
 import React, {useEffect, useMemo, useState} from "react";
 import Navbar from "../../components/Navbar";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/TotiUtilizatorii.css";
+import "../../../static/css/TotiUtilizatorii.css";
+import {API_BASE} from "../../config";
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const ROLURI = ["admin", "Parinte", "Sportiv", "Antrenor", "AntrenorExtern"];
 
 const TotiUtilizatorii = () => {
@@ -21,7 +21,7 @@ const TotiUtilizatorii = () => {
   const loadUsers = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${API}/api/users`);
+      const res = await fetch(`${API_BASE}/api/users`);
       const data = await res.json();
       setUsers(Array.isArray(data) ? data : []);
       setMesaj("");
@@ -57,7 +57,7 @@ const TotiUtilizatorii = () => {
     const admin_username = localStorage.getItem("username");
 
     try {
-      const res = await fetch(`${API}/api/modifica-rol`, {
+      const res = await fetch(`${API_BASE}/api/modifica-rol`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -91,7 +91,7 @@ const TotiUtilizatorii = () => {
     if (!window.confirm(`Sigur vrei să ștergi utilizatorul ${username}?`)) return;
 
     try {
-      const res = await fetch(`${API}/api/users/${encodeURIComponent(username)}?admin_username=${encodeURIComponent(admin_username)}`, {
+      const res = await fetch(`${API_BASE}/api/users/${encodeURIComponent(username)}?admin_username=${encodeURIComponent(admin_username)}`, {
         method: "DELETE",
       });
       const data = await res.json();
@@ -122,7 +122,7 @@ const TotiUtilizatorii = () => {
 
     const admin_username = localStorage.getItem("username");
     try {
-      const res = await fetch(`${API}/api/users/${editUser.id}`, {
+      const res = await fetch(`${API_BASE}/api/users/${editUser.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

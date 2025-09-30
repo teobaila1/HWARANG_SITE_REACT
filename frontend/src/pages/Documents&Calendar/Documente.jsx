@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import Navbar from "../../components/Navbar";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Documente.css";
+import "../../../static/css/Documente.css";
+import {API_BASE} from "../../config";
 
 const Documente = () => {
     const [documente, setDocumente] = useState([]);
@@ -8,7 +9,7 @@ const Documente = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/get_documents')
+        fetch(`${API_BASE}/api/get_documents`)
             .then((res) => res.json())
             .then((data) => setDocumente(data));
     }, []);
@@ -18,7 +19,7 @@ const Documente = () => {
         if (!window.confirm(`Ești sigur că vrei să ștergi fișierul ${filename}?`)) return;
 
         try {
-            const res = await fetch(`http://localhost:5000/api/delete_document/id/${id}`, {
+            const res = await fetch(`${API_BASE}/api/delete_document/id/${id}`, {
                 method: 'DELETE',
             });
 
@@ -73,7 +74,7 @@ const Documente = () => {
                                 <td>{doc.uploaded_by}</td>
                                 <td>{doc.upload_date}</td>
                                 <td>
-                                    <a href={`http://localhost:5000/api/uploads/id/${doc.id}`} download>
+                                    <a href={`${API_BASE}/api/uploads/id/${doc.id}`} download>
                                         <button className="btn-descarca">Descarcă</button>
                                     </a>
                                     {localStorage.getItem("rol") === "admin" && (

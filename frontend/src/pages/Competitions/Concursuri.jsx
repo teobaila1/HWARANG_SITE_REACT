@@ -3,9 +3,10 @@ import Select from 'react-select';
 import {ToastContainer, toast} from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "../../components/Navbar";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Concursuri.css";
+import "../../../static/css/Concursuri.css";
 import Footer from "../../components/Footer";
 import {Link} from "react-router-dom";
+import {API_BASE} from "../../config";
 
 const Concursuri = () => {
     const [rol, setRol] = useState("");
@@ -36,7 +37,7 @@ const Concursuri = () => {
     const [concursuriViitoare, setConcursuriViitoare] = useState([]);
     const [numarInscrisi, setNumarInscrisi] = useState({});
     const fetchNumarInscrisi = async (numeConcurs) => {
-        const res = await fetch(`http://localhost:5000/api/numar_inscrisi/${encodeURIComponent(numeConcurs)}`);
+        const res = await fetch(`${API_BASE}/api/numar_inscrisi/${encodeURIComponent(numeConcurs)}`);
         const result = await res.json();
         setNumarInscrisi(prev => ({...prev, [numeConcurs]: result.nr}));
     };
@@ -50,7 +51,7 @@ const Concursuri = () => {
 
     useEffect(() => {
         const fetchConcursuri = async () => {
-            const res = await fetch("http://localhost:5000/api/concursuri");
+            const res = await fetch(`${API_BASE}/api/concursuri`);
             const data = await res.json();
 
             // const viitoare = data.filter(c => new Date(c.dataStart) > new Date());
@@ -58,7 +59,7 @@ const Concursuri = () => {
 
             // 🔁 Mutați aici
             for (const c of data) {
-                const res = await fetch(`http://localhost:5000/api/numar_inscrisi/${encodeURIComponent(c.nume)}`);
+                const res = await fetch(`${API_BASE}/api/numar_inscrisi/${encodeURIComponent(c.nume)}`);
                 const result = await res.json();
                 setNumarInscrisi(prev => ({...prev, [c.nume]: result.nr}));
             }
@@ -123,7 +124,7 @@ const Concursuri = () => {
         const probeTrimise = selectedProbes.map(p => p.value).join(", ");
 
         try {
-            const res = await fetch("http://localhost:5000/api/inscriere_concurs", {
+            const res = await fetch(`${API_BASE}/api/inscriere_concurs`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
@@ -171,7 +172,7 @@ const Concursuri = () => {
         if (!confirmDelete) return;
 
         try {
-            const res = await fetch(`http://localhost:5000/api/sterge_concurs/${encodeURIComponent(numeConcurs)}`, {
+            const res = await fetch(`${API_BASE}/api/sterge_concurs/${encodeURIComponent(numeConcurs)}`, {
                 method: "DELETE"
             });
 

@@ -2,11 +2,11 @@
 import React, {useEffect, useState} from "react";
 import Navbar from "../../components/Navbar";
 import {useNavigate} from "react-router-dom";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/AntrenorDashboard.css";
+import "../../../static/css/AntrenorDashboard.css";
 import ElevForm from "../ElevForm";
 import ConfirmDialog from "../ConfirmDialog";
+import {API_BASE} from "../../config";
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const AntrenorDashboard = () => {
     // după agregare: [{ grupa, parents:[{id,username,email}], copii:[{..., _parent:{...}}] }]
@@ -68,7 +68,7 @@ const AntrenorDashboard = () => {
         setLoading(true);
         setMesaj("");
         try {
-            const res = await fetch(`${API}/api/antrenor_dashboard_data`, {
+            const res = await fetch(`${API_BASE}/api/antrenor_dashboard_data`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({username: localStorage.getItem("username")}),
@@ -155,7 +155,7 @@ const AntrenorDashboard = () => {
 
     const handleDeleteConfirm = async () => {
         try {
-            const res = await fetch(`${API}/api/elevi/${confirm.elevId}`, {method: "DELETE"});
+            const res = await fetch(`${API_BASE}/api/elevi/${confirm.elevId}`, {method: "DELETE"});
             const dataRes = await res.json().catch(() => ({}));
             if (res.ok) {
                 setMesaj("Elev șters.");
@@ -173,7 +173,7 @@ const AntrenorDashboard = () => {
     // Submit din formular (add/edit)
     const handleSubmitForm = async (payload, isEdit) => {
         try {
-            const url = isEdit ? `${API}/api/elevi/${payload.id}` : `${API}/api/elevi`;
+            const url = isEdit ? `${API_BASE}/api/elevi/${payload.id}` : `${API_BASE}/api/elevi`;
             const method = isEdit ? "PATCH" : "POST";
             const res = await fetch(url, {
                 method,

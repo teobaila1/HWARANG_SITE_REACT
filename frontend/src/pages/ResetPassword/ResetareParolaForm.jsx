@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
+import {API_BASE} from "../../config";
 
 function ResetareParolaForm() {
   const { token } = useParams();
@@ -22,7 +23,7 @@ function ResetareParolaForm() {
 
     setLoading(true);
     try {
-      const res = await fetch(`/api/reset-password/${token}`, {
+      const res = await fetch(`${API_BASE}/api/reset-password/${token}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: parolaNoua }),

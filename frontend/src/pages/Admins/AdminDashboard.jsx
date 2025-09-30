@@ -2,8 +2,8 @@
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/AdminDashboard.css";
-
+import "../../../static/css/AdminDashboard.css";
+import { API_BASE } from "../../config";
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -31,7 +31,7 @@ const AdminDashboard = () => {
         formData.append('username', username);
 
         try {
-            const response = await fetch('http://localhost:5000/api/upload_document', {
+            const response = await fetch(`${API_BASE}/api/upload_document`, {
                 method: 'POST',
                 body: formData,
             });
@@ -51,7 +51,7 @@ const AdminDashboard = () => {
 
 
     const fetchDocuments = async () => {
-        const res = await fetch('http://localhost:5000/api/get_documents');
+        const res = await fetch(`${API_BASE}/api/get_documents`);
         if (!res.ok) {
             const txt = await res.text();
             throw new Error(`get_documents ${res.status}: ${txt}`);
@@ -66,7 +66,7 @@ const AdminDashboard = () => {
 
     const handleDelete = async (id, filename) => {
         if (!window.confirm(`Ștergi fișierul ${filename}?`)) return;
-        const res = await fetch(`http://localhost:5000/api/delete_document/id/${id}`, {
+        const res = await fetch(`${API_BASE}/api/delete_document/id/${id}`, {
             method: 'DELETE',
         });
         if (res.ok) {
@@ -128,7 +128,7 @@ const AdminDashboard = () => {
                         {uploadedDocs.map((doc) => (
                             <li key={doc.id}>
                                 <a
-                                    href={`http://localhost:5000/api/uploads/id/${doc.id}`}
+                                    href={`${API_BASE}/api/uploads/id/${doc.id}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="document-link"

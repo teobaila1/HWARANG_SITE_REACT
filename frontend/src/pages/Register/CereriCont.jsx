@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Navbar from "../../components/Navbar";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/CereriConturi.css";
+import "../../../static/css/CereriConturi.css";
+import {API_BASE} from "../../config";
 
 function CereriConturi() {
   const [cereri, setCereri] = useState([]);
@@ -17,7 +18,7 @@ function CereriConturi() {
       return;
     }
 
-    fetch(`http://localhost:5000/api/cereri?username=${username}`)
+    fetch(`${API_BASE}/api/cereri?username=${username}`)
       .then((res) => {
         if (!res.ok) throw new Error("Eroare la încărcare cereri.");
         return res.json();
@@ -34,7 +35,7 @@ function CereriConturi() {
 
   const handleAccept = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/cereri/accepta/${id}`, { method: "POST" });
+      const res = await fetch(`${API_BASE}/api/cereri/accepta/${id}`, { method: "POST" });
       const data = await res.json();
       if (data.status === "success") {
         alert("Cererea a fost acceptată.");
@@ -47,7 +48,7 @@ function CereriConturi() {
 
   const handleReject = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/cereri/respingere/${id}`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE}/api/cereri/respingere/${id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.status === "success") {
         alert("Cererea a fost respinsă.");

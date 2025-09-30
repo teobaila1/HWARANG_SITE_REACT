@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
+import {API_BASE} from "../../config";
 function CerereResetareParola() {
   const [email, setEmail] = useState("");
   const [mesaj, setMesaj] = useState(null);
@@ -10,7 +11,7 @@ function CerereResetareParola() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("/api/reset-password", {
+      const res = await fetch(`${API_BASE}/api/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

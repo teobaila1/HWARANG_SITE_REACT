@@ -3,7 +3,8 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { toast, ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Join.css";
+import "../../../static/css/Join.css";
+import {API_BASE} from "../../config";
 
 const JoinForm = () => {
   const [acceptTerms, setAcceptTerms] = useState(false);
@@ -27,7 +28,7 @@ const JoinForm = () => {
     setSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/inscriere", {
+      const response = await fetch(`${API_BASE}/api/inscriere`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

@@ -1,11 +1,11 @@
 import React from "react";
 import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 import Home from "./pages/Home";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/style.css"
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Orar.css"
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Divider_Why_us.css"
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Navbar.css"
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Footer.css"
+import "../static/css/style.css"
+import "../static/css/Orar.css"
+import "../static/css/Divider_Why_us.css"
+import "../static/css/Navbar.css"
+import "../static/css/Footer.css"
 import JoinForm from "./pages/Login/JoinForm";
 import CalendarPage from "./pages/Documents&Calendar/CalendarPage";
 import About from "./pages/Documents&Calendar/About";

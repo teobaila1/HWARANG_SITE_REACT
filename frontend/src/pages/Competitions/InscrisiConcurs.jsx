@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/InscrisiConcurs.css";
+import "../../../static/css/InscrisiConcurs.css";
+import {API_BASE} from "../../config";
 
 const InscrisiConcurs = () => {
   const {numeConcurs} = useParams();
@@ -10,7 +11,7 @@ const InscrisiConcurs = () => {
 
   useEffect(() => {
     const fetchInscrisi = async () => {
-      const res = await fetch(`http://localhost:5000/api/inscrisi_concurs/${encodeURIComponent(numeConcurs)}`);
+      const res = await fetch(`${API_BASE}/api/inscrisi_concurs/${encodeURIComponent(numeConcurs)}`);
       const data = await res.json();
       setInscrisi(data);
     };

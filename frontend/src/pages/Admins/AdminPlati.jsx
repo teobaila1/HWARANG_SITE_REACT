@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/EvidentaPlati.css";
+import "../../../static/css/EvidentaPlati.css";
+import {API_BASE} from "../../config";
 
 function EvidentaPlati() {
   const [plati, setPlati] = useState([]);
@@ -27,7 +28,7 @@ function EvidentaPlati() {
   };
 
   useEffect(() => {
-    fetch("/api/plati/filtrate")
+    fetch(`${API_BASE}/api/plati/filtrate`)
       .then((res) => res.json())
       .then((data) => {
         setPlati(data);
@@ -36,7 +37,7 @@ function EvidentaPlati() {
   }, []);
 
   const reloadPlati = () => {
-    fetch("/api/plati/filtrate")
+    fetch(`${API_BASE}/api/plati/filtrate`)
       .then((res) => res.json())
       .then((data) => {
         setPlati(data);
@@ -72,8 +73,8 @@ function EvidentaPlati() {
     const method = editingPlata && editingPlata.id ? "PUT" : "POST";
     const url =
       editingPlata && editingPlata.id
-        ? `/api/plati/${editingPlata.id}`
-        : "/api/plati";
+        ? `${API_BASE}/api/plati/${editingPlata.id}`
+        : `${API_BASE}/api/plati`;
 
     const payload = {
       ...formData,
@@ -115,7 +116,7 @@ function EvidentaPlati() {
     if (!id) return;
     if (!window.confirm("Ești sigur că vrei să ștergi această plată?")) return;
 
-    fetch(`/api/plati/${id}`, { method: "DELETE" })
+    fetch(`${API_BASE}/api/plati/${id}`, { method: "DELETE" })
       .then(() => {
         const up = plati.filter((p) => p.id !== id);
         setPlati(up);

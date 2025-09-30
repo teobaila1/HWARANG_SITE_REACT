@@ -1,5 +1,5 @@
 import React from "react";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Calendar.css";
+import "../../../static/css/Calendar.css";
 import Navbar from "../../components/Navbar";
 
 const CalendarPage = () => {

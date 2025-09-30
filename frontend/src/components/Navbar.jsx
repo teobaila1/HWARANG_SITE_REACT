@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import LogoutButton from "./LogoutButton";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Navbar.css";
+import "../../static/css/Navbar.css";
 
 const Navbar = () => {
   const isLoggedIn = localStorage.getItem("username") !== null;

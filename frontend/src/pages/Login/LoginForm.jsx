@@ -4,8 +4,9 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import {toast, ToastContainer} from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Login.css";
+import "../../../static/css/Login.css";
 import {Link} from "react-router-dom";
+import {API_BASE} from "../../config";
 
 
 const LoginForm = () => {
@@ -34,7 +35,7 @@ const LoginForm = () => {
         setError(null);
 
         try {
-            const res = await fetch("http://localhost:5000/api/login", {
+            const res = await fetch(`${API_BASE}/api/login`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(formData),

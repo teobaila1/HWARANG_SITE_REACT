@@ -1,8 +1,9 @@
 // vite_hwarang_react/frontend/pages/AdminSetPermisiuni.jsx
 import React, {useEffect, useState} from "react";
 import Navbar from "../../components/Navbar";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/AdminSetPermisiuni.css";
+import "../../../static/css/AdminSetPermisiuni.css";
 import {useNavigate} from "react-router-dom";
+import {API_BASE} from "../../config";
 
 const AdminSetPermisiuni = () => {
   const [antrenori, setAntrenori] = useState([]);
@@ -20,8 +21,8 @@ const AdminSetPermisiuni = () => {
   }, [navigate]);
 
   useEffect(() => {
-    fetch("/api/antrenori_externi").then(r => r.json()).then(setAntrenori);
-    fetch("/api/toate_concursurile").then(r => r.json()).then(d => setConcursuri(d.concursuri));
+    fetch(`${API_BASE}/api/antrenori_externi`).then(r => r.json()).then(setAntrenori);
+    fetch(`${API_BASE}/api/toate_concursurile`).then(r => r.json()).then(d => setConcursuri(d.concursuri));
   }, []);
 
   const handleUserSelect = (e) => {
@@ -37,7 +38,7 @@ const AdminSetPermisiuni = () => {
   };
 
   const handleSave = () => {
-    fetch("/api/set_permisiuni", {
+    fetch(`${API_BASE}/api/set_permisiuni`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ user_id: userId, concurs_ids: selectedConcursIds })
@@ -51,7 +52,7 @@ const AdminSetPermisiuni = () => {
 
   useEffect(() => {
     if (selectedUser) {
-      fetch(`/api/get_permisiuni/${selectedUser}`)
+      fetch(`${API_BASE}/api/get_permisiuni/${selectedUser}`)
         .then(res => res.json())
         .then(data => {
           const set = new Set(data);

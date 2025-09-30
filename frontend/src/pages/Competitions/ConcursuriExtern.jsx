@@ -5,8 +5,9 @@ import {ToastContainer, toast} from 'react-toastify';
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 // import 'react-toastify/dist/ReactToastify.css';
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/ConcursuriExtern.css";
+import "../../../static/css/ConcursuriExtern.css";
 import {useNavigate} from "react-router-dom";
+import {API_BASE} from "../../config";
 
 const ConcursuriExtern = () => {
     const [selectedProbes, setSelectedProbes] = useState([]);
@@ -73,7 +74,7 @@ const ConcursuriExtern = () => {
         const probeTrimise = selectedProbes.map(p => p.value).join(", ");
         const concursTrimis = concursuri[formularDeschis]?.nume || "";
 
-        const res = await fetch("http://localhost:5000/api/inscriere_concurs", {
+        const res = await fetch(`${API_BASE}/api/inscriere_concurs`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
@@ -102,7 +103,7 @@ const ConcursuriExtern = () => {
         const username = localStorage.getItem("username");
 
         if (rol === "AntrenorExtern") {
-            fetch("/api/concurs_permis", {
+            fetch(`${API_BASE}/api/concurs_permis`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({username})
@@ -116,7 +117,7 @@ const ConcursuriExtern = () => {
         }
 
         if (rol === "admin") {
-            const res = await fetch("http://localhost:5000/api/toate_concursurile");
+            const res = await fetch(`${API_BASE}/api/toate_concursurile`);
             const data = await res.json();
             if (data.status === "success") {
                 setConcursuri(data.concursuri);

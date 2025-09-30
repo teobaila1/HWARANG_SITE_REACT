@@ -1,5 +1,5 @@
 import React from "react";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/FooterHome.css";
+import "../../static/css/FooterHome.css";
 import {Link} from "react-router-dom";
 
 const Footer = () => {

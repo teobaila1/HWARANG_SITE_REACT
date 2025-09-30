@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "../../components/Footer";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/About.css";
+import "../../../static/css/About.css";
 import Navbar from "../../components/Navbar";
 
 const About = () => {

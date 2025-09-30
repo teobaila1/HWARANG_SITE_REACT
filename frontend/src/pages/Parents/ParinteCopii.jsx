@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import Navbar from "../../components/Navbar";
 import {useNavigate} from "react-router-dom";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/ParinteCopii.css";
+import "../../../static/css/ParinteCopii.css";
+import {API_BASE} from "../../config";
 
 const ParinteCopii = () => {
     const [copii, setCopii] = useState([]);
@@ -12,7 +13,7 @@ const ParinteCopii = () => {
     const navigate = useNavigate();
 
     const fetchCopii = async () => {
-        const res = await fetch("http://localhost:5000/api/copiii_mei", {
+        const res = await fetch(`${API_BASE}/api/copiii_mei`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({username: localStorage.getItem("username")}),
@@ -46,7 +47,7 @@ const ParinteCopii = () => {
             gen,  // ← Adăugat aici
         };
 
-        const res = await fetch("http://localhost:5000/api/adauga_copil", {
+        const res = await fetch(`${API_BASE}/api/adauga_copil`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(payload),

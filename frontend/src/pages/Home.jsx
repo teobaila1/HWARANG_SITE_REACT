@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Orar.css";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Divider_Why_us.css";
+import "../../static/css/Orar.css";
+import "../../static/css/Divider_Why_us.css";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Navbar from "../components/Navbar";

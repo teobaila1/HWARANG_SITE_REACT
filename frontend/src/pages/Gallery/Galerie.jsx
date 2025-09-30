@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useState, useCallback} from "react";
 import Navbar from "../../components/Navbar";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Galerie.css";
+import "/../frontend/static/css/Galerie.css";
 import Footer from "../../components/Footer";
 
 /**

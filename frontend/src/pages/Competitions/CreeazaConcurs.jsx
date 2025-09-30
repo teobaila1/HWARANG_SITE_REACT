@@ -3,7 +3,8 @@ import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/FormConcurs.css";
+import "../../../static/css/FormConcurs.css";
+import { API_BASE } from "../../config";
 
 
 const CreeazaConcurs = () => {
@@ -38,7 +39,7 @@ const CreeazaConcurs = () => {
 
         const data = { nume, perioada, locatie };
 
-        const res = await fetch("http://localhost:5000/api/adauga_concurs", {
+        const res = await fetch(`${API_BASE}/api/adauga_concurs`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),

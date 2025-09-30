@@ -3,7 +3,7 @@ import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import {toast, ToastContainer} from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/LogoutButton.css";
+import "../../static/css/LogoutButton.css";
 
 const LogoutButton = () => {
     const navigate = useNavigate();

@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/AdminTotiCopiiiSiParintii.css";
+import "../../../static/css/AdminTotiCopiiiSiParintii.css";
+import {API_BASE} from "../../config";
 
-const API = "http://localhost:5000";
 
 const AdminTotiCopiiiSiParintii = () => {
   const [data, setData] = useState([]);
@@ -21,7 +21,7 @@ const AdminTotiCopiiiSiParintii = () => {
     setLoading(true);
     setMesaj("");
     try {
-      const res = await fetch(`${API}/api/toti_copiii`);
+      const res = await fetch(`${API_BASE}/api/toti_copiii`);
       const result = await res.json();
       if (result.status === "success") {
         setData(result.date || []);
@@ -77,7 +77,7 @@ const AdminTotiCopiiiSiParintii = () => {
     const admin_username = localStorage.getItem("username") || "";
 
     try {
-      const res = await fetch(`${API}/api/admin/copii/${editChild.child.id}`, {
+      const res = await fetch(`${API_BASE}/api/admin/copii/${editChild.child.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -107,7 +107,7 @@ const AdminTotiCopiiiSiParintii = () => {
     if (!window.confirm(`Ștergi copilul „${child.nume}”?`)) return;
 
     try {
-      const res = await fetch(`${API}/api/admin/copii/${child.id}`, {
+      const res = await fetch(`${API_BASE}/api/admin/copii/${child.id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ admin_username, parent_username: parentUsername }),
@@ -136,7 +136,7 @@ const AdminTotiCopiiiSiParintii = () => {
 
     try {
       const res = await fetch(
-        `${API}/api/admin/parinte/${encodeURIComponent(editParent.username)}`,
+        `${API_BASE}/api/admin/parinte/${encodeURIComponent(editParent.username)}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -167,7 +167,7 @@ const AdminTotiCopiiiSiParintii = () => {
 
     try {
       const res = await fetch(
-        `${API}/api/admin/parinte/${encodeURIComponent(username)}`,
+        `${API_BASE}/api/admin/parinte/${encodeURIComponent(username)}`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },

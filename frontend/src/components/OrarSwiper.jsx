@@ -3,7 +3,7 @@ import {SwiperSlide, Swiper} from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Orar.css";
+import "../../static/css/Orar.css";
 
 const orarData = [
     {

@@ -3,8 +3,9 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Register.css";
+import "../../../static/css/Register.css";
 import { Link } from "react-router-dom";
+import {API_BASE} from "../../config";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -70,7 +71,7 @@ const Register = () => {
         : [];
 
     try {
-      const res = await fetch("http://localhost:5000/api/register", {
+      const res = await fetch(`${API_BASE}/api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...formData, copii: copiiTrimisi }),

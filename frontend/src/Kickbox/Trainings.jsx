@@ -1,7 +1,7 @@
 // src/pages/Kickboxing.jsx
 import React from "react";
 import Navbar from "../components/Navbar";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/About.css";
+import "../../static/css/About.css";
 import FooterKickbox from "../components/FooterKickbox";
 
 const Kickboxing = () => {

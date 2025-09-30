@@ -2,13 +2,13 @@
 import React, {useEffect, useState} from "react";
 import Navbar from "../../components/Navbar";
 import {useNavigate} from "react-router-dom";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/AdminAntrenoriGrupe.css";
+import "../../../static/css/AdminAntrenoriGrupe.css";
 
 // reutilizăm aceleași componente ca în dashboard-ul antrenorului
 import ElevForm from "../ElevForm";
 import ConfirmDialog from "../ConfirmDialog";
+import {API_BASE} from "../../config";
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const AdminAntrenoriGrupe = () => {
     const [data, setData] = useState([]);
@@ -33,7 +33,7 @@ const AdminAntrenoriGrupe = () => {
         setLoading(true);
         setMsg("");
         try {
-            const res = await fetch(`${API}/api/toate_grupele_antrenori`);
+            const res = await fetch(`${API_BASE}/api/toate_grupele_antrenori`);
             const json = await res.json();
             if (res.ok && json.status === "success") {
                 setData(json.data || []);
@@ -59,7 +59,7 @@ const AdminAntrenoriGrupe = () => {
 
     const handleSubmitForm = async (payload /*, isEdit*/) => {
         try {
-            const res = await fetch(`${API}/api/elevi/${payload.id}`, {
+            const res = await fetch(`${API_BASE}/api/elevi/${payload.id}`, {
                 method: "PATCH",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(payload),
@@ -83,7 +83,7 @@ const AdminAntrenoriGrupe = () => {
 
     const confirmDelete = async () => {
         try {
-            const res = await fetch(`${API}/api/elevi/${confirm.id}`, {
+            const res = await fetch(`${API_BASE}/api/elevi/${confirm.id}`, {
                 method: "DELETE",
             });
             const js = await res.json().catch(() => ({}));

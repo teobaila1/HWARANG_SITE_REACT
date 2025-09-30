@@ -4,7 +4,8 @@ import {ToastContainer, toast} from "react-toastify";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import {useNavigate} from "react-router-dom";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/Register.css";
+import "../../../static/css/Register.css";
+import {API_BASE} from "../../config";
 
 
 const RegisterExtern = () => {
@@ -32,7 +33,7 @@ const RegisterExtern = () => {
         }
 
         try {
-            const res = await fetch("http://localhost:5000/api/register", {
+            const res = await fetch(`${API_BASE}/api/register`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({

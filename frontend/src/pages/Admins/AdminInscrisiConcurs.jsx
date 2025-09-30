@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import Navbar from "../../components/Navbar";
 import {useNavigate} from "react-router-dom";
-import "C:/Users/Teo/Desktop/Site_Hwarang/vite_hwarang_react/frontend/static/css/AdminInscrisiConcurs.css";
+import "../../../static/css/AdminInscrisiConcurs.css";
+import {API_BASE} from "../../config";
 
 const AdminInscrisiConcurs = () => {
   const [sportivi, setSportivi] = useState([]);
@@ -19,7 +20,7 @@ const AdminInscrisiConcurs = () => {
       navigate("/access-denied");
     }
 
-    fetch("http://localhost:5000/api/inscrisi_concursuri")
+    fetch(`${API_BASE}/api/inscrisi_concursuri`)
       .then(res => res.json())
       .then(data => {
         if (data.status === "success") {
@@ -32,7 +33,7 @@ const AdminInscrisiConcurs = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Ești sigur că vrei să ștergi această înscriere?")) return;
 
-    const res = await fetch(`http://localhost:5000/api/delete_inscriere/${id}`, { method: "DELETE" });
+    const res = await fetch(`${API_BASE}/api/delete_inscriere/${id}`, { method: "DELETE" });
 
     if (res.ok) {
       const updated = sportivi.filter((s) => s.id !== id);
@@ -54,7 +55,7 @@ const AdminInscrisiConcurs = () => {
   };
 
   const handleSave = async () => {
-    const res = await fetch(`http://localhost:5000/api/update_inscriere/${editIndex}`, {
+    const res = await fetch(`${API_BASE}/api/update_inscriere/${editIndex}`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(editData)
