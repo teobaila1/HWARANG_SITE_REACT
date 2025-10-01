@@ -57,9 +57,6 @@
   --nb-accent-2: #cc0000;
   --nb-border: rgba(255,255,255,.09);
   --nb-radius: 14px;
-
-  /* 👇 fallback pentru înălțimea navbarului (se suprascrie din JS) */
-  --nav-top: 72px;
 }
 
 .navbar{
