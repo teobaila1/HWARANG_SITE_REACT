@@ -444,7 +444,7 @@ button.user-chip:focus-visible{
     transition: transform .18s ease, opacity .18s ease;
     overflow-y: auto;                    /* 👈 poți derula întreg meniul */
     -webkit-overflow-scrolling: touch;   /* smooth pe iOS */
-    z-index: 2000;                       /* 👈 peste cardul de login etc. */
+    z-index: 10000;                       /* 👈 peste cardul de login etc. */
   }
 
   /* când e deschis (adaugă clasa .show din JS) */
