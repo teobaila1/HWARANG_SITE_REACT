@@ -107,7 +107,7 @@ const Home = () => {
 
             <div style={{width: '100%', overflow: 'hidden', lineHeight: 0}}>
                 <img
-                    src="images//brush_transition/brush_invers.png"
+                    src="images/brush_transition/brush_invers.png"
                     alt="Tranziție Brush"
                     style={{width: '100%', height: 'auto', display: 'block'}}
                 />

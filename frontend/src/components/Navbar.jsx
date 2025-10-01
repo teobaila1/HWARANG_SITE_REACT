@@ -1,36 +1,54 @@
-import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import React, {useEffect, useState, useRef} from "react";
+import {Link, NavLink, useLocation} from "react-router-dom";
 import LogoutButton from "./LogoutButton";
 import "../../static/css/Navbar.css";
 
 const Navbar = () => {
   const isLoggedIn = localStorage.getItem("username") !== null;
   const [rol, setRol] = useState(null);
-  const username = localStorage.getItem("username");
+  const username = localStorage.getItem("username") || "";
   const [hideNavbar, setHideNavbar] = useState(false);
+
+  // NEW: control pentru hamburger
+  const [menuOpen, setMenuOpen] = useState(false);
+  const wrapRef = useRef(null);
+  const location = useLocation();
 
   useEffect(() => {
     const storedRol = localStorage.getItem("rol");
     setRol(storedRol);
   }, []);
 
-  let lastScrollY = window.scrollY;
+  // închide meniul când se schimbă ruta
+  useEffect(() => { setMenuOpen(false); }, [location.pathname]);
+
+  let lastScrollY = useRef(window.scrollY);
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+      if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
         setHideNavbar(true);
       } else {
         setHideNavbar(false);
       }
-      lastScrollY = currentScrollY;
+      lastScrollY.current = currentScrollY;
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // click în afara meniului = close
+  useEffect(() => {
+    const onDoc = (e) => {
+      if (!wrapRef.current) return;
+      if (!wrapRef.current.contains(e.target)) setMenuOpen(false);
+    };
+    if (menuOpen) document.addEventListener("click", onDoc);
+    return () => document.removeEventListener("click", onDoc);
+  }, [menuOpen]);
+
   return (
-    <header>
+    <header ref={wrapRef}>
       <nav className={`navbar ${hideNavbar ? "hide-navbar" : ""}`}>
         {/* stânga: logo */}
         <div className="navbar-flex-container">
@@ -41,70 +59,76 @@ const Navbar = () => {
           </div>
         </div>
 
+        {/* buton hamburger (vizibil pe mobil) */}
+        <button
+          className={`nav-toggle ${menuOpen ? "is-open" : ""}`}
+          aria-label="Deschide meniul"
+          aria-expanded={menuOpen}
+          aria-controls="primary-menu"
+          onClick={() => setMenuOpen(v => !v)}
+        >
+          <span /><span /><span />
+        </button>
+
         {/* dreapta: linkuri */}
-        <ul className="nav-links">
+        <ul id="primary-menu" className={`nav-links ${menuOpen ? "show" : ""}`}>
           <li className="dropdown">
-            <a href="/acasa" className="text-danger" tabIndex={0} aria-haspopup="true" aria-expanded="false">
+            <NavLink to="/acasa" className="text-danger" tabIndex={0}>
               TaeKwon-Do
-            </a>
+            </NavLink>
             <ul className="dropdown-menu">
-              <li><a href="/acasa">Acasă</a></li>
-              <li><a href="/desprenoi">Despre</a></li>
-              <li><a href="/antrenori">Antrenori</a></li>
-              <li><a href="/galerie">Galerie</a></li>
+              <li><NavLink to="/acasa">Acasă</NavLink></li>
+              <li><NavLink to="/desprenoi">Despre</NavLink></li>
+              <li><NavLink to="/antrenori">Antrenori</NavLink></li>
+              <li><NavLink to="/galerie">Galerie</NavLink></li>
               <li><a href="#footer">Contact</a></li>
             </ul>
           </li>
 
           {isLoggedIn && (
             <li className="dropdown">
-              <a href="#" tabIndex={0} aria-haspopup="true" aria-expanded="false">
-                Calendar
-              </a>
+              <NavLink to="/calendar2025" tabIndex={0}>Calendar</NavLink>
               <ul className="dropdown-menu">
-                <li><a href="/calendar2025">Calendar 2025</a></li>
+                <li><NavLink to="/calendar2025">Calendar 2025</NavLink></li>
               </ul>
             </li>
           )}
 
           <li className="dropdown">
-            <a href="/training" tabIndex={0} aria-haspopup="true" aria-expanded="false">
-              Kickbox
-            </a>
+            <NavLink to="/training" tabIndex={0}>Kickbox</NavLink>
             <ul className="dropdown-menu">
-              <li><a href="/training">Antrenamente</a></li>
+              <li><NavLink to="/training">Antrenamente</NavLink></li>
             </ul>
           </li>
 
           {!isLoggedIn && (
             <li className="join-link">
-              <a href="/inscriere">Alătură-te</a>
+              <NavLink to="/inscriere">Alătură-te</NavLink>
             </li>
           )}
 
-          {isLoggedIn && <li><a href="#">Regulamente</a></li>}
+          {isLoggedIn && <li><NavLink to="/regulamente">Regulamente</NavLink></li>}
 
           {isLoggedIn && rol !== "AntrenorExtern" && (
-            <li><a href="/documente">Documente</a></li>
+            <li><NavLink to="/documente">Documente</NavLink></li>
           )}
 
           {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") && (
-            <li><a href="/concursuri">Concursuri</a></li>
+            <li><NavLink to="/concursuri">Concursuri</NavLink></li>
           )}
 
           {rol === "Parinte" && (
-            <li><Link to="/copiii-mei">Copiii mei</Link></li>
+            <li><NavLink to="/copiii-mei">Copiii mei</NavLink></li>
           )}
 
-          {rol === "admin" && <li><Link to="/admin-dashboard">Admin</Link></li>}
-          {rol === "Antrenor" && <li><Link to="/antrenor_dashboard">Grupe</Link></li>}
-          {rol === "AntrenorExtern" && <li><Link to="/concursuri-extern">Concursuri</Link></li>}
+          {rol === "admin" && <li><NavLink to="/admin-dashboard">Admin</NavLink></li>}
+          {rol === "Antrenor" && <li><NavLink to="/antrenor_dashboard">Grupe</NavLink></li>}
+          {rol === "AntrenorExtern" && <li><NavLink to="/concursuri-extern">Concursuri</NavLink></li>}
 
-          {/* user chip cu dropdown (bine ai venit + logout) */}
           {isLoggedIn ? (
             <li className="dropdown user-menu">
               <button className="user-chip" aria-haspopup="true" aria-expanded="false">
-                <span className="avatar">{(username || "?")[0].toUpperCase()}</span>
+                <span className="avatar">{username[0]?.toUpperCase() || "?"}</span>
                 <span className="greet">
                   Bine ai venit,&nbsp;<strong className="name" title={username}>{username}</strong>
                 </span>
@@ -120,10 +144,9 @@ const Navbar = () => {
               </ul>
             </li>
           ) : (
-            // 🔧 Grupăm Login + Înregistrare într-un singur <li> ca să nu existe spațiu mare
             <li className="auth-links">
-              <Link to="/autentificare">Login</Link>
-              <Link to="/inregistrare">Înregistrare</Link>
+              <NavLink to="/autentificare">Login</NavLink>
+              <NavLink to="/inregistrare">Înregistrare</NavLink>
             </li>
           )}
         </ul>
