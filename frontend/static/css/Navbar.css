@@ -1,4 +1,6 @@
-/* 🔹 VIDEO */
+/* =======================
+   VIDEO (keep as-is)
+   ======================= */
 
 .video-container {
   position: relative;
@@ -6,7 +8,6 @@
   height: 100vh;
   overflow: hidden;
 }
-
 #bg-video {
   position: absolute;
   top: 0;
@@ -16,38 +17,22 @@
   object-fit: cover;
   z-index: -1;
 }
-
 .video-overlay {
   width: 100%;
   height: 100vh;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), black 100%);
   z-index: 1;
 }
-
-.video-fade {
-  width: 100%;
-  height: 100vh;
-  background: #161616;
-}
-
-.video-spacer {
-  height: 100vh;
-  background-color: #161616;
-}
-
-.video-container {
-  height: 100vh;
-  position: relative;
-}
-
+.video-fade { width: 100%; height: 100vh; background: #161616; }
+.video-spacer { height: 100vh; background-color: #161616; }
 .fade-transition {
   height: 60px;
   background: linear-gradient(to bottom, rgba(0,0,0,1), #161616);
 }
 
-/* 🔹 NAVBAR */
-
-/* ============ NAVBAR – elegant dark+red ============ */
+/* =======================
+   NAVBAR – elegant dark+red
+   ======================= */
 
 :root{
   --nb-bg: rgba(0,0,0,.55);
@@ -57,13 +42,19 @@
   --nb-accent-2: #cc0000;
   --nb-border: rgba(255,255,255,.09);
   --nb-radius: 14px;
+
+  /* înălțimea reală a barei (actualizată din JS) */
+  --nav-top: 72px;
 }
+
+/* când meniul e deschis, blochează scroll-ul paginii */
+body.nav-open { overflow: hidden; }
 
 .navbar{
   position: fixed;
   inset: 0 0 auto 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 4000; /* peste conținut */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -77,240 +68,136 @@
   box-shadow: 0 8px 30px rgba(0,0,0,.25);
   transition: transform .45s ease, background .25s ease;
 }
-
 .hide-navbar{ transform: translateY(-110%); }
-
 .navbar::before{
   content:"";
-  position:absolute;
-  inset:0;
+  position:absolute; inset:0;
   background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,0) 85%);
-  pointer-events:none;
-  z-index:-1;
+  pointer-events:none; z-index:-1;
 }
-
 .navbar-flex-container{ display:flex; align-items:center; gap: clamp(.6rem, 2vw, 1rem); }
-
 .logo img{
   height: clamp(54px, 8vw, 86px);
-  width:auto;
-  display:block;
+  width:auto; display:block;
   filter: drop-shadow(0 6px 18px rgba(0,0,0,.25));
 }
 
-/* linkuri principale */
+/* --- linkuri principale (desktop) --- */
 .nav-links{
   list-style:none;
   display:flex;
   align-items:center;
   gap: clamp(.4rem, 1.8vw, 1rem);
-  margin:0;
-  padding:0;
+  margin:0; padding:0;
 }
 .nav-links li{ position:relative; }
 
 .nav-links a,
 .nav-links button.user-chip{
-  color: #fff;
-  text-decoration:none;
-  font-weight: 800;
-  letter-spacing:.2px;
+  color:#fff; text-decoration:none;
+  font-weight:800; letter-spacing:.2px;
   font-size: clamp(.95rem, 1.7vw, 1.05rem);
   padding: .45rem .6rem;
   border-radius: 10px;
-  display:inline-flex;
-  align-items:center;
-  gap:.35rem;
+  display:inline-flex; align-items:center; gap:.35rem;
   transition: color .2s ease, background .2s ease, opacity .2s ease;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+  background: transparent; border: none; cursor: pointer;
 }
-
 .nav-links a::after{
-  content:"";
-  height:2px;
-  width:0%;
+  content:""; height:2px; width:0%;
   background: linear-gradient(90deg, var(--nb-accent), var(--nb-accent-2));
-  border-radius:999px;
-  position:absolute;
-  left:.6rem;
-  bottom: 2px;
-  transition: width .22s ease;
-  opacity:.9;
+  border-radius:999px; position:absolute; left:.6rem; bottom: 2px;
+  transition: width .22s ease; opacity:.9;
 }
-
 .nav-links a:hover,
 .nav-links a:focus-visible,
 button.user-chip:hover,
 button.user-chip:focus-visible{
-  color:#fff;
-  background: rgba(255,26,26,.08);
-  outline:none;
+  color:#fff; background: rgba(255,26,26,.08); outline:none;
 }
-
 .nav-links a:hover::after,
 .nav-links a:focus-visible::after{ width: calc(100% - 1.2rem); }
-
 .nav-links .text-danger{ color:#ff4d4d; }
 .nav-links .text-danger:hover{ color:#fff; }
-
 .nav-links > li > a{ white-space: nowrap; }
 
-/* ===== Dropdown-uri ===== */
-
-.dropdown > a,
-.dropdown > .user-chip{
-  position: relative;
-  padding-right: .6rem;
+/* --- Dropdown --- */
+.dropdown > a, .dropdown > .user-chip{
+  position: relative; padding-right: .6rem;
 }
-
-.dropdown > a::before,
-.dropdown > .user-chip::before{
-  content: "▾";
-  display: inline-block;
-  margin-left: .35rem;
-  font-size: .85em;
-  line-height: 1;
-  transform: translateY(-1px) rotate(0deg);
-  opacity: .75;
-  transition: transform .18s ease, opacity .18s ease;
+.dropdown > a::before, .dropdown > .user-chip::before{
+  content: "▾"; display: inline-block; margin-left: .35rem;
+  font-size: .85em; line-height: 1; transform: translateY(-1px) rotate(0deg);
+  opacity: .75; transition: transform .18s ease, opacity .18s ease;
 }
-
 .dropdown:hover > a::before,
 .dropdown:focus-within > a::before,
 .dropdown:hover > .user-chip::before,
 .dropdown:focus-within > .user-chip::before{
-  transform: translateY(-1px) rotate(180deg);
-  opacity: 1;
+  transform: translateY(-1px) rotate(180deg); opacity: 1;
 }
-
-.dropdown::after{
-  content:"";
-  position:absolute;
-  left:0; right:0;
-  top:100%;
-  height: 10px;
-}
+.dropdown::after{ content:""; position:absolute; left:0; right:0; top:100%; height: 10px; }
 
 .dropdown-menu{
-  position:absolute;
-  top:100%;
-  margin-top: 8px;
-  left:0;
-  min-width: 220px;
+  position:absolute; top:100%; margin-top: 8px; left:0; min-width: 220px;
   background: rgba(10,10,14,.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--nb-border);
-  border-radius: 12px;
-  padding: 6px;
+  border-radius: 12px; padding: 6px;
   box-shadow: 0 22px 50px rgba(0,0,0,.45);
-  z-index: 1100;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(6px);
-  pointer-events: none;
+  z-index: 1100; opacity: 0; visibility: hidden;
+  transform: translateY(6px); pointer-events: none;
   transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
 }
-
 .dropdown-menu--right{ right:0; left:auto; }
-
 .dropdown:hover .dropdown-menu,
 .dropdown:focus-within .dropdown-menu,
 .dropdown .dropdown-menu:hover{
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
+  opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
 }
 
-.dropdown-menu,
-.dropdown-menu ul,
-.dropdown-menu li{
-  list-style: none !important;
-}
+/* curățenie bullets */
+.dropdown-menu, .dropdown-menu ul, .dropdown-menu li{ list-style: none !important; }
 .dropdown-menu li::marker{ content: ""; }
 .dropdown-menu li::before{ content: none !important; }
 
-/* user chip */
-.user-menu .user-chip{
-  display: inline-flex;
-  align-items: center;
-  gap: .55rem;
-  padding: .45rem .7rem;
-}
+/* --- user chip --- */
+.user-menu .user-chip{ display: inline-flex; align-items: center; gap: .55rem; padding: .45rem .7rem; }
 .user-menu .avatar{
-  width: 28px; height: 28px;
-  border-radius: 999px;
+  width: 28px; height: 28px; border-radius: 999px;
   display:inline-flex; align-items:center; justify-content:center;
   background: linear-gradient(180deg, var(--nb-accent), var(--nb-accent-2));
-  color:#fff; font-weight: 900;
-  box-shadow: 0 8px 18px rgba(255,0,0,.25);
+  color:#fff; font-weight: 900; box-shadow: 0 8px 18px rgba(255,0,0,.25);
 }
-.user-menu .greet{
-  color: var(--nb-muted);
-  font-weight:700;
-  white-space: nowrap;
-}
+.user-menu .greet{ color: var(--nb-muted); font-weight:700; white-space: nowrap; }
 
-/* ===== Caption "Conectat ca ..." ===== */
+/* Caption "Conectat ca ..." */
 .dropdown-caption{
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-  margin: 6px;
-  padding: .65rem .75rem;
-  border-radius: 12px;
+  display: flex; align-items: center; gap: .6rem; margin: 6px;
+  padding: .65rem .75rem; border-radius: 12px;
   background: linear-gradient(180deg, green, lightgreen);
-  color: #f4f4f8;
-  font-weight: 800;
-  letter-spacing: .2px;
+  color: #f4f4f8; font-weight: 800; letter-spacing: .2px;
   border: 1px solid rgba(255,255,255,.08);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), 0 10px 24px rgba(0,0,0,.22);
 }
-
 .dropdown-caption::before{
-  content: "";
-  width: 8px;
-  height: 22px;
-  border-radius: 999px;
+  content: ""; width: 8px; height: 22px; border-radius: 999px;
   background: linear-gradient(180deg, #ff1a1a, #cc0000);
   box-shadow: 0 0 0 3px rgba(255,26,26,.18);
 }
-
-.dropdown-caption strong{
-  color: #ffffff;
-  text-shadow: 0 0 10px rgba(255,0,0,.28);
-}
-
-.dropdown-caption + .logout-item{
-  margin-top: 6px;
-  padding-top: 6px;
-  border-top: 1px solid rgba(255,255,255,.08);
-}
-
+.dropdown-caption strong{ color: #ffffff; text-shadow: 0 0 10px rgba(255,0,0,.28); }
+.dropdown-caption + .logout-item{ margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,.08); }
 .logout-item button{
-  width: 100%;
-  text-align: left;
-  background: transparent;
-  border: none;
-  color: #fff;
-  padding: .6rem .75rem;
-  border-radius: 8px;
-  font-weight: 800;
-  cursor: pointer;
+  width: 100%; text-align: left; background: transparent; border: none; color: #fff;
+  padding: .6rem .75rem; border-radius: 8px; font-weight: 800; cursor: pointer;
 }
-.logout-item button:hover{
-  background: rgba(255,26,26,.42);
-}
+.logout-item button:hover{ background: rgba(255,26,26,.42); }
 
-/* ===== Responsive ===== */
+/* responsive font tweaks */
 @media (max-width: 1100px){
   .nav-links{ gap: .6rem; }
   .nav-links a{ padding: .4rem .55rem; }
 }
-
 @media (max-width: 860px){
   .navbar{ padding: .35rem .8rem; }
   .logo img{ height: 64px; }
@@ -318,93 +205,42 @@ button.user-chip:focus-visible{
   .nav-links a{ font-size: .96rem; }
 }
 
-@media (max-width: 720px){
-  .nav-links{
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    gap: .35rem;
-    padding-bottom: .2rem;
-    mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
-  }
-  .nav-links::-webkit-scrollbar{ height:6px; }
-  .nav-links::-webkit-scrollbar-thumb{ background:#2b2b34; border-radius:999px; }
-
-  .dropdown-menu{
-    position: fixed;
-    left: .75rem;
-    right: .75rem;
-    top: 64px;
-    margin-top: 0;
-  }
-}
-
 /* focus accesibil */
 .nav-links a:focus-visible,
 .user-chip:focus-visible{
   outline: 3px solid rgba(255,26,26,.35);
-  outline-offset: 2px;
-  border-radius: 10px;
+  outline-offset: 2px; border-radius: 10px;
 }
 
-/* ==== FIX: username pe același rând cu "Bine ai venit," ==== */
+/* text lung în „Bine ai venit, …” rămâne pe un rând */
 .nav-links { flex-wrap: nowrap; min-width: 0; }
-
-.user-menu{
-  margin-left: auto;
-  flex: 0 1 45%;
-  min-width: 0;
-}
-.user-menu .user-chip{
-  display: flex;
-  align-items: center;
-  gap: .55rem;
-  min-width: 0;
-  white-space: nowrap;
-}
-.user-menu .greet{
-  display: flex;
-  align-items: center;
-  gap: .35rem;
-  min-width: 0;
-  white-space: nowrap;
-}
+.user-menu{ margin-left: auto; flex: 0 1 45%; min-width: 0; }
+.user-menu .user-chip{ display: flex; align-items: center; gap: .55rem; min-width: 0; white-space: nowrap; }
+.user-menu .greet{ display: flex; align-items: center; gap: .35rem; min-width: 0; white-space: nowrap; }
 .user-menu .name{
-  display: block;
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: none;
+  display: block; flex: 1 1 auto; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: none;
 }
 .nav-links .join-link{ margin-left: 0 !important; flex: 0 0 auto; }
 .nav-links .auth-links{
-  position: static;
-  display: inline-flex;
-  align-items: center;
-  gap: clamp(.4rem, 1vw, .8rem);
-  margin-left: 0 !important;
-  flex: 0 0 auto;
-  padding: 0;
+  position: static; display: inline-flex; align-items: center; gap: clamp(.4rem, 1vw, .8rem);
+  margin-left: 0 !important; flex: 0 0 auto; padding: 0;
 }
-.nav-links .auth-links a{
-  padding: .34rem .48rem;
-  border-radius: 10px;
-  position: relative;
-}
+.nav-links .auth-links a{ padding: .34rem .48rem; border-radius: 10px; position: relative; }
 .nav-links > li{ margin-left: 0; flex: 0 0 auto; }
 @media (max-width: 860px){
   .nav-links .auth-links a{ padding: .36rem .5rem; }
 }
 
-/* ====== ▼▼▼ ADĂUGIRI PENTRU HAMBURGER (fără a schimba stilul) ▼▼▼ ====== */
+/* =======================
+   HAMBURGER + PANOU MOBIL
+   ======================= */
 
-/* butonul de hamburger – ascuns pe desktop */
+/* — micșorat — */
 .nav-toggle{
-  display:none;            /* devine vizibil pe mobil */
+  display:none;                   /* devine vizibil pe mobil */
   margin-left:auto;
-  width:42px; height:42px;
+  width:36px; height:36px;        /* ← mai mic */
   border:1px solid #2a2a2a;
   border-radius:10px;
   background:#141414;
@@ -412,105 +248,24 @@ button.user-chip:focus-visible{
   place-items:center;
 }
 .nav-toggle span{
-  width:20px; height:2px; background:#eee; display:block; transition:.25s;
+  width:18px; height:2px;         /* ← bare mai scurte */
+  background:#eee; display:block; transition:.25s;
 }
 .nav-toggle span + span{ margin-top:4px; }
 .nav-toggle.is-open span:nth-child(1){ transform: translateY(6px) rotate(45deg); }
 .nav-toggle.is-open span:nth-child(2){ opacity:0; }
 .nav-toggle.is-open span:nth-child(3){ transform: translateY(-6px) rotate(-45deg); }
 
-/* panou meniu pe mobil */
-/* panou meniu pe mobil */
-/* ===== Close button & backdrop pentru mobil ===== */
-.nav-close,
-.nav-backdrop { display: none; }
-
-/* doar pe mobil */
-/* ===== Close button & backdrop pentru mobil ===== */
-.nav-close,
-.nav-backdrop { display: none; }
-
-/* doar pe mobil */
-@media (max-width: 950px){
-  /* butonul × */
-  .nav-close{
-    position: fixed;
-    top: calc(var(--nav-top, 72px) / 2 - 22px); /* centrat pe înălțimea barei */
-    right: 12px;
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    border: 1px solid #2a2a2a;
-    background: #141414;
-    color: #fff;
-    font-size: 28px;
-    line-height: 1;
-    display: grid;
-    place-items: center;
-    z-index: 4100;                  /* peste panou */
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .18s ease, transform .18s ease;
-  }
-  .nav-close.show{
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  /* fundalul întunecat din spatele panoului */
-  .nav-backdrop{
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.45);
-    z-index: 3500;                  /* sub .nav-close, peste conținut */
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .18s ease;
-  }
-  .nav-backdrop.show{
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
-
-
-/* ține navbarul deasupra panoului */
-.navbar{ z-index: 4000; }
-
-/* Fallback & control dinamic pentru înălțimea barei */
-:root { --nav-top: 72px; }
-
-/* când meniul e deschis, blocăm scroll-ul paginii */
-body.nav-open { overflow: hidden; }
-
-/* ——— HAMBURGER: default ascuns, vizibil pe mobil ——— */
-.nav-toggle{
-  display:none;
-  margin-left:auto;
-  width:42px; height:42px;
-  border:1px solid #2a2a2a;
-  border-radius:10px;
-  background:#141414;
-  cursor:pointer;
-  place-items:center;
-}
-.nav-toggle span{ width:20px; height:2px; background:#eee; display:block; transition:.25s; }
-.nav-toggle span + span{ margin-top:4px; }
-.nav-toggle.is-open span:nth-child(1){ transform: translateY(6px) rotate(45deg); }
-.nav-toggle.is-open span:nth-child(2){ opacity:0; }
-.nav-toggle.is-open span:nth-child(3){ transform: translateY(-6px) rotate(-45deg); }
-
-/* ——— Close „×” și backdrop ——— */
-.nav-close,
-.nav-backdrop { display:none; }
+/* close „×” și backdrop (ascunse pe desktop) */
+.nav-close, .nav-backdrop{ display:none; }
 
 @media (max-width: 950px){
   .nav-toggle{ display:grid; }
 
-  /* Ascunde layout-ul de desktop */
+  /* layout desktop ascuns */
   .navbar .nav-links{ display:none !important; }
 
-  /* Panou full-screen sub bară, scrollabil */
+  /* Panoul full-screen sub bară */
   .navbar .nav-links{
     position: fixed;
     inset: 0;
@@ -541,43 +296,34 @@ body.nav-open { overflow: hidden; }
     font-size:1.05rem;
   }
 
-  /* Dropdown-urile în panou devin secțiuni simple */
+  /* Dropdown-urile devin secțiuni */
   .navbar .dropdown .dropdown-menu{
     position: static;
-    transform: none;
-    visibility: visible;
-    opacity: 1;
-    background: #121212;
-    border-radius: 10px;
-    margin-top: 6px;
-    padding: 4px;
-    pointer-events: auto;
-    box-shadow: none;
+    transform: none; visibility: visible; opacity: 1;
+    background: #121212; border-radius: 10px;
+    margin-top: 6px; padding: 4px; pointer-events: auto; box-shadow: none;
   }
 
-  /* buton × deasupra meniului */
+  /* buton × (vizibil doar când panoul e deschis) */
   .nav-close{
     position: fixed;
-    top: calc(var(--nav-top) / 2 - 22px);
-    right: 12px;
-    width: 44px; height: 44px;
+    top: calc(var(--nav-top) / 2 - 20px);
+    right: 10px;
+    width: 40px; height: 40px;
     border-radius: 10px;
     border: 1px solid #2a2a2a;
-    background: #141414;
-    color: #fff;
-    font-size: 28px; line-height: 1;
-    display: grid;
-    place-items: center;
+    background: #141414; color: #fff;
+    font-size: 26px; line-height: 1;
+    display: grid; place-items: center;
     z-index: 4100;
     opacity: 0; pointer-events: none;
     transition: opacity .18s ease;
   }
   .nav-close.show{ opacity:1; pointer-events:auto; }
 
-  /* backdrop sub panou */
+  /* Backdrop */
   .nav-backdrop{
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: rgba(0,0,0,.45);
     z-index: 2900;
     opacity: 0; pointer-events: none;
@@ -586,8 +332,3 @@ body.nav-open { overflow: hidden; }
   }
   .nav-backdrop.show{ opacity: 1; pointer-events: auto; }
 }
-
-/* asigură-te că navbar-ul rămâne peste conținut */
-.navbar{ z-index: 4000; }
-
-
