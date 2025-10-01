@@ -332,3 +332,64 @@ button.user-chip:focus-visible{
   }
   .nav-backdrop.show{ opacity: 1; pointer-events: auto; }
 }
+
+
+
+/* ===== POLISH MOBILE PANEL (compact, fără spațiu mare sus) ===== */
+@media (max-width: 950px){
+
+  /* panoul: pornește imediat sub status bar, fără gol mare;
+     100svh = viewport “stabil” pe iOS, nu mai sare */
+  .navbar .nav-links{
+    inset: 0;
+    height: 100svh;
+    padding: calc(env(safe-area-inset-top) + 8px) 12px
+             calc(12px + env(safe-area-inset-bottom));
+    background: #0e0e0e;                       /* un pic mai uniform */
+    gap: .25rem;                                /* mai strâns */
+    border-bottom: 1px solid #1b1b1b;
+  }
+
+  /* items: ținte mai mici dar confortabile; font ușor mai mic */
+  .navbar .nav-links a{
+    padding: .8rem .85rem;
+    font-size: 1rem;
+    border-radius: 10px;
+  }
+
+  /* dropdown-urile arată ca “carduri” compacte */
+  .navbar .dropdown .dropdown-menu{
+    background: #141414;
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 4px 6px;
+    margin-top: 6px;
+    box-shadow: 0 10px 28px rgba(0,0,0,.35);
+  }
+
+  /* elementele din dropdown */
+  .navbar .dropdown .dropdown-menu a{
+    padding: .72rem .75rem;
+    border-radius: 10px;
+  }
+
+  /* butonul ×: lipit de colț, aliniat la status bar; mai discret */
+  .nav-close{
+    top: calc(env(safe-area-inset-top) + 8px);
+    right: 10px;
+    width: 36px; height: 36px;                 /* un pic mai mic */
+    border-radius: 10px;
+    border: 1px solid #2a2a2a;
+    background: rgba(20,20,20,.9);
+    color: #fff;
+    font-size: 22px;
+  }
+
+  /* backdrop un pic mai soft */
+  .nav-backdrop{ background: rgba(0,0,0,.4); }
+
+  /* subtitlurile grupurilor (ex: TaeKwon-Do/Kickbox) mai legate de conținut */
+  .navbar .dropdown > a{
+    padding-bottom: .4rem;
+  }
+}
