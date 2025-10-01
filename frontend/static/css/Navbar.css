@@ -473,3 +473,49 @@ button.user-chip:focus-visible{
 .navbar{ z-index: 4000; }
 
 
+/* ===== Close button & backdrop pentru mobil ===== */
+.nav-close,
+.nav-backdrop { display: none; }
+
+/* doar pe mobil */
+@media (max-width: 950px){
+  /* butonul × */
+  .nav-close{
+    position: fixed;
+    top: calc(var(--nav-top, 72px) / 2 - 22px); /* centrat pe înălțimea barei */
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid #2a2a2a;
+    background: #141414;
+    color: #fff;
+    font-size: 28px;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    z-index: 4100;                  /* peste panou */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease;
+  }
+  .nav-close.show{
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* fundalul întunecat din spatele panoului */
+  .nav-backdrop{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 3500;                  /* sub .nav-close, peste conținut */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s ease;
+  }
+  .nav-backdrop.show{
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
