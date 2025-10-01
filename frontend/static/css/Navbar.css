@@ -423,24 +423,30 @@ button.user-chip:focus-visible{
 @media (max-width: 900px){
   .nav-toggle{ display:grid; }
 
+  /* panou full-height, scrollabil */
   .nav-links{
-    position:absolute;
-    left:0; right:0; top:100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: var(--nav-top, 64px);    /* înălțimea navbar-ului */
+    bottom: 0;                    /* întinde până jos */
     background:#0f0f0f;
     border-bottom:1px solid #1e1e1e;
     display:grid;
     gap:.25rem;
-    padding:.5rem .75rem;
+    padding:.75rem .75rem calc(1rem + env(safe-area-inset-bottom));
     transform-origin: top;
     transform: scaleY(0);
     opacity:0;
     pointer-events:none;
     transition: transform .18s ease, opacity .18s ease;
+    overflow-y: auto;             /* 👈 permite scrollul în meniu */
+    -webkit-overflow-scrolling: touch; /* smooth pe iOS */
   }
   .nav-links.show{ transform: scaleY(1); opacity:1; pointer-events:auto; }
   .nav-links a{ padding:.8rem; border-radius:12px; }
 
-  /* dropdown-urile devin blocuri în lista mobilă (ușor de atins) */
+  /* dropdown-urile devin simple secțiuni în panou */
   .dropdown .dropdown-menu{
     position: static;
     transform:none;
