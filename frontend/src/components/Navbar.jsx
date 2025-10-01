@@ -1,5 +1,5 @@
-import React, {useEffect, useState, useRef} from "react";
-import {Link, NavLink, useLocation} from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
 import "../../static/css/Navbar.css";
 
@@ -9,35 +9,41 @@ const Navbar = () => {
   const username = localStorage.getItem("username") || "";
   const [hideNavbar, setHideNavbar] = useState(false);
 
-  // NEW: control pentru hamburger
+  // Hamburger state
   const [menuOpen, setMenuOpen] = useState(false);
-  const wrapRef = useRef(null);
+
+  // Refs
+  const wrapRef = useRef(null);      // wrapper pentru click-outside
+  const navRef = useRef(null);       // bara pentru măsurat înălțimea
   const location = useLocation();
 
+  // Rol din storage
   useEffect(() => {
-    const storedRol = localStorage.getItem("rol");
-    setRol(storedRol);
+    setRol(localStorage.getItem("rol"));
   }, []);
 
-  // închide meniul când se schimbă ruta
-  useEffect(() => { setMenuOpen(false); }, [location.pathname]);
+  // Închide meniul când se schimbă ruta
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
-  let lastScrollY = useRef(window.scrollY);
+  // Auto-hide navbar on scroll down
+  const lastScrollY = useRef(window.scrollY);
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
+      const current = window.scrollY;
+      if (current > lastScrollY.current && current > 50) {
         setHideNavbar(true);
       } else {
         setHideNavbar(false);
       }
-      lastScrollY.current = currentScrollY;
+      lastScrollY.current = current;
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // click în afara meniului = close
+  // Click în afara meniului => close
   useEffect(() => {
     const onDoc = (e) => {
       if (!wrapRef.current) return;
@@ -47,9 +53,42 @@ const Navbar = () => {
     return () => document.removeEventListener("click", onDoc);
   }, [menuOpen]);
 
+  // Escape închide meniul
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Fix pentru viewport mobil: setăm --nav-top = înălțimea reală a barei
+  useEffect(() => {
+    const setNavTop = () => {
+      const h = navRef.current?.offsetHeight ?? 72;
+      document.documentElement.style.setProperty("--nav-top", `${h}px`);
+    };
+    setNavTop();
+    window.addEventListener("resize", setNavTop);
+    return () => window.removeEventListener("resize", setNavTop);
+  }, []);
+
+  // Când meniul e deschis, blochează scrollul în body
+  useEffect(() => {
+    const body = document.body;
+    if (menuOpen) {
+      body.style.overflow = "hidden";
+    } else {
+      body.style.overflow = "";
+    }
+    return () => {
+      body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   return (
     <header ref={wrapRef}>
-      <nav className={`navbar ${hideNavbar ? "hide-navbar" : ""}`}>
+      <nav ref={navRef} className={`navbar ${hideNavbar ? "hide-navbar" : ""}`}>
         {/* stânga: logo */}
         <div className="navbar-flex-container">
           <div className="logo">
@@ -62,16 +101,22 @@ const Navbar = () => {
         {/* buton hamburger (vizibil pe mobil) */}
         <button
           className={`nav-toggle ${menuOpen ? "is-open" : ""}`}
-          aria-label="Deschide meniul"
+          aria-label={menuOpen ? "Închide meniul" : "Deschide meniul"}
           aria-expanded={menuOpen}
           aria-controls="primary-menu"
-          onClick={() => setMenuOpen(v => !v)}
+          onClick={() => setMenuOpen((v) => !v)}
         >
           <span /><span /><span />
         </button>
 
-        {/* dreapta: linkuri */}
-        <ul id="primary-menu" className={`nav-links ${menuOpen ? "show" : ""}`}>
+        {/* MENIU – închidem dacă se dă click pe un <a> */}
+        <ul
+          id="primary-menu"
+          className={`nav-links ${menuOpen ? "show" : ""}`}
+          onClick={(e) => {
+            if (e.target.closest("a")) setMenuOpen(false);
+          }}
+        >
           <li className="dropdown">
             <NavLink to="/acasa" className="text-danger" tabIndex={0}>
               TaeKwon-Do
@@ -117,9 +162,7 @@ const Navbar = () => {
             <li><NavLink to="/concursuri">Concursuri</NavLink></li>
           )}
 
-          {rol === "Parinte" && (
-            <li><NavLink to="/copiii-mei">Copiii mei</NavLink></li>
-          )}
+          {rol === "Parinte" && <li><NavLink to="/copiii-mei">Copiii mei</NavLink></li>}
 
           {rol === "admin" && <li><NavLink to="/admin-dashboard">Admin</NavLink></li>}
           {rol === "Antrenor" && <li><NavLink to="/antrenor_dashboard">Grupe</NavLink></li>}
@@ -150,6 +193,16 @@ const Navbar = () => {
             </li>
           )}
         </ul>
+
+        {/* Buton × (vizibil doar pe mobil când meniul este deschis) */}
+        <button
+          type="button"
+          className="nav-close"
+          aria-label="Închide meniul"
+          onClick={() => setMenuOpen(false)}
+        >
+          ×
+        </button>
       </nav>
     </header>
   );
