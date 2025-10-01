@@ -56,11 +56,6 @@ const coachData = [
         descriere: "Instructor",
         imagine: "/images/people/lau.jpg",
     },
-    {
-        nume: "Oana Roșu",
-        descriere: "Instructor/Sportiv",
-        imagine: "/images/people/oana.jpg",
-    },
 ];
 
 const CoachSwiper = () => {

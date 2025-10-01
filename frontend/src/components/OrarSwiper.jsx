@@ -17,7 +17,7 @@ const orarData = [
     {
         zi: "Marți",
         programe: [
-            "17:00 - 18:00 | Antrenor: Oana Roșu | Începători 5-10 ani",
+            "17:00 - 18:00 | Antrenor: Florin Bîrluț | Începători 5-10 ani",
             "18:00 - 19:30 | Antrenor: Teodor Băilă & Daniel Cristache | Avansați +8 ani",
             "19:30 - 21:00 | Antrenor: Florin Bîrluț | Performanță +12 ani"
         ]
@@ -33,7 +33,7 @@ const orarData = [
     {
         zi: "Joi",
         programe: [
-            "17:00 - 18:00 | Antrenor: Oana Roșu | Începători: 5-10 ani",
+            "17:00 - 18:00 | Antrenor: Florin Bîrluț | Începători: 5-10 ani",
             "18:00 - 19:30 | Antrenor: Teodor Băilă & Daniel Cristache | Avansați: +8 ani",
             "19:30 - 21:00 | Antrenor: Florin Bîrluț | Performanță: +12 ani"
         ]
