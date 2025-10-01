@@ -420,41 +420,59 @@ button.user-chip:focus-visible{
 .nav-toggle.is-open span:nth-child(3){ transform: translateY(-6px) rotate(-45deg); }
 
 /* panou meniu pe mobil */
+/* panou meniu pe mobil */
 @media (max-width: 900px){
+  /* butonul de hamburger devine vizibil pe mobil */
   .nav-toggle{ display:grid; }
 
-  /* panou full-height, scrollabil */
+  /* PANOU MENIU: full-screen sub bară + scroll + peste tot (z-index mare) */
   .nav-links{
     position: fixed;
     left: 0;
     right: 0;
-    top: var(--nav-top, 64px);    /* înălțimea navbar-ului */
-    bottom: 0;                    /* întinde până jos */
-    background:#0f0f0f;
-    border-bottom:1px solid #1e1e1e;
-    display:grid;
-    gap:.25rem;
-    padding:.75rem .75rem calc(1rem + env(safe-area-inset-bottom));
+    top: var(--nav-top, 64px);           /* înălțimea reală a navbar-ului */
+    bottom: 0;                           /* întinde până jos */
+    background: #0f0f0f;
+    border-bottom: 1px solid #1e1e1e;
+    display: grid;
+    gap: .35rem;
+    padding: 0.85rem 0.9rem calc(1.1rem + env(safe-area-inset-bottom));
     transform-origin: top;
     transform: scaleY(0);
-    opacity:0;
-    pointer-events:none;
+    opacity: 0;
+    pointer-events: none;
     transition: transform .18s ease, opacity .18s ease;
-    overflow-y: auto;             /* 👈 permite scrollul în meniu */
-    -webkit-overflow-scrolling: touch; /* smooth pe iOS */
+    overflow-y: auto;                    /* 👈 poți derula întreg meniul */
+    -webkit-overflow-scrolling: touch;   /* smooth pe iOS */
+    z-index: 2000;                       /* 👈 peste cardul de login etc. */
   }
-  .nav-links.show{ transform: scaleY(1); opacity:1; pointer-events:auto; }
-  .nav-links a{ padding:.8rem; border-radius:12px; }
 
-  /* dropdown-urile devin simple secțiuni în panou */
+  /* când e deschis (adaugă clasa .show din JS) */
+  .nav-links.show{
+    transform: scaleY(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* „tap target” mai generos pe mobil */
+  .nav-links a{
+    padding: .95rem 0.9rem;
+    border-radius: 12px;
+    font-size: 1.05rem;
+  }
+
+  /* dropdown-urile devin secțiuni simple în panou (fără hover tricky) */
   .dropdown .dropdown-menu{
     position: static;
-    transform:none;
-    visibility:visible;
-    opacity:1;
-    background:#121212;
-    border-radius:10px;
-    margin-top:4px;
-    pointer-events:auto;
+    transform: none;
+    visibility: visible;
+    opacity: 1;
+    background: #121212;
+    border-radius: 10px;
+    margin-top: 6px;
+    padding: 4px;
+    pointer-events: auto;
+    box-shadow: none;
   }
 }
+
