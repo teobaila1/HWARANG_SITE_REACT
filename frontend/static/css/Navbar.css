@@ -423,58 +423,38 @@ button.user-chip:focus-visible{
 .nav-toggle.is-open span:nth-child(3){ transform: translateY(-6px) rotate(-45deg); }
 
 /* panou meniu pe mobil */
-/* panou meniu pe mobil */
-@media (max-width: 950px){
-  .nav-toggle{ display:grid; } /* hamburger vizibil pe mobil */
-
-  .nav-links{
-    position: fixed;
-    inset: 0;                                   /* acoperă ecranul */
-    padding: var(--nav-top) 0.9rem calc(1rem + env(safe-area-inset-bottom));
-    /*          ^^^^^^^^^^ top = înălțimea barei -> împinge conținutul panoului sub navbar */
-    background: #0f0f0f;
-    border-bottom: 1px solid #1e1e1e;
-    display: grid;
-    gap: .35rem;
-    height: 100dvh;                             /* device viewport height (iOS safe) */
-    transform-origin: top;
-    transform: scaleY(0);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform .18s ease, opacity .18s ease;
-    overflow-y: auto;                           /* 👈 poți derula tot meniul */
-    -webkit-overflow-scrolling: touch;
-    z-index: 3000;                              /* peste orice card/substrat */
-  }
-
-  .nav-links.show{
-    transform: scaleY(1);
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .nav-links a{
-    padding: .95rem .9rem;                      /* ținte „tap” mai mari */
-    border-radius: 12px;
-    font-size: 1.05rem;
-  }
-
-  /* dropdown-urile devin secțiuni în panou */
-  .dropdown .dropdown-menu{
-    position: static;
-    transform: none;
-    visibility: visible;
-    opacity: 1;
-    background: #121212;
-    border-radius: 10px;
-    margin-top: 6px;
-    padding: 4px;
-    pointer-events: auto;
-    box-shadow: none;
-  }
+/* ===== Buton CLOSE pentru meniul mobil ===== */
+.nav-close {
+  display: none;              /* ascuns by default */
 }
 
-/* ține navbarul deasupra panoului */
-.navbar{ z-index: 4000; }
+/* doar pe mobil îl afișăm când meniul e deschis */
+@media (max-width: 950px){
+  .nav-close{
+    position: fixed;
+    top: calc(var(--nav-top) + 8px);
+    right: 10px;
+    width: 42px;
+    height: 42px;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    background: #141414;
+    color: #eee;
+    font-size: 22px;
+    line-height: 1;
+    display: none;            /* va deveni grid când .nav-links e .show */
+    place-items: center;
+    z-index: 4001;            /* peste panou și sub navbar */
+    box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  /* când meniul e deschis, afișăm butonul */
+  .nav-links.show ~ .nav-close {
+    display: grid;
+  }
+
+  .nav-close:active { transform: scale(.98); }
+}
+
 
 
