@@ -426,53 +426,6 @@ button.user-chip:focus-visible{
 .nav-backdrop { display: none; }
 
 /* doar pe mobil */
-@media (max-width: 950px){
-  /* butonul × */
-  .nav-close{
-    position: fixed;
-    top: calc(var(--nav-top, 72px) / 2 - 22px); /* centrat pe înălțimea barei */
-    right: 12px;
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    border: 1px solid #2a2a2a;
-    background: #141414;
-    color: #fff;
-    font-size: 28px;
-    line-height: 1;
-    display: grid;
-    place-items: center;
-    z-index: 4100;                  /* peste panou */
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .18s ease, transform .18s ease;
-  }
-  .nav-close.show{
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  /* fundalul întunecat din spatele panoului */
-  .nav-backdrop{
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.45);
-    z-index: 3500;                  /* sub .nav-close, peste conținut */
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .18s ease;
-  }
-  .nav-backdrop.show{
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
-
-
-/* ține navbarul deasupra panoului */
-.navbar{ z-index: 4000; }
-
-
 /* ===== Close button & backdrop pentru mobil ===== */
 .nav-close,
 .nav-backdrop { display: none; }
@@ -519,3 +472,122 @@ button.user-chip:focus-visible{
     pointer-events: auto;
   }
 }
+
+
+/* ține navbarul deasupra panoului */
+.navbar{ z-index: 4000; }
+
+/* Fallback & control dinamic pentru înălțimea barei */
+:root { --nav-top: 72px; }
+
+/* când meniul e deschis, blocăm scroll-ul paginii */
+body.nav-open { overflow: hidden; }
+
+/* ——— HAMBURGER: default ascuns, vizibil pe mobil ——— */
+.nav-toggle{
+  display:none;
+  margin-left:auto;
+  width:42px; height:42px;
+  border:1px solid #2a2a2a;
+  border-radius:10px;
+  background:#141414;
+  cursor:pointer;
+  place-items:center;
+}
+.nav-toggle span{ width:20px; height:2px; background:#eee; display:block; transition:.25s; }
+.nav-toggle span + span{ margin-top:4px; }
+.nav-toggle.is-open span:nth-child(1){ transform: translateY(6px) rotate(45deg); }
+.nav-toggle.is-open span:nth-child(2){ opacity:0; }
+.nav-toggle.is-open span:nth-child(3){ transform: translateY(-6px) rotate(-45deg); }
+
+/* ——— Close „×” și backdrop ——— */
+.nav-close,
+.nav-backdrop { display:none; }
+
+@media (max-width: 950px){
+  .nav-toggle{ display:grid; }
+
+  /* Ascunde layout-ul de desktop */
+  .navbar .nav-links{ display:none !important; }
+
+  /* Panou full-screen sub bară, scrollabil */
+  .navbar .nav-links{
+    position: fixed;
+    inset: 0;
+    padding: var(--nav-top) 0.9rem calc(1rem + env(safe-area-inset-bottom));
+    background:#0f0f0f;
+    border-bottom:1px solid #1e1e1e;
+    display:grid;
+    gap:.35rem;
+    height: 100dvh;
+    transform-origin: top;
+    transform: scaleY(0);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .18s ease, opacity .18s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: 3000;
+  }
+  .navbar .nav-links.show{
+    display:grid !important;
+    transform: scaleY(1);
+    opacity:1;
+    pointer-events:auto;
+  }
+  .navbar .nav-links a{
+    padding:.95rem .9rem;
+    border-radius:12px;
+    font-size:1.05rem;
+  }
+
+  /* Dropdown-urile în panou devin secțiuni simple */
+  .navbar .dropdown .dropdown-menu{
+    position: static;
+    transform: none;
+    visibility: visible;
+    opacity: 1;
+    background: #121212;
+    border-radius: 10px;
+    margin-top: 6px;
+    padding: 4px;
+    pointer-events: auto;
+    box-shadow: none;
+  }
+
+  /* buton × deasupra meniului */
+  .nav-close{
+    position: fixed;
+    top: calc(var(--nav-top) / 2 - 22px);
+    right: 12px;
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    border: 1px solid #2a2a2a;
+    background: #141414;
+    color: #fff;
+    font-size: 28px; line-height: 1;
+    display: grid;
+    place-items: center;
+    z-index: 4100;
+    opacity: 0; pointer-events: none;
+    transition: opacity .18s ease;
+  }
+  .nav-close.show{ opacity:1; pointer-events:auto; }
+
+  /* backdrop sub panou */
+  .nav-backdrop{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 2900;
+    opacity: 0; pointer-events: none;
+    transition: opacity .18s ease;
+    display: block;
+  }
+  .nav-backdrop.show{ opacity: 1; pointer-events: auto; }
+}
+
+/* asigură-te că navbar-ul rămâne peste conținut */
+.navbar{ z-index: 4000; }
+
+
