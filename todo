@@ -133,3 +133,7 @@ parinti cand sa selectez)
 
 de facut deploy, uita-te atent la ce zice chat si fa pas cu pas, verifica si fisierele tale
 trebuie sa refactorizez fetchurile toate cu ce am in config.js si sa vad daca e bine ce am bagat in env la netlify
+
+
+sa vad de ce nu merge resetarea parolei, este ceva de la smtp_pass sau user, verifica atent, intreaba pe chat
+si vezi fiecare situatie
