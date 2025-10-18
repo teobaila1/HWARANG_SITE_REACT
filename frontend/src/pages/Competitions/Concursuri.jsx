@@ -24,6 +24,11 @@ const Concursuri = () => {
         probe: "",
         gen: "", // <-- adaugă aici
     });
+
+    const role = (rol || "").toLowerCase();
+    const CAN_SEE_ENTRIES = role === "admin" || role === "Antrenor";   // poate vedea înscrierile
+    const CAN_DELETE = role === "admin";
+
     const [selectedProbes, setSelectedProbes] = useState([]);
 
     const probeOptions = [
@@ -234,27 +239,28 @@ const Concursuri = () => {
                                         {openFormFor === c.nume ? "Ascunde formularul" : "Înscrie-te la concurs"}
                                     </button>
 
-                                    {rol && (rol === "admin" || rol === "Antrenor") && (
-                                        <>
-                                            <Link to={`/inscrisi/${encodeURIComponent(c.nume)}`}>
-                                                <button className="btn-inscriere">
-                                                    Vezi înscrieri: {numarInscrisi[c.nume] ?? 0}
-                                                </button>
-                                            </Link>
-
-                                            <button
-                                                className="btn-inscriere"
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    e.stopPropagation();
-                                                    handleDeleteConcurs(c.nume);
-                                                }}
-                                            >
-                                                Șterge concursul
+                                    {CAN_SEE_ENTRIES && (
+                                        <Link to={`/inscrisi/${encodeURIComponent(c.nume)}`}>
+                                            <button className="btn-inscriere">
+                                                Vezi înscrieri: {numarInscrisi[c.nume] ?? 0}
                                             </button>
-                                        </>
+                                        </Link>
+                                    )}
+
+                                    {CAN_DELETE && (
+                                        <button
+                                            className="btn-inscriere"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                handleDeleteConcurs(c.nume);
+                                            }}
+                                        >
+                                            Șterge concursul
+                                        </button>
                                     )}
                                 </td>
+
                             </tr>
 
                             {/* ✅ Formularul apare fix sub concursul selectat */}

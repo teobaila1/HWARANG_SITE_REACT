@@ -40,8 +40,8 @@
   text-align: center;                /* cerință: scrisul pe mijloc */
 }
 
-/* Inputs/selects – focus roșu + centrate ca bloc */
-.register-container input,
+/* === Controls text-like (EXCLUD checkbox) === */
+.register-container input:not([type="checkbox"]),
 .register-container select {
   width: var(--ctrl-w);
   padding: 0.8rem 0.9rem;
@@ -53,8 +53,10 @@
   outline: none;
   transition: border .25s ease, box-shadow .25s ease, background .25s ease;
 }
+
 .register-container input::placeholder { color: #8a8a8a; }
-.register-container input:focus,
+
+.register-container input:not([type="checkbox"]):focus,
 .register-container select:focus {
   border: 1px solid #ff1a1a;
   box-shadow: 0 0 0 3px rgba(255, 26, 26, 0.2), 0 0 14px rgba(255, 0, 0, 0.25);
@@ -81,21 +83,40 @@
   color: #cfcfd7;
 }
 
-/* Copii (opțional) */
-.register-container .checkbox-inline {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;           /* centrat */
-  gap: 10px;
+/* === Checkbox row – compact, aliniat, fără „linie roșie” === */
+.register-container .checkbox-inline{
   width: var(--ctrl-w);
+  display: flex;
+  align-items: center;
+  justify-content: center;           /* centru, ca restul */
+  gap: .6rem;
+  margin: .25rem auto .25rem;
+  padding: .35rem 0;
+  border: 0;                         /* nicio bordură reziduală */
 }
 
+.register-container .checkbox-inline input[type="checkbox"]{
+  width: auto;                       /* IMPORTANT: nu mai întinde linii */
+  height: 16px;
+  margin: 0;
+  accent-color: #ff1a1a;             /* roșu club (browser-ele moderne) */
+  cursor: pointer;
+}
+
+.register-container .checkbox-inline span{
+  color: #dcdcdc;
+  line-height: 1.2;
+}
+
+/* Copii */
 .register-container h4 {
-  margin: .25rem 0 .5rem;
+  margin: .5rem 0 .5rem;
   font-weight: 800;
+  letter-spacing: .2px;
+  color: #ffffff;
 }
 
-/* containerul fiecărui copil – centrat și elastic */
+/* containerul fiecărui copil – card compact */
 .register-container .copil-fields {
   width: var(--ctrl-w);
   display: grid;
@@ -105,8 +126,9 @@
   border: 1px solid #2a2a2a;
   padding: 10px;
   border-radius: 10px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.18);
+  margin-bottom: .5rem;              /* distanță între carduri */
 }
-
 .register-container .copil-fields > * { min-width: 0; }
 .register-container .copil-fields input,
 .register-container .copil-fields select { width: 100%; }
