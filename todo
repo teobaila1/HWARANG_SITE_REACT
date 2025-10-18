@@ -137,3 +137,8 @@ trebuie sa refactorizez fetchurile toate cu ce am in config.js si sa vad daca e 
 
 sa vad de ce nu merge resetarea parolei, este ceva de la smtp_pass sau user, verifica atent, intreaba pe chat
 si vezi fiecare situatie
+
+
+18 octombrie 2025:
+mai tre sa modific, cand adaug un parinte nou la antrenori, acolo unde eadminul
+de vede toti userii sa puna implicit Parinte, nu admin, ca si rol
