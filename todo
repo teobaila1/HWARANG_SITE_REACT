@@ -142,3 +142,5 @@ si vezi fiecare situatie
 18 octombrie 2025:
 mai tre sa modific, cand adaug un parinte nou la antrenori, acolo unde eadminul
 de vede toti userii sa puna implicit Parinte, nu admin, ca si rol
+
+nu merge in prodccutie aia cu api/me la sueri de autentificare
