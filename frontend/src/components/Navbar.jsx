@@ -133,10 +133,12 @@ const Navbar = () => {
           )}
 
           {isLoggedIn && rol !== "AntrenorExtern" && (
-  <li>
-    <NavLink to="https://sites.google.com/hwarang.ro/hwarang-info/pagina-de-pornire">Informații generale TKD</NavLink>
-  </li>
-)}
+            <li>
+              <NavLink to="https://sites.google.com/hwarang.ro/hwarang-info/pagina-de-pornire">
+                Informații generale TKD
+              </NavLink>
+            </li>
+          )}
           {isLoggedIn && rol !== "AntrenorExtern" && (
             <li><NavLink to="/documente">Documente</NavLink></li>
           )}

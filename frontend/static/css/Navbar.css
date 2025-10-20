@@ -333,8 +333,6 @@ button.user-chip:focus-visible{
   .nav-backdrop.show{ opacity: 1; pointer-events: auto; }
 }
 
-
-
 /* ===== POLISH MOBILE PANEL (compact, fără spațiu mare sus) ===== */
 @media (max-width: 950px){
 
