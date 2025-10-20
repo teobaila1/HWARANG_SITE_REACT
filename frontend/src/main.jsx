@@ -4,10 +4,15 @@ import App from './App';
 import './styles/theme.css';
 import './styles/mobile_ovverrides.css';
 
-
+import { AuthProvider } from './auth/AuthProvider';
+import ErrorBoundary from './components/ErrorBoundary';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
+  <React.StrictMode>
+    <ErrorBoundary>
+      <AuthProvider>
         <App/>
-    </React.StrictMode>
+      </AuthProvider>
+    </ErrorBoundary>
+  </React.StrictMode>
 );

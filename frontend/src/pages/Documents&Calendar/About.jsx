@@ -53,7 +53,7 @@ const About = () => {
         </div>
 
         <div className="about-motto">
-          <h2>"IF YOU WANT TO BE THE BEST, TRAIN WITH THE BEST"</h2>
+          <h2>IF YOU WANT TO BE THE BEST, TRAIN WITH THE BEST</h2>
         </div>
       </section>
 
