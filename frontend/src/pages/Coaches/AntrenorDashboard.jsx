@@ -136,6 +136,7 @@ const AntrenorDashboard = () => {
     // pentru edit nu e obligatoriu parinte_id; backend găsește copilul după id
     setEditElev({
       ...copil,
+      parinte_id: copil._parent?.id ?? null,    // <— IMPORTANT
       parent_display: parentName(copil._parent)
     });
     setShowForm(true);
@@ -265,6 +266,7 @@ const AntrenorDashboard = () => {
         {showForm && (
           <ElevForm
             initial={editElev}            // Add: {grupa} sau {parinte_id, grupa}; Edit: copilul
+            parents={(data.find(g => g.grupa === (editElev?.grupa || ""))?.parents) || []}
             onClose={() => setShowForm(false)}
             onSubmit={handleSubmitForm}
           />
