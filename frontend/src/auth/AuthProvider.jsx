@@ -1,43 +1,49 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { api } from "../api/client";
+
+const LS_KEY = "hwarang:user";
 
 const AuthCtx = createContext({
   user: null,
-  loading: true,
-  refresh: () => {},
+  loading: false,
+  setFromLogin: () => {},  // o chemăm după 200 la /api/login
   logout: () => {},
 });
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  const refresh = async () => {
-    try {
-      setLoading(true);
-      // ✅ backend-ul tău are /api/me (NU /me)
-      const { data } = await api.get("/api/me");
-      setUser(data?.user || null);
-    } catch {
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
+  // încarcă din localStorage la mount + sync între taburi
+  useEffect(() => {
+    try { const raw = localStorage.getItem(LS_KEY); if (raw) setUser(JSON.parse(raw)); } catch {}
+    const onStorage = (e) => { if (e.key === LS_KEY) setUser(e.newValue ? JSON.parse(e.newValue) : null); };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
+  // setează userul pe baza răspunsului de la /api/login
+  const setFromLogin = (data) => {
+    const roles = (data?.rol || data?.roles || "")
+      .toString()
+      .split(",")
+      .map((r) => r.trim())
+      .filter(Boolean);
+    const u = {
+      id: data?.id || data?.userId || null,
+      username: data?.user || data?.username || "",
+      email: data?.email || "",
+      roles,
+      grupe: data?.grupe ?? null,
+    };
+    localStorage.setItem(LS_KEY, JSON.stringify(u));
+    setUser(u);
   };
 
-  const logout = async () => {
-    try {
-      // ✅ backend-ul tău are /api/logout (NU /logout)
-      await api.post("/api/logout");
-    } catch {}
+  const logout = () => {
+    localStorage.removeItem(LS_KEY);
     setUser(null);
   };
 
-  useEffect(() => {
-    refresh();
-  }, []);
-
-  const value = useMemo(() => ({ user, loading, refresh, logout }), [user, loading]);
+  const value = useMemo(() => ({ user, loading: false, setFromLogin, logout }), [user]);
   return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;
 }
 
