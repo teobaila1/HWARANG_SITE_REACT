@@ -53,33 +53,66 @@ const Home = () => {
 
 
             {/*<div data-aos="fade-down">*/}
-            <section className="why-us-section">
-                <h2 className="why-us-title">De ce să ne alegi pe noi?</h2>
-                <h3 className="justification">La ACS HWARANG ACADEMY, beneficiezi de:</h3>
-                <div className="why-us-items">
-                    <div className="why-us-card">
-                        <i className="fas fa-user-ninja"></i>
-                        <p>Antrenori experimentați, cu centură neagră și rezultate internaționale</p>
+            {/* WHY US — v2 */}
+            {/* WHY US — v2 (blend cu fundalul paginii) */}
+            <section id="de-ce-noi" className="why-us-v2">
+                <div
+                    className="why-panel"
+                    onMouseMove={(e) => {
+                        const r = e.currentTarget.getBoundingClientRect();
+                        e.currentTarget.style.setProperty("--x", `${e.clientX - r.left}px`);
+                        e.currentTarget.style.setProperty("--y", `${e.clientY - r.top}px`);
+                    }}
+                >
+                    <div className="why-header" data-aos="fade-up">
+                        <h2>De ce să ne alegi pe noi?</h2>
+                        <p>La ACS HWARANG ACADEMY, beneficiezi de:</p>
+                        <div className="why-accent-line" aria-hidden/>
                     </div>
-                    <div className="why-us-card">
-                        <i className="fas fa-users"></i>
-                        <p>Grupe pentru toate vârstele, de la copii la adulți și sportivi de performanță</p>
+
+                    <div className="features-grid">
+                        <article className="feature-card" data-aos="fade-up" data-aos-delay="50" tabIndex={0}>
+                            <div className="icon-wrap"><i className="fas fa-user-ninja"/></div>
+                            <h3>Antrenori experimentați</h3>
+                            <p>Centură neagră & rezultate internaționale dovedite.</p>
+                        </article>
+
+                        <article className="feature-card" data-aos="fade-up" data-aos-delay="100" tabIndex={0}>
+                            <div className="icon-wrap"><i className="fas fa-users"/></div>
+                            <h3>Grupe pentru toate vârstele</h3>
+                            <p>De la copii la adulți și sportivi de performanță.</p>
+                        </article>
+
+                        <article className="feature-card" data-aos="fade-up" data-aos-delay="150" tabIndex={0}>
+                            <div className="icon-wrap"><i className="fas fa-dumbbell"/></div>
+                            <h3>Antrenamente dinamice</h3>
+                            <p>Mediu disciplinat, dar prietenos și motivant.</p>
+                        </article>
+
+                        <article className="feature-card" data-aos="fade-up" data-aos-delay="200" tabIndex={0}>
+                            <div className="icon-wrap"><i className="fas fa-medal"/></div>
+                            <h3>Competiții & progres</h3>
+                            <p>Participare la concursuri și susținere reală în evoluția ta.</p>
+                        </article>
+
+                        <article className="feature-card" data-aos="fade-up" data-aos-delay="250" tabIndex={0}>
+                            <div className="icon-wrap"><i className="fas fa-map-marker-alt"/></div>
+                            <h3>Locație centrală</h3>
+                            <p>În Sibiu, ușor accesibilă din orice zonă.</p>
+                        </article>
                     </div>
-                    <div className="why-us-card">
-                        <i className="fas fa-dumbbell"></i>
-                        <p>Antrenamente dinamice, într-un mediu disciplinat, dar prietenos</p>
-                    </div>
-                    <div className="why-us-card">
-                        <i className="fas fa-medal"></i>
-                        <p>Participare activă la competiții naționale, internaționale și susținere reală în evoluția
-                            ta</p>
-                    </div>
-                    <div className="why-us-card">
-                        <i className="fas fa-map-marker-alt"></i>
-                        <p>Locație centrală în Sibiu, ușor accesibilă</p>
-                    </div>
+
+                    <ul className="quick-stats" data-aos="zoom-in" data-aos-delay="250">
+                        <li><span>15+</span> ani experiență</li>
+                        <li><span>120+</span> sportivi activi</li>
+                        <li><span>40+</span> medalii/an</li>
+                    </ul>
+
+                    <div className="spotlight" aria-hidden/>
+                    <div className="grid-overlay" aria-hidden/>
                 </div>
             </section>
+
             {/*</div>*/}
 
             {/*/!*<div data-aos="flip-up">*!/*/}
