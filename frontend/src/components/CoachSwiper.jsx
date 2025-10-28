@@ -38,7 +38,7 @@ const coachData = [
     {
         nume: "Andrei Dobră",
         descriere: "Instructor/Sportiv",
-        imagine: "/images/people/raul_hurdu.jpg",
+        imagine: "/images/people/dobrel1.jpg",
     },
 
     {
@@ -54,7 +54,7 @@ const coachData = [
     {
         nume: "Laurențiu Tatu",
         descriere: "Instructor",
-        imagine: "/images/people/lau.jpg",
+        imagine: "/images/people/lau2.jpg",
     },
 ];
 

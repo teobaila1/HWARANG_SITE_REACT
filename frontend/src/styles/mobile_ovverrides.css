@@ -1,79 +1,224 @@
-/* imagini/video fluide */
-img, video { max-width: 100%; height: auto; }
+/* =========================================================
+   Hwarang • Mobile CSS (global, only phones)
+   Importă în App.jsx ca ultimul stylesheet.
+   Filosofie: lizibilitate, spațiere aerisită, interacțiuni mari,
+   grid simplu, componente coerente pe tot site-ul.
+   ========================================================= */
 
-/* tipografie care scalează bine */
-html { font-size: 16px; }
-h1 { font-size: clamp(1.5rem, 4vw, 2.25rem); }
-h2 { font-size: clamp(1.25rem, 3.4vw, 1.75rem); }
-p, input, button { font-size: clamp(0.95rem, 2.8vw, 1rem); }
-
-/* spații rezonabile pe mobil */
-.container, .page, .section, .form-concurs-wrapper {
-  padding-left: 1rem; padding-right: 1rem;
+/* ---------- Bază & variabile ---------- */
+:root{
+  --container: min(100%, 92vw);
+  --radius: 16px;
+  --gap: clamp(.75rem, 2.6vw, 1rem);
+  --shadow: 0 10px 25px rgba(0,0,0,.15);
+  --text: #eaeaea;
+  --muted: #b9b9b9;
+  --bg: #0b0b0c;
+  --card: #121214;
+  --line: #1d1d21;
+  --primary: #d91e18; /* Hwarang red */
+  --primary-600: #b71813;
 }
 
+@media (max-width: 480px){
 
+  /* ---------- Reset prietenos mobil ---------- */
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body{
+    margin:0;
+    color: var(--text);
+    background: var(--bg);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  img, video{ max-width:100%; height:auto; display:block; }
+  a{ color: inherit; text-decoration: none; }
+  button{ font: inherit; color: inherit; }
+  :focus-visible{ outline: 2px solid var(--primary); outline-offset: 2px; }
 
-@media (max-width: 768px) {
+  /* ---------- Layout utilitare ---------- */
+  .container{ width: var(--container); margin-inline: auto; }
+  .stack{ display:flex; flex-direction:column; gap: var(--gap); }
+  .cluster{ display:flex; flex-wrap: wrap; gap: var(--gap); align-items:center; }
+  .grid-2{ display:grid; grid-template-columns: 1fr; gap: var(--gap); } /* devine 1 col pe mobil */
 
-  /* Navbar: stivă verticală / spațiu între elemente */
-  .navbar, .nav { gap: .75rem; }
-  .nav ul { flex-wrap: wrap; row-gap: .5rem; }
+  /* ---------- Tipografie fluidă ---------- */
+  h1{ font-size: clamp(1.8rem, 8vw, 2.35rem); line-height:1.15; margin:.25rem 0 .5rem; }
+  h2{ font-size: clamp(1.35rem, 6.5vw, 1.8rem); line-height:1.2; margin:.25rem 0 .5rem; }
+  h3{ font-size: clamp(1.15rem, 5.5vw, 1.35rem); line-height:1.25; margin:.25rem 0 .35rem; }
+  p, li{ font-size: clamp(.98rem, 4vw, 1.05rem); color: #ddd; }
+  small, .muted{ color: var(--muted); font-size:.92rem; }
 
-  /* Card-uri / grile în coloană */
-  .why-us-section .why-us-items {
-    display: grid; grid-template-columns: 1fr; gap: .75rem;
+  /* ---------- Card & secțiune ---------- */
+  .section{ padding: 1.25rem 0; }
+  .card{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1rem;
+    box-shadow: var(--shadow);
   }
 
-  /* Formulare full width */
-  form, .form-concurs, .login-container {
-    width: 100%; max-width: 560px; margin-inline: auto;
+  /* ---------- Butoane globale ---------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    min-height: 46px; padding: 0 .95rem; gap:.5rem;
+    border-radius: 999px; border: 1px solid transparent;
+    background: var(--primary); color: #fff; font-weight: 700;
+    transition: transform .06s ease, filter .15s ease, background .15s ease, border-color .15s ease;
+    will-change: transform;
   }
-  .form-concurs input, .form-concurs button,
-  .login-container input, .login-container button {
-    width: 100%;
+  .btn:active{ transform: translateY(0); filter: brightness(.96); }
+  .btn:disabled{ opacity:.6; }
+
+  .btn.secondary{
+    background: transparent; color:#fff; border-color:#2a2a2f;
+  }
+  .btn.secondary:active{ background:#18181b; }
+
+  .btn.block{ width:100%; }
+
+  /* ---------- Navbar (burger + meniul full-screen) ---------- */
+  /* presupune body.nav-open este adăugat din JS când meniul e deschis */
+  body.nav-open{ overflow: hidden; touch-action: none; }
+
+  .navbar{ position: sticky; top:0; z-index: 50; backdrop-filter: blur(10px); background: rgba(10,10,12,.45); border-bottom:1px solid #151519; }
+  .nav-brand{ display:flex; align-items:center; gap:.6rem; padding:.6rem .8rem; }
+  .nav-brand img{ width:36px; height:36px; border-radius: 8px; }
+
+  .burger{ margin-left:auto; margin-right:.6rem; width:42px; height:42px; border-radius: 10px; border:1px solid #2a2a30; background:#131316; }
+  .burger:active{ background:#18181b; }
+
+  .nav-panel{
+    position: fixed; inset: 56px 0 0 0;  /* sub navbar */
+    background: rgba(9,9,11,.95);
+    padding: 1rem;
+    display: grid; align-content: start; gap:.35rem;
+    transform: translateY(0); /* controlat din JS prin hidden/show */
+  }
+  .nav-panel a{
+    display:flex; align-items:center; min-height: 48px;
+    border-radius: 12px; padding: 0 .75rem;
+    border:1px solid transparent;
+  }
+  .nav-panel a:active{ background:#141418; border-color:#222229; }
+
+  /* ---------- Hero video ---------- */
+  .video-container{ position:relative; height: clamp(380px, 62vh, 520px); overflow:hidden; }
+  #bg-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .video-gradient{
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(0,0,0,.70), rgba(0,0,0,.25) 55%, rgba(0,0,0,.82));
+  }
+  .hero-copy{
+    position:absolute; inset:auto 0 18px 0; padding-inline: 1rem;
+  }
+  .hero-copy h1{ text-shadow: 0 6px 22px rgba(0,0,0,.6); }
+  .hero-copy p{ max-width: 34ch; color:#eee; text-shadow: 0 4px 18px rgba(0,0,0,.6); }
+  .hero-cta{ display:flex; flex-direction: column; gap:.6rem; margin-top:.6rem; }
+  .hero-cta .btn{ width:100%; }
+
+  /* ---------- Swiper (Orar) ---------- */
+  .swiper{ padding-bottom: 28px; }
+  .swiper-slide{ padding: .5rem; }
+  .swiper-pagination-bullet{ width: 12px; height:12px; margin: 0 5px !important; }
+  .orar-card{ border-radius: var(--radius); border:1px solid var(--line); background: var(--card); padding: .9rem; box-shadow: var(--shadow); }
+
+  /* ---------- Tabele mari -> carduri ---------- */
+  .table-wrap{ overflow: visible; }
+  table{ display:block; border-collapse: separate; border-spacing: 0 .75rem; width:100%; }
+  thead{ display:none; }
+  tbody{ display:block; }
+  tr{
+    display:block;
+    background: var(--card);
+    border:1px solid var(--line);
+    border-radius: 14px;
+    padding: .75rem;
+    box-shadow: var(--shadow);
+    margin-bottom: .75rem;
+  }
+  td{
+    display:grid;
+    grid-template-columns: 9.5ch 1fr;
+    gap:.45rem;
+    padding:.35rem 0;
+    min-height: 28px;
+  }
+  td::before{
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 600;
   }
 
-  /* Date pickers aliniate pe două rânduri */
-  .date-range-picker { display: grid; grid-template-columns: 1fr; gap: .5rem; }
+  /* ---------- Formulare ---------- */
+  form .field{ display:grid; gap:.4rem; margin-bottom:.85rem; }
+  input, select, textarea{
+    width:100%;
+    min-height: 46px;
+    border-radius: 12px;
+    border:1px solid #2a2a30;
+    background:#111114;
+    color:#fff;
+    padding:.65rem .8rem;
+  }
+  input::placeholder, textarea::placeholder{ color:#8b8b8f; }
+  .field small.field-error{ color:#ff6b6b; }
 
-  /* Tabele: scroll orizontal dacă sunt late */
-  table { display: block; width: 100%; overflow-x: auto; }
+  /* Fix autofill dark */
+  input:-webkit-autofill{
+    -webkit-box-shadow: 0 0 0px 1000px #111114 inset;
+    -webkit-text-fill-color: #fff !important;
+  }
+
+  /* ---------- Galerie ---------- */
+  .albums-grid{ display:grid; grid-template-columns: 1fr; gap: var(--gap); }
+  .album-card{
+    display:grid; grid-template-columns: 84px 1fr; gap:.8rem;
+    padding:.75rem; border-radius: 14px; border:1px solid var(--line); background: var(--card); box-shadow: var(--shadow);
+  }
+  .album-card img{ width:84px; height:84px; object-fit:cover; border-radius: 10px; }
+  .album-title{ font-weight:700; margin-bottom:.2rem; }
+  .album-meta{ color:var(--muted); font-size:.93rem; }
+
+  /* Lightbox */
+  .lightbox{
+    position: fixed; inset:0; background: rgba(0,0,0,.96);
+    display:flex; align-items:center; justify-content:center;
+    padding: .75rem;
+  }
+  .lightbox img{ max-width:100%; max-height: 78vh; border-radius: 12px; }
+  .lightbox .controls{ position:absolute; inset:auto 0 10px 0; display:flex; gap:.5rem; justify-content:center; padding:0 .75rem; }
+  .lightbox .btn{ min-width:44px; min-height:44px; border-radius:12px; }
+
+  /* ---------- Footer ---------- */
+  .footer{ background:#0d0d10; border-top: 1px solid #15161a; padding: 1.25rem 0; }
+  .footer-grid{ display:grid; grid-template-columns: 1fr; gap: .9rem; }
+  .footer small{ color: var(--muted); }
+
+  /* ---------- Toasts / badge / chip ---------- */
+  .chip{
+    display:inline-flex; align-items:center; gap:.4rem;
+    border:1px solid #2a2a30; background:#131316; padding:.35rem .6rem; border-radius: 999px; color:#e6e6e6; font-weight:600;
+  }
+
+  /* ---------- Animații & accesibilitate ---------- */
+  @media (prefers-reduced-motion: reduce){
+    [data-aos]{ opacity:1 !important; transform:none !important; transition:none !important; }
+    .btn, .card, .album-card{ transition:none !important; }
+  }
 }
 
-
-
-
-@media (max-width: 480px) {
-
-  /* Margini mai mici la containere „card” (ex. login) */
-  .login-container { margin: 2rem 1rem; padding: 1.25rem; }
-
-  /* Butoane mari, ușor de apăsat */
-  button, .btn { padding: .9rem 1.1rem; border-radius: 10px; min-height: 44px; }
-
-  /* Inputuri: hit area mare */
-  input, select { min-height: 44px; }
-
-  /* Spații verticale mai slabe */
-  .section { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+/* ---------- Suport mobile wide (<= 700px) pentru tabele/galerie ---------- */
+@media (max-width: 700px){
+  .albums-grid{ grid-template-columns: 1fr 1fr; }
+  .album-card{ grid-template-columns: 72px 1fr; }
 }
 
-
-
-
-/* culoare text alb și fundal închis când Chrome autofill-ează */
-.login-container input:-webkit-autofill,
-.login-container input:-webkit-autofill:hover,
-.login-container input:-webkit-autofill:focus,
-.login-container input:-webkit-autofill:active {
-  -webkit-text-fill-color: #fff !important;
-  caret-color: #fff;
-  box-shadow: 0 0 0 1000px #121212 inset !important;
-}
-.login-container input { background: #121212; color: #fff; }
-
-
-
-/* elimină dublul slash și asigură-te că imaginile sunt fluide */
-.img-full, .brush-img { width: 100%; height: auto; display: block; }
+/* ---------- Utilitare micro ---------- */
+.hide-on-mobile{ display: none !important; }
+@media (min-width: 481px){ .hide-on-mobile{ display: initial !important; } }

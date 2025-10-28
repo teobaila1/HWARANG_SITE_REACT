@@ -27,13 +27,28 @@ const Home = () => {
             <Navbar/>
 
             <div className="video-container">
-                <video autoPlay muted loop id="bg-video">
+                <video autoPlay muted loop playsInline id="bg-video" poster="/images/hero_poster.jpg">
                     <source src="/video/hwarang.mp4" type="video/mp4"/>
                 </video>
+
+                {/* overlay existent + gradient + noise subtil */}
                 <div className="video-overlay"/>
+                <div className="video-gradient" aria-hidden/>
+                <div className="video-noise" aria-hidden/>
+
+                {/* HERO copy */}
+                <div className="hero-copy">
+                    <h1>ACS Hwarang Academy Sibiu</h1>
+                    <p>Respect. Integritate. Perseverență. Autocontrol. Spirit de luptă neînfricat.</p>
+                    <div className="hero-cta">
+                        <a href="/galerie" className="btn btn-primary">Vezi atmosfera</a>
+                        <a href="/inscriere" className="btn btn-ghost">Haide in echipa noastră</a>
+                    </div>
+                </div>
+
                 <div className="video-spacer"/>
-                {/* ADĂUGAT pentru a da spațiu dedesubt */}
             </div>
+
 
             <div className="fade-transition"></div>
 
@@ -53,8 +68,6 @@ const Home = () => {
 
 
             {/*<div data-aos="fade-down">*/}
-            {/* WHY US — v2 */}
-            {/* WHY US — v2 (blend cu fundalul paginii) */}
             <section id="de-ce-noi" className="why-us-v2">
                 <div
                     className="why-panel"
@@ -74,38 +87,37 @@ const Home = () => {
                         <article className="feature-card" data-aos="fade-up" data-aos-delay="50" tabIndex={0}>
                             <div className="icon-wrap"><i className="fas fa-user-ninja"/></div>
                             <h3>Antrenori experimentați</h3>
-                            <p>Centură neagră & rezultate internaționale dovedite.</p>
+                            <p>Centură neagră & rezultate internaționale dovedite</p>
                         </article>
 
                         <article className="feature-card" data-aos="fade-up" data-aos-delay="100" tabIndex={0}>
                             <div className="icon-wrap"><i className="fas fa-users"/></div>
                             <h3>Grupe pentru toate vârstele</h3>
-                            <p>De la copii la adulți și sportivi de performanță.</p>
+                            <p>De la copii la adulți și sportivi de performanță</p>
                         </article>
 
                         <article className="feature-card" data-aos="fade-up" data-aos-delay="150" tabIndex={0}>
                             <div className="icon-wrap"><i className="fas fa-dumbbell"/></div>
                             <h3>Antrenamente dinamice</h3>
-                            <p>Mediu disciplinat, dar prietenos și motivant.</p>
+                            <p>Mediu disciplinat, dar prietenos și motivant</p>
                         </article>
 
                         <article className="feature-card" data-aos="fade-up" data-aos-delay="200" tabIndex={0}>
                             <div className="icon-wrap"><i className="fas fa-medal"/></div>
                             <h3>Competiții & progres</h3>
-                            <p>Participare la concursuri și susținere reală în evoluția ta.</p>
+                            <p>Participare la concursuri și susținere reală în evoluția ta</p>
                         </article>
 
                         <article className="feature-card" data-aos="fade-up" data-aos-delay="250" tabIndex={0}>
                             <div className="icon-wrap"><i className="fas fa-map-marker-alt"/></div>
                             <h3>Locație centrală</h3>
-                            <p>În Sibiu, ușor accesibilă din orice zonă.</p>
+                            <p>În Sibiu, ușor accesibilă din orice zonă</p>
                         </article>
                     </div>
 
                     <ul className="quick-stats" data-aos="zoom-in" data-aos-delay="250">
-                        <li><span>15+</span> ani experiență</li>
+                        <li><span>25+</span> ani experiență</li>
                         <li><span>120+</span> sportivi activi</li>
-                        <li><span>40+</span> medalii/an</li>
                     </ul>
 
                     <div className="spotlight" aria-hidden/>

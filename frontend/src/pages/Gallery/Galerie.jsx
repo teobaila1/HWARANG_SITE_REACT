@@ -40,10 +40,6 @@ const Galerie = () => {
     const [openAlbum, setOpenAlbum] = useState(null); // {album, index}
     const [filter, setFilter] = useState("");
 
-    useEffect(() => {
-        document.title = "Galerie | ACS HWARANG ACADEMY";
-    }, []);
-
     const albums = useMemo(() => {
         const term = filter.trim().toLowerCase();
         if (!term) return ALBUME;
