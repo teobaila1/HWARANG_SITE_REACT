@@ -374,3 +374,141 @@
   [data-aos]{ opacity:1 !important; transform:none !important; transition:none !important; }
   .btn, .card, .album-card{ transition:none !important; }
 }
+
+
+
+/* ===== MENIU MOBIL – SOLUȚIE STABILĂ iOS ===== */
+@media (max-width: 480px){
+  .navbar{
+    position: fixed;
+    top: env(safe-area-inset-top, 0);
+    left: 0; right: 0;
+    z-index: 2147483000;
+    backdrop-filter: blur(10px);
+    background: rgba(10,10,12,.45);
+    border-bottom:1px solid #151519;
+  }
+  .nav-brand{ display:flex; align-items:center; gap:.6rem; padding:.6rem .8rem; }
+  .burger{ margin-left:auto; margin-right:.6rem; width:42px; height:42px; border-radius: 10px; border:1px solid #2a2a30; background:#131316; }
+
+  .nav-panel{
+    position: fixed;
+    inset: calc(56px + env(safe-area-inset-top, 0)) 0 0 0;
+    z-index: 2147482000;
+    background: rgba(9,9,11,0.97);
+    padding: 1rem 1.1rem 2rem;
+    display: block;  /* layout simplu, fără flex capricios */
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    pointer-events: auto;
+  }
+
+  .menu-block{ margin-bottom: 1rem; }
+  .menu-title{ color:#d74a4a; font-weight:800; margin:.25rem 0 .5rem; }
+  .menu-list{ list-style:none; margin:0; padding:0; }
+
+  /* folosim <button> pentru navigare – fiabil pe iOS */
+  .menu-link{
+    width: 100%;
+    text-align: left;
+    display: block;
+    color: #f3f3f3;
+    font-weight: 650;
+    min-height: 48px;
+    border-radius: 14px;
+    padding: .9rem 1rem;
+    border: 1px solid transparent;
+    background: #0f0f12;
+    transition: background .15s ease, border-color .15s ease, transform .04s ease;
+  }
+  .menu-link:active{ background:#19191d; border-color:#24242a; transform: translateY(1px); }
+
+  /* overlay care taie interacțiunile cu pagina */
+  body.nav-open::before{
+    content:"";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    backdrop-filter: blur(2px);
+    z-index: 2147481000;
+  }
+
+  /* taie evenimentele sub meniu (video/iframe/hărți) */
+  body.nav-open #bg-video,
+  body.nav-open .video-container,
+  body.nav-open .video-gradient,
+  body.nav-open main,
+  body.nav-open footer,
+  body.nav-open iframe{
+    pointer-events: none !important;
+  }
+  /* păstrează meniu/ navbar clicabile */
+  body.nav-open .navbar,
+  body.nav-open .nav-panel{ pointer-events: auto !important; }
+}
+
+
+
+/* ===== LIGHTBOX THUMBS – aspect premium mobil ===== */
+@media (max-width: 480px){
+  /* container bandă */
+  .lightbox .thumbs,
+  .lightbox .thumbnails,
+  .lightbox .thumb-strip,
+  .lb-thumbs{
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 68px;              /* toate egale */
+    gap: .6rem;
+    overflow-x: auto;
+    padding: .8rem .9rem 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    background: #0e0e11;
+    border: 1px solid #1d1d22;
+    border-radius: 14px;
+    margin: .5rem 0 1rem;
+    mask-image: linear-gradient(to right, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
+  }
+  /* ascunde bara de scroll pe iOS/Android */
+  .lightbox .thumbs::-webkit-scrollbar,
+  .lightbox .thumbnails::-webkit-scrollbar,
+  .lightbox .thumb-strip::-webkit-scrollbar,
+  .lb-thumbs::-webkit-scrollbar{ display:none; height:0; }
+
+  /* item thumbnail */
+  .lightbox .thumbs img,
+  .lightbox .thumbnails img,
+  .lightbox .thumb-strip img,
+  .lb-thumbs img{
+    width: 68px; height: 68px;
+    object-fit: cover;
+    border-radius: 16px;
+    display: block;
+    scroll-snap-align: center;
+    border: 2px solid transparent;
+    box-shadow: 0 4px 12px rgba(0,0,0,.35);
+  }
+
+  /* selectat/activ – inel vizibil */
+  .lightbox .thumbs img.active,
+  .lightbox .thumbnails img.active,
+  .lightbox .thumb-strip img.active,
+  .lb-thumbs img.active{
+    border-color: #9b87ff;                /* accent elegant */
+    box-shadow: 0 0 0 3px rgba(155,135,255,.25);
+  }
+
+  /* imaginea mare – margini corecte */
+  .lightbox img,
+  .lb-image{
+    max-width: 96vw;
+    max-height: 62vh;
+    border-radius: 14px;
+  }
+}
+
+
+
+
