@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Link, NavLink, useNavigate, useLocation} from "react-router-dom";
+import {Link, NavLink, useLocation} from "react-router-dom";
 import LogoutButton from "./LogoutButton";
 import "../../static/css/Navbar.css";
 
@@ -14,7 +14,6 @@ const Navbar = () => {
     const wrapRef = useRef(null);
     const navRef = useRef(null);
     const location = useLocation();
-    const navigate = useNavigate();
 
     // ascunde/arată navbar la scroll
     const lastScrollY = useRef(typeof window !== "undefined" ? window.scrollY : 0);
@@ -28,7 +27,7 @@ const Navbar = () => {
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
-    // actualizează înălțimea în variabila CSS --nav-top
+    // actualizează variabila CSS --nav-top cu înălțimea reală a barei
     useEffect(() => {
         const setVar = () => {
             const h = navRef.current?.offsetHeight || 72;
@@ -44,7 +43,7 @@ const Navbar = () => {
         setMenuOpen(false);
     }, [location.pathname]);
 
-    // închide la click în afara navbar-ului
+    // închide meniul la click în afara navbar-ului
     useEffect(() => {
         const onDocClick = (e) => {
             if (!menuOpen) return;
@@ -68,13 +67,6 @@ const Navbar = () => {
         };
     }, [menuOpen]);
 
-    // funcție care navighează corect (rezolvă bug-ul iOS)
-    const handleNavigate = (path) => () => {
-        setMenuOpen(false);
-        document.body.classList.remove("nav-open");
-        navigate(path);
-    };
-
     return (
         <header ref={wrapRef}>
             <nav ref={navRef} className={`navbar ${hideNavbar ? "hide-navbar" : ""}`}>
@@ -82,15 +74,12 @@ const Navbar = () => {
                 <div className="navbar-flex-container">
                     <div className="logo">
                         <Link to="/acasa" aria-label="Acasă">
-                            <img
-                                src="/images/favicon/favicon_circle_BANNER.png"
-                                alt="Logo Club"
-                            />
+                            <img src="/images/favicon/favicon_circle_BANNER.png" alt="Logo Club"/>
                         </Link>
                     </div>
                 </div>
 
-                {/* buton hamburger */}
+                {/* buton hamburger (mobil) */}
                 <button
                     type="button"
                     className={`nav-toggle ${menuOpen ? "is-open" : ""}`}
@@ -107,84 +96,83 @@ const Navbar = () => {
                     id="primary-menu"
                     className={`nav-links ${menuOpen ? "show" : ""}`}
                     aria-hidden={!menuOpen}
+                    onClick={(e) => {
+                        // click pe un link închide meniul
+                        if (e.target.closest("a")) setMenuOpen(false);
+                    }}
                 >
                     <li className="dropdown">
-                        <span className="menu-title text-danger">TaeKwon-Do</span>
+                        <NavLink to="/acasa" className="text-danger" tabIndex={0}>
+                            TaeKwon-Do
+                        </NavLink>
                         <ul className="dropdown-menu">
-                            <li><button onClick={handleNavigate("/acasa")}>Acasă</button></li>
-                            <li><button onClick={handleNavigate("/desprenoi")}>Despre</button></li>
-                            <li><button onClick={handleNavigate("/antrenori")}>Antrenori</button></li>
-                            <li><button onClick={handleNavigate("/galerie")}>Galerie</button></li>
-                            <li><a href="#footer" onClick={() => setMenuOpen(false)}>Contact</a></li>
+                            <li><NavLink to="/acasa">Acasă</NavLink></li>
+                            <li><NavLink to="/desprenoi">Despre</NavLink></li>
+                            <li><NavLink to="/antrenori">Antrenori</NavLink></li>
+                            <li><NavLink to="/galerie">Galerie</NavLink></li>
+                            <li><a href="#footer">Contact</a></li>
                         </ul>
                     </li>
 
                     {isLoggedIn && (
                         <li className="dropdown">
-                            <span className="menu-title">Calendar</span>
+                            <NavLink to="/calendar2025" tabIndex={0}>Calendar</NavLink>
                             <ul className="dropdown-menu">
-                                <li><button onClick={handleNavigate("/calendar2025")}>Calendar 2025</button></li>
+                                <li><NavLink to="/calendar2025">Calendar 2025</NavLink></li>
                             </ul>
                         </li>
                     )}
 
                     <li className="dropdown">
-                        <span className="menu-title">Kickbox</span>
+                        <NavLink to="/training" tabIndex={0}>Kickbox</NavLink>
                         <ul className="dropdown-menu">
-                            <li><button onClick={handleNavigate("/training")}>Antrenamente</button></li>
+                            <li><NavLink to="/training">Antrenamente</NavLink></li>
                         </ul>
                     </li>
 
                     {!isLoggedIn && (
                         <li className="join-link">
-                            <button onClick={handleNavigate("/inscriere")}>Alătură-te</button>
+                            <NavLink to="/inscriere">Alătură-te</NavLink>
                         </li>
                     )}
 
                     {isLoggedIn && rol !== "AntrenorExtern" && (
-                        <>
-                            <li>
-                                <a
-                                    href="https://sites.google.com/hwarang.ro/hwarang-info/pagina-de-pornire"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    onClick={() => setMenuOpen(false)}
-                                >
-                                    Informații generale TKD
-                                </a>
-                            </li>
-                            <li><button onClick={handleNavigate("/documente")}>Documente</button></li>
-                        </>
+                        <li>
+                            <NavLink to="https://sites.google.com/hwarang.ro/hwarang-info/pagina-de-pornire">
+                                Informații generale TKD
+                            </NavLink>
+                        </li>
+                    )}
+                    {isLoggedIn && rol !== "AntrenorExtern" && (
+                        <li><NavLink to="/documente">Documente</NavLink></li>
                     )}
 
                     {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") && (
-                        <li><button onClick={handleNavigate("/concursuri")}>Concursuri</button></li>
+                        <li><NavLink to="/concursuri">Concursuri</NavLink></li>
                     )}
 
-                    {rol === "Parinte" && <li><button onClick={handleNavigate("/copiii-mei")}>Copiii mei</button></li>}
-                    {rol === "admin" && <li><button onClick={handleNavigate("/admin-dashboard")}>Admin</button></li>}
-                    {rol === "Antrenor" && <li><button onClick={handleNavigate("/antrenor_dashboard")}>Grupe</button></li>}
-                    {rol === "AntrenorExtern" && <li><button onClick={handleNavigate("/concursuri-extern")}>Concursuri</button></li>}
+                    {rol === "Parinte" && <li><NavLink to="/copiii-mei">Copiii mei</NavLink></li>}
+                    {rol === "admin" && <li><NavLink to="/admin-dashboard">Admin</NavLink></li>}
+                    {rol === "Antrenor" && <li><NavLink to="/antrenor_dashboard">Grupe</NavLink></li>}
+                    {rol === "AntrenorExtern" && <li><NavLink to="/concursuri-extern">Concursuri</NavLink></li>}
 
                     {isLoggedIn ? (
                         <li className="dropdown user-menu">
                             <button className="user-chip" aria-haspopup="true" aria-expanded="false">
                                 <span className="avatar">{username[0]?.toUpperCase() || "?"}</span>
                                 <span className="greet">
-                                    Bine ai venit,&nbsp;<strong className="name" title={username}>{username}</strong>
-                                </span>
+                  Bine ai venit,&nbsp;<strong className="name" title={username}>{username}</strong>
+                </span>
                             </button>
                             <ul className="dropdown-menu dropdown-menu--right">
-                                <li className="dropdown-caption">
-                                    Conectat ca <strong>{username}</strong>
-                                </li>
+                                <li className="dropdown-caption">Conectat ca <strong>{username}</strong></li>
                                 <li className="logout-item"><LogoutButton/></li>
                             </ul>
                         </li>
                     ) : (
                         <li className="auth-links">
-                            <button onClick={handleNavigate("/autentificare")}>Login</button>
-                            <button onClick={handleNavigate("/inregistrare")}>Înregistrare</button>
+                            <NavLink to="/autentificare">Login</NavLink>
+                            <NavLink to="/inregistrare">Înregistrare</NavLink>
                         </li>
                     )}
                 </ul>
@@ -200,7 +188,7 @@ const Navbar = () => {
                 </button>
             </nav>
 
-            {/* backdrop */}
+            {/* backdrop – tap închide */}
             <div
                 className={`nav-backdrop ${menuOpen ? "show" : ""}`}
                 onClick={() => setMenuOpen(false)}

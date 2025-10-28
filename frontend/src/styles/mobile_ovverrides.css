@@ -139,15 +139,15 @@
     z-index: 2147481000; /* sub panou, peste restul */
   }
 
-  /* taie evenimentele sub meniu (Safari iOS, video/iframe încăpățânate) */
-  body.nav-open #bg-video,
-  body.nav-open .video-container,
-  body.nav-open .video-gradient,
-  body.nav-open main,
-  body.nav-open footer,
-  body.nav-open iframe{
-    pointer-events: none !important;
-  }
+  /*!* taie evenimentele sub meniu (Safari iOS, video/iframe încăpățânate) *!*/
+  /*body.nav-open #bg-video,*/
+  /*body.nav-open .video-container,*/
+  /*body.nav-open .video-gradient,*/
+  /*body.nav-open main,*/
+  /*body.nav-open footer,*/
+  /*body.nav-open iframe{*/
+  /*  pointer-events: none !important;*/
+  /*}*/
 
   /* reactivăm pointer events pe meniu și navbar */
   body.nav-open .navbar,
