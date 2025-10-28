@@ -1,11 +1,11 @@
 /* =========================================================
-   Hwarang • Mobile CSS (global, only phones)
-   Importă în App.jsx ca ultimul stylesheet.
-   Filosofie: lizibilitate, spațiere aerisită, interacțiuni mari,
-   grid simplu, componente coerente pe tot site-ul.
+   Hwarang • MOBILE ONLY stylesheet (final, complet)
+   -> Înlocuiește vechiul mobile_ovverrides.css
+   -> Importă-l ULTIMUL ca să suprascrie restul
+   -> Necesită ca JS-ul tău să adauge/scoată body.nav-open
    ========================================================= */
 
-/* ---------- Bază & variabile ---------- */
+/* ---------- Variabile & bază ---------- */
 :root{
   --container: min(100%, 92vw);
   --radius: 16px;
@@ -16,13 +16,13 @@
   --bg: #0b0b0c;
   --card: #121214;
   --line: #1d1d21;
-  --primary: #d91e18; /* Hwarang red */
+  --primary: #d91e18;
   --primary-600: #b71813;
 }
 
 @media (max-width: 480px){
 
-  /* ---------- Reset prietenos mobil ---------- */
+  /* ---------- Reset prietenos ---------- */
   * { box-sizing: border-box; }
   html, body { height: 100%; }
   body{
@@ -44,7 +44,7 @@
   .container{ width: var(--container); margin-inline: auto; }
   .stack{ display:flex; flex-direction:column; gap: var(--gap); }
   .cluster{ display:flex; flex-wrap: wrap; gap: var(--gap); align-items:center; }
-  .grid-2{ display:grid; grid-template-columns: 1fr; gap: var(--gap); } /* devine 1 col pe mobil */
+  .grid-2{ display:grid; grid-template-columns: 1fr; gap: var(--gap); }
 
   /* ---------- Tipografie fluidă ---------- */
   h1{ font-size: clamp(1.8rem, 8vw, 2.35rem); line-height:1.15; margin:.25rem 0 .5rem; }
@@ -53,7 +53,7 @@
   p, li{ font-size: clamp(.98rem, 4vw, 1.05rem); color: #ddd; }
   small, .muted{ color: var(--muted); font-size:.92rem; }
 
-  /* ---------- Card & secțiune ---------- */
+  /* ---------- Secțiuni & card ---------- */
   .section{ padding: 1.25rem 0; }
   .card{
     background: var(--card);
@@ -63,7 +63,7 @@
     box-shadow: var(--shadow);
   }
 
-  /* ---------- Butoane globale ---------- */
+  /* ---------- Butoane ---------- */
   .btn{
     display:inline-flex; align-items:center; justify-content:center;
     min-height: 46px; padding: 0 .95rem; gap:.5rem;
@@ -74,40 +74,88 @@
   }
   .btn:active{ transform: translateY(0); filter: brightness(.96); }
   .btn:disabled{ opacity:.6; }
-
-  .btn.secondary{
-    background: transparent; color:#fff; border-color:#2a2a2f;
-  }
+  .btn.secondary{ background: transparent; color:#fff; border-color:#2a2a2f; }
   .btn.secondary:active{ background:#18181b; }
-
   .btn.block{ width:100%; }
 
-  /* ---------- Navbar (burger + meniul full-screen) ---------- */
-  /* presupune body.nav-open este adăugat din JS când meniul e deschis */
-  body.nav-open{ overflow: hidden; touch-action: none; }
-
-  .navbar{ position: sticky; top:0; z-index: 50; backdrop-filter: blur(10px); background: rgba(10,10,12,.45); border-bottom:1px solid #151519; }
+  /* ========================================================
+     NAVBAR + MENIU MOBIL (clicabil & peste tot)
+     ======================================================== */
+  .navbar{
+    position: fixed;
+    top: env(safe-area-inset-top, 0);
+    left: 0; right: 0;
+    z-index: 2147483000; /* uriaș ca să bată orice stacking context */
+    backdrop-filter: blur(10px);
+    background: rgba(10,10,12,.45);
+    border-bottom:1px solid #151519;
+  }
   .nav-brand{ display:flex; align-items:center; gap:.6rem; padding:.6rem .8rem; }
   .nav-brand img{ width:36px; height:36px; border-radius: 8px; }
-
   .burger{ margin-left:auto; margin-right:.6rem; width:42px; height:42px; border-radius: 10px; border:1px solid #2a2a30; background:#131316; }
   .burger:active{ background:#18181b; }
 
+  /* panoul de meniu */
   .nav-panel{
-    position: fixed; inset: 56px 0 0 0;  /* sub navbar */
-    background: rgba(9,9,11,.95);
-    padding: 1rem;
-    display: grid; align-content: start; gap:.35rem;
-    transform: translateY(0); /* controlat din JS prin hidden/show */
+    position: fixed;
+    inset: calc(56px + env(safe-area-inset-top, 0)) 0 0 0; /* sub navbar */
+    z-index: 2147482000;
+    background: rgba(9,9,11,0.97);
+    padding: 1rem 1.1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    pointer-events: auto;
   }
-  .nav-panel a{
-    display:flex; align-items:center; min-height: 48px;
-    border-radius: 12px; padding: 0 .75rem;
-    border:1px solid transparent;
+  .nav-panel a,
+  .nav-panel button,
+  .nav-panel [role="button"]{
+    pointer-events: auto;
+    color: #f3f3f3;
+    font-weight: 650;
+    min-height: 48px;
+    border-radius: 12px;
+    padding: .8rem 1rem;
+    border: 1px solid transparent;
   }
-  .nav-panel a:active{ background:#141418; border-color:#222229; }
+  .nav-panel a:active{ background:#19191d; border-color:#24242a; }
 
-  /* ---------- Hero video ---------- */
+  /* submenu generic (dacă există) */
+  .nav-panel .submenu{
+    margin-left: .5rem;
+    border-left: 2px solid #2a2a2f;
+    padding-left: .75rem;
+  }
+
+  /* scrim sub meniu ca să taie interacțiunile cu pagina */
+  body.nav-open::before{
+    content:"";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    backdrop-filter: blur(2px);
+    z-index: 2147481000; /* sub panou, peste restul */
+  }
+
+  /* taie evenimentele sub meniu (Safari iOS, video/iframe încăpățânate) */
+  body.nav-open #bg-video,
+  body.nav-open .video-container,
+  body.nav-open .video-gradient,
+  body.nav-open main,
+  body.nav-open footer,
+  body.nav-open iframe{
+    pointer-events: none !important;
+  }
+
+  /* reactivăm pointer events pe meniu și navbar */
+  body.nav-open .navbar,
+  body.nav-open .nav-panel{ pointer-events: auto !important; }
+
+  /* ========================================================
+     HERO VIDEO (lizibilitate)
+     ======================================================== */
   .video-container{ position:relative; height: clamp(380px, 62vh, 520px); overflow:hidden; }
   #bg-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
   .video-gradient{
@@ -122,13 +170,17 @@
   .hero-cta{ display:flex; flex-direction: column; gap:.6rem; margin-top:.6rem; }
   .hero-cta .btn{ width:100%; }
 
-  /* ---------- Swiper (Orar) ---------- */
+  /* ========================================================
+     SWIPER / ORAR
+     ======================================================== */
   .swiper{ padding-bottom: 28px; }
   .swiper-slide{ padding: .5rem; }
   .swiper-pagination-bullet{ width: 12px; height:12px; margin: 0 5px !important; }
   .orar-card{ border-radius: var(--radius); border:1px solid var(--line); background: var(--card); padding: .9rem; box-shadow: var(--shadow); }
 
-  /* ---------- Tabele mari -> carduri ---------- */
+  /* ========================================================
+     TABELE -> CARDURI (folosește <td data-label="Coloana">)
+     ======================================================== */
   .table-wrap{ overflow: visible; }
   table{ display:block; border-collapse: separate; border-spacing: 0 .75rem; width:100%; }
   thead{ display:none; }
@@ -155,7 +207,9 @@
     font-weight: 600;
   }
 
-  /* ---------- Formulare ---------- */
+  /* ========================================================
+     FORMURI
+     ======================================================== */
   form .field{ display:grid; gap:.4rem; margin-bottom:.85rem; }
   input, select, textarea{
     width:100%;
@@ -175,188 +229,148 @@
     -webkit-text-fill-color: #fff !important;
   }
 
-  /* ---------- Galerie ---------- */
-  .albums-grid{ display:grid; grid-template-columns: 1fr; gap: var(--gap); }
-  .album-card{
-    display:grid; grid-template-columns: 84px 1fr; gap:.8rem;
-    padding:.75rem; border-radius: 14px; border:1px solid var(--line); background: var(--card); box-shadow: var(--shadow);
+  /* ========================================================
+     GALERIE (landing cu albume)
+     ======================================================== */
+  .albums-grid,
+  .gallery-grid,
+  .albumsList{
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+    align-items: stretch;
+    justify-items: stretch;
+    margin-top: .5rem;
+    padding-bottom: 1rem;
   }
-  .album-card img{ width:84px; height:84px; object-fit:cover; border-radius: 10px; }
-  .album-title{ font-weight:700; margin-bottom:.2rem; }
-  .album-meta{ color:var(--muted); font-size:.93rem; }
 
-  /* Lightbox */
+  .album-card,
+  .gallery-card,
+  .albumItem{
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 22px rgba(0,0,0,.25);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .album-card:active,
+  .gallery-card:active{ transform: translateY(1px); }
+
+  .album-card img,
+  .gallery-card img{
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+  }
+
+  .album-title,
+  .albumTitle{
+    font-weight: 750;
+    padding: .6rem .6rem .75rem;
+    color: #fff;
+    text-align: center;
+  }
+
+  .album-badge,
+  .albumBadge{ top: .6rem !important; left: .6rem !important; }
+
+  /* ========================================================
+     LIGHTBOX (poze mari + thumbnails)
+     ======================================================== */
   .lightbox{
-    position: fixed; inset:0; background: rgba(0,0,0,.96);
-    display:flex; align-items:center; justify-content:center;
-    padding: .75rem;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0,0,0,.96);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .75rem;
+    padding: 1rem;
+    z-index: 2147483500; /* peste orice */
   }
-  .lightbox img{ max-width:100%; max-height: 78vh; border-radius: 12px; }
-  .lightbox .controls{ position:absolute; inset:auto 0 10px 0; display:flex; gap:.5rem; justify-content:center; padding:0 .75rem; }
-  .lightbox .btn{ min-width:44px; min-height:44px; border-radius:12px; }
 
-  /* ---------- Footer ---------- */
+  .lightbox-header,
+  .lb-header{
+    position: sticky;
+    top: env(safe-area-inset-top, 0);
+    z-index: 2;
+    padding: .25rem .25rem .5rem;
+    background: linear-gradient(#0b0b0c, rgba(11,11,12,0));
+  }
+
+  .lightbox img,
+  .lb-image{
+    max-width: 96vw;
+    max-height: 62vh;
+    margin-inline: auto;
+    border-radius: 12px;
+    box-shadow: 0 6px 22px rgba(0,0,0,.55);
+  }
+
+  .lightbox .thumbs,
+  .lightbox .thumbnails,
+  .lightbox .thumb-strip,
+  .lb-thumbs{
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    gap: .55rem;
+    overflow-x: auto;
+    padding: .6rem .2rem 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    background: #0e0e11;
+    border: 1px solid #1d1d22;
+  }
+
+  .lightbox .thumbs img,
+  .lightbox .thumbnails img,
+  .lightbox .thumb-strip img,
+  .lb-thumbs img{
+    width: 62px; height: 62px;
+    object-fit: cover;
+    border-radius: 12px;
+    scroll-snap-align: center;
+    display: block;
+  }
+
+  .lightbox .controls,
+  .lb-controls{
+    display:flex; gap:.8rem; justify-content:center; margin-top:.4rem;
+  }
+  .lightbox .controls button,
+  .lb-controls button{
+    min-width: 48px; min-height: 48px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.18);
+    color: #fff; font-size: 1.25rem;
+  }
+
+  /* ========================================================
+     FOOTER
+     ======================================================== */
   .footer{ background:#0d0d10; border-top: 1px solid #15161a; padding: 1.25rem 0; }
   .footer-grid{ display:grid; grid-template-columns: 1fr; gap: .9rem; }
   .footer small{ color: var(--muted); }
-
-  /* ---------- Toasts / badge / chip ---------- */
-  .chip{
-    display:inline-flex; align-items:center; gap:.4rem;
-    border:1px solid #2a2a30; background:#131316; padding:.35rem .6rem; border-radius: 999px; color:#e6e6e6; font-weight:600;
-  }
-
-  /* ---------- Animații & accesibilitate ---------- */
-  @media (prefers-reduced-motion: reduce){
-    [data-aos]{ opacity:1 !important; transform:none !important; transition:none !important; }
-    .btn, .card, .album-card{ transition:none !important; }
-  }
 }
 
-/* ---------- Suport mobile wide (<= 700px) pentru tabele/galerie ---------- */
+/* ---------- Mobile wide (<= 700px) pentru grile ---------- */
 @media (max-width: 700px){
-  .albums-grid{ grid-template-columns: 1fr 1fr; }
-  .album-card{ grid-template-columns: 72px 1fr; }
+  .albums-grid,
+  .gallery-grid,
+  .albumsList{ grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 }
 
-/* ---------- Utilitare micro ---------- */
+/* ---------- Utilitare ---------- */
 .hide-on-mobile{ display: none !important; }
 @media (min-width: 481px){ .hide-on-mobile{ display: initial !important; } }
 
-
-
-
-
-/* ===== FIX Navbar & Meniu mobil ===== */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-}
-
-.nav-panel {
-  position: fixed;
-  inset: 56px 0 0 0;
-  z-index: 999; /* sub navbar */
-  background: rgba(9,9,11,0.97);
-  padding: 1rem 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: .6rem;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
-.nav-panel a {
-  color: #f5f5f5;
-  font-weight: 600;
-  border-radius: 12px;
-  padding: 0.75rem 1rem;
-  transition: background 0.2s ease;
-}
-
-.nav-panel a:active {
-  background: #1b1b1e;
-}
-
-.nav-panel .submenu {
-  margin-left: .5rem;
-  border-left: 2px solid #2a2a2f;
-  padding-left: .75rem;
-}
-
-body.nav-open {
-  overflow: hidden;
-}
-
-
-
-
-/* ===== FIX Galerie & Lightbox ===== */
-.albums-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 1rem;
-  justify-items: center;
-  padding-bottom: 1rem;
-}
-
-.album-card {
-  background: #111;
-  border: 1px solid #222;
-  border-radius: 14px;
-  overflow: hidden;
-  transition: transform .2s ease, box-shadow .2s ease;
-  box-shadow: 0 8px 22px rgba(0,0,0,.25);
-  text-align: center;
-}
-
-.album-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 28px rgba(0,0,0,.35);
-}
-
-.album-card img {
-  width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-}
-
-.album-title {
-  font-weight: 700;
-  color: #fff;
-  padding: .6rem .4rem;
-}
-
-/* Lightbox - centrat și elegant */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.96);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  z-index: 2000;
-}
-
-.lightbox img {
-  max-width: 100%;
-  max-height: 70vh;
-  border-radius: 12px;
-  box-shadow: 0 6px 22px rgba(0,0,0,.6);
-}
-
-.lightbox .controls {
-  display: flex;
-  gap: .8rem;
-  justify-content: center;
-  margin-top: .8rem;
-}
-
-.lightbox .controls button {
-  min-width: 48px;
-  min-height: 48px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.1);
-  border: 1px solid rgba(255,255,255,.15);
-  color: #fff;
-  font-size: 1.3rem;
-}
-
-.lightbox .controls button:active {
-  background: rgba(255,255,255,.25);
-}
-
-
-.album-card {
-  animation: fadeUp .6s ease both;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ---------- Accesibilitate: reduce motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  [data-aos]{ opacity:1 !important; transform:none !important; transition:none !important; }
+  .btn, .card, .album-card{ transition:none !important; }
 }
