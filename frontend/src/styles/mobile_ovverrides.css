@@ -81,46 +81,46 @@
   /* ========================================================
      NAVBAR + MENIU MOBIL (clicabil & peste tot)
      ======================================================== */
-  /*.navbar{*/
-  /*  position: fixed;*/
-  /*  top: env(safe-area-inset-top, 0);*/
-  /*  left: 0; right: 0;*/
-  /*  z-index: 2147483000; !* uriaș ca să bată orice stacking context *!*/
-  /*  backdrop-filter: blur(10px);*/
-  /*  background: rgba(10,10,12,.45);*/
-  /*  border-bottom:1px solid #151519;*/
-  /*}*/
-  /*.nav-brand{ display:flex; align-items:center; gap:.6rem; padding:.6rem .8rem; }*/
-  /*.nav-brand img{ width:36px; height:36px; border-radius: 8px; }*/
-  /*.burger{ margin-left:auto; margin-right:.6rem; width:42px; height:42px; border-radius: 10px; border:1px solid #2a2a30; background:#131316; }*/
-  /*.burger:active{ background:#18181b; }*/
+  .navbar{
+    position: fixed;
+    top: env(safe-area-inset-top, 0);
+    left: 0; right: 0;
+    z-index: 2147483000; /* uriaș ca să bată orice stacking context */
+    backdrop-filter: blur(10px);
+    background: rgba(10,10,12,.45);
+    border-bottom:1px solid #151519;
+  }
+  .nav-brand{ display:flex; align-items:center; gap:.6rem; padding:.6rem .8rem; }
+  .nav-brand img{ width:36px; height:36px; border-radius: 8px; }
+  .burger{ margin-left:auto; margin-right:.6rem; width:42px; height:42px; border-radius: 10px; border:1px solid #2a2a30; background:#131316; }
+  .burger:active{ background:#18181b; }
 
-  /*!* panoul de meniu *!*/
-  /*.nav-panel{*/
-  /*  position: fixed;*/
-  /*  inset: calc(56px + env(safe-area-inset-top, 0)) 0 0 0; !* sub navbar *!*/
-  /*  z-index: 2147482000;*/
-  /*  background: rgba(9,9,11,0.97);*/
-  /*  padding: 1rem 1.1rem 2rem;*/
-  /*  display: flex;*/
-  /*  flex-direction: column;*/
-  /*  gap: .6rem;*/
-  /*  overflow-y: auto;*/
-  /*  overscroll-behavior: contain;*/
-  /*  pointer-events: auto;*/
-  /*}*/
-  /*.nav-panel a,*/
-  /*.nav-panel button,*/
-  /*.nav-panel [role="button"]{*/
-  /*  pointer-events: auto;*/
-  /*  color: #f3f3f3;*/
-  /*  font-weight: 650;*/
-  /*  min-height: 48px;*/
-  /*  border-radius: 12px;*/
-  /*  padding: .8rem 1rem;*/
-  /*  border: 1px solid transparent;*/
-  /*}*/
-  /*.nav-panel a:active{ background:#19191d; border-color:#24242a; }*/
+  /* panoul de meniu */
+  .nav-panel{
+    position: fixed;
+    inset: calc(56px + env(safe-area-inset-top, 0)) 0 0 0; /* sub navbar */
+    z-index: 2147482000;
+    background: rgba(9,9,11,0.97);
+    padding: 1rem 1.1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    pointer-events: auto;
+  }
+  .nav-panel a,
+  .nav-panel button,
+  .nav-panel [role="button"]{
+    pointer-events: auto;
+    color: #f3f3f3;
+    font-weight: 650;
+    min-height: 48px;
+    border-radius: 12px;
+    padding: .8rem 1rem;
+    border: 1px solid transparent;
+  }
+  .nav-panel a:active{ background:#19191d; border-color:#24242a; }
 
   /*!* submenu generic (dacă există) *!*/
   /*.nav-panel .submenu{*/
