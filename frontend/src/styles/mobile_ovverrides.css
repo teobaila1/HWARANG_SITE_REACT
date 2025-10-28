@@ -120,38 +120,38 @@
   /*  padding: .8rem 1rem;*/
   /*  border: 1px solid transparent;*/
   /*}*/
-  .nav-panel a:active{ background:#19191d; border-color:#24242a; }
+  /*.nav-panel a:active{ background:#19191d; border-color:#24242a; }*/
 
-  /* submenu generic (dacă există) */
-  .nav-panel .submenu{
-    margin-left: .5rem;
-    border-left: 2px solid #2a2a2f;
-    padding-left: .75rem;
-  }
+  /*!* submenu generic (dacă există) *!*/
+  /*.nav-panel .submenu{*/
+  /*  margin-left: .5rem;*/
+  /*  border-left: 2px solid #2a2a2f;*/
+  /*  padding-left: .75rem;*/
+  /*}*/
 
-  /* scrim sub meniu ca să taie interacțiunile cu pagina */
-  body.nav-open::before{
-    content:"";
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.55);
-    backdrop-filter: blur(2px);
-    z-index: 2147481000; /* sub panou, peste restul */
-  }
+  /*!* scrim sub meniu ca să taie interacțiunile cu pagina *!*/
+  /*body.nav-open::before{*/
+  /*  content:"";*/
+  /*  position: fixed;*/
+  /*  inset: 0;*/
+  /*  background: rgba(0,0,0,.55);*/
+  /*  backdrop-filter: blur(2px);*/
+  /*  z-index: 2147481000; !* sub panou, peste restul *!*/
+  /*}*/
 
-  /* taie evenimentele sub meniu (Safari iOS, video/iframe încăpățânate) */
-  body.nav-open #bg-video,
-  body.nav-open .video-container,
-  body.nav-open .video-gradient,
-  body.nav-open main,
-  body.nav-open footer,
-  body.nav-open iframe{
-    pointer-events: none !important;
-  }
+  /*!* taie evenimentele sub meniu (Safari iOS, video/iframe încăpățânate) *!*/
+  /*body.nav-open #bg-video,*/
+  /*body.nav-open .video-container,*/
+  /*body.nav-open .video-gradient,*/
+  /*body.nav-open main,*/
+  /*body.nav-open footer,*/
+  /*body.nav-open iframe{*/
+  /*  pointer-events: none !important;*/
+  /*}*/
 
-  /* reactivăm pointer events pe meniu și navbar */
-  body.nav-open .navbar,
-  body.nav-open .nav-panel{ pointer-events: auto !important; }
+  /*!* reactivăm pointer events pe meniu și navbar *!*/
+  /*body.nav-open .navbar,*/
+  /*body.nav-open .nav-panel{ pointer-events: auto !important; }*/
 
   /* ========================================================
      HERO VIDEO (lizibilitate)
