@@ -130,28 +130,28 @@
   }
 
   /* scrim sub meniu ca să taie interacțiunile cu pagina */
-  body.nav-open::before{
-    content:"";
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.55);
-    backdrop-filter: blur(2px);
-    z-index: 2147481000; /* sub panou, peste restul */
-  }
-
-  /*!* taie evenimentele sub meniu (Safari iOS, video/iframe încăpățânate) *!*/
-  /*body.nav-open #bg-video,*/
-  /*body.nav-open .video-container,*/
-  /*body.nav-open .video-gradient,*/
-  /*body.nav-open main,*/
-  /*body.nav-open footer,*/
-  /*body.nav-open iframe{*/
-  /*  pointer-events: none !important;*/
+  /*body.nav-open::before{*/
+  /*  content:"";*/
+  /*  position: fixed;*/
+  /*  inset: 0;*/
+  /*  background: rgba(0,0,0,.55);*/
+  /*  backdrop-filter: blur(2px);*/
+  /*  z-index: 2147481000; !* sub panou, peste restul *!*/
   /*}*/
 
-  /*!* reactivăm pointer events pe meniu și navbar *!*/
-  /*body.nav-open .navbar,*/
-  /*body.nav-open .nav-panel{ pointer-events: auto !important; }*/
+  /* taie evenimentele sub meniu (Safari iOS, video/iframe încăpățânate) */
+  body.nav-open #bg-video,
+  body.nav-open .video-container,
+  body.nav-open .video-gradient,
+  body.nav-open main,
+  body.nav-open footer,
+  body.nav-open iframe{
+    pointer-events: none !important;
+  }
+
+  /* reactivăm pointer events pe meniu și navbar */
+  body.nav-open .navbar,
+  body.nav-open .nav-panel{ pointer-events: auto !important; }
 
   /* ========================================================
      HERO VIDEO (lizibilitate)
