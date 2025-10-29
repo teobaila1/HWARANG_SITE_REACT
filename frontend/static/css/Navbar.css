@@ -342,12 +342,12 @@ button.user-chip:focus-visible{
     display:flex; align-items:center; gap:.6rem;
     position: relative;
   }
-  .navbar .dropdown .menu-title::after{
-    content:"▾";
-    margin-left:auto;
-    transition: transform .25s ease, opacity .25s ease;
-    opacity:.85;
-  }
+  /*.navbar .dropdown .menu-title::after{*/
+  /*  content:"▾";*/
+  /*  margin-left:auto;*/
+  /*  transition: transform .25s ease, opacity .25s ease;*/
+  /*  opacity:.85;*/
+  /*}*/
 
 
   .navbar .dropdown .dropdown-menu{
