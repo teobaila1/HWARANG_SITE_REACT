@@ -1,7 +1,6 @@
 /* =======================
    VIDEO (keep as-is)
    ======================= */
-
 .video-container {
   position: relative;
   width: 100%;
@@ -30,27 +29,21 @@
   background: linear-gradient(to bottom, rgba(0,0,0,1), #161616);
 }
 
-
-
 .video-container { position: relative; }
-
 .video-gradient {
   position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,.45) 35%, rgba(0,0,0,.25) 60%, rgba(0,0,0,0) 100%);
 }
-
 .video-noise {
   position: absolute; inset: 0; opacity: .04; pointer-events: none;
   background-image: url('/images/noise.png'); background-size: 300px 300px;
 }
-
 .hero-copy {
   position: absolute; inset: 0; display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center; color: #fff; padding: 0 1rem;
 }
 .hero-copy h1 { font-size: clamp(2rem, 3.8vw, 3.5rem); font-weight: 900; letter-spacing: -0.02em; }
 .hero-copy p { margin-top: .5rem; font-size: clamp(1rem,1.4vw,1.2rem); opacity:.95; }
-
 .hero-cta { display:flex; gap:.8rem; margin-top:1.1rem; flex-wrap:wrap; justify-content:center; }
 .btn {
   padding: .8rem 1.1rem; border-radius: 999px; font-weight: 700; border:1px solid rgba(255,255,255,.25);
@@ -62,11 +55,9 @@
 .btn-ghost { background: rgba(255,255,255,.08); color:#fff; }
 .btn-ghost:hover { background: rgba(255,255,255,.14); transform: translateY(-2px); }
 
-
 /* =======================
    NAVBAR – elegant dark+red
    ======================= */
-
 :root{
   --nb-bg: rgba(0,0,0,.55);
   --nb-text: #fff;
@@ -126,6 +117,7 @@ body.nav-open { overflow: hidden; }
 .nav-links li{ position:relative; }
 
 .nav-links a,
+.nav-links button,
 .nav-links button.user-chip{
   color:#fff; text-decoration:none;
   font-weight:800; letter-spacing:.2px;
@@ -154,10 +146,8 @@ button.user-chip:focus-visible{
 .nav-links .text-danger:hover{ color:#fff; }
 .nav-links > li > a{ white-space: nowrap; }
 
-/* --- Dropdown --- */
-.dropdown > a, .dropdown > .user-chip{
-  position: relative; padding-right: .6rem;
-}
+/* --- Dropdown (desktop hover) --- */
+.dropdown > a, .dropdown > .user-chip{ position: relative; padding-right: .6rem; }
 .dropdown > a::before, .dropdown > .user-chip::before{
   content: "▾"; display: inline-block; margin-left: .35rem;
   font-size: .85em; line-height: 1; transform: translateY(-1px) rotate(0deg);
@@ -259,10 +249,12 @@ button.user-chip:focus-visible{
   position: static; display: inline-flex; align-items: center; gap: clamp(.4rem, 1vw, .8rem);
   margin-left: 0 !important; flex: 0 0 auto; padding: 0;
 }
-.nav-links .auth-links a{ padding: .34rem .48rem; border-radius: 10px; position: relative; }
+.nav-links .auth-links a,
+.nav-links .auth-links button{ padding: .34rem .48rem; border-radius: 10px; position: relative; }
 .nav-links > li{ margin-left: 0; flex: 0 0 auto; }
 @media (max-width: 860px){
-  .nav-links .auth-links a{ padding: .36rem .5rem; }
+  .nav-links .auth-links a,
+  .nav-links .auth-links button{ padding: .36rem .5rem; }
 }
 
 /* =======================
@@ -323,18 +315,76 @@ button.user-chip:focus-visible{
     opacity:1;
     pointer-events:auto;
   }
-  .navbar .nav-links a{
-    padding:.95rem .9rem;
+
+  /* Elemente din panou */
+  .navbar .nav-links a,
+  .navbar .nav-links button{
+    padding:.9rem .9rem;
     border-radius:12px;
     font-size:1.05rem;
   }
 
-  /* Dropdown-urile devin secțiuni */
+  /* Dropdown-urile devin secțiuni-„card” */
+  .navbar .dropdown{
+    background:#121212; border:1px solid #222; border-radius: 12px; padding: 6px;
+  }
+
+  /* ----- ACORDEON (cheia) ----- */
+  .navbar .dropdown .menu-title{
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: #ff4d4d;
+    font-weight: 800;
+    font-size: 1.06rem;
+    padding: .8rem .8rem;
+    border-radius: 10px;
+    display:flex; align-items:center; gap:.6rem;
+    position: relative;
+  }
+  .navbar .dropdown .menu-title::after{
+    content:"▾";
+    margin-left:auto;
+    transition: transform .25s ease, opacity .25s ease;
+    opacity:.85;
+  }
+  .navbar .dropdown.open .menu-title::after{ transform: rotate(180deg); }
+
   .navbar .dropdown .dropdown-menu{
     position: static;
-    transform: none; visibility: visible; opacity: 1;
-    background: #121212; border-radius: 10px;
-    margin-top: 6px; padding: 4px; pointer-events: auto; box-shadow: none;
+    transform: none; visibility: visible;
+    pointer-events: auto;
+    opacity: 0; max-height: 0;
+    overflow: hidden;
+    background: #141414;
+    border: 1px solid #222;
+    border-radius: 10px;
+    margin: 6px 4px 4px;
+    padding: 0;                     /* pornește fără padding la închis */
+    transition: max-height .35s ease, opacity .25s ease, padding .2s ease;
+    box-shadow: 0 10px 28px rgba(0,0,0,.35);
+  }
+  .navbar .dropdown.open .dropdown-menu{
+    opacity: 1; max-height: 520px; padding: 4px 6px;
+  }
+
+  .navbar .dropdown .dropdown-menu li{ margin: .2rem 0; }
+  .navbar .dropdown .dropdown-menu a,
+  .navbar .dropdown .dropdown-menu button{
+    width: 100%;
+    text-align: left;
+    padding: .78rem .8rem;
+    border-radius: 10px;
+    background: #101010;
+    border: 1px solid #1f1f1f;
+    transition: background .15s ease, border-color .15s ease, transform .04s ease;
+  }
+  .navbar .dropdown .dropdown-menu a:active,
+  .navbar .dropdown .dropdown-menu button:active{
+    transform: translateY(1px);
+    background: #181818;
+    border-color: #2a2a2a;
   }
 
   /* buton × (vizibil doar când panoul e deschis) */
@@ -357,7 +407,7 @@ button.user-chip:focus-visible{
   /* Backdrop */
   .nav-backdrop{
     position: fixed; inset: 0;
-    background: rgba(0,0,0,.45);
+    background: rgba(0,0,0,.4);
     z-index: 2900;
     opacity: 0; pointer-events: none;
     transition: opacity .18s ease;
@@ -368,59 +418,23 @@ button.user-chip:focus-visible{
 
 /* ===== POLISH MOBILE PANEL (compact, fără spațiu mare sus) ===== */
 @media (max-width: 950px){
-
-  /* panoul: pornește imediat sub status bar, fără gol mare;
-     100svh = viewport “stabil” pe iOS, nu mai sare */
   .navbar .nav-links{
     inset: 0;
-    height: 100svh;
+    height: 100svh; /* stabil pe iOS */
     padding: calc(env(safe-area-inset-top) + 8px) 12px
              calc(12px + env(safe-area-inset-bottom));
-    background: #0e0e0e;                       /* un pic mai uniform */
-    gap: .25rem;                                /* mai strâns */
+    background: #0e0e0e;
+    gap: .25rem;
     border-bottom: 1px solid #1b1b1b;
   }
 
-  /* items: ținte mai mici dar confortabile; font ușor mai mic */
-  .navbar .nav-links a{
+  .navbar .nav-links a,
+  .navbar .nav-links button{
     padding: .8rem .85rem;
     font-size: 1rem;
     border-radius: 10px;
   }
 
-  /* dropdown-urile arată ca “carduri” compacte */
-  .navbar .dropdown .dropdown-menu{
-    background: #141414;
-    border: 1px solid #222;
-    border-radius: 12px;
-    padding: 4px 6px;
-    margin-top: 6px;
-    box-shadow: 0 10px 28px rgba(0,0,0,.35);
-  }
-
-  /* elementele din dropdown */
-  .navbar .dropdown .dropdown-menu a{
-    padding: .72rem .75rem;
-    border-radius: 10px;
-  }
-
-  /* butonul ×: lipit de colț, aliniat la status bar; mai discret */
-  .nav-close{
-    top: calc(env(safe-area-inset-top) + 8px);
-    right: 10px;
-    width: 36px; height: 36px;                 /* un pic mai mic */
-    border-radius: 10px;
-    border: 1px solid #2a2a2a;
-    background: rgba(20,20,20,.9);
-    color: #fff;
-    font-size: 22px;
-  }
-
-  /* backdrop un pic mai soft */
-  .nav-backdrop{ background: rgba(0,0,0,.4); }
-
-  /* subtitlurile grupurilor (ex: TaeKwon-Do/Kickbox) mai legate de conținut */
-  .navbar .dropdown > a{
-    padding-bottom: .4rem;
-  }
+  /* subtitlurile grupurilor (nu se aplică aici pentru că folosim .menu-title) */
+  .navbar .dropdown > a{ padding-bottom: .0rem; }
 }
