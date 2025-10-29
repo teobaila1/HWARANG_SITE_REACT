@@ -147,12 +147,12 @@ button.user-chip:focus-visible{
 .nav-links > li > a{ white-space: nowrap; }
 
 /* --- Dropdown (desktop hover) --- */
-.dropdown > a, .dropdown > .user-chip{ position: relative; padding-right: .6rem; }
-.dropdown > a::before, .dropdown > .user-chip::before{
-  content: "▾"; display: inline-block; margin-left: .35rem;
-  font-size: .85em; line-height: 1; transform: translateY(-1px) rotate(0deg);
-  opacity: .75; transition: transform .18s ease, opacity .18s ease;
-}
+/*.dropdown > a, .dropdown > .user-chip{ position: relative; padding-right: .6rem; }*/
+/*.dropdown > a::before, .dropdown > .user-chip::before{*/
+/*  content: "▾"; display: inline-block; margin-left: .35rem;*/
+/*  font-size: .85em; line-height: 1; transform: translateY(-1px) rotate(0deg);*/
+/*  opacity: .75; transition: transform .18s ease, opacity .18s ease;*/
+/*}*/
 .dropdown:hover > a::before,
 .dropdown:focus-within > a::before,
 .dropdown:hover > .user-chip::before,
@@ -338,7 +338,6 @@ button.user-chip:focus-visible{
     color: #ff4d4d;
     font-weight: 800;
     font-size: 1.06rem;
-    padding: .8rem .8rem;
     border-radius: 10px;
     display:flex; align-items:center; gap:.6rem;
     position: relative;
@@ -349,7 +348,7 @@ button.user-chip:focus-visible{
     transition: transform .25s ease, opacity .25s ease;
     opacity:.85;
   }
-  .navbar .dropdown.open .menu-title::after{ transform: rotate(180deg); }
+
 
   .navbar .dropdown .dropdown-menu{
     position: static;

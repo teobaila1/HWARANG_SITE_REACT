@@ -6,6 +6,7 @@ import 'aos/dist/aos.css';
 import Navbar from "../components/Navbar";
 import OrarSwiper from "../components/OrarSwiper";
 import Footer from "../components/Footer";
+// import NextEventFeed from "../components/NextEventFeed";
 import "../../static/css/FooterHome.css";
 import {toast} from "react-toastify";
 
@@ -48,6 +49,10 @@ const Home = () => {
 
                 <div className="video-spacer"/>
             </div>
+
+
+            {/*/!* COUNTDOWN + feed concursuri *!/*/}
+            {/*<NextEventFeed/>*/}
 
 
             <div className="fade-transition"></div>

@@ -1,0 +1,113 @@
+/*.next-wrapper{*/
+/*  width:100%;*/
+/*  background: radial-gradient(1200px 400px at 50% -10%, rgba(255,26,26,.08), transparent 60%),*/
+/*              linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));*/
+/*  padding: clamp(16px, 4vw, 32px) clamp(12px, 3vw, 24px);*/
+/*}*/
+
+/*.next-grid{*/
+/*  display: grid;*/
+/*  grid-template-columns: 1.2fr .8fr .8fr;*/
+/*  gap: clamp(12px, 2.4vw, 18px);*/
+/*}*/
+/*@media (max-width: 1000px){*/
+/*  .next-grid{ grid-template-columns: 1fr; }*/
+/*}*/
+
+/*.next-card{*/
+/*  display: grid;*/
+/*  grid-template-columns: 260px 1fr;*/
+/*  gap: 16px;*/
+/*  padding: 12px;*/
+/*  border-radius: 16px;*/
+/*  background: rgba(15,15,15,.85);*/
+/*  border: 1px solid rgba(255,255,255,.06);*/
+/*  box-shadow: 0 18px 50px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.02);*/
+/*  backdrop-filter: blur(6px);*/
+/*}*/
+/*.next-card--highlight{*/
+/*  grid-column: 1 / -1;*/
+/*  grid-template-columns: 360px 1fr;*/
+/*  border: 1px solid rgba(255,26,26,.25);*/
+/*  box-shadow: 0 26px 70px rgba(255,26,26,.12);*/
+/*}*/
+/*@media (max-width: 700px){*/
+/*  .next-card,*/
+/*  .next-card--highlight{ grid-template-columns: 1fr; }*/
+/*}*/
+
+/*.next-card__media{*/
+/*  position: relative; overflow: hidden; border-radius: 12px;*/
+/*  background: #101010; min-height: 220px;*/
+/*}*/
+/*.next-card__media img{ width:100%; height:100%; object-fit: cover; display:block; }*/
+/*.next-card__placeholder{*/
+/*  width:100%; height:100%;*/
+/*  background: linear-gradient(135deg,#151515,#0f0f0f);*/
+/*}*/
+/*.next-card__badge{*/
+/*  position:absolute; top:10px; left:10px;*/
+/*  padding: .35rem .6rem;*/
+/*  border-radius: 999px;*/
+/*  background: linear-gradient(90deg,#ef4444,#b91c1c);*/
+/*  color:#fff; font-weight:800; font-size:.78rem; letter-spacing:.3px;*/
+/*  box-shadow: 0 8px 24px rgba(239,68,68,.35);*/
+/*}*/
+
+/*.next-card__body{ display:flex; flex-direction:column; justify-content:center; }*/
+/*.next-card__title{*/
+/*  margin: 0 0 2px; color:#fff; font-size: clamp(1.05rem, 2.2vw, 1.35rem);*/
+/*  font-weight: 900; letter-spacing: .1px;*/
+/*}*/
+/*.next-card__meta{*/
+/*  margin: 0 0 10px; color:#cfcfd6; opacity:.9; font-weight:700;*/
+/*}*/
+/*.next-card__meta i{ opacity:.8; margin-right:6px; }*/
+
+/*.countdown{*/
+/*  display: grid; grid-auto-flow: column; gap: 10px; align-items: center;*/
+/*  width: max-content; margin: 6px 0 12px;*/
+/*  padding: 8px 10px; border-radius: 12px;*/
+/*  background: rgba(255,255,255,.04);*/
+/*  border:1px solid rgba(255,255,255,.06);*/
+/*}*/
+/*.cd-box{ text-align:center; min-width:62px; }*/
+/*.cd-num{*/
+/*  display:block; color:#fff; font-weight:900; font-size: clamp(1.1rem, 2.4vw, 1.6rem);*/
+/*}*/
+/*.cd-lbl{*/
+/*  display:block; color:#c9c9d1; font-weight:800; font-size:.78rem; letter-spacing:.2px;*/
+/*}*/
+/*.countdown__done{*/
+/*  color:#a7f3d0; font-weight:900; letter-spacing:.3px;*/
+/*}*/
+
+/*.next-card__actions{ display:flex; gap:10px; flex-wrap: wrap; }*/
+/*.btn{*/
+/*  padding:.6rem .9rem; border-radius: 999px; font-weight:800;*/
+/*  border:1px solid rgba(255,255,255,.18); color:#fff; text-decoration:none;*/
+/*  transition: transform .12s ease, box-shadow .18s ease, background .18s ease;*/
+/*}*/
+/*.btn-primary{ background: linear-gradient(90deg,#ef4444,#b91c1c); border-color: transparent; }*/
+/*.btn-primary:hover{ transform: translateY(-2px); box-shadow:0 14px 32px rgba(239,68,68,.35); }*/
+/*.btn-ghost{ background: rgba(255,255,255,.06); }*/
+/*.btn-ghost:hover{ background: rgba(255,255,255,.12); transform: translateY(-2px); }*/
+
+/*!* schelet încărcare *!*/
+/*.next-skel{*/
+/*  height: 220px; border-radius: 16px;*/
+/*  background: linear-gradient(90deg, #121212, #1a1a1a, #121212);*/
+/*  background-size: 200% 100%;*/
+/*  animation: shine 1.4s infinite linear;*/
+/*  border:1px solid rgba(255,255,255,.06);*/
+/*}*/
+/*@keyframes shine {*/
+/*  0% { background-position: 200% 0; }*/
+/*  100% { background-position: -200% 0; }*/
+/*}*/
+
+/*.next-empty{*/
+/*  padding: 18px; border-radius: 14px; text-align:center;*/
+/*  color:#ddd; font-weight:800; background: rgba(255,255,255,.04);*/
+/*  border:1px solid rgba(255,255,255,.06);*/
+/*}*/
