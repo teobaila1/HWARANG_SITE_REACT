@@ -437,3 +437,78 @@ button.user-chip:focus-visible{
   /* subtitlurile grupurilor (nu se aplică aici pentru că folosim .menu-title) */
   .navbar .dropdown > a{ padding-bottom: .0rem; }
 }
+
+
+
+.nav-toggle {
+  display:none;
+  margin-left:auto;
+  width:36px; height:36px;
+  border:1px solid #2a2a2a;
+  border-radius:10px;
+  background:#141414;
+  cursor:pointer;
+  place-items:center;
+}
+.nav-toggle span {
+  width:18px; height:2px;
+  background:#eee; display:block; transition:.25s;
+}
+.nav-toggle span + span { margin-top:4px; }
+.nav-toggle.is-open span:nth-child(1){ transform: translateY(6px) rotate(45deg); }
+.nav-toggle.is-open span:nth-child(2){ opacity:0; }
+.nav-toggle.is-open span:nth-child(3){ transform: translateY(-6px) rotate(-45deg); }
+
+.nav-close, .nav-backdrop { display:none; }
+
+@media (max-width:950px){
+  .nav-toggle { display:grid; }
+  .navbar .nav-links { display:none !important; }
+
+  .navbar .nav-links {
+    position: fixed; inset: 0;
+    padding: calc(var(--nav-top) + 10px) 12px calc(1rem + env(safe-area-inset-bottom));
+    background:#0f0f0f; border-bottom:1px solid #1e1e1e;
+    display:grid; gap:.35rem;
+    height:100dvh;
+    transform-origin: top;
+    transform: scaleY(0);
+    opacity: 0; pointer-events:none;
+    transition: transform .18s ease, opacity .18s ease;
+    overflow-y:auto; z-index:3000;
+  }
+  .navbar .nav-links.show {
+    transform: scaleY(1);
+    opacity:1; pointer-events:auto;
+  }
+
+  .navbar .nav-links a,
+  .navbar .nav-links button {
+    padding:.9rem .9rem;
+    border-radius:12px;
+    font-size:1.05rem;
+    background:#101010;
+    border:1px solid #222;
+  }
+
+  .navbar .dropdown.open .dropdown-menu {
+    opacity:1; max-height:520px; padding:4px 6px;
+  }
+
+  .logout-item.mobile-only {
+    display:block;
+    margin-top:10px;
+  }
+}
+
+
+
+
+/* ===== STABILIZARE OFFSET ===== */
+@media (max-width:950px){
+  .navbar .nav-links {
+    height: 100svh;
+    background:#0e0e0e;
+    padding: calc(env(safe-area-inset-top) + 8px) 12px calc(12px + env(safe-area-inset-bottom));
+  }
+}

@@ -262,3 +262,14 @@
   .form-actions{ flex-direction: column-reverse; align-items: stretch; }
   .btn{ width: 100%; }
 }
+
+
+.allusers {
+  padding-top: calc(var(--nav-top, 72px) + 20px);
+}
+
+.users-table thead th {
+  position: sticky;
+  top: calc(var(--nav-top, 72px));
+  z-index: 5;
+}
