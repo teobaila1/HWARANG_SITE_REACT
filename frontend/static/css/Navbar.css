@@ -446,52 +446,39 @@ button.user-chip:focus-visible{
 /*  .logout-item.mobile-only button { width:100%; text-align:left; }*/
 /*}*/
 
+/* ===== GLOBAL OFFSET pentru navbar fix (desktop + mobil + iOS notch) ===== */
 
+/* când faci scroll spre un ID / titlu, ia în calcul înălțimea barei */
+html {
+  scroll-padding-top: calc(var(--nav-top, 72px) + 16px);
+}
 
-/* =========================
-   GLOBAL PAGE OFFSET FOR FIXED NAV
-   Se asigură că primul container sub navbar NU e acoperit,
-   indiferent de înălțimea barei (desktop + mobil + iOS notch)
-   ========================= */
-
-/* 1) Spațiu sub navbar pentru containerul imediat următor */
-.navbar + * {
-  /* pe desktop (nav ~72px) */
+/* împinge ÎNTREG conținutul sub bară (funcționează pentru toate paginile) */
+body {
   padding-top: calc(var(--nav-top, 72px) + 12px);
 }
 
-/* 2) Pe mobil (nav compact) – folosește aceeași variabilă actualizată din JS */
+/* pe mobil, un mic plus ca titlurile să fie sigur vizibile */
 @media (max-width: 950px) {
-  .navbar + * {
-    /* un pic mai mult spațiu ca să vezi titlul mereu */
-    padding-top: calc(var(--nav-top, 58px) + 14px);
+  body {
+    padding-top: calc(var(--nav-top, 58px) + 16px);
   }
 }
 
-/* 3) iOS safe area (notch) – ia valoarea mai mare între offset și safe-area-top */
+/* iOS notch – alege automat valoarea cea mai sigură */
 @supports (padding: max(0px)) {
-  .navbar + * {
+  body {
     padding-top: max(
       calc(var(--nav-top, 72px) + 12px),
       calc(env(safe-area-inset-top) + 8px)
     );
   }
   @media (max-width: 950px) {
-    .navbar + * {
+    body {
       padding-top: max(
-        calc(var(--nav-top, 58px) + 14px),
+        calc(var(--nav-top, 58px) + 16px),
         calc(env(safe-area-inset-top) + 8px)
       );
     }
-  }
-}
-
-/* 4) Ancore/scroll la titluri – când sari pe un ID, să nu rămână sub navbar */
-:where(h1, h2, h3, [id]) {
-  scroll-margin-top: calc(var(--nav-top, 72px) + 12px);
-}
-@media (max-width: 950px) {
-  :where(h1, h2, h3, [id]) {
-    scroll-margin-top: calc(var(--nav-top, 58px) + 14px);
   }
 }
