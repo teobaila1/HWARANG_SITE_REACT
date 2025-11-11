@@ -85,12 +85,12 @@ a { text-decoration: none; color: inherit; }
 
   /* etichete înaintea valorii, mapate pe coloane prin nth-child */
   .inscrisi-table tbody td:nth-child(1)::before{ content:"Nume"; }
-  .inscrisi-table tbody td:nth-child(2)::before{ content:"Gen"; }
-  .inscrisi-table tbody td:nth-child(3)::before{ content:"Categoria"; }
-  .inscrisi-table tbody td:nth-child(4)::before{ content:"Grad"; }
+  .inscrisi-table tbody td:nth-child(2)::before{ content:"Data nașterii"; }
+  .inscrisi-table tbody td:nth-child(3)::before{ content:"Vârstă"; }
+  .inscrisi-table tbody td:nth-child(4)::before{ content:"Centură"; }
   .inscrisi-table tbody td:nth-child(5)::before{ content:"Greutate"; }
   .inscrisi-table tbody td:nth-child(6)::before{ content:"Probe"; }
-  .inscrisi-table tbody td:nth-child(6)::before{ content:"Concurs"; }
+  .inscrisi-table tbody td:nth-child(7)::before{ content:"Gen"; }
 
   .inscrisi-table tbody td::before{
     font-weight:700;

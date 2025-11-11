@@ -180,7 +180,7 @@ const AdminInscrisiConcurs = () => {
                       onChange={e => setEditData({...editData, data_nasterii: e.target.value})}
                     />
                   </td>
-                  <td data-label="Acțiuni">
+                  <td>
                     <button className="btn-primary" onClick={handleSave}>Salvează</button>
                     <button className="btn-secondary" onClick={handleCancel}>Anulează</button>
                   </td>
