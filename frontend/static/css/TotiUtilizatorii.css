@@ -351,3 +351,62 @@
   .allusers-head{ gap: .6rem; }
   .search-wrap{ width: 100%; }
 }
+
+
+/* ====== POLISH: aliniere stânga + layout mai natural pe mobil ====== */
+@media (max-width: 900px){
+  /* aliniere text stânga pentru toate celulele */
+  .users-table thead th,
+  .users-table tbody td {
+    text-align: left;
+  }
+
+  /* textul și butoanele se lipesc de marginea stângă */
+  .users-table tbody td {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  /* username + "editează" pe același rând, stânga */
+  .cell-username {
+    display: inline-block;
+    font-weight: 900;
+    margin-right: .5rem;
+  }
+  .link-edit {
+    display: inline-block;
+    margin-left: .25rem;
+    color: #ff80a6;
+    font-weight: 800;
+  }
+
+  /* email-ul și restul conținutului rămân stânga */
+  .users-table td:nth-child(3) {
+    text-align: left;
+  }
+
+  /* rolul și acțiunile */
+  .rol-edit {
+    justify-items: start; /* aliniază dropdown + buton la stânga */
+  }
+  .actions {
+    justify-items: start;
+    text-align: left;
+  }
+
+  /* butonul Șterge full-width, dar stânga */
+  .btn-danger {
+    width: 100%;
+    text-align: left;
+    justify-content: flex-start;
+    padding-left: 1rem;
+  }
+}
+
+/* pe ecrane mai mici, un pic mai compact */
+@media (max-width: 480px) {
+  .users-table tbody td {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+  }
+}
