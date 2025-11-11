@@ -23,8 +23,8 @@ a { text-decoration: none; color: inherit; }
   content: "";
   display: block;
   height: 3px;
-  width: 340px;            /* lățime adaptivă */
-  margin-top: .55rem;                          /* distanță de titlu */
+  width: 340px;
+  margin-top: .55rem;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--cc-accent), var(--cc-accent-2));
   box-shadow: 0 0 10px rgba(255,26,26,.35);
@@ -87,8 +87,8 @@ button {
   color: #fff;
   background: linear-gradient(180deg, #ff1a1a, #cc0000);
   transition: transform .2s ease, box-shadow .2s ease;
-  min-height: 44px; /* uniform height */
-  flex: 1 1 auto;   /* toate cresc la fel */
+  min-height: 44px;
+  flex: 1 1 auto;
 }
 button:hover { background: #a80000; transform: translateY(-1px); }
 
@@ -100,18 +100,16 @@ button:hover { background: #a80000; transform: translateY(-1px); }
 }
 
 /* ===== Formular ===== */
-/* Rândul care conține formularul în tabel */
 .form-row td {
   background: transparent;
-  padding: 0; /* formularul are propriile margini/padding */
+  padding: 0;
 }
 
-/* Formular inline sub concurs */
 .form-inscriere,
 .form-inscriere--inline {
-  border-radius: 18px;                 /* mai rotunjit */
-  padding: 1.1rem 1.2rem;              /* mai mic */
-  max-width: 640px;                    /* nu mai e atât de lat */
+  border-radius: 18px;
+  padding: 1.1rem 1.2rem;
+  max-width: 640px;
   margin: 1.2rem auto 0;
   text-align: left;
   background: linear-gradient(180deg, #111114, #15151a);
@@ -134,7 +132,6 @@ button:hover { background: #a80000; transform: translateY(-1px); }
 }
 .form-concurs-nume{ color:#fff; }
 
-/* Grid de câmpuri pentru lizibilitate */
 .form-grid{
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -166,7 +163,6 @@ button:hover { background: #a80000; transform: translateY(-1px); }
   background: #101015;
 }
 
-/* Acțiuni formular – butoane cu aceeași dimensiune */
 .form-actions{
   display: flex;
   gap: 8px;
@@ -184,9 +180,8 @@ button:hover { background: #a80000; transform: translateY(-1px); }
 .form-actions .btn-cancel:hover{ background:#303030; }
 
 /* ===== react-select ===== */
-/* Control principal */
 .react-select-container .react-select__control {
-  background: #0c0c0f;                  /* în ton cu formularul */
+  background: #0c0c0f;
   color: #fff;
   border-radius: 12px;
   min-height: 46px;
@@ -197,65 +192,30 @@ button:hover { background: #a80000; transform: translateY(-1px); }
   border-color: #ff1a1a;
   box-shadow: 0 0 0 3px rgba(255,26,26,.2);
 }
-
-/* Placeholder + input intern */
 .react-select__placeholder { color:#b8b8bf; font-style: italic; }
 .react-select__input-container { color:#fff; }
-
-/* “Chips” pentru multiple */
-.react-select__multi-value {
-  background: #ffe1e1;
-  border-radius: 10px;
-}
-.react-select__multi-value__label {
-  color: #000;
-  font-weight: 600;
-  padding: 2px 6px;
-}
-.react-select__multi-value__remove {
-  color: #cc0000;
-}
+.react-select__multi-value { background: #ffe1e1; border-radius: 10px; }
+.react-select__multi-value__label { color: #000; font-weight: 600; padding: 2px 6px; }
+.react-select__multi-value__remove { color: #cc0000; }
 .react-select__multi-value__remove:hover {
-  background: #ffb3b3;
-  color: #7a0000;
-  border-radius: 0 10px 10px 0;
+  background: #ffb3b3; color: #7a0000; border-radius: 0 10px 10px 0;
 }
-
-/* Meniul dropdown – foarte clar și deasupra tabelului */
 .react-select__menu {
   background: #ffffff;
   color: #000;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 18px 40px rgba(0,0,0,.35);
-  z-index: 9999;                        /* important când e în tabel */
+  z-index: 9999;
 }
-.react-select__menu-list { padding: 6px 0; }
-
-/* Opțiuni */
 .react-select__option {
   background: #fff;
   color: #000;
   padding: 10px 12px;
   cursor: pointer;
 }
-.react-select__option--is-focused {
-  background: #fbe2e2;                  /* roz pal la hover */
-  color: #000;
-}
-.react-select__option--is-selected {
-  background: #ff1a1a;                  /* selectat clar pe roșu */
-  color: #fff;
-}
-
-/* Indicatori (săgeată, clear) */
-.react-select__indicator,
-.react-select__single-value {
-  color: #fff;
-}
-
-/* Spațiere mică înainte de select */
-.form-field .react-select-container { margin-top: 2px; }
+.react-select__option--is-focused { background: #fbe2e2; color: #000; }
+.react-select__option--is-selected { background: #ff1a1a; color: #fff; }
 
 /* ===== Responsive ===== */
 @media (max-width: 720px){
@@ -278,12 +238,13 @@ button:hover { background: #a80000; transform: translateY(-1px); }
     border-radius: 12px;
     padding: 1rem;
     box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    text-align: left !important;
   }
 
   tbody td {
     border: none;
     padding: .5rem 0;
-    text-align: left;
+    text-align: left !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -295,6 +256,7 @@ button:hover { background: #a80000; transform: translateY(-1px); }
     color: #bbb;
     flex: 0 0 40%;
     padding-right: 10px;
+    text-align: left;
   }
 
   tbody td:last-child {
@@ -305,44 +267,38 @@ button:hover { background: #a80000; transform: translateY(-1px); }
   .btn-inscriere { width: 100%; }
 }
 
-
-/* ——— Concursuri.jsx: titlu + underline la marginea stângă ——— */
-.concursuri-container.concursuri-intern{
-  text-align: left !important;         /* înlocuiește centratul */
+/* ===== Aliniere completă la stânga pentru pagina Concursuri ===== */
+.concursuri-container.concursuri-intern {
+  text-align: left !important;
+  align-items: flex-start;
 }
 
-.concursuri-intern .concursuri-title{
-  width: fit-content;                  /* titlul ia doar lățimea textului */
-  margin: 0 0 .9rem 0 !important;      /* zero la stânga -> lipit de margine */
+.concursuri-intern .concursuri-title {
+  width: fit-content;
+  margin: 0 0 .9rem 0 !important;
   text-align: left !important;
 }
 
-.concursuri-intern .concursuri-title::after{
-  margin-left: 0;                      /* underline pornește de la stânga titlului */
+.concursuri-intern .concursuri-title::after {
+  margin-left: 0;
   width: 340px;
   background: linear-gradient(90deg,#ff1a1a,#cc0000);
   border-radius: 999px;
   box-shadow: 0 0 10px rgba(255,26,26,.35);
 }
 
-/* search bar tot la stânga */
-.concursuri-intern .input-cautare{
+.concursuri-intern .input-cautare {
   margin: 10px 0 8px 0 !important;
+  text-align: left;
 }
 
-
-
-/* ===== MOBILE FIX: aliniere completă la stânga pentru "Concursuri viitoare" ===== */
+/* ===== MOBILE FIX: aliniere totală ===== */
 @media (max-width: 900px) {
-  .concursuri-page,
-  .evenimente-page,
   .concursuri-container {
     padding: 1rem;
+    text-align: left !important;
   }
 
-  /* Titlu clar, stânga */
-  .concursuri-page h1,
-  .concursuri-page h2,
   .concursuri-container h1,
   .concursuri-container h2 {
     text-align: left !important;
@@ -350,22 +306,14 @@ button:hover { background: #a80000; transform: translateY(-1px); }
     margin-bottom: 0.8rem;
   }
 
-  /* inputul de căutare */
-  .concursuri-page input[type="text"],
-  .concursuri-container input[type="text"] {
+  .input-cautare {
     width: 100%;
     text-align: left;
     padding: 0.7rem 1rem;
-    border-radius: 10px;
-    border: 1px solid #2a2a36;
-    background: #141414;
-    color: #fff;
   }
 
-  /* cardurile de concurs */
   .concurs-card,
-  .concurs-item,
-  .eveniment-card {
+  .concurs-item {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -378,13 +326,10 @@ button:hover { background: #a80000; transform: translateY(-1px); }
     box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
   }
 
-  /* textele din carduri */
   .concurs-card p,
   .concurs-card span,
   .concurs-item p,
-  .concurs-item span,
-  .eveniment-card p,
-  .eveniment-card span {
+  .concurs-item span {
     text-align: left !important;
     width: 100%;
     margin: 0.25rem 0;
@@ -392,28 +337,23 @@ button:hover { background: #a80000; transform: translateY(-1px); }
     overflow-wrap: anywhere;
   }
 
-  /* butoanele */
   .concurs-card .btn,
-  .concurs-item .btn,
-  .eveniment-card .btn {
+  .concurs-item .btn {
     width: 100%;
     text-align: center;
     justify-content: center;
     margin-top: 0.5rem;
   }
 
-  /* mic spațiu între butoane */
   .concurs-card .btn + .btn,
-  .concurs-item .btn + .btn,
-  .eveniment-card .btn + .btn {
+  .concurs-item .btn + .btn {
     margin-top: 0.4rem;
   }
 }
 
-/* pentru telefoane foarte mici */
 @media (max-width: 480px) {
-  .concursuri-page h1,
-  .concursuri-page h2 {
+  .concursuri-container h1,
+  .concursuri-container h2 {
     font-size: 1.4rem;
   }
   .concurs-card,
