@@ -172,13 +172,13 @@
 
 /* (Opțional) Fallback: dacă nu ai încă data-label pe <td>, păstrăm un mapping minimal
    ca rezervă (poți lăsa sau șterge după ce adaugi data-label peste tot) */
-/*@media (max-width: 920px){*/
-/*  .inscrisi-table tbody td:not([data-label]):nth-child(1)::before{ content:"Nume"; }*/
-/*  .inscrisi-table tbody td:not([data-label]):nth-child(2)::before{ content:"Gen"; }*/
-/*  .inscrisi-table tbody td:not([data-label]):nth-child(3)::before{ content:"Categoria"; }*/
-/*  .inscrisi-table tbody td:not([data-label]):nth-child(4)::before{ content:"Grad"; }*/
-/*  .inscrisi-table tbody td:not([data-label]):nth-child(5)::before{ content:"Greutate"; }*/
-/*  .inscrisi-table tbody td:not([data-label]):nth-child(6)::before{ content:"Concurs"; }*/
-/*  .inscrisi-table tbody td:not([data-label]):nth-child(6)::before{ content:"Probe"; }*/
-/*  .inscrisi-table tbody td:not([data-label]):nth-child(7)::before{ content:"Data nașterii"; }*/
-/*}*/
+@media (max-width: 920px){
+  .inscrisi-table tbody td:not([data-label]):nth-child(1)::before{ content:"Nume"; }
+  .inscrisi-table tbody td:not([data-label]):nth-child(2)::before{ content:"Gen"; }
+  .inscrisi-table tbody td:not([data-label]):nth-child(3)::before{ content:"Categoria"; }
+  .inscrisi-table tbody td:not([data-label]):nth-child(4)::before{ content:"Grad"; }
+  .inscrisi-table tbody td:not([data-label]):nth-child(5)::before{ content:"Greutate"; }
+  .inscrisi-table tbody td:not([data-label]):nth-child(6)::before{ content:"Concurs"; }
+  .inscrisi-table tbody td:not([data-label]):nth-child(6)::before{ content:"Probe"; }
+  .inscrisi-table tbody td:not([data-label]):nth-child(7)::before{ content:"Data nașterii"; }
+}
