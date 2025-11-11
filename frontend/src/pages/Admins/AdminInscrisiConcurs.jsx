@@ -133,7 +133,7 @@ const AdminInscrisiConcurs = () => {
                       onChange={e => setEditData({...editData, nume: e.target.value})}
                     />
                   </td>
-                  <td data-label="Gen">
+                  <td>
                     <select
                       value={editData.gen || ""}
                       onChange={e => setEditData({...editData, gen: e.target.value})}
