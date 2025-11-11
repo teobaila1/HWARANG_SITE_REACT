@@ -437,3 +437,11 @@ button.user-chip:focus-visible{
   /* subtitlurile grupurilor (nu se aplică aici pentru că folosim .menu-title) */
   .navbar .dropdown > a{ padding-bottom: .0rem; }
 }
+
+
+
+/* vizibil numai pe mobil */
+.mobile-only { display: none; }
+@media (max-width: 950px){
+  .mobile-only { display: block !important; }
+}
