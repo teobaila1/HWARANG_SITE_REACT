@@ -551,3 +551,54 @@ button.user-chip:focus-visible{
         display: block;
     }
 }
+
+
+
+/* ====== MOBILE NAVBAR: compact height fix (<= 950px) ====== */
+@media (max-width: 950px) {
+  :root {
+    --nav-top: 58px; /* ← înălțime redusă față de 72px desktop */
+  }
+
+  .navbar {
+    padding: 0.25rem 0.75rem !important;
+    height: var(--nav-top);
+  }
+
+  .logo img {
+    height: 48px !important; /* micșorează sigla */
+    width: auto !important;
+  }
+
+  .nav-toggle {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .nav-toggle span {
+    width: 16px !important;
+  }
+
+  /* Meniul deschis să înceapă corect sub navbarul mai mic */
+  .navbar .nav-links {
+    padding-top: calc(var(--nav-top) + 10px) !important;
+  }
+
+  /* Butonul de închidere “×” repoziționat */
+  .nav-close {
+    top: calc(var(--nav-top) / 2 - 18px) !important;
+    right: 8px !important;
+  }
+
+  /* Logo + meniu mai apropiate (fără goluri mari) */
+  .navbar-flex-container {
+    gap: 0.5rem !important;
+  }
+
+  /* Fundal și blur mai discret */
+  .navbar {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.45);
+  }
+}
