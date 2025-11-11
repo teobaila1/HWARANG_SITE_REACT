@@ -376,3 +376,81 @@
   .users-table{ font-size: .9rem; }
   .users-table tbody td{ padding: .6rem .6rem; }
 }
+
+
+
+/* ===== FINAL MOBILE OVERRIDES: forțează TOTUL pe stânga (Safari iOS) ===== */
+@media (max-width: 900px){
+  /* 0) Asigură că tabelul nu are centrări moștenite */
+  .users-table,
+  .users-table * {
+    text-align: left !important;
+  }
+
+  /* 1) Celulele: bloc, flux vertical, stânga */
+  .users-table tbody td {
+    display: block;                /* ← rupe orice inline-flex moștenit */
+    text-align: left !important;
+    padding-left: .8rem;
+    padding-right: .8rem;
+  }
+
+  /* 2) Coloana „Nume”: username + editează pe stânga, vertical */
+  .users-table td:nth-child(2){
+    display: block !important;
+  }
+  .users-table td:nth-child(2) .cell-username{
+    display: block !important;
+    margin: 0 0 2px 0 !important;
+  }
+  .users-table td:nth-child(2) .link-edit{
+    display: inline-block !important;
+    margin: 0 !important;
+    float: none !important;
+    align-self: flex-start !important;
+  }
+
+  /* 3) Coloana „Rol”: select pe rândul lui, butonul sub el, ambele stânga */
+  .users-table td:nth-child(4) .rol-edit{
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: .5rem !important;
+    justify-items: start !important;
+    align-items: start !important;
+  }
+  .users-table td:nth-child(4) .rol-select{
+    width: 100% !important;
+    min-width: 0 !important;
+    justify-self: start !important;
+  }
+  .users-table td:nth-child(4) .btn{
+    justify-self: start !important;
+    align-self: start !important;
+    margin: 0 !important;
+  }
+
+  /* 4) Coloana „Acțiuni”: butonul pe stânga, full-width dacă vrei */
+  .users-table td:nth-child(5){
+    display: block !important;
+  }
+  .users-table td:nth-child(5) .actions{
+    display: block !important;
+    text-align: left !important;
+  }
+  .users-table td:nth-child(5) .actions .btn{
+    width: 100% !important;        /* scoate dacă nu vrei full width */
+    justify-content: flex-start !important;
+    text-align: left !important;
+    padding-left: 1rem !important;
+    margin: 0 !important;
+  }
+
+  /* 5) Curăță orice auto-margin care ar putea împinge la dreapta */
+  .users-table .btn,
+  .users-table select,
+  .users-table a,
+  .users-table button{
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
