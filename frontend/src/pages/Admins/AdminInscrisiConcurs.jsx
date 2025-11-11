@@ -104,7 +104,7 @@ const AdminInscrisiConcurs = () => {
           onChange={handleSearch}
         />
 
-        <table className="inscrisi-table">
+        <table className="inscrisi-tabel">
           <thead>
             <tr>
               <th>Nume</th>
