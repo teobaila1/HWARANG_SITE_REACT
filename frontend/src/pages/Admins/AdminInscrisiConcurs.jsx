@@ -92,7 +92,7 @@ const AdminInscrisiConcurs = () => {
   return (
     <>
       <Navbar/>
-      {/* adăugăm un scope clar: admin-inscrisi */}
+      {/* scope clar pentru override-urile de mobil */}
       <div className="inscrisi-container admin-inscrisi">
         <h2>Sportivi înscriși la concursuri</h2>
 
@@ -106,17 +106,17 @@ const AdminInscrisiConcurs = () => {
 
         <table className="inscrisi-table">
           <thead>
-          <tr>
-            <th>Nume</th>
-            <th>Gen</th>
-            <th>Categoria</th>
-            <th>Grad</th>
-            <th>Greutate</th>
-            <th>Probe</th>
-            <th>Concurs</th>
-            <th>Data nașterii</th>
-            <th>Acțiuni</th>
-          </tr>
+            <tr>
+              <th>Nume</th>
+              <th>Gen</th>
+              <th>Categoria</th>
+              <th>Grad</th>
+              <th>Greutate</th>
+              <th>Probe</th>
+              <th>Concurs</th>
+              <th>Data nașterii</th>
+              <th>Acțiuni</th>
+            </tr>
           </thead>
 
           <tbody>
@@ -127,13 +127,13 @@ const AdminInscrisiConcurs = () => {
             >
               {editIndex === s.id ? (
                 <>
-                  <td>
+                  <td data-label="Nume">
                     <input
                       value={editData.nume || ""}
                       onChange={e => setEditData({...editData, nume: e.target.value})}
                     />
                   </td>
-                  <td>
+                  <td data-label="Gen">
                     <select
                       value={editData.gen || ""}
                       onChange={e => setEditData({...editData, gen: e.target.value})}
@@ -143,59 +143,59 @@ const AdminInscrisiConcurs = () => {
                       <option value="Feminin">Feminin</option>
                     </select>
                   </td>
-                  <td>
+                  <td data-label="Categoria">
                     <input
                       value={editData.categorie || ""}
                       onChange={e => setEditData({...editData, categorie: e.target.value})}
                     />
                   </td>
-                  <td>
+                  <td data-label="Grad">
                     <input
                       value={editData.grad || ""}
                       onChange={e => setEditData({...editData, grad: e.target.value})}
                     />
                   </td>
-                  <td>
+                  <td data-label="Greutate">
                     <input
                       value={editData.greutate || ""}
                       onChange={e => setEditData({...editData, greutate: e.target.value})}
                     />
                   </td>
-                  <td>
+                  <td data-label="Probe">
                     <input
                       value={editData.probe || ""}
                       onChange={e => setEditData({...editData, probe: e.target.value})}
                     />
                   </td>
-                  <td>
+                  <td data-label="Concurs">
                     <input
                       value={editData.concurs || ""}
                       onChange={e => setEditData({...editData, concurs: e.target.value})}
                     />
                   </td>
-                  <td>
+                  <td data-label="Data nașterii">
                     <input
                       type="date"
                       value={editData.data_nasterii || ""}
                       onChange={e => setEditData({...editData, data_nasterii: e.target.value})}
                     />
                   </td>
-                  <td>
+                  <td data-label="Acțiuni">
                     <button className="btn-primary" onClick={handleSave}>Salvează</button>
                     <button className="btn-secondary" onClick={handleCancel}>Anulează</button>
                   </td>
                 </>
               ) : (
                 <>
-                  <td>{s.nume}</td>
-                  <td>{s.gen}</td>
-                  <td>{s.categorie}</td>
-                  <td>{s.grad}</td>
-                  <td>{s.greutate} kg</td>
-                  <td>{s.probe}</td>
-                  <td>{s.concurs}</td>
-                  <td>{s.data_nasterii}</td>
-                  <td>
+                  <td data-label="Nume">{s.nume}</td>
+                  <td data-label="Gen">{s.gen}</td>
+                  <td data-label="Categoria">{s.categorie}</td>
+                  <td data-label="Grad">{s.grad}</td>
+                  <td data-label="Greutate">{s.greutate} kg</td>
+                  <td data-label="Probe">{s.probe}</td>
+                  <td data-label="Concurs">{s.concurs}</td>
+                  <td data-label="Data nașterii">{s.data_nasterii}</td>
+                  <td data-label="Acțiuni">
                     <button className="btn-primary" onClick={() => handleEdit(s)}>Editează</button>
                     <button className="btn-danger" onClick={() => handleDelete(s.id)}>Șterge</button>
                   </td>
