@@ -273,3 +273,81 @@
   top: calc(var(--nav-top, 72px));
   z-index: 5;
 }
+
+
+
+/* ====== MOBILE FIX (≤ 900px): tabel compact, fără zoom-out, lizibil cu degetul ====== */
+@media (max-width: 900px){
+  .allusers{
+    padding: 1rem;
+  }
+
+  /* 1) Nu mai forța lățime mare -> elimină nevoia de zoom-out */
+  .users-table{
+    min-width: unset;        /* <— asta elimină problema principală */
+    width: 100%;
+    table-layout: fixed;     /* distribuie coloane egal, fără să sară layout-ul */
+    font-size: 0.95rem;
+  }
+
+  /* 2) Ascunde coloana ID pe mobil (dă multă lățime pentru puțină valoare) */
+  .users-table thead th:nth-child(1),
+  .users-table tbody td:nth-child(1){
+    display: none;
+  }
+
+  /* 3) Header-ul rămâne lipit sub navbarul fix */
+  .users-table thead th{
+    top: var(--nav-top, 72px);
+    z-index: 2;
+    padding: .7rem .7rem;
+  }
+
+  /* 4) Celule compacte și texte care se rup corect */
+  .users-table tbody td{
+    padding: .7rem .7rem;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  /* 5) Zona „Rol + acțiuni” pe două rânduri: select pe un rând, butoane sub el */
+  .rol-edit{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .5rem;
+  }
+  .rol-select{
+    width: 100%;
+    min-width: 0;
+  }
+  .actions{
+    display: grid;
+    grid-template-columns: 1fr 1fr;  /* „Salvează” și „Șterge” dacă încap; altfel se rup pe rânduri */
+    gap: .5rem;
+    white-space: normal;             /* permite wrap la butoane */
+  }
+  .actions .btn{
+    width: 100%;
+  }
+
+  /* 6) Look de „card” pentru rânduri (plăcut vizual pe mobil) */
+  .users-table tbody tr td:first-child{
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  .users-table tbody tr td:last-child{
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+
+  /* 7) Butonul mare „Șterge” puțin mai înalt pe mobil */
+  .btn-danger{ height: 40px; }
+}
+
+/* Extra compact pentru telefoane mici */
+@media (max-width: 480px){
+  .users-table{ font-size: 0.9rem; }
+  .users-table tbody td{ padding: .6rem .6rem; }
+  .allusers-head{ gap: .6rem; }
+  .search-wrap{ width: 100%; }
+}
