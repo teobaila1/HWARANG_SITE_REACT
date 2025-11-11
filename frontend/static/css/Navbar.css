@@ -440,14 +440,14 @@ button.user-chip:focus-visible{
 
 
 /* când faci scroll spre un ID / titlu, ia în calcul înălțimea barei */
-html {
-  scroll-padding-top: calc(var(--nav-top, 72px) + 16px);
-}
+/*html {*/
+/*  scroll-padding-top: calc(var(--nav-top, 72px) + 16px);*/
+/*}*/
 
-/* împinge ÎNTREG conținutul sub bară (funcționează pentru toate paginile) */
-body {
-  padding-top: calc(var(--nav-top, 72px) + 12px);
-}
+/*!* împinge ÎNTREG conținutul sub bară (funcționează pentru toate paginile) *!*/
+/*body {*/
+/*  padding-top: calc(var(--nav-top, 72px) + 12px);*/
+/*}*/
 
 /* pe mobil, un mic plus ca titlurile să fie sigur vizibile */
 @media (max-width: 950px) {
@@ -458,12 +458,12 @@ body {
 
 /* iOS notch – alege automat valoarea cea mai sigură */
 @supports (padding: max(0px)) {
-  body {
-    padding-top: max(
-      calc(var(--nav-top, 72px) + 12px),
-      calc(env(safe-area-inset-top) + 8px)
-    );
-  }
+  /*body {*/
+  /*  padding-top: max(*/
+  /*    calc(var(--nav-top, 72px) + 12px),*/
+  /*    calc(env(safe-area-inset-top) + 8px)*/
+  /*  );*/
+  /*}*/
   @media (max-width: 950px) {
     body {
       padding-top: max(
