@@ -553,52 +553,50 @@ button.user-chip:focus-visible{
 }
 
 
+/* =========================
+   GLOBAL PAGE OFFSET FOR FIXED NAV
+   Se asigură că primul container sub navbar NU e acoperit,
+   indiferent de înălțimea barei (desktop + mobil + iOS notch)
+   ========================= */
 
-/* ====== MOBILE NAVBAR: compact height fix (<= 950px) ====== */
+/* 1) Spațiu sub navbar pentru containerul imediat următor */
+.navbar + * {
+  /* pe desktop (nav ~72px) */
+  padding-top: calc(var(--nav-top, 72px) + 12px);
+}
+
+/* 2) Pe mobil (nav compact) – folosește aceeași variabilă actualizată din JS */
 @media (max-width: 950px) {
-  :root {
-    --nav-top: 58px; /* ← înălțime redusă față de 72px desktop */
+  .navbar + * {
+    /* un pic mai mult spațiu ca să vezi titlul mereu */
+    padding-top: calc(var(--nav-top, 58px) + 14px);
   }
+}
 
-  .navbar {
-    padding: 0.25rem 0.75rem !important;
-    height: var(--nav-top);
+/* 3) iOS safe area (notch) – ia valoarea mai mare între offset și safe-area-top */
+@supports (padding: max(0px)) {
+  .navbar + * {
+    padding-top: max(
+      calc(var(--nav-top, 72px) + 12px),
+      calc(env(safe-area-inset-top) + 8px)
+    );
   }
-
-  .logo img {
-    height: 48px !important; /* micșorează sigla */
-    width: auto !important;
+  @media (max-width: 950px) {
+    .navbar + * {
+      padding-top: max(
+        calc(var(--nav-top, 58px) + 14px),
+        calc(env(safe-area-inset-top) + 8px)
+      );
+    }
   }
+}
 
-  .nav-toggle {
-    width: 32px !important;
-    height: 32px !important;
-  }
-
-  .nav-toggle span {
-    width: 16px !important;
-  }
-
-  /* Meniul deschis să înceapă corect sub navbarul mai mic */
-  .navbar .nav-links {
-    padding-top: calc(var(--nav-top) + 10px) !important;
-  }
-
-  /* Butonul de închidere “×” repoziționat */
-  .nav-close {
-    top: calc(var(--nav-top) / 2 - 18px) !important;
-    right: 8px !important;
-  }
-
-  /* Logo + meniu mai apropiate (fără goluri mari) */
-  .navbar-flex-container {
-    gap: 0.5rem !important;
-  }
-
-  /* Fundal și blur mai discret */
-  .navbar {
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    background: rgba(0, 0, 0, 0.45);
+/* 4) Ancore/scroll la titluri – când sari pe un ID, să nu rămână sub navbar */
+:where(h1, h2, h3, [id]) {
+  scroll-margin-top: calc(var(--nav-top, 72px) + 12px);
+}
+@media (max-width: 950px) {
+  :where(h1, h2, h3, [id]) {
+    scroll-margin-top: calc(var(--nav-top, 58px) + 14px);
   }
 }
