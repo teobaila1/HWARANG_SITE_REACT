@@ -6,7 +6,7 @@
   "background_color": "#ffffff",
   "theme_color": "#b71c1c",
   "icons": [
-    { "src": "/images/favicon/favicon.ico", "sizes": "192x192", "type": "image/png" },
-    { "src": "/images/favicon/favicon.ico", "sizes": "512x512", "type": "image/png" }
+    { "src": "/images/favicon/hwarang.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/images/favicon/hwarang.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
