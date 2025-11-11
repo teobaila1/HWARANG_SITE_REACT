@@ -251,26 +251,35 @@ const Navbar = () => {
 
                     {/* ===== User / Auth ===== */}
                     {isLoggedIn ? (
-                        <>
-                            <li className="dropdown user-menu">
-                                <button className="user-chip" aria-haspopup="true" aria-expanded="false"
-                                        data-keep="true">
-                                    <span className="avatar">{username[0]?.toUpperCase() || "?"}</span>
-                                    <span className="greet">
-          Bine ai venit,&nbsp;<strong className="name" title={username}>{username}</strong>
-        </span>
-                                </button>
-                                <ul className="dropdown-menu dropdown-menu--right">
-                                    <li className="dropdown-caption">Conectat ca <strong>{username}</strong></li>
-                                    <li className="logout-item"><LogoutButton/></li>
-                                </ul>
-                            </li>
+                        <li className={`dropdown user-menu ${openSection === "user" ? "open" : ""}`}>
+                            <button
+                                className="user-chip"
+                                aria-haspopup="true"
+                                aria-expanded={openSection === "user"}
+                                data-keep="true"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    toggleSection("user");
+                                }}
+                            >
+                                <span className="avatar">{username[0]?.toUpperCase() || "?"}</span>
+                                <span className="greet">
+                Bine ai venit,&nbsp;<strong className="name" title={username}>{username}</strong>
+            </span>
+                            </button>
 
-                            {/* === Logout DOAR pe mobil (în drawer), SIBLING, nu în dropdown === */}
-                            <li className="logout-item mobile-only">
+                            {/* Desktop dropdown */}
+                            <ul className="dropdown-menu dropdown-menu--right">
+                                <li className="dropdown-caption">Conectat ca <strong>{username}</strong></li>
+                                <li className="logout-item"><LogoutButton/></li>
+                            </ul>
+
+                            {/* Mobile-only logout button - placed outside dropdown */}
+                            <div className="mobile-only logout-item-mobile">
                                 <LogoutButton/>
-                            </li>
-                        </>
+                            </div>
+                        </li>
                     ) : (
                         <li className="auth-links">
                             <button onClick={handleNavigate("/autentificare")}>Login</button>
