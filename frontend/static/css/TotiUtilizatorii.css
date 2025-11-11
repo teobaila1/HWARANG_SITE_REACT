@@ -410,3 +410,75 @@
     padding-right: 0.6rem;
   }
 }
+
+
+/* ===== FIX: aliniere completă la stânga pe mobil (≤ 900px) ===== */
+@media (max-width: 900px){
+  /* 1) Coloana "Nume" devine coloană verticală, stânga */
+  .users-table td:nth-child(2){
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left !important;
+    gap: 2px;
+  }
+
+  /* 2) Username pe rândul lui, stânga */
+  .users-table td:nth-child(2) .cell-username{
+    display: block;
+    margin: 0 0 2px 0;
+    line-height: 1.25;
+    text-align: left !important;
+  }
+
+  /* 3) "editează" sub username, stânga (nu în dreapta) */
+  .users-table td:nth-child(2) .link-edit{
+    display: block !important;
+    margin: 0;                 /* anulăm margin-left: .25rem dacă mai există */
+    padding: 0;
+    text-align: left !important;
+    align-self: flex-start;    /* sigur la stânga, indiferent de layout-ul tabelului */
+    float: none !important;    /* împiedică poziționări ciudate pe Safari iOS */
+  }
+
+  /* 4) Toate celulele pe stânga, inclusiv email / rol / acțiuni */
+  .users-table thead th,
+  .users-table tbody td{
+    text-align: left !important;
+  }
+
+  /* 5) Zona "Rol" pe stânga, pe două rânduri (select deasupra butonului) */
+  .rol-edit{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .5rem;
+    justify-items: start;      /* stânga */
+  }
+  .rol-select{ width: 100%; min-width: 0; }
+
+  /* 6) Acțiuni pe stânga; butoanele se rup natural pe două coloane dacă încap */
+  .actions{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .5rem;
+    white-space: normal;
+    justify-items: start;      /* stânga */
+    text-align: left !important;
+  }
+  .actions .btn{ width: 100%; }
+
+  /* 7) Spațiere ușor mai mică în celule pentru o coloană curată */
+  .users-table tbody td{
+    padding: .65rem .75rem;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Extra strâns pentru telefoane mici */
+@media (max-width: 480px){
+  .users-table{ font-size: .9rem; }
+  .users-table tbody td{ padding: .6rem .6rem; }
+}
+
