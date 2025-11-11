@@ -195,3 +195,139 @@
   }
 }
 
+
+
+/* ====== PAYMENTS – fix aliniere stânga + mobile cards (iOS safe) ====== */
+/* Încearcă să prindem cât mai multe containere posibile */
+.plati-page table,
+.plati table,
+.payments table,
+.plati-container table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+}
+
+/* Aliniere stânga peste tot (bate orice stil anterior) */
+.plati-page table th,
+.plati-page table td,
+.plati table th,
+.plati table td,
+.payments table th,
+.payments table td,
+.plati-container table th,
+.plati-container table td {
+  text-align: left !important;
+  vertical-align: top;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  padding: .7rem .9rem;
+}
+
+/* Badge-urile/btn-urile să nu „tragă” spre dreapta */
+.plati-page table .btn,
+.plati table .btn,
+.payments table .btn,
+.plati-container table .btn,
+.plati-page table .badge,
+.plati table .badge,
+.payments table .badge,
+.plati-container table .badge {
+  margin: .25rem 0 0 0;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+/* Linii discrete între celule */
+.plati-page table td,
+.plati table td,
+.payments table td,
+.plati-container table td {
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+
+/* ===== Mobile: transformă rândul în card stivuit, TOTUL pe stânga ===== */
+@media (max-width: 900px){
+  /* ascundem headerul clasic pe mobil */
+  .plati-page table thead,
+  .plati table thead,
+  .payments table thead,
+  .plati-container table thead { display: none !important; }
+
+  /* fiecare TR devine card */
+  .plati-page table tbody tr,
+  .plati table tbody tr,
+  .payments table tbody tr,
+  .plati-container table tbody tr {
+    display: block !important;
+    background: linear-gradient(180deg, #111114, #16161b);
+    border: 1px solid #2a2a36;
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin: 12px 0;
+    box-shadow: 0 18px 60px rgba(0,0,0,.28);
+  }
+
+  /* fiecare TD devine rând stivuit */
+  .plati-page table tbody td,
+  .plati table tbody td,
+  .payments table tbody td,
+  .plati-container table tbody td {
+    display: block !important;
+    padding: .55rem 0 !important;
+    border: none !important;
+  }
+
+  /* spațiere între „secțiunile” din card */
+  .plati-page table tbody td + td,
+  .plati table tbody td + td,
+  .payments table tbody td + td,
+  .plati-container table tbody td + td {
+    border-top: 1px dashed rgba(255,255,255,.06) !important;
+    margin-top: .35rem;
+    padding-top: .55rem !important;
+  }
+
+  /* dropdown + butoane stivuite pe stânga */
+  .plati-page select, .plati select, .payments select, .plati-container select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .plati-page .actions, .plati .actions, .payments .actions, .plati-container .actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .5rem;
+  }
+  .plati-page .actions .btn,
+  .plati .actions .btn,
+  .payments .actions .btn,
+  .plati-container .actions .btn {
+    width: 100%;
+    justify-content: flex-start;
+    padding-left: 1rem;
+    height: 40px;
+  }
+
+  /* badge „Neplătit/Plătit” pe stânga, nu ancorat la dreapta */
+  .plati-page .status,
+  .plati .status,
+  .payments .status,
+  .plati-container .status {
+    display: inline-block;
+    margin: .25rem 0 0 0;
+  }
+}
+
+/* extra compact pe telefoane mici */
+@media (max-width: 480px){
+  .plati-page table tbody tr,
+  .plati table tbody tr,
+  .payments table tbody tr,
+  .plati-container table tbody tr { padding: 8px 10px; }
+  .plati-page table tbody td,
+  .plati table tbody td,
+  .payments table tbody td,
+  .plati-container table tbody td { padding: .5rem 0 !important; }
+}
