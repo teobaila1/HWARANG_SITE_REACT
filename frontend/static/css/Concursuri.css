@@ -329,3 +329,95 @@ button:hover { background: #a80000; transform: translateY(-1px); }
 .concursuri-intern .input-cautare{
   margin: 10px 0 8px 0 !important;
 }
+
+
+
+/* ===== MOBILE FIX: aliniere completă la stânga pentru "Concursuri viitoare" ===== */
+@media (max-width: 900px) {
+  .concursuri-page,
+  .evenimente-page,
+  .concursuri-container {
+    padding: 1rem;
+  }
+
+  /* Titlu clar, stânga */
+  .concursuri-page h1,
+  .concursuri-page h2,
+  .concursuri-container h1,
+  .concursuri-container h2 {
+    text-align: left !important;
+    font-size: 1.6rem;
+    margin-bottom: 0.8rem;
+  }
+
+  /* inputul de căutare */
+  .concursuri-page input[type="text"],
+  .concursuri-container input[type="text"] {
+    width: 100%;
+    text-align: left;
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #2a2a36;
+    background: #141414;
+    color: #fff;
+  }
+
+  /* cardurile de concurs */
+  .concurs-card,
+  .concurs-item,
+  .eveniment-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left !important;
+    background: linear-gradient(180deg, #111114, #16161b);
+    border: 1px solid #2a2a36;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+  }
+
+  /* textele din carduri */
+  .concurs-card p,
+  .concurs-card span,
+  .concurs-item p,
+  .concurs-item span,
+  .eveniment-card p,
+  .eveniment-card span {
+    text-align: left !important;
+    width: 100%;
+    margin: 0.25rem 0;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  /* butoanele */
+  .concurs-card .btn,
+  .concurs-item .btn,
+  .eveniment-card .btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  /* mic spațiu între butoane */
+  .concurs-card .btn + .btn,
+  .concurs-item .btn + .btn,
+  .eveniment-card .btn + .btn {
+    margin-top: 0.4rem;
+  }
+}
+
+/* pentru telefoane foarte mici */
+@media (max-width: 480px) {
+  .concursuri-page h1,
+  .concursuri-page h2 {
+    font-size: 1.4rem;
+  }
+  .concurs-card,
+  .concurs-item {
+    padding: 0.8rem;
+  }
+}

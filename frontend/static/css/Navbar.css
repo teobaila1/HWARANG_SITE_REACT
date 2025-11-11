@@ -439,15 +439,6 @@ button.user-chip:focus-visible{
 }
 
 
-
-/*.mobile-only { display: none; }*/
-/*@media (max-width: 950px){*/
-/*  .mobile-only { display: block !important; }*/
-/*  .logout-item.mobile-only button { width:100%; text-align:left; }*/
-/*}*/
-
-/* ===== GLOBAL OFFSET pentru navbar fix (desktop + mobil + iOS notch) ===== */
-
 /* când faci scroll spre un ID / titlu, ia în calcul înălțimea barei */
 html {
   scroll-padding-top: calc(var(--nav-top, 72px) + 16px);
