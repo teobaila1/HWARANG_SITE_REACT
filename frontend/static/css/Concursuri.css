@@ -361,3 +361,37 @@ button:hover { background: #a80000; transform: translateY(-1px); }
     padding: 0.8rem;
   }
 }
+
+
+/* ——— Mobile: aliniere completă la stânga și etichete vizibile ——— */
+@media (max-width: 768px) {
+  /* fiecare celulă pe două rânduri: etichetă sus, conținut jos */
+  .concursuri-container tbody td {
+    display: block;
+    text-align: left !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    padding: .5rem 0;
+  }
+
+  /* eticheta din stânga (Perioadă / Activitate / Localitate / Acțiune) */
+  .concursuri-container tbody td::before {
+    display: block;
+    content: attr(data-label);
+    font-weight: 700;
+    color: #bbb;
+    margin-bottom: .25rem;
+  }
+
+  /* celula de acțiuni: butoane full-width, stivuite */
+  .concursuri-container .td-actions {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    row-gap: .5rem !important;
+  }
+  .concursuri-container .td-actions .btn-inscriere,
+  .concursuri-container .td-actions a > .btn-inscriere {
+    width: 100%;
+    justify-content: center;
+  }
+}

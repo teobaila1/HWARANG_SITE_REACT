@@ -231,10 +231,11 @@ const Concursuri = () => {
                     {concursuriFiltrate.map((c, index) => (
                         <React.Fragment key={index}>
                             <tr>
-                                <td>{c.perioada}</td>
-                                <td>{c.nume}</td>
-                                <td>{c.locatie}</td>
-                                <td style={{display: "flex", flexDirection: "column", gap: "6px"}}>
+                                <td data-label="Perioadă">{c.perioada}</td>
+                                <td data-label="Activitate">{c.nume}</td>
+                                <td data-label="Localitate">{c.locatie}</td>
+                                <td data-label="Acțiune" className="td-actions"
+                                    style={{display: "flex", flexDirection: "column", gap: "6px"}}>
                                     <button className="btn-inscriere" onClick={() => handleTrimiteCerere(c.nume)}>
                                         {openFormFor === c.nume ? "Ascunde formularul" : "Înscrie-te la concurs"}
                                     </button>
@@ -260,7 +261,6 @@ const Concursuri = () => {
                                         </button>
                                     )}
                                 </td>
-
                             </tr>
 
                             {/* ✅ Formularul apare fix sub concursul selectat */}
