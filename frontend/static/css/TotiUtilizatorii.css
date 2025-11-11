@@ -12,6 +12,7 @@
   --au-radius: 14px;
 }
 
+/* ===== Page wrap ===== */
 .allusers{
   min-height: 100vh;
   background: linear-gradient(180deg, var(--au-bg), #0b0b0d);
@@ -19,9 +20,12 @@
   padding: clamp(1.2rem, 3vw, 2rem);
   margin: 0 auto;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* spațiu sub navbar-ul fix */
+  padding-top: calc(var(--nav-top, 72px) + 20px);
 }
 
-/* Header + search */
+/* ===== Header + search ===== */
 .allusers-head{
   display: flex;
   align-items: flex-end;
@@ -76,7 +80,7 @@
   cursor: pointer;
 }
 
-/* Alert */
+/* ===== Alerts ===== */
 .alert{
   background: linear-gradient(180deg, var(--au-surface), var(--au-surface-2));
   border: 1px solid var(--au-border);
@@ -87,18 +91,18 @@
   margin: .8rem 0 1rem;
 }
 
-/* Tabel */
+/* ===== Table shell ===== */
 .table-wrap{
   background: linear-gradient(180deg, var(--au-surface), var(--au-surface-2));
   border: 1px solid var(--au-border);
   border-radius: var(--au-radius);
   box-shadow: var(--au-shadow);
-  overflow: auto;
+  overflow: auto; /* permite scroll orizontal doar dacă e nevoie pe desktop */
 }
 .users-table{
   width: 100%;
   border-collapse: collapse;
-  min-width: 860px; /* mic overflow pe ecrane foarte înguste */
+  min-width: 860px; /* desktop: păstrează aerul; e anulat pe mobil */
 }
 .users-table thead th{
   background: #1b1b22;
@@ -106,8 +110,11 @@
   padding: .9rem .9rem;
   text-align: left;
   font-weight: 800;
+
+  /* sticky sub navbar */
   position: sticky;
-  top: 0;
+  top: calc(var(--nav-top, 72px));
+  z-index: 5;
 }
 .users-table tbody td{
   padding: .85rem .9rem;
@@ -117,6 +124,7 @@
 }
 .users-table tbody tr:nth-child(odd) td{ background: rgba(255,255,255,.02); }
 
+/* ===== Cells ===== */
 .cell-username{
   font-weight: 900;
   margin-right: .5rem;
@@ -155,7 +163,7 @@
   white-space: nowrap;
 }
 
-/* Butoane */
+/* ===== Buttons ===== */
 .btn{
   display: inline-flex;
   align-items: center;
@@ -263,74 +271,83 @@
   .btn{ width: 100%; }
 }
 
-
-.allusers {
-  padding-top: calc(var(--nav-top, 72px) + 20px);
-}
-
-.users-table thead th {
-  position: sticky;
-  top: calc(var(--nav-top, 72px));
-  z-index: 5;
-}
-
-
-
-/* ====== MOBILE FIX (≤ 900px): tabel compact, fără zoom-out, lizibil cu degetul ====== */
+/* =========================================================
+   MOBILE (≤ 900px): compact + aliniere completă la stânga
+   ========================================================= */
 @media (max-width: 900px){
-  .allusers{
-    padding: 1rem;
-  }
+  .allusers{ padding: 1rem; }
 
-  /* 1) Nu mai forța lățime mare -> elimină nevoia de zoom-out */
+  /* nu forța min-width pe tabel */
   .users-table{
-    min-width: unset;        /* <— asta elimină problema principală */
+    min-width: unset;
     width: 100%;
-    table-layout: fixed;     /* distribuie coloane egal, fără să sară layout-ul */
-    font-size: 0.95rem;
+    table-layout: fixed;
+    font-size: .95rem;
   }
 
-  /* 2) Ascunde coloana ID pe mobil (dă multă lățime pentru puțină valoare) */
+  /* ascunde ID */
   .users-table thead th:nth-child(1),
   .users-table tbody td:nth-child(1){
     display: none;
   }
 
-  /* 3) Header-ul rămâne lipit sub navbarul fix */
+  /* header sticky sub navbar */
   .users-table thead th{
     top: var(--nav-top, 72px);
     z-index: 2;
     padding: .7rem .7rem;
   }
 
-  /* 4) Celule compacte și texte care se rup corect */
+  /* celule compacte + wrap corect */
   .users-table tbody td{
-    padding: .7rem .7rem;
+    padding: .65rem .75rem;
     word-break: break-word;
     overflow-wrap: anywhere;
+    text-align: left !important;
   }
 
-  /* 5) Zona „Rol + acțiuni” pe două rânduri: select pe un rând, butoane sub el */
+  /* coloana „Nume”: vertical stack, TOT pe stânga */
+  .users-table td:nth-child(2){
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 2px;
+  }
+  .users-table td:nth-child(2) .cell-username{
+    display: block;
+    margin: 0 0 2px 0;
+    line-height: 1.25;
+  }
+  .users-table td:nth-child(2) .link-edit{
+    display: block !important;
+    margin: 0;
+    padding: 0;
+    align-self: flex-start;
+    float: none !important;
+    text-align: left !important;
+  }
+
+  /* Rol + acțiuni pe două rânduri, aliniate stânga */
   .rol-edit{
     display: grid;
     grid-template-columns: 1fr;
     gap: .5rem;
+    justify-items: start;
   }
-  .rol-select{
-    width: 100%;
-    min-width: 0;
-  }
+  .rol-select{ width: 100%; min-width: 0; }
+
   .actions{
     display: grid;
-    grid-template-columns: 1fr 1fr;  /* „Salvează” și „Șterge” dacă încap; altfel se rup pe rânduri */
+    grid-template-columns: 1fr 1fr;
     gap: .5rem;
-    white-space: normal;             /* permite wrap la butoane */
+    white-space: normal;
+    justify-items: start;
+    text-align: left !important;
   }
-  .actions .btn{
-    width: 100%;
-  }
+  .actions .btn{ width: 100%; }
 
-  /* 6) Look de „card” pentru rânduri (plăcut vizual pe mobil) */
+  /* look de „card” */
   .users-table tbody tr td:first-child{
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
@@ -340,145 +357,22 @@
     border-bottom-right-radius: 12px;
   }
 
-  /* 7) Butonul mare „Șterge” puțin mai înalt pe mobil */
-  .btn-danger{ height: 40px; }
-}
-
-/* Extra compact pentru telefoane mici */
-@media (max-width: 480px){
-  .users-table{ font-size: 0.9rem; }
-  .users-table tbody td{ padding: .6rem .6rem; }
-  .allusers-head{ gap: .6rem; }
-  .search-wrap{ width: 100%; }
-}
-
-
-/* ====== POLISH: aliniere stânga + layout mai natural pe mobil ====== */
-@media (max-width: 900px){
-  /* aliniere text stânga pentru toate celulele */
-  .users-table thead th,
-  .users-table tbody td {
-    text-align: left;
-  }
-
-  /* textul și butoanele se lipesc de marginea stângă */
-  .users-table tbody td {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-  }
-
-  /* username + "editează" pe același rând, stânga */
-  .cell-username {
-    display: inline-block;
-    font-weight: 900;
-    margin-right: .5rem;
-  }
-  .link-edit {
-    display: inline-block;
-    margin-left: .25rem;
-    color: #ff80a6;
-    font-weight: 800;
-  }
-
-  /* email-ul și restul conținutului rămân stânga */
-  .users-table td:nth-child(3) {
-    text-align: left;
-  }
-
-  /* rolul și acțiunile */
-  .rol-edit {
-    justify-items: start; /* aliniază dropdown + buton la stânga */
-  }
-  .actions {
-    justify-items: start;
-    text-align: left;
-  }
-
-  /* butonul Șterge full-width, dar stânga */
-  .btn-danger {
+  /* buton șterge mai înalt + full width, dar aliniat stânga */
+  .btn-danger{
+    height: 40px;
     width: 100%;
     text-align: left;
     justify-content: flex-start;
     padding-left: 1rem;
   }
+
+  /* search-ul pe un rând separat */
+  .allusers-head{ gap: .6rem; }
+  .search-wrap{ width: 100%; }
 }
 
-/* pe ecrane mai mici, un pic mai compact */
-@media (max-width: 480px) {
-  .users-table tbody td {
-    padding-left: 0.6rem;
-    padding-right: 0.6rem;
-  }
-}
-
-
-/* ===== FIX: aliniere completă la stânga pe mobil (≤ 900px) ===== */
-@media (max-width: 900px){
-  /* 1) Coloana "Nume" devine coloană verticală, stânga */
-  .users-table td:nth-child(2){
-    display: flex !important;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    text-align: left !important;
-    gap: 2px;
-  }
-
-  /* 2) Username pe rândul lui, stânga */
-  .users-table td:nth-child(2) .cell-username{
-    display: block;
-    margin: 0 0 2px 0;
-    line-height: 1.25;
-    text-align: left !important;
-  }
-
-  /* 3) "editează" sub username, stânga (nu în dreapta) */
-  .users-table td:nth-child(2) .link-edit{
-    display: block !important;
-    margin: 0;                 /* anulăm margin-left: .25rem dacă mai există */
-    padding: 0;
-    text-align: left !important;
-    align-self: flex-start;    /* sigur la stânga, indiferent de layout-ul tabelului */
-    float: none !important;    /* împiedică poziționări ciudate pe Safari iOS */
-  }
-
-  /* 4) Toate celulele pe stânga, inclusiv email / rol / acțiuni */
-  .users-table thead th,
-  .users-table tbody td{
-    text-align: left !important;
-  }
-
-  /* 5) Zona "Rol" pe stânga, pe două rânduri (select deasupra butonului) */
-  .rol-edit{
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: .5rem;
-    justify-items: start;      /* stânga */
-  }
-  .rol-select{ width: 100%; min-width: 0; }
-
-  /* 6) Acțiuni pe stânga; butoanele se rup natural pe două coloane dacă încap */
-  .actions{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: .5rem;
-    white-space: normal;
-    justify-items: start;      /* stânga */
-    text-align: left !important;
-  }
-  .actions .btn{ width: 100%; }
-
-  /* 7) Spațiere ușor mai mică în celule pentru o coloană curată */
-  .users-table tbody td{
-    padding: .65rem .75rem;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-  }
-}
-
-/* Extra strâns pentru telefoane mici */
+/* Extra compact pentru telefoane mici */
 @media (max-width: 480px){
   .users-table{ font-size: .9rem; }
   .users-table tbody td{ padding: .6rem .6rem; }
 }
-
