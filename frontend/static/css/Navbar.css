@@ -440,8 +440,8 @@ button.user-chip:focus-visible{
 
 
 
-/* vizibil numai pe mobil */
 .mobile-only { display: none; }
 @media (max-width: 950px){
   .mobile-only { display: block !important; }
+  .logout-item.mobile-only button { width:100%; text-align:left; }
 }

@@ -251,25 +251,26 @@ const Navbar = () => {
 
                     {/* ===== User / Auth ===== */}
                     {isLoggedIn ? (
-                        <li className="dropdown user-menu">
-                            <button className="user-chip" aria-haspopup="true" aria-expanded="false" data-keep="true">
-                                <span className="avatar">{username[0]?.toUpperCase() || "?"}</span>
-                                <span className="greet">
-                  Bine ai venit,&nbsp;<strong className="name" title={username}>{username}</strong>
-                </span>
-                            </button>
-                            <ul className="dropdown-menu dropdown-menu--right">
-                                <li className="dropdown-caption">Conectat ca <strong>{username}</strong></li>
-                                <li className="logout-item"><LogoutButton/></li>
+                        <>
+                            <li className="dropdown user-menu">
+                                <button className="user-chip" aria-haspopup="true" aria-expanded="false"
+                                        data-keep="true">
+                                    <span className="avatar">{username[0]?.toUpperCase() || "?"}</span>
+                                    <span className="greet">
+          Bine ai venit,&nbsp;<strong className="name" title={username}>{username}</strong>
+        </span>
+                                </button>
+                                <ul className="dropdown-menu dropdown-menu--right">
+                                    <li className="dropdown-caption">Conectat ca <strong>{username}</strong></li>
+                                    <li className="logout-item"><LogoutButton/></li>
+                                </ul>
+                            </li>
 
-                                {isLoggedIn && (
-                                    <li className="logout-item mobile-only">
-                                        <LogoutButton/>
-                                    </li>
-                                )}
-
-                            </ul>
-                        </li>
+                            {/* === Logout DOAR pe mobil (în drawer), SIBLING, nu în dropdown === */}
+                            <li className="logout-item mobile-only">
+                                <LogoutButton/>
+                            </li>
+                        </>
                     ) : (
                         <li className="auth-links">
                             <button onClick={handleNavigate("/autentificare")}>Login</button>
