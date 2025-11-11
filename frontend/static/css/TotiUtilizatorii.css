@@ -273,3 +273,82 @@
   top: calc(var(--nav-top, 72px));
   z-index: 5;
 }
+
+
+/* ===== Fix mobil: fără zoom-out, layout compact ===== */
+@media (max-width: 900px){
+  .allusers{
+    padding: 1rem;
+  }
+
+  /* NU mai forța lățime mare pe mobil */
+  .users-table{
+    min-width: unset;         /* <— asta elimină zoom-out-ul */
+    width: 100%;
+    table-layout: fixed;      /* distribuie coloanele egal */
+    font-size: 0.95rem;
+  }
+
+  .users-table thead th{
+    top: var(--nav-top, 72px);   /* rămâne sub navbarul fix */
+    z-index: 1;
+    padding: .7rem .7rem;
+  }
+
+  .users-table tbody td{
+    padding: .7rem .7rem;
+    word-break: break-word;      /* rupe email / nume lungi */
+    overflow-wrap: anywhere;
+  }
+
+  /* “rol + acțiuni” pe două rânduri, aerisit */
+  .rol-edit{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .5rem;
+  }
+  .rol-select{
+    width: 100%;
+    min-width: 0;
+  }
+  .actions{
+    display: grid;
+    grid-template-columns: 1fr 1fr;   /* Salvează | Șterge alături, dacă au loc */
+    gap: .5rem;
+  }
+  .actions .btn{
+    width: 100%;
+  }
+
+  /* Card feeling pentru fiecare rând */
+  .users-table tbody tr td:first-child{
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  .users-table tbody tr td:last-child{
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+
+  /* Butonul mare “Șterge” să nu sară din layout */
+  .btn-danger{
+    height: 40px;
+  }
+}
+
+/* Puțin mai compact pe ecrane foarte mici */
+@media (max-width: 480px){
+  .users-table{
+    font-size: 0.9rem;
+  }
+  .users-table tbody td{
+    padding: .6rem .6rem;
+  }
+  .allusers-head{
+    gap: .6rem;
+  }
+  .search-wrap{
+    width: 100%;
+  }
+}
+
