@@ -167,12 +167,6 @@ const AdminInscrisiConcurs = () => {
                       onChange={e => setEditData({...editData, probe: e.target.value})}
                     />
                   </td>
-                  <td data-label="Concurs">
-                    <input
-                      value={editData.concurs || ""}
-                      onChange={e => setEditData({...editData, concurs: e.target.value})}
-                    />
-                  </td>
                   <td data-label="Data nașterii">
                     <input
                       type="date"
@@ -195,7 +189,7 @@ const AdminInscrisiConcurs = () => {
                   <td data-label="Probe">{s.probe}</td>
                   <td data-label="Concurs">{s.concurs}</td>
                   <td data-label="Data nașterii">{s.data_nasterii}</td>
-                  <td data-label="Acțiuni">
+                  <td>
                     <button className="btn-primary" onClick={() => handleEdit(s)}>Editează</button>
                     <button className="btn-danger" onClick={() => handleDelete(s.id)}>Șterge</button>
                   </td>
