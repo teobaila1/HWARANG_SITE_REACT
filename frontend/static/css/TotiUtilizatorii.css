@@ -454,3 +454,128 @@
     margin-right: 0 !important;
   }
 }
+
+
+/* ==== MOBILE CARD TABLE (iOS-safe): totul pe stânga, fără centrări fantomă ==== */
+@media (max-width: 900px){
+  /* 0) Tabelul devine card-list pe mobil */
+  .users-table{
+    min-width: 0 !important;
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    table-layout: auto !important;
+    text-align: left !important;
+  }
+  .users-table thead{ display:none !important; }   /* ascundem header-ul */
+
+  /* 1) Fiecare TR devine „card” block */
+  .users-table tbody tr{
+    display: block !important;
+    background: linear-gradient(180deg, var(--au-surface), var(--au-surface-2));
+    border: 1px solid var(--au-border);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin: 12px 0;
+    box-shadow: var(--au-shadow);
+  }
+
+  /* 2) Celulele devin rânduri flex aliniate la stânga */
+  .users-table tbody td{
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: .65rem;
+    text-align: left !important;
+    padding: .5rem 0 !important;
+    width: 100% !important;
+  }
+
+  /* 3) Ascundem coloana ID */
+  .users-table tbody td:nth-child(1){ display:none !important; }
+
+  /* 4) Etichete pentru fiecare câmp (folosim ::before) */
+  .users-table tbody td:nth-child(2)::before{ content:"Nume"; }
+  .users-table tbody td:nth-child(3)::before{ content:"Email"; }
+  .users-table tbody td:nth-child(4)::before{ content:"Rol"; }
+  .users-table tbody td:nth-child(5)::before{ content:"Acțiuni"; }
+
+  .users-table tbody td::before{
+    flex: 0 0 82px;               /* lățime etichetă (poți regla) */
+    max-width: 35%;
+    font-weight: 800;
+    color: var(--au-muted);
+    line-height: 1.25;
+  }
+
+  /* 5) Conținutul celulei pe stânga, ocupă restul */
+  .users-table tbody td > *{
+    margin: 0 !important;
+    text-align: left !important;
+  }
+  .users-table tbody td > :not(:first-child){
+    /* spațiu mic între elementele din aceeași celulă (ex: username + editează) */
+    margin-left: .25rem !important;
+  }
+
+  /* 6) „Nume” – username pe rând, editează sub el */
+  .users-table td:nth-child(2){
+    flex-wrap: wrap;
+  }
+  .users-table td:nth-child(2) .cell-username{
+    display:block !important;
+    margin-left: 0 !important;
+    margin-bottom: 2px !important;
+    line-height: 1.25;
+  }
+  .users-table td:nth-child(2) .link-edit{
+    display:inline-block !important;
+    margin-left: 0 !important;
+    color:#ff80a6 !important;
+  }
+
+  /* 7) „Email” se rupe frumos pe linii */
+  .users-table td:nth-child(3){
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  /* 8) „Rol” – dropdown pe un rând, butonul sub el, ambele stânga */
+  .users-table td:nth-child(4) .rol-edit{
+    display:grid !important;
+    grid-template-columns: 1fr !important;
+    gap:.5rem !important;
+    justify-items: start !important;
+    width:100%;
+  }
+  .users-table td:nth-child(4) .rol-select{
+    width:100% !important; min-width:0 !important;
+  }
+  .users-table td:nth-child(4) .btn{
+    justify-self: start !important;
+  }
+
+  /* 9) „Acțiuni” – buton stânga, full width pentru tap ușor */
+  .users-table td:nth-child(5) .actions{
+    display:block !important;
+    text-align:left !important;
+    width:100%;
+  }
+  .users-table td:nth-child(5) .actions .btn{
+    width:100% !important;
+    justify-content:flex-start !important;
+    padding-left:1rem !important;
+  }
+
+  /* 10) Mic polish */
+  .users-table tbody tr:nth-child(odd) td{ background: transparent !important; }
+  .btn-danger{ height: 40px; }
+}
+
+/* compact extra mic */
+@media (max-width: 480px){
+  .users-table tbody tr{ padding: 8px 10px; }
+  .users-table tbody td{ gap:.55rem; }
+  .users-table tbody td::before{ flex-basis: 74px; }
+}
+
