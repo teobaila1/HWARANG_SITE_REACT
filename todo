@@ -144,3 +144,9 @@ mai tre sa modific, cand adaug un parinte nou la antrenori, acolo unde eadminul
 de vede toti userii sa puna implicit Parinte, nu admin, ca si rol
 
 nu merge in prodccutie aia cu api/me la sueri de autentificare
+
+
+ramane de facut mailurile cu noul domeniu de pe maghost
+
+sa verific fiecare functionalitate,
+de facut alta baza de date poate? sa vad putin, sqlite este foarte limitat
