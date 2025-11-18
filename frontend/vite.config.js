@@ -39,6 +39,7 @@ export default defineConfig({
       },
       workbox: {
         navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/images\//, /^\/video\//],
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.origin === self.location.origin,
