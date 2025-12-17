@@ -71,6 +71,12 @@
   --nav-top: 72px;
 }
 
+
+body {
+  padding-top: var(--nav-top);
+}
+
+
 /* când meniul e deschis, blochează scroll-ul paginii */
 body.nav-open { overflow: hidden; }
 
@@ -209,7 +215,7 @@ button.user-chip:focus-visible{
   box-shadow: 0 0 0 3px rgba(255,26,26,.18);
 }
 .dropdown-caption strong{ color: #ffffff; text-shadow: 0 0 10px rgba(255,0,0,.28); }
-.dropdown-caption + .logout-item{ margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,.08); }
+.dropdown-caption + .logout-item{ margin-top: 6px; border-top: 1px solid rgba(255,255,255,.08); }
 .logout-item button{
   width: 100%; text-align: left; background: transparent; border: none; color: #fff;
   padding: .6rem .75rem; border-radius: 8px; font-weight: 800; cursor: pointer;
