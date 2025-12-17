@@ -174,3 +174,11 @@
     pointer-events: auto;
   }
 }
+
+
+/* iOS bottom safe space */
+.navbar .nav-links::after {
+  content: "";
+  display: block;
+  height: 80px;
+}
