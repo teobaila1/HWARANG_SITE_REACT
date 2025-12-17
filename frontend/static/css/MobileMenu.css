@@ -1,275 +1,296 @@
-/* ==========================
-   iOS GLASS FULLSCREEN MENU
-   ========================== */
+/* ==========================================================================
+   iOS STYLE FULLSCREEN MENU (Mobil)
+   ========================================================================== */
 
+/* --- 0. RESETĂRI IMPORTANTE PENTRU DESKTOP --- */
+@media (min-width: 951px) {
+    .mobile-overlay,
+    .hamburger-btn {
+        display: none !important;
+    }
+}
+
+/* --- 1. STILURI PENTRU MOBIL (< 950px) --- */
 @media (max-width: 950px) {
 
-    /* --- 1. Blocare scroll body --- */
+    /* Ascundem bara de navigare veche (linkurile) pentru a nu face conflict */
+    .navbar .nav-links.desktop-only-nav {
+        display: none !important;
+    }
+
+    /* Blocăm scroll-ul paginii când meniul e deschis */
     body.nav-open {
         overflow: hidden;
-        touch-action: none; /* Previne scroll-ul paginii din spate */
+        touch-action: none;
     }
 
-    /* --- 2. Backdrop (Fundalul întunecat) --- */
-    .nav-backdrop {
-        display: block;
+    /* =========================================
+       OVERLAY-UL PRINCIPAL (Ecranul de meniu)
+       ========================================= */
+    .mobile-overlay {
         position: fixed;
         inset: 0;
-        z-index: 4900;
-        background: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(6px); /* Blur mai fin pe spate */
-        -webkit-backdrop-filter: blur(6px);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-    }
-    .nav-backdrop.show {
-        opacity: 1;
-        pointer-events: auto;
-    }
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        z-index: 9999;
 
-    /* --- 3. Panoul Principal (Container) --- */
-    .navbar .nav-links {
-        position: fixed;
-        inset: 0;
-        z-index: 5000;
+        /* SCHIMBAREA ESTE AICI: */
+        /* Fundal negru, dar cu 60% transparență (0.6) */
+        background: rgba(0, 0, 0, 0.60);
 
-        /* Layout Flex vertical */
-        display: flex;
-        flex-direction: column;
-
-        /* Spațiere pentru Safe Area (iPhone Notch/Home Bar) */
-        padding: calc(env(safe-area-inset-top) + 60px) 20px calc(env(safe-area-inset-bottom) + 20px);
-
-        background: rgba(20, 20, 24, 0.85); /* Dark Glass */
+        /* Blur puternic pentru a face textul lizibil peste fundal */
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
 
-        /* Animație intrare */
-        transform: scale(0.96) translateY(10px);
-        opacity: 0;
-        pointer-events: none;
-        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        display: flex;
+        flex-direction: column;
 
-        /* Scroll intern doar dacă e nevoie */
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
+        /* Tranziții */
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(0); /* Începe de pe loc, doar dispare opacity */
+        transition: opacity 0.3s ease, visibility 0.3s;
     }
 
-    .navbar .nav-links.show {
-        transform: scale(1) translateY(0);
+    /* --- STAREA DESCHIS --- */
+    .mobile-overlay.is-open {
         opacity: 1;
+        visibility: visible;
         pointer-events: auto;
     }
 
-    /* --- 4. Stiluri Generale Link-uri & Butoane --- */
-    .navbar .nav-links > li {
-        width: 100%;
-        margin-bottom: 8px;
+    /* =========================================
+       HEADER (Logo + Close)
+       ========================================= */
+    .mobile-menu-header {
         flex-shrink: 0;
-    }
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: max(12px, env(safe-area-inset-top)) 20px 12px;
 
-    /* Ascundem elementele specifice desktop-ului care nu au sens aici */
-    .navbar .nav-links .dropdown-menu {
-        position: static;
-        transform: none;
+        min-height: 70px;
+
+        /* Linie fină, fără fundal solid */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         background: transparent;
-        box-shadow: none;
+    }
+
+    .mobile-logo {
+        height: 40px;
+        width: auto;
+    }
+
+    .mobile-close-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
         border: none;
-        padding: 0;
-        opacity: 1;
-        visibility: visible;
-        min-width: unset;
+        color: #fff;
+        font-size: 28px;
+        line-height: 0;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+    }
 
-        /* Pentru animația acordeonului */
-        max-height: 0;
+    /* =========================================
+       CONȚINUT SCROLLABIL
+       ========================================= */
+    .mobile-menu-content {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 50px 16px 20px 16px;
+    }
+
+    /* Grupuri Acordeon */
+    .mobile-group {
+        background: rgba(255, 255, 255, 0.08); /* Puțin mai deschis */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        margin-bottom: 12px;
         overflow: hidden;
-        transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Când secțiunea e deschisă */
-    .navbar .dropdown.open .dropdown-menu {
-        max-height: 500px; /* Suficient cât să încapă linkurile */
-        padding-top: 8px;
-        padding-bottom: 12px;
-    }
-
-    /* Titlurile de secțiuni (ex: Taekwon-do, Kickbox) */
-    .navbar .menu-title,
-    .navbar .nav-links > li > button,
-    .navbar .join-link button {
+    .mobile-group-toggle {
         width: 100%;
         display: flex;
-        align-items: center;
         justify-content: space-between;
-
-        padding: 16px 18px;
+        align-items: center;
+        padding: 18px;
+        background: transparent;
+        border: none;
+        color: #fff;
         font-size: 1.1rem;
         font-weight: 700;
-        color: #fff;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 16px;
-        transition: background 0.2s;
+        text-align: left;
     }
 
-    .navbar .menu-title:active,
-    .navbar .nav-links > li > button:active {
-        background: rgba(255, 255, 255, 0.1);
-        transform: scale(0.98);
-    }
-
-    /* Săgeată indicatoare pentru dropdown-uri */
-    .navbar .menu-title::after {
-        content: "›";
+    .mobile-group-toggle .arrow {
         font-size: 1.4rem;
-        color: rgba(255,255,255,0.4);
+        color: rgba(255, 255, 255, 0.4);
         transition: transform 0.3s ease;
+    }
+
+    .mobile-group-toggle.active .arrow {
         transform: rotate(90deg);
-    }
-    .navbar .dropdown.open .menu-title::after {
-        transform: rotate(-90deg);
-        color: #fff;
-    }
-    .navbar .dropdown.open .menu-title {
-        background: rgba(255, 255, 255, 0.12);
-        border-color: rgba(255, 255, 255, 0.2);
+        color: #ff4d4d;
     }
 
-    /* Link-urile din interiorul dropdown-ului */
-    .navbar .dropdown-menu li {
-        margin: 4px 0 0 12px; /* Indentare */
+    .mobile-group-toggle.active {
+        background: rgba(255, 255, 255, 0.05);
     }
 
-    .navbar .dropdown-menu button,
-    .navbar .dropdown-menu a {
+    /* Sub-linkuri */
+    .mobile-sub-links {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    .mobile-sub-links.open {
+        max-height: 500px;
+    }
+
+    /* Valoare suficientă */
+    .mobile-sub-links button,
+    .mobile-sub-links a {
+        display: block;
         width: 100%;
-        padding: 12px 16px;
+        text-align: left;
+        padding: 14px 24px;
         font-size: 1rem;
         color: #ccc;
         background: transparent;
-        border-radius: 12px;
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .mobile-sub-links button:active {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+
+    /* Linkuri Simple */
+    .mobile-simple-links {
+        margin-top: 10px;
+    }
+
+    .mobile-simple-links button,
+    .mobile-simple-links a {
+        display: block;
+        width: 100%;
+        padding: 16px 20px;
+        margin-bottom: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        font-size: 1.05rem;
+        font-weight: 600;
+        border-radius: 14px;
+        border: none;
         text-align: left;
+    }
+
+    .mobile-simple-links .highlight-btn {
+        background: #cc0000;
+        box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    /* =========================================
+       FOOTER (User/Auth)
+       ========================================= */
+    .mobile-menu-footer {
+        flex-shrink: 0;
+        padding: 20px;
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+
+        /* Linie fină sus, fundal transparent */
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        background: transparent;
+    }
+
+    /* Auth Buttons */
+    .mobile-auth-row {
         display: flex;
-        align-items: center;
+        gap: 12px;
+    }
+
+    .mobile-auth-row button {
+        flex: 1;
+        padding: 16px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
         border: none;
     }
 
-    .navbar .dropdown-menu button::before,
-    .navbar .dropdown-menu a::before {
-        content: "";
-        width: 6px;
-        height: 6px;
-        background: #ff4d4d;
-        border-radius: 50%;
-        margin-right: 12px;
-        opacity: 0.5;
-    }
-
-    .navbar .dropdown-menu button:active,
-    .navbar .dropdown-menu a:active {
-        background: rgba(255, 255, 255, 0.05);
+    .btn-login {
+        background: rgba(255, 255, 255, 0.15);
         color: #fff;
     }
 
-    /* --- 5. User & Auth (Sticky Bottom) --- */
-    /* Împingem secțiunea de user jos folosind margin-top auto */
-    .navbar .nav-links > li.user-menu,
-    .navbar .nav-links > li.auth-links {
-        margin-top: auto; /* Magia Flexbox */
-        margin-bottom: 0;
-        padding-top: 20px;
-        border-top: 1px solid rgba(255,255,255,0.1);
+    .btn-register {
+        background: #cc0000;
+        color: #fff;
     }
 
-    /* Card User Logat */
-    .user-menu .user-chip {
-        width: 100%;
-        background: linear-gradient(135deg, #1e1e24, #101010);
-        padding: 12px;
-        border-radius: 18px;
-        border: 1px solid rgba(255,255,255,0.1);
+    /* User Card */
+    .mobile-user-card {
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 12px 16px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-user-card .info {
+        display: flex;
+        align-items: center;
         gap: 12px;
     }
 
-    .user-menu .avatar {
-        width: 40px; height: 40px;
-        font-size: 1.2rem;
+    .mobile-user-card .avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff4d4d, #cc0000);
+        display: grid;
+        place-items: center;
+        font-weight: bold;
+        color: #fff;
     }
 
-    .user-menu .greet {
+    .mobile-user-card .text {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
         line-height: 1.2;
     }
-    .user-menu .greet strong {
-        font-size: 1.1rem;
+
+    .mobile-user-card small {
+        color: #aaa;
+        font-size: 0.75rem;
+    }
+
+    .mobile-user-card strong {
         color: #fff;
-    }
-
-    /* Logout Button Mobile */
-    .mobile-logout-btn {
-        margin-top: 12px;
-        width: 100%;
-        padding: 14px;
-        background: rgba(239, 68, 68, 0.15);
-        color: #ef4444;
-        font-weight: 700;
-        border-radius: 14px;
-        text-align: center;
-        border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-    .mobile-logout-btn:active {
-        background: rgba(239, 68, 68, 0.25);
-    }
-
-    /* Login / Register Buttons */
-    .nav-links .auth-links {
-        display: flex;
-        gap: 12px;
-        width: 100%;
-    }
-    .nav-links .auth-links button {
-        flex: 1;
-        padding: 16px;
-        border-radius: 16px;
         font-size: 1rem;
-        text-align: center;
-        justify-content: center;
-    }
-    .nav-links .auth-links button:first-child {
-        background: rgba(255,255,255,0.1);
-    }
-    .nav-links .auth-links button:last-child {
-        background: #cc0000;
-        box-shadow: 0 4px 15px rgba(204, 0, 0, 0.4);
     }
 
-    /* --- 6. Butonul Close (X) --- */
-    .nav-close {
-        display: flex; /* Vizibil doar pe mobile */
-        position: fixed;
-        top: max(16px, env(safe-area-inset-top));
-        right: 20px;
-        width: 36px; height: 36px;
-        background: rgba(50, 50, 50, 0.5);
-        border-radius: 50%;
-        align-items: center; justify-content: center;
-        font-size: 24px;
-        color: #fff;
-        z-index: 5100;
-        border: 1px solid rgba(255,255,255,0.1);
-        backdrop-filter: blur(4px);
-    }
-
-    /* Ascundem elemente desktop inutile */
-    .dropdown-caption,
-    .logout-item,
-    .dropdown-menu--right {
-        display: none !important;
+    .mobile-user-card .action button {
+        background: transparent;
+        color: #ff4d4d;
+        border: 1px solid #ff4d4d;
+        padding: 8px 14px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.85rem;
     }
 }

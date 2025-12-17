@@ -1,221 +1,252 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Link, useNavigate, useLocation} from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
 import "../../static/css/Navbar.css";
 import "../../static/css/MobileMenu.css";
 
 const Navbar = () => {
-    const isLoggedIn = localStorage.getItem("username") !== null;
-    const [rol] = useState(localStorage.getItem("rol"));
-    const username = localStorage.getItem("username") || "";
+  const isLoggedIn = localStorage.getItem("username") !== null;
+  const [rol] = useState(localStorage.getItem("rol"));
+  const username = localStorage.getItem("username") || "";
 
-    const [hideNavbar, setHideNavbar] = useState(false);
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [openSection, setOpenSection] = useState(null);
+  const [hideNavbar, setHideNavbar] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-    const wrapRef = useRef(null);
-    const navRef = useRef(null);
-    const location = useLocation();
-    const navigate = useNavigate();
+  // Stare pentru acordeonul din meniul mobil
+  const [mobileExpanded, setMobileExpanded] = useState({ tkd: false, cal: false, kick: false });
 
-    // Ascunde bara la scroll
-    const lastScrollY = useRef(typeof window !== "undefined" ? window.scrollY : 0);
-    useEffect(() => {
-        const onScroll = () => {
-            const y = window.scrollY;
-            setHideNavbar(y > lastScrollY.current && y > 50 && !menuOpen); // Nu ascunde dacă meniul e deschis
-            lastScrollY.current = y;
-        };
-        window.addEventListener("scroll", onScroll, {passive: true});
-        return () => window.removeEventListener("scroll", onScroll);
-    }, [menuOpen]);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const lastScrollY = useRef(0);
 
-    useEffect(() => {
-        setMenuOpen(false);
-        setOpenSection(null);
-    }, [location.pathname]);
+  // --- 1. LOGICA DE SCROLL (Ascunde bara de sus la scroll în jos) ---
+  useEffect(() => {
+    const onScroll = () => {
+      // Dacă meniul e deschis, NU facem nimic (rămâne fix)
+      if (menuOpen) return;
 
-    // Blocare scroll body
-    useEffect(() => {
-        if (menuOpen) document.body.classList.add("nav-open");
-        else document.body.classList.remove("nav-open");
-    }, [menuOpen]);
-
-    const handleNavigate = (to) => () => {
-        setMenuOpen(false);
-        navigate(to);
+      const y = window.scrollY;
+      // Ascundem doar dacă am scrolat mai mult de 50px și mergem în jos
+      setHideNavbar(y > lastScrollY.current && y > 50);
+      lastScrollY.current = y;
     };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [menuOpen]);
 
-    const toggleSection = (key) => {
-        setOpenSection((prev) => (prev === key ? null : key));
-    };
+  // --- 2. RESET LA NAVIGARE ---
+  useEffect(() => {
+    setMenuOpen(false);
+    setMobileExpanded({ tkd: false, cal: false, kick: false });
+    document.body.classList.remove("nav-open"); // Deblochează scroll
+  }, [location.pathname]);
 
-    return (
-        <header ref={wrapRef}>
-            <nav ref={navRef} className={`navbar ${hideNavbar ? "hide-navbar" : ""}`}>
+  // --- 3. BLOCARE SCROLL CÂND MENIUL E DESCHIS ---
+  useEffect(() => {
+    if (menuOpen) {
+        document.body.classList.add("nav-open");
+    } else {
+        document.body.classList.remove("nav-open");
+    }
+    // Cleanup
+    return () => document.body.classList.remove("nav-open");
+  }, [menuOpen]);
 
-                {/* LOGO */}
-                <div className="navbar-flex-container">
-                    <div className="logo">
-                        <Link to="/acasa" aria-label="Acasă">
-                            <img src="/images/favicon/favicon_circle_BANNER.png" alt="Logo Club"/>
-                        </Link>
+  // Funcții ajutătoare
+  const closeMenu = () => setMenuOpen(false);
+
+  const handleMobileNavigate = (to) => {
+      closeMenu();
+      navigate(to);
+  };
+
+  const toggleMobileSection = (section) => {
+    setMobileExpanded(prev => ({ ...prev, [section]: !prev[section] }));
+  };
+
+  return (
+    <>
+      {/* ================= NAVBAR PRINCIPAL (Bara de sus) ================= */}
+      <nav className={`navbar ${hideNavbar ? "hide-navbar" : ""}`}>
+        <div className="navbar-flex-container">
+          <div className="logo">
+            <Link to="/acasa" aria-label="Acasă">
+              <img src="/images/favicon/favicon_circle_BANNER.png" alt="Logo Club" />
+            </Link>
+          </div>
+        </div>
+
+        {/* BUTON HAMBURGER (Vizibil doar pe mobil) */}
+        {/* Important: Z-index mare pentru a fi peste orice, dar sub overlay-ul deschis */}
+        <button
+            type="button"
+            className="hamburger-btn"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Deschide meniu"
+        >
+            <span/><span/><span/>
+        </button>
+
+        {/* --- MENIU DESKTOP CLASIC (Ascuns complet pe mobil din CSS) --- */}
+        <ul className="nav-links desktop-only-nav">
+             {/* ... Codul existent pentru Desktop ... */}
+             <li className="dropdown">
+                 <a href="#" className="menu-title text-danger">TaeKwon-Do</a>
+                 <ul className="dropdown-menu">
+                     <li><button onClick={() => navigate("/acasa")}>Acasă</button></li>
+                     <li><button onClick={() => navigate("/desprenoi")}>Despre</button></li>
+                     <li><button onClick={() => navigate("/antrenori")}>Antrenori</button></li>
+                     <li><button onClick={() => navigate("/galerie")}>Galerie</button></li>
+                     <li><a href="#footer">Contact</a></li>
+                 </ul>
+             </li>
+             {isLoggedIn && (
+                <li className="dropdown">
+                    <a href="#">Calendar</a>
+                    <ul className="dropdown-menu"><li><button onClick={() => navigate("/calendar2025")}>Calendar 2025</button></li></ul>
+                </li>
+             )}
+             <li className="dropdown">
+                 <a href="#">Kickbox</a>
+                 <ul className="dropdown-menu"><li><button onClick={() => navigate("/training")}>Antrenamente</button></li></ul>
+             </li>
+
+             {!isLoggedIn && (
+                <li className="join-link"><button onClick={() => navigate("/inscriere")}>Alătură-te</button></li>
+             )}
+
+             {isLoggedIn && rol !== "AntrenorExtern" && (
+                <>
+                    <li><a href="https://sites.google.com/hwarang.ro/hwarang-info" target="_blank">Info</a></li>
+                    <li><button onClick={() => navigate("/documente")}>Documente</button></li>
+                </>
+             )}
+
+             {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") && (
+                 <li><button onClick={() => navigate("/concursuri")}>Concursuri</button></li>
+             )}
+
+             {rol === "Parinte" && <li><button onClick={() => navigate("/copiii-mei")}>Copiii mei</button></li>}
+             {rol === "admin" && <li><button onClick={() => navigate("/admin-dashboard")}>Admin</button></li>}
+             {rol === "Antrenor" && <li><button onClick={() => navigate("/antrenor_dashboard")}>Grupe</button></li>}
+             {rol === "AntrenorExtern" && <li><button onClick={() => navigate("/concursuri-extern")}>Extern</button></li>}
+
+             {/* User Desktop */}
+             {isLoggedIn ? (
+               <li className="user-menu-desktop dropdown">
+                   <div className="user-chip">
+                       <span className="avatar">{username[0]?.toUpperCase()}</span>
+                       <span className="name">{username}</span>
+                   </div>
+                   <ul className="dropdown-menu dropdown-menu--right">
+                       <li><LogoutButton/></li>
+                   </ul>
+               </li>
+           ) : (
+               <li className="auth-links-desktop">
+                   <button onClick={() => navigate("/autentificare")}>Login</button>
+                   <button onClick={() => navigate("/inregistrare")}>Înregistrare</button>
+               </li>
+           )}
+        </ul>
+      </nav>
+
+      {/* ==================================================================================
+          NOUL MENIU MOBIL FULL-SCREEN (OVERLAY)
+          Acesta este complet separat de navbar-ul de sus pentru a evita conflictele.
+      ================================================================================== */}
+      <div className={`mobile-overlay ${menuOpen ? "is-open" : ""}`}>
+
+        {/* Header-ul meniului (Logo + Buton Close) */}
+        <div className="mobile-menu-header">
+             <img src="/images/favicon/favicon_circle_BANNER.png" alt="Logo" className="mobile-logo"/>
+             <button className="mobile-close-btn" onClick={closeMenu}>&times;</button>
+        </div>
+
+        {/* Lista de link-uri (Scrollabilă) */}
+        <div className="mobile-menu-content">
+
+            {/* TAEKWON-DO */}
+            <div className="mobile-group">
+                <button className={`mobile-group-toggle ${mobileExpanded.tkd ? 'active' : ''}`} onClick={() => toggleMobileSection('tkd')}>
+                    TaeKwon-Do <span className="arrow">›</span>
+                </button>
+                <div className={`mobile-sub-links ${mobileExpanded.tkd ? 'open' : ''}`}>
+                    <button onClick={() => handleMobileNavigate("/acasa")}>Acasă</button>
+                    <button onClick={() => handleMobileNavigate("/desprenoi")}>Despre Noi</button>
+                    <button onClick={() => handleMobileNavigate("/antrenori")}>Antrenori</button>
+                    <button onClick={() => handleMobileNavigate("/galerie")}>Galerie Foto</button>
+                    <a href="#footer" onClick={closeMenu}>Contact</a>
+                </div>
+            </div>
+
+            {/* CALENDAR */}
+            {isLoggedIn && (
+            <div className="mobile-group">
+                <button className={`mobile-group-toggle ${mobileExpanded.cal ? 'active' : ''}`} onClick={() => toggleMobileSection('cal')}>
+                    Calendar <span className="arrow">›</span>
+                </button>
+                <div className={`mobile-sub-links ${mobileExpanded.cal ? 'open' : ''}`}>
+                    <button onClick={() => handleMobileNavigate("/calendar2025")}>Calendar 2025</button>
+                </div>
+            </div>
+            )}
+
+            {/* KICKBOX */}
+            <div className="mobile-group">
+                 <button className={`mobile-group-toggle ${mobileExpanded.kick ? 'active' : ''}`} onClick={() => toggleMobileSection('kick')}>
+                    Kickbox <span className="arrow">›</span>
+                </button>
+                 <div className={`mobile-sub-links ${mobileExpanded.kick ? 'open' : ''}`}>
+                    <button onClick={() => handleMobileNavigate("/training")}>Antrenamente</button>
+                </div>
+            </div>
+
+            {/* ALTE LINKURI */}
+            <div className="mobile-simple-links">
+                {!isLoggedIn && <button className="highlight-btn" onClick={() => handleMobileNavigate("/inscriere")}>Alătură-te clubului</button>}
+
+                {isLoggedIn && rol !== "AntrenorExtern" && (
+                    <>
+                        <a href="https://sites.google.com/hwarang.ro/hwarang-info" target="_blank" rel="noreferrer">Info Generale</a>
+                        <button onClick={() => handleMobileNavigate("/documente")}>Documente</button>
+                    </>
+                )}
+                {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") && (
+                        <button onClick={() => handleMobileNavigate("/concursuri")}>Concursuri</button>
+                )}
+                {rol === "Parinte" && <button onClick={() => handleMobileNavigate("/copiii-mei")}>Copiii mei</button>}
+                {rol === "admin" && <button onClick={() => handleMobileNavigate("/admin-dashboard")}>Admin Dashboard</button>}
+                {rol === "Antrenor" && <button onClick={() => handleMobileNavigate("/antrenor_dashboard")}>Panou Antrenor</button>}
+            </div>
+        </div>
+
+        {/* Footer-ul meniului (User & Login) - Sticky Bottom */}
+        <div className="mobile-menu-footer">
+            {isLoggedIn ? (
+                <div className="mobile-user-card">
+                    <div className="info">
+                        <div className="avatar">{username[0]?.toUpperCase()}</div>
+                        <div className="text">
+                            <small>Conectat ca</small>
+                            <strong>{username}</strong>
+                        </div>
+                    </div>
+                    <div className="action">
+                         <LogoutButton />
                     </div>
                 </div>
+            ) : (
+                <div className="mobile-auth-row">
+                    <button className="btn-login" onClick={() => handleMobileNavigate("/autentificare")}>Autentificare</button>
+                    <button className="btn-register" onClick={() => handleMobileNavigate("/inregistrare")}>Înregistrare</button>
+                </div>
+            )}
+        </div>
 
-                {/* HAMBURGER BUTON */}
-                <button
-                    type="button"
-                    className={`nav-toggle ${menuOpen ? "is-open" : ""}`}
-                    onClick={() => setMenuOpen((v) => !v)}
-                >
-                    <span/><span/><span/>
-                </button>
-
-                {/* --- MENIU PRINCIPAL --- */}
-                <ul className={`nav-links ${menuOpen ? "show" : ""}`}>
-
-                    {/* 1. TAEKWON-DO */}
-                    <li className={`dropdown ${openSection === "tkd" ? "open" : ""}`}>
-                        <a href="#" className="menu-title text-danger" onClick={(e) => {
-                            e.preventDefault();
-                            toggleSection("tkd");
-                        }}>
-                            TaeKwon-Do
-                        </a>
-                        <ul className="dropdown-menu">
-                            <li>
-                                <button onClick={handleNavigate("/acasa")}>Acasă</button>
-                            </li>
-                            <li>
-                                <button onClick={handleNavigate("/desprenoi")}>Despre</button>
-                            </li>
-                            <li>
-                                <button onClick={handleNavigate("/antrenori")}>Antrenori</button>
-                            </li>
-                            <li>
-                                <button onClick={handleNavigate("/galerie")}>Galerie</button>
-                            </li>
-                            <li><a href="#footer" onClick={() => setMenuOpen(false)}>Contact</a></li>
-                        </ul>
-                    </li>
-
-                    {/* 2. CALENDAR */}
-                    {isLoggedIn && (
-                        <li className={`dropdown ${openSection === "cal" ? "open" : ""}`}>
-                            <a href="#" className="menu-title" onClick={(e) => {
-                                e.preventDefault();
-                                toggleSection("cal");
-                            }}>
-                                Calendar
-                            </a>
-                            <ul className="dropdown-menu">
-                                <li>
-                                    <button onClick={handleNavigate("/calendar2025")}>Calendar 2025</button>
-                                </li>
-                            </ul>
-                        </li>
-                    )}
-
-                    {/* 3. KICKBOX */}
-                    <li className={`dropdown ${openSection === "kick" ? "open" : ""}`}>
-                        <a href="#" className="menu-title" onClick={(e) => {
-                            e.preventDefault();
-                            toggleSection("kick");
-                        }}>
-                            Kickbox
-                        </a>
-                        <ul className="dropdown-menu">
-                            <li>
-                                <button onClick={handleNavigate("/training")}>Antrenamente</button>
-                            </li>
-                        </ul>
-                    </li>
-
-                    {/* LINK-URI SIMPLE (Fără dropdown) */}
-                    {!isLoggedIn && (
-                        <li className="join-link">
-                            <button onClick={handleNavigate("/inscriere")}>Alătură-te</button>
-                        </li>
-                    )}
-
-                    {isLoggedIn && rol !== "AntrenorExtern" && (
-                        <>
-                            <li>
-                                <a href="https://sites.google.com/hwarang.ro/hwarang-info/pagina-de-pornire"
-                                   target="_blank" rel="noreferrer">
-                                    Info Generale
-                                </a>
-                            </li>
-                            <li>
-                                <button onClick={handleNavigate("/documente")}>Documente</button>
-                            </li>
-                        </>
-                    )}
-
-                    {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") && (
-                        <li>
-                            <button onClick={handleNavigate("/concursuri")}>Concursuri</button>
-                        </li>
-                    )}
-
-                    {rol === "Parinte" && <li>
-                        <button onClick={handleNavigate("/copiii-mei")}>Copiii mei</button>
-                    </li>}
-                    {rol === "admin" && <li>
-                        <button onClick={handleNavigate("/admin-dashboard")}>Admin</button>
-                    </li>}
-                    {rol === "Antrenor" && <li>
-                        <button onClick={handleNavigate("/antrenor_dashboard")}>Grupe</button>
-                    </li>}
-                    {rol === "AntrenorExtern" && <li>
-                        <button onClick={handleNavigate("/concursuri-extern")}>Concursuri Ext.</button>
-                    </li>}
-
-                    {/* --- ZONA DE JOS (USER / LOGIN) --- */}
-                    {isLoggedIn ? (
-                        <li className="user-menu">
-                            {/* Pe Desktop e Hover, Pe Mobile e Card Static */}
-                            <div className="user-chip">
-                                <span className="avatar">{username[0]?.toUpperCase() || "?"}</span>
-                                <span className="greet">
-                                    <span style={{opacity: 0.6, fontSize: '0.85em'}}>Conectat ca</span>
-                                    <strong className="name">{username}</strong>
-                                </span>
-                            </div>
-
-                            {/* Desktop Dropdown (ascuns pe mobil prin CSS) */}
-                            <ul className="dropdown-menu dropdown-menu--right">
-                                <li className="dropdown-caption">Conectat ca <strong>{username}</strong></li>
-                                <li className="logout-item"><LogoutButton/></li>
-                            </ul>
-
-                            {/* Mobile Logout (vizibil doar pe mobil prin CSS) */}
-                            <div className="mobile-logout-btn">
-                                <LogoutButton/>
-                            </div>
-                        </li>
-                    ) : (
-                        <li className="auth-links">
-                            <button onClick={handleNavigate("/autentificare")}>Login</button>
-                            <button onClick={handleNavigate("/inregistrare")}>Înregistrare</button>
-                        </li>
-                    )}
-                </ul>
-
-                {/* Buton X pentru închidere (Mobile) */}
-                <button
-                    type="button"
-                    className={`nav-close ${menuOpen ? "show" : ""}`}
-                    onClick={() => setMenuOpen(false)}
-                >
-                    &times;
-                </button>
-            </nav>
-
-            <div className={`nav-backdrop ${menuOpen ? "show" : ""}`} onClick={() => setMenuOpen(false)}/>
-        </header>
-    );
+      </div>
+    </>
+  );
 };
 
 export default Navbar;
