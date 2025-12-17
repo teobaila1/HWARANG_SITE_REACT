@@ -226,7 +226,7 @@ const Navbar = () => {
                 {/* 3. ZONA NOUĂ DE ÎNCHIDERE (JOS) */}
                 <div className="mobile-close-area">
                     <button className="btn-close-menu" onClick={closeMenu}>
-                        Închide Meniul ✕
+                        Închide Meniul
                     </button>
                 </div>
 
