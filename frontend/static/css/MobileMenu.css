@@ -67,34 +67,63 @@
     .mobile-menu-header {
         flex-shrink: 0;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
-        padding: max(12px, env(safe-area-inset-top)) 20px 12px;
 
-        min-height: 70px;
+        /* Spațiere sigură */
+        padding: max(15px, env(safe-area-inset-top)) 20px 10px;
+        min-height: 80px; /* Înălțime garantată */
 
-        /* Linie fină, fără fundal solid */
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        background: transparent;
+        /* Z-index mare ca să stea peste conținut dacă se suprapun */
+        position: relative;
+        z-index: 10002;
+
+        /* Un pic de fundal ca să se vadă headerul separat de restul paginii */
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent);
+        border-bottom: none; /* Scoatem linia, lăsăm gradientul */
     }
 
     .mobile-logo {
-        height: 40px;
+        height: 44px; /* Logo puțin mai mare */
         width: auto;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)); /* Umbră ca să se vadă pe orice fundal */
     }
 
+
     .mobile-close-btn {
-        width: 40px;
-        height: 40px;
+
+        position: absolute;
+        top: max(20px, env(safe-area-inset-top)); /* Ține cont de breton */
+        right: 20px;
+
+        width: 44px;
+        height: 44px;
+
+        /* Îl facem un cerc vizibil */
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
+        background: rgba(255, 255, 255, 0.15); /* Cerc semi-transparent */
+        backdrop-filter: blur(4px); /* Blur în spatele butonului */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+
         color: #fff;
         font-size: 28px;
-        line-height: 0;
-        display: grid;
-        place-items: center;
+
+        /* Centrare perfectă a X-ului */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         cursor: pointer;
+        transition: background 0.2s, transform 0.2s;
+
+        /* Umbră să se vadă și pe alb */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .mobile-close-btn:active {
+        background: #cc0000; /* Se face roșu când apeși, ca feedback */
+        border-color: #cc0000;
+        transform: scale(0.95);
     }
 
     /* =========================================
@@ -104,7 +133,7 @@
         flex: 1;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        padding: 50px 16px 20px 16px;
+        padding: 120px 20px 40px 20px;
     }
 
     /* Grupuri Acordeon */
