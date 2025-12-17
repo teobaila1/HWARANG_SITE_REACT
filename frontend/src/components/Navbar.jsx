@@ -78,18 +78,14 @@ const Navbar = () => {
 
                 {/* BUTON HAMBURGER (Vizibil doar pe mobil) */}
                 {/* Important: Z-index mare pentru a fi peste orice, dar sub overlay-ul deschis */}
-                <div className="mobile-menu-header">
-                    <img src="/images/favicon/favicon_circle_BANNER.png" alt="Logo" className="mobile-logo"/>
-
-                    {/* BUTONUL X NOU (SVG) */}
-                    <button className="mobile-close-btn" onClick={closeMenu} aria-label="Închide">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"
-                             strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
+                <button
+                    type="button"
+                    className="hamburger-btn"
+                    onClick={() => setMenuOpen(true)}
+                    aria-label="Deschide meniu"
+                >
+                    <span/><span/><span/>
+                </button>
 
                 {/* --- MENIU DESKTOP CLASIC (Ascuns complet pe mobil din CSS) --- */}
                 <ul className="nav-links desktop-only-nav">
@@ -194,7 +190,14 @@ const Navbar = () => {
                 {/* Header-ul meniului (Logo + Buton Close) */}
                 <div className="mobile-menu-header">
                     <img src="/images/favicon/favicon_circle_BANNER.png" alt="Logo" className="mobile-logo"/>
-                    <button className="mobile-close-btn" onClick={closeMenu}>&times;</button>
+                    {/* BUTONUL X NOU (SVG) */}
+                    <button className="mobile-close-btn" onClick={closeMenu} aria-label="Închide">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"
+                             strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
                 </div>
 
                 {/* Lista de link-uri (Scrollabilă) */}
