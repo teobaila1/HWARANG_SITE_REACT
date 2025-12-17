@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {Link, useNavigate, useLocation} from "react-router-dom";
 import LogoutButton from "./LogoutButton";
 import "../../static/css/Navbar.css";
+import "../../static/css/MobileMenu.css";
 
 const Navbar = () => {
     const isLoggedIn = localStorage.getItem("username") !== null;
