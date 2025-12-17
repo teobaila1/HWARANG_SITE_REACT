@@ -105,7 +105,7 @@ function App() {
             </Router>
 
             <ToastContainer
-                position="top-center"     // mijloc sus
+                position="bottom-center" // Le pune jos, stil aplicație mobilă
                 autoClose={1000}
                 hideProgressBar={false}
                 newestOnTop
@@ -115,6 +115,7 @@ function App() {
                 draggable={false}
                 theme="dark"
                 limit={1}
+                style={{ zIndex: 999999 }} // Force inline style pentru siguranță
             />
 
         </>

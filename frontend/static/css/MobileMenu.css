@@ -19,97 +19,103 @@
         touch-action: none;
     }
 
-    /* --- OVERLAY PRINCIPAL --- */
+    /* OVERLAY - FLEX COLUMN */
     .mobile-overlay {
         position: fixed;
         inset: 0;
         width: 100vw;
         height: 100vh;
         height: 100dvh;
-        z-index: 9999; /* Peste tot */
-
-        background: rgba(18, 18, 21, 0.90); /* Fundal închis semi-transparent */
+        z-index: 9999;
+        background: rgba(18, 18, 21, 0.95);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
 
         display: flex;
-        flex-direction: column; /* HEADER -> CONTENT -> FOOTER */
+        flex-direction: column; /* HEADER -> CONTENT -> CLOSE BTN -> FOOTER */
 
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        transform: translateY(10px);
-        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        transition: opacity 0.3s ease, visibility 0.3s;
     }
 
     .mobile-overlay.is-open {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
-        transform: translateY(0);
     }
 
-    /* --- HEADER: LOGO + X (Spațiu ocupat fizic) --- */
+    /* HEADER - DOAR LOGO */
     .mobile-menu-header {
         flex-shrink: 0;
         display: flex;
-        justify-content: space-between; /* Logo stânga, X dreapta */
         align-items: center;
+        /* Logo centrat sau stânga - cum preferi. Aici e stânga */
+        justify-content: flex-start;
 
-        padding: max(15px, env(safe-area-inset-top)) 20px 15px;
-        min-height: 80px;
-
-        background: rgba(255, 255, 255, 0.02); /* Ușor vizibil */
+        padding: max(15px, env(safe-area-inset-top)) 20px 10px;
+        min-height: 70px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        position: relative; /* Nu absolute! */
-        z-index: 2;
+        background: transparent;
     }
 
     .mobile-logo {
-        height: 44px;
+        height: 40px;
         width: auto;
     }
 
-    /* --- BUTONUL X (Acum este vizibil și accesibil) --- */
-    .mobile-close-btn {
-        position: relative; /* Normal în flux */
-        width: 44px;
-        height: 44px;
+    /* CONTENT SCROLLABIL */
+    .mobile-menu-content {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        /* Padding normal, nimic nu se suprapune acum */
+        padding: 150px 20px 50px 20px;
+    }
 
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.15); /* Mai vizibil */
-        border: 1px solid rgba(255, 255, 255, 0.2);
+    /* ZONA BUTON ÎNCHIDERE (JOS) */
+    .mobile-close-area {
+        flex-shrink: 0;
+        padding: 0 20px 10px 20px;
+        background: transparent;
+    }
+
+    .btn-close-menu {
+        width: 100%;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
         color: #fff;
-
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
-        padding: 0;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        gap: 8px;
+        transition: background 0.2s;
     }
 
-    .mobile-close-btn:active {
-        background: #cc0000;
-        transform: scale(0.95);
+    .btn-close-menu:active {
+        background: rgba(255, 255, 255, 0.15);
     }
 
-    /* --- CONȚINUT (LISTA) --- */
-    .mobile-menu-content {
-        flex: 1; /* Ocupă tot spațiul dintre Header și Footer */
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-
-        /* AICI E FIX-UL PENTRU TAEKWON-DO */
-        /* Header-ul e deasupra fizic, dar mai adăugăm spațiu ca să arate bine */
-        padding: 40px 20px 40px 20px;
+    /* FOOTER */
+    .mobile-menu-footer {
+        flex-shrink: 0;
+        padding: 20px;
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.2);
     }
 
-    /* Grupuri */
+    /* --- Stiluri Comune (Group, Links, Auth) --- */
     .mobile-group {
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
+        border-radius: 14px;
         margin-bottom: 12px;
         overflow: hidden;
     }
@@ -119,12 +125,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 18px;
+        padding: 16px 18px;
         background: transparent;
         border: none;
         color: #fff;
-        font-size: 1.1rem;
-        font-weight: 700;
+        font-size: 1.05rem;
+        font-weight: 600;
     }
 
     .mobile-group-toggle.active {
@@ -156,34 +162,28 @@
         display: block;
         width: 100%;
         text-align: left;
-        padding: 14px 24px;
-        font-size: 1rem;
+        padding: 12px 20px;
+        font-size: 0.95rem;
         color: #ccc;
         background: transparent;
         border: none;
         border-top: 1px solid rgba(255, 255, 255, 0.03);
     }
 
-    .mobile-sub-links button:active {
-        background: rgba(255, 255, 255, 0.1);
-        color: #fff;
-    }
-
-    /* Linkuri Simple */
     .mobile-simple-links {
-        margin-top: 20px;
+        margin-top: 15px;
     }
 
     .mobile-simple-links button, .mobile-simple-links a {
         display: block;
         width: 100%;
-        padding: 16px 20px;
-        margin-bottom: 10px;
-        background: rgba(255, 255, 255, 0.08);
+        padding: 16px 18px;
+        margin-bottom: 8px;
+        background: rgba(255, 255, 255, 0.05);
         color: #fff;
-        font-size: 1.05rem;
+        font-size: 1rem;
         font-weight: 600;
-        border-radius: 14px;
+        border-radius: 12px;
         border: none;
         text-align: left;
     }
@@ -193,15 +193,6 @@
         text-align: center;
     }
 
-    /* --- FOOTER --- */
-    .mobile-menu-footer {
-        flex-shrink: 0;
-        padding: 20px;
-        padding-bottom: max(20px, env(safe-area-inset-bottom));
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(0, 0, 0, 0.2);
-    }
-
     .mobile-auth-row {
         display: flex;
         gap: 12px;
@@ -209,7 +200,7 @@
 
     .mobile-auth-row button {
         flex: 1;
-        padding: 16px;
+        padding: 14px;
         border-radius: 12px;
         font-weight: 700;
         border: none;
@@ -217,7 +208,7 @@
     }
 
     .btn-login {
-        background: rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.1);
         color: #fff;
     }
 
@@ -231,13 +222,13 @@
         align-items: center;
         justify-content: space-between;
         background: rgba(255, 255, 255, 0.08);
-        padding: 12px 16px;
-        border-radius: 16px;
+        padding: 10px 14px;
+        border-radius: 12px;
     }
 
     .mobile-user-card .avatar {
-        width: 38px;
-        height: 38px;
+        width: 36px;
+        height: 36px;
         border-radius: 50%;
         background: #cc0000;
         display: grid;
@@ -251,10 +242,5 @@
         display: flex;
         flex-direction: column;
         color: #fff;
-    }
-
-    .mobile-user-card small {
-        color: #aaa;
-        font-size: 0.75rem;
     }
 }

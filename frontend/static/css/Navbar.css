@@ -636,3 +636,22 @@ button.user-chip:focus-visible {
         }
     }
 }
+
+
+/* 1. Ridicăm Z-Index la maxim posibil pentru a fi peste meniul mobil */
+.Toastify__toast-container, /* Pentru React-Toastify */
+.toaster,                   /* Generic */
+#toast-container,           /* Generic ID */
+.rrt-holder {               /* React Redux Toastr */
+    z-index: 2147483647 !important; /* Valoarea maximă admisă în CSS */
+}
+
+/* 2. Pe mobil, le coborâm puțin ca să nu fie acoperite de header-ul telefonului */
+@media (max-width: 950px) {
+    .Toastify__toast-container,
+    #toast-container {
+        /* Le împingem sub navbar-ul de sus (care are aprox 70-80px) */
+        top: 90px !important;
+        padding: 0 10px; /* Puțin spațiu lateral */
+    }
+}

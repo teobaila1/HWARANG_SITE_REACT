@@ -17,7 +17,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const lastScrollY = useRef(0);
 
-    // --- SCROLL LOGIC ---
+    // Logică Scroll
     useEffect(() => {
         const onScroll = () => {
             if (menuOpen) return;
@@ -29,14 +29,14 @@ const Navbar = () => {
         return () => window.removeEventListener("scroll", onScroll);
     }, [menuOpen]);
 
-    // --- RESET LA NAVIGARE ---
+    // Resetare la navigare
     useEffect(() => {
         setMenuOpen(false);
         setMobileExpanded({tkd: false, cal: false, kick: false});
         document.body.classList.remove("nav-open");
     }, [location.pathname]);
 
-    // --- BLOCARE BODY SCROLL ---
+    // Blocare Body
     useEffect(() => {
         if (menuOpen) document.body.classList.add("nav-open");
         else document.body.classList.remove("nav-open");
@@ -56,7 +56,7 @@ const Navbar = () => {
 
     return (
         <>
-            {/* ================= NAVBAR PRINCIPAL (Desktop & Hamburger) ================= */}
+            {/* NAVBAR DESKTOP */}
             <nav className={`navbar ${hideNavbar ? "hide-navbar" : ""}`}>
                 <div className="navbar-flex-container">
                     <div className="logo">
@@ -66,18 +66,11 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                {/* Buton Hamburger (Vizibil doar când meniul e ÎNCHIS) */}
-                <button
-                    type="button"
-                    className="hamburger-btn"
-                    onClick={() => setMenuOpen(true)}
-                    aria-label="Deschide meniu"
-                    style={{opacity: menuOpen ? 0 : 1}} // Îl ascundem vizual când meniul e deschis
-                >
+                <button type="button" className="hamburger-btn" onClick={() => setMenuOpen(true)}
+                        style={{opacity: menuOpen ? 0 : 1}}>
                     <span/><span/><span/>
                 </button>
 
-                {/* Meniu Desktop (Ascuns pe mobil din CSS) */}
                 <ul className="nav-links desktop-only-nav">
                     <li className="dropdown">
                         <a href="#" className="menu-title text-danger">TaeKwon-Do</a>
@@ -115,24 +108,22 @@ const Navbar = () => {
                             </li>
                         </ul>
                     </li>
-                    {!isLoggedIn && (
-                        <li className="join-link">
-                            <button onClick={() => navigate("/inscriere")}>Alătură-te</button>
-                        </li>
-                    )}
+                    {!isLoggedIn && <li className="join-link">
+                        <button onClick={() => navigate("/inscriere")}>Alătură-te</button>
+                    </li>}
                     {isLoggedIn && rol !== "AntrenorExtern" && (
                         <>
-                            <li><a href="https://sites.google.com/hwarang.ro/hwarang-info" target="_blank">Info</a></li>
+                            <li><a href="https://sites.google.com/hwarang.ro/hwarang-info" target="_blank"
+                                   rel="noreferrer">Info</a></li>
                             <li>
                                 <button onClick={() => navigate("/documente")}>Documente</button>
                             </li>
                         </>
                     )}
-                    {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") && (
+                    {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") &&
                         <li>
                             <button onClick={() => navigate("/concursuri")}>Concursuri</button>
-                        </li>
-                    )}
+                        </li>}
                     {rol === "Parinte" && <li>
                         <button onClick={() => navigate("/copiii-mei")}>Copiii mei</button>
                     </li>}
@@ -148,10 +139,8 @@ const Navbar = () => {
 
                     {isLoggedIn ? (
                         <li className="user-menu-desktop dropdown">
-                            <div className="user-chip">
-                                <span className="avatar">{username[0]?.toUpperCase()}</span>
-                                <span className="name">{username}</span>
-                            </div>
+                            <div className="user-chip"><span className="avatar">{username[0]?.toUpperCase()}</span><span
+                                className="name">{username}</span></div>
                             <ul className="dropdown-menu dropdown-menu--right">
                                 <li><LogoutButton/></li>
                             </ul>
@@ -165,31 +154,20 @@ const Navbar = () => {
                 </ul>
             </nav>
 
-            {/* ==================================================================================
-                MENIU MOBIL FULL-SCREEN (REPARAT)
-            ================================================================================== */}
+            {/* ================= MENIU MOBIL ================= */}
             <div className={`mobile-overlay ${menuOpen ? "is-open" : ""}`}>
 
-                {/* --- HEADER: Logo (Stânga) + X (Dreapta) --- */}
+                {/* 1. HEADER - DOAR LOGO (FĂRĂ BUTON X) */}
                 <div className="mobile-menu-header">
                     <img src="/images/favicon/favicon_circle_BANNER.png" alt="Logo" className="mobile-logo"/>
-
-                    {/* BUTONUL X - Acum este în dreapta logo-ului, pe același rând */}
-                    <button className="mobile-close-btn" onClick={closeMenu} aria-label="Închide">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"
-                             strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
                 </div>
 
-                {/* --- CONȚINUT --- */}
+                {/* 2. CONȚINUT SCROLLABIL */}
                 <div className="mobile-menu-content">
+                    {/* TaeKwon-Do */}
                     <div className="mobile-group">
                         <button className={`mobile-group-toggle ${mobileExpanded.tkd ? 'active' : ''}`}
-                                onClick={() => toggleMobileSection('tkd')}>
-                            TaeKwon-Do <span className="arrow">›</span>
+                                onClick={() => toggleMobileSection('tkd')}>TaeKwon-Do <span className="arrow">›</span>
                         </button>
                         <div className={`mobile-sub-links ${mobileExpanded.tkd ? 'open' : ''}`}>
                             <button onClick={() => handleMobileNavigate("/acasa")}>Acasă</button>
@@ -200,11 +178,11 @@ const Navbar = () => {
                         </div>
                     </div>
 
+                    {/* Calendar */}
                     {isLoggedIn && (
                         <div className="mobile-group">
                             <button className={`mobile-group-toggle ${mobileExpanded.cal ? 'active' : ''}`}
-                                    onClick={() => toggleMobileSection('cal')}>
-                                Calendar <span className="arrow">›</span>
+                                    onClick={() => toggleMobileSection('cal')}>Calendar <span className="arrow">›</span>
                             </button>
                             <div className={`mobile-sub-links ${mobileExpanded.cal ? 'open' : ''}`}>
                                 <button onClick={() => handleMobileNavigate("/calendar2025")}>Calendar 2025</button>
@@ -212,21 +190,21 @@ const Navbar = () => {
                         </div>
                     )}
 
+                    {/* Kickbox */}
                     <div className="mobile-group">
                         <button className={`mobile-group-toggle ${mobileExpanded.kick ? 'active' : ''}`}
-                                onClick={() => toggleMobileSection('kick')}>
-                            Kickbox <span className="arrow">›</span>
+                                onClick={() => toggleMobileSection('kick')}>Kickbox <span className="arrow">›</span>
                         </button>
                         <div className={`mobile-sub-links ${mobileExpanded.kick ? 'open' : ''}`}>
                             <button onClick={() => handleMobileNavigate("/training")}>Antrenamente</button>
                         </div>
                     </div>
 
+                    {/* Alte Linkuri */}
                     <div className="mobile-simple-links">
                         {!isLoggedIn && <button className="highlight-btn"
                                                 onClick={() => handleMobileNavigate("/inscriere")}>Alătură-te
                             clubului</button>}
-
                         {isLoggedIn && rol !== "AntrenorExtern" && (
                             <>
                                 <a href="https://sites.google.com/hwarang.ro/hwarang-info" target="_blank"
@@ -234,9 +212,8 @@ const Navbar = () => {
                                 <button onClick={() => handleMobileNavigate("/documente")}>Documente</button>
                             </>
                         )}
-                        {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") && (
-                            <button onClick={() => handleMobileNavigate("/concursuri")}>Concursuri</button>
-                        )}
+                        {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") &&
+                            <button onClick={() => handleMobileNavigate("/concursuri")}>Concursuri</button>}
                         {rol === "Parinte" &&
                             <button onClick={() => handleMobileNavigate("/copiii-mei")}>Copiii mei</button>}
                         {rol === "admin" &&
@@ -246,16 +223,20 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                {/* --- FOOTER --- */}
+                {/* 3. ZONA NOUĂ DE ÎNCHIDERE (JOS) */}
+                <div className="mobile-close-area">
+                    <button className="btn-close-menu" onClick={closeMenu}>
+                        Închide Meniul ✕
+                    </button>
+                </div>
+
+                {/* 4. FOOTER (AUTH / USER) */}
                 <div className="mobile-menu-footer">
                     {isLoggedIn ? (
                         <div className="mobile-user-card">
                             <div className="info">
                                 <div className="avatar">{username[0]?.toUpperCase()}</div>
-                                <div className="text">
-                                    <small>Conectat ca</small>
-                                    <strong>{username}</strong>
-                                </div>
+                                <div className="text"><small>Conectat ca</small><strong>{username}</strong></div>
                             </div>
                             <div className="action"><LogoutButton/></div>
                         </div>
@@ -274,5 +255,4 @@ const Navbar = () => {
         </>
     );
 };
-
 export default Navbar;
