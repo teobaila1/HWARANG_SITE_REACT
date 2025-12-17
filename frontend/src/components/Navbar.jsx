@@ -18,8 +18,6 @@ const Navbar = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const touchStartY = useRef(0);
-
     // ascunde/arată navbar la scroll
     const lastScrollY = useRef(typeof window !== "undefined" ? window.scrollY : 0);
     useEffect(() => {
@@ -114,18 +112,6 @@ const Navbar = () => {
                 <ul
                     id="primary-menu"
                     className={`nav-links ${menuOpen ? "show" : ""}`}
-
-                    onTouchStart={(e) => {
-                        touchStartY.current = e.touches[0].clientY;
-                    }}
-                    onTouchMove={(e) => {
-                        const delta = e.touches[0].clientY - touchStartY.current;
-                        if (delta > 80) {
-                            setMenuOpen(false);
-                            document.body.classList.remove("nav-open");
-                        }
-                    }}
-
                     aria-hidden={!menuOpen}
                     onClick={(e) => {
                         // închide panoul doar când se apasă pe un link real (nu pe titlurile de secțiune data-keep)
