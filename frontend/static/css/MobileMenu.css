@@ -92,7 +92,7 @@
 
     .mobile-close-btn {
 
-        position: absolute;
+        position: fixed;
         top: max(20px, env(safe-area-inset-top)); /* Ține cont de breton */
         right: 20px;
 
@@ -119,6 +119,10 @@
         /* Umbră să se vadă și pe alb */
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
+
+    .mobile-close-btn svg {
+    display: block; /* Fix pentru SVG */
+}
 
     .mobile-close-btn:active {
         background: #cc0000; /* Se face roșu când apeși, ca feedback */

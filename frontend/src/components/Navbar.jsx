@@ -198,6 +198,12 @@ const Navbar = () => {
                             <line x1="6" y1="6" x2="18" y2="18"></line>
                         </svg>
                     </button>
+
+                    {/* --- 2. HEADER (Doar Logo acum) --- */}
+                    <div className="mobile-menu-header">
+                        <img src="/images/favicon/favicon_circle_BANNER.png" alt="Logo" className="mobile-logo"/>
+                    </div>
+
                 </div>
 
                 {/* Lista de link-uri (Scrollabilă) */}
