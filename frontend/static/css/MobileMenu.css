@@ -2,31 +2,24 @@
    iOS STYLE FULLSCREEN MENU (Mobil)
    ========================================================================== */
 
-/* --- 0. RESETĂRI IMPORTANTE PENTRU DESKTOP --- */
 @media (min-width: 951px) {
-    .mobile-overlay,
-    .hamburger-btn {
+    .mobile-overlay, .hamburger-btn {
         display: none !important;
     }
 }
 
-/* --- 1. STILURI PENTRU MOBIL (< 950px) --- */
 @media (max-width: 950px) {
 
-    /* Ascundem bara de navigare veche (linkurile) pentru a nu face conflict */
     .navbar .nav-links.desktop-only-nav {
         display: none !important;
     }
 
-    /* Blocăm scroll-ul paginii când meniul e deschis */
     body.nav-open {
         overflow: hidden;
         touch-action: none;
     }
 
-    /* =========================================
-       OVERLAY-UL PRINCIPAL (Ecranul de meniu)
-       ========================================= */
+    /* --- OVERLAY PRINCIPAL --- */
     .mobile-overlay {
         position: fixed;
         inset: 0;
@@ -35,114 +28,95 @@
         height: 100dvh;
         z-index: 9999;
 
-        /* SCHIMBAREA ESTE AICI: */
-        /* Fundal negru, dar cu 60% transparență (0.6) */
         background: rgba(0, 0, 0, 0.60);
-
-        /* Blur puternic pentru a face textul lizibil peste fundal */
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
 
         display: flex;
         flex-direction: column;
 
-        /* Tranziții */
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        transform: translateY(0); /* Începe de pe loc, doar dispare opacity */
-        transition: opacity 0.3s ease, visibility 0.3s;
+        transform: translateY(10px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
     }
 
-    /* --- STAREA DESCHIS --- */
     .mobile-overlay.is-open {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
+        transform: translateY(0);
     }
 
-    /* =========================================
-       HEADER (Logo + Close)
-       ========================================= */
-    .mobile-menu-header {
-        flex-shrink: 0;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-
-        /* Spațiere sigură */
-        padding: max(15px, env(safe-area-inset-top)) 20px 10px;
-        min-height: 80px; /* Înălțime garantată */
-
-        /* Z-index mare ca să stea peste conținut dacă se suprapun */
-        position: relative;
-        z-index: 10002;
-
-        /* Un pic de fundal ca să se vadă headerul separat de restul paginii */
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent);
-        border-bottom: none; /* Scoatem linia, lăsăm gradientul */
-    }
-
-    .mobile-logo {
-        height: 44px; /* Logo puțin mai mare */
-        width: auto;
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)); /* Umbră ca să se vadă pe orice fundal */
-    }
-
-
+    /* --- BUTONUL X (CORECȚIE POZIȚIE) --- */
     .mobile-close-btn {
-
-        position: fixed;
-        top: max(20px, env(safe-area-inset-top)); /* Ține cont de breton */
+        /* Folosim ABSOLUTE relativ la overlay, nu FIXED, pentru a evita conflictul cu transform */
+        position: absolute;
+        top: 20px;
         right: 20px;
+        /* Suport pentru notch/breton iPhone */
+        top: max(20px, env(safe-area-inset-top));
 
         width: 44px;
         height: 44px;
+        z-index: 10005; /* Peste orice altceva din meniu */
 
-        /* Îl facem un cerc vizibil */
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.15); /* Cerc semi-transparent */
-        backdrop-filter: blur(4px); /* Blur în spatele butonului */
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(4px);
         border: 1px solid rgba(255, 255, 255, 0.2);
-
         color: #fff;
-        font-size: 28px;
 
-        /* Centrare perfectă a X-ului */
         display: flex;
         align-items: center;
         justify-content: center;
-
         cursor: pointer;
-        transition: background 0.2s, transform 0.2s;
-
-        /* Umbră să se vadă și pe alb */
+        padding: 0;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
     .mobile-close-btn svg {
-    display: block; /* Fix pentru SVG */
-}
+        display: block;
+    }
 
     .mobile-close-btn:active {
-        background: #cc0000; /* Se face roșu când apeși, ca feedback */
+        background: #cc0000;
         border-color: #cc0000;
         transform: scale(0.95);
     }
 
-    /* =========================================
-       CONȚINUT SCROLLABIL
-       ========================================= */
+    /* --- HEADER (Doar Logo) --- */
+    .mobile-menu-header {
+        flex-shrink: 0;
+        display: flex;
+        justify-content: flex-start; /* Logo stânga */
+        align-items: center;
+        padding: max(15px, env(safe-area-inset-top)) 20px 10px;
+        min-height: 80px;
+        position: relative;
+        /* Scoatem background-ul pentru aspect curat */
+        background: transparent;
+    }
+
+    .mobile-logo {
+        height: 44px;
+        width: auto;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+    }
+
+    /* --- CONȚINUT --- */
     .mobile-menu-content {
         flex: 1;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        padding: 120px 20px 40px 20px;
+        /* Padding mare sus ca să nu intre sub logo */
+        padding: 20px 20px 40px 20px;
     }
 
-    /* Grupuri Acordeon */
+    /* Grupuri și Linkuri (Restul rămâne la fel) */
     .mobile-group {
-        background: rgba(255, 255, 255, 0.08); /* Puțin mai deschis */
+        background: rgba(255, 255, 255, 0.08);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 16px;
         margin-bottom: 12px;
@@ -166,7 +140,7 @@
     .mobile-group-toggle .arrow {
         font-size: 1.4rem;
         color: rgba(255, 255, 255, 0.4);
-        transition: transform 0.3s ease;
+        transition: transform 0.3s;
     }
 
     .mobile-group-toggle.active .arrow {
@@ -178,7 +152,6 @@
         background: rgba(255, 255, 255, 0.05);
     }
 
-    /* Sub-linkuri */
     .mobile-sub-links {
         max-height: 0;
         overflow: hidden;
@@ -190,9 +163,7 @@
         max-height: 500px;
     }
 
-    /* Valoare suficientă */
-    .mobile-sub-links button,
-    .mobile-sub-links a {
+    .mobile-sub-links button, .mobile-sub-links a {
         display: block;
         width: 100%;
         text-align: left;
@@ -209,13 +180,11 @@
         color: #fff;
     }
 
-    /* Linkuri Simple */
     .mobile-simple-links {
         margin-top: 10px;
     }
 
-    .mobile-simple-links button,
-    .mobile-simple-links a {
+    .mobile-simple-links button, .mobile-simple-links a {
         display: block;
         width: 100%;
         padding: 16px 20px;
@@ -231,24 +200,18 @@
 
     .mobile-simple-links .highlight-btn {
         background: #cc0000;
-        box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
         text-align: center;
     }
 
-    /* =========================================
-       FOOTER (User/Auth)
-       ========================================= */
+    /* --- FOOTER --- */
     .mobile-menu-footer {
         flex-shrink: 0;
         padding: 20px;
         padding-bottom: max(20px, env(safe-area-inset-bottom));
-
-        /* Linie fină sus, fundal transparent */
         border-top: 1px solid rgba(255, 255, 255, 0.1);
         background: transparent;
     }
 
-    /* Auth Buttons */
     .mobile-auth-row {
         display: flex;
         gap: 12px;
@@ -273,7 +236,6 @@
         color: #fff;
     }
 
-    /* User Card */
     .mobile-user-card {
         display: flex;
         align-items: center;

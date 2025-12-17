@@ -19,14 +19,11 @@ const Navbar = () => {
     const navigate = useNavigate();
     const lastScrollY = useRef(0);
 
-    // --- 1. LOGICA DE SCROLL (Ascunde bara de sus la scroll în jos) ---
+    // --- LOGICA DE SCROLL ---
     useEffect(() => {
         const onScroll = () => {
-            // Dacă meniul e deschis, NU facem nimic (rămâne fix)
             if (menuOpen) return;
-
             const y = window.scrollY;
-            // Ascundem doar dacă am scrolat mai mult de 50px și mergem în jos
             setHideNavbar(y > lastScrollY.current && y > 50);
             lastScrollY.current = y;
         };
@@ -34,25 +31,20 @@ const Navbar = () => {
         return () => window.removeEventListener("scroll", onScroll);
     }, [menuOpen]);
 
-    // --- 2. RESET LA NAVIGARE ---
+    // --- RESET LA NAVIGARE ---
     useEffect(() => {
         setMenuOpen(false);
         setMobileExpanded({tkd: false, cal: false, kick: false});
-        document.body.classList.remove("nav-open"); // Deblochează scroll
+        document.body.classList.remove("nav-open");
     }, [location.pathname]);
 
-    // --- 3. BLOCARE SCROLL CÂND MENIUL E DESCHIS ---
+    // --- BLOCARE SCROLL ---
     useEffect(() => {
-        if (menuOpen) {
-            document.body.classList.add("nav-open");
-        } else {
-            document.body.classList.remove("nav-open");
-        }
-        // Cleanup
+        if (menuOpen) document.body.classList.add("nav-open");
+        else document.body.classList.remove("nav-open");
         return () => document.body.classList.remove("nav-open");
     }, [menuOpen]);
 
-    // Funcții ajutătoare
     const closeMenu = () => setMenuOpen(false);
 
     const handleMobileNavigate = (to) => {
@@ -66,7 +58,7 @@ const Navbar = () => {
 
     return (
         <>
-            {/* ================= NAVBAR PRINCIPAL (Bara de sus) ================= */}
+            {/* ================= NAVBAR PRINCIPAL (Desktop) ================= */}
             <nav className={`navbar ${hideNavbar ? "hide-navbar" : ""}`}>
                 <div className="navbar-flex-container">
                     <div className="logo">
@@ -76,8 +68,6 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                {/* BUTON HAMBURGER (Vizibil doar pe mobil) */}
-                {/* Important: Z-index mare pentru a fi peste orice, dar sub overlay-ul deschis */}
                 <button
                     type="button"
                     className="hamburger-btn"
@@ -87,9 +77,7 @@ const Navbar = () => {
                     <span/><span/><span/>
                 </button>
 
-                {/* --- MENIU DESKTOP CLASIC (Ascuns complet pe mobil din CSS) --- */}
                 <ul className="nav-links desktop-only-nav">
-                    {/* ... Codul existent pentru Desktop ... */}
                     <li className="dropdown">
                         <a href="#" className="menu-title text-danger">TaeKwon-Do</a>
                         <ul className="dropdown-menu">
@@ -161,7 +149,6 @@ const Navbar = () => {
                         <button onClick={() => navigate("/concursuri-extern")}>Extern</button>
                     </li>}
 
-                    {/* User Desktop */}
                     {isLoggedIn ? (
                         <li className="user-menu-desktop dropdown">
                             <div className="user-chip">
@@ -182,33 +169,26 @@ const Navbar = () => {
             </nav>
 
             {/* ==================================================================================
-          NOUL MENIU MOBIL FULL-SCREEN (OVERLAY)
-          Acesta este complet separat de navbar-ul de sus pentru a evita conflictele.
-      ================================================================================== */}
+                NOUL MENIU MOBIL FULL-SCREEN (OVERLAY)
+            ================================================================================== */}
             <div className={`mobile-overlay ${menuOpen ? "is-open" : ""}`}>
 
-                {/* Header-ul meniului (Logo + Buton Close) */}
+                {/* --- 1. BUTONUL DE ÎNCHIDERE (Important: Primul element, DIRECT în overlay) --- */}
+                <button className="mobile-close-btn" onClick={closeMenu} aria-label="Închide">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"
+                         strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+
+                {/* --- 2. HEADER (Doar Logo) --- */}
                 <div className="mobile-menu-header">
                     <img src="/images/favicon/favicon_circle_BANNER.png" alt="Logo" className="mobile-logo"/>
-                    {/* BUTONUL X NOU (SVG) */}
-                    <button className="mobile-close-btn" onClick={closeMenu} aria-label="Închide">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"
-                             strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-
-                    {/* --- 2. HEADER (Doar Logo acum) --- */}
-                    <div className="mobile-menu-header">
-                        <img src="/images/favicon/favicon_circle_BANNER.png" alt="Logo" className="mobile-logo"/>
-                    </div>
-
                 </div>
 
-                {/* Lista de link-uri (Scrollabilă) */}
+                {/* --- 3. LISTA LINK-URI --- */}
                 <div className="mobile-menu-content">
-
                     {/* TAEKWON-DO */}
                     <div className="mobile-group">
                         <button className={`mobile-group-toggle ${mobileExpanded.tkd ? 'active' : ''}`}
@@ -273,7 +253,7 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                {/* Footer-ul meniului (User & Login) - Sticky Bottom */}
+                {/* --- 4. FOOTER --- */}
                 <div className="mobile-menu-footer">
                     {isLoggedIn ? (
                         <div className="mobile-user-card">
