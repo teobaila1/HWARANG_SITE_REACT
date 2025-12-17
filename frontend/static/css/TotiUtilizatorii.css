@@ -1,27 +1,33 @@
-/* ===== TotiUtilizatorii.css – elegant, dark+red ===== */
+/* ===== Theme tokens ===== */
 :root{
-  --au-bg: #0f0f10;
+  --au-bg: #0b0b0d;
   --au-surface: #111114;
-  --au-surface-2: #16161b;
+  --au-surface-2: #15151b;
   --au-text: #ffffff;
   --au-muted: #b8b8c2;
   --au-border: #2a2a36;
   --au-accent: #ff1a1a;
   --au-accent-2: #b30000;
-  --au-shadow: 0 18px 60px rgba(0,0,0,.35);
+  --au-shadow: 0 18px 40px rgba(0,0,0,.35);
   --au-radius: 14px;
 }
 
 /* ===== Page wrap ===== */
 .allusers{
   min-height: 100vh;
-  background: linear-gradient(180deg, var(--au-bg), #0b0b0d);
+  /* Pe mobil e nevoie de mai mult spațiu sus din cauza navbar-ului iOS style */
+  padding: 100px 16px 48px;
+  background: radial-gradient(circle at top, #1c1c22 0, var(--au-bg) 40%, #050507 100%);
   color: var(--au-text);
-  margin: 0 auto;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
 
-  /* spațiu sub navbar-ul fix */
-  padding-top: calc(var(--nav-top, 72px) + 20px);
+/* toate blocurile principale centrate și cu max-width */
+.allusers-head,
+.table-wrap,
+.alert{
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* ===== Header + search ===== */
@@ -30,50 +36,58 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: .9rem;
+  margin-bottom: 1rem;
   flex-wrap: wrap;
 }
+
 .allusers-head h2{
   margin: 0;
-  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
   font-weight: 900;
-  text-shadow: 0 0 10px rgba(255,0,0,.15);
-  padding-bottom: .35rem;
+  text-shadow: 0 0 10px rgba(255,0,0,.18);
   position: relative;
+  padding-bottom: .3rem;
 }
+
 .allusers-head h2::after{
   content:"";
   position:absolute; left:0; bottom:0;
-  width: 100%; height: 3px;
+  width: 120px; height: 3px;
   background: linear-gradient(90deg, var(--au-accent), var(--au-accent-2));
   border-radius: 999px;
 }
 
 .search-wrap{
   position: relative;
-  width: min(420px, 100%);
+  width: min(380px, 100%);
 }
+
 .search-input{
   width: 100%;
-  padding: .75rem 2.5rem .75rem 1rem;
-  border-radius: 12px;
+  padding: .75rem 2.4rem .75rem 1rem;
+  border-radius: 999px;
   border: 1px solid #2f2f3a;
-  background: #1b1b22;
+  background: #181820;
   color: #fff;
   outline: none;
   transition: border .2s ease, box-shadow .2s ease, background .2s ease;
 }
-.search-input::placeholder{ color:#9b9bac; }
+
+.search-input::placeholder{ color:#9494a3; }
+
 .search-input:focus{
   border-color: var(--au-accent);
   box-shadow: 0 0 0 3px rgba(255,26,26,.25);
   background: #1e1e26;
 }
+
 .btn-clear{
-  position: absolute; right: 8px; top: 50%;
+  position: absolute;
+  right: 10px;
+  top: 50%;
   transform: translateY(-50%);
-  background: transparent;
   border: none;
+  background: transparent;
   color: var(--au-accent);
   font-size: 1.1rem;
   cursor: pointer;
@@ -81,83 +95,101 @@
 
 /* ===== Alerts ===== */
 .alert{
+  margin-top: .5rem;
   background: linear-gradient(180deg, var(--au-surface), var(--au-surface-2));
+  border-radius: 10px;
   border: 1px solid var(--au-border);
-  border-radius: 12px;
-  padding: .9rem 1.1rem;
-  color: #f5f5f8;
+  padding: .8rem 1rem;
   box-shadow: var(--au-shadow);
-  margin: .8rem 0 1rem;
 }
 
-/* ===== Table shell ===== */
+/* ===== Table shell (Desktop Default) ===== */
 .table-wrap{
+  margin-top: .75rem;
   background: linear-gradient(180deg, var(--au-surface), var(--au-surface-2));
-  border: 1px solid var(--au-border);
   border-radius: var(--au-radius);
+  border: 1px solid var(--au-border);
   box-shadow: var(--au-shadow);
-  overflow: auto; /* permite scroll orizontal doar dacă e nevoie pe desktop */
+  /* Pe desktop e ok */
 }
+
+/* Tabelul efectiv */
 .users-table{
   width: 100%;
   border-collapse: collapse;
-  min-width: 860px; /* desktop: păstrează aerul; e anulat pe mobil */
+  color: var(--au-text);
 }
+
 .users-table thead th{
-  background: #1b1b22;
-  color: #e9e9f0;
-  padding: .9rem .9rem;
+  background: #191922;
+  padding: .85rem .9rem;
   text-align: left;
   font-weight: 800;
-
-  /* sticky sub navbar */
+  font-size: .92rem;
   position: sticky;
-  top: calc(var(--nav-top, 72px));
-  z-index: 5;
+  top: 0;
+  z-index: 2;
 }
+
 .users-table tbody td{
-  padding: .85rem .9rem;
+  padding: .8rem .9rem;
   border-top: 1px solid #242433;
-  color: #f3f3f7;
+  font-size: .94rem;
   vertical-align: middle;
 }
-.users-table tbody tr:nth-child(odd) td{ background: rgba(255,255,255,.02); }
+
+/* zebra + hover */
+.users-table tbody tr:nth-child(odd) td{
+  background: rgba(255,255,255,.01);
+}
+.users-table tbody tr:hover td{
+  background: rgba(255,255,255,.03);
+}
 
 /* ===== Cells ===== */
 .cell-username{
-  font-weight: 900;
-  margin-right: .5rem;
+  font-weight: 800;
+  margin-right: .4rem;
+  font-size: 1.05rem; /* Nume mai vizibil */
 }
+
 .link-edit{
-  margin-left: .25rem;
-  background: none;
   border: none;
+  background: none;
   color: #ff80a6;
   cursor: pointer;
-  font-weight: 800;
+  font-weight: 700;
+  font-size: .85rem;
   padding: 0;
 }
-.link-edit:hover{ color: #ff9ec0; text-decoration: underline; }
+
+.link-edit:hover{
+  text-decoration: underline;
+}
 
 /* Rol + acțiuni */
 .rol-edit{
   display: inline-flex;
-  align-items: center;
+  flex-wrap: wrap;
   gap: .5rem;
+  align-items: center;
 }
+
 .rol-select{
-  background: #0f0f13;
+  background: #101017;
   color: #fff;
-  border: 1px solid #2f2f3a;
   border-radius: 10px;
-  padding: .5rem .6rem;
+  border: 1px solid #2f2f3a;
+  padding: .45rem .6rem;
   min-width: 180px;
   outline: none;
 }
+
 .rol-select:focus{
   border-color: var(--au-accent);
-  box-shadow: 0 0 0 3px rgba(255,26,26,.22);
+  box-shadow: 0 0 0 3px rgba(255,26,26,.2);
 }
+
 .actions{
   white-space: nowrap;
 }
@@ -167,414 +199,254 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 38px;
+  height: 34px;
   padding: 0 14px;
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,.06);
-  background: linear-gradient(180deg, #2a2a2a, #1b1b1b);
+  background: linear-gradient(180deg, #2a2a2a, #1c1c1c);
   color: #fff;
-  font-weight: 800;
+  font-weight: 700;
   cursor: pointer;
-  transition: transform .18s ease, box-shadow .22s ease;
+  font-size: .9rem;
+  transition: transform .15s ease, box-shadow .18s ease, background .15s ease;
 }
+
 .btn:hover{
   transform: translateY(-1px);
   box-shadow: 0 10px 24px rgba(0,0,0,.25);
 }
-.btn[disabled]{ opacity: .5; cursor: not-allowed; }
-.btn-sm{ height: 32px; padding: 0 10px; font-size: .92rem; }
+
+.btn[disabled]{
+  opacity: .55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-sm{
+  height: 30px;
+  padding: 0 10px;
+  font-size: .85rem;
+}
+
 .btn-danger{
-  background: linear-gradient(180deg, #5b0b0b, #370404);
+  background: linear-gradient(180deg, #5b0b0b, #3a0505);
   border-color: #3a0a0a;
 }
 
 /* Empty row */
 .users-table .empty{
   text-align: center;
-  color: var(--au-muted);
   padding: 1.2rem .9rem;
+  color: var(--au-muted);
 }
 
-/* ===== Modal (edit nume/email) ===== */
+/* ===== Modal ===== */
 .modal-backdrop{
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,.55);
-  backdrop-filter: blur(4px);
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.8);
+  backdrop-filter: blur(8px);
   display: grid;
   place-items: center;
-  z-index: 2000;
+  z-index: 99999;
   padding: 1rem;
 }
+
 .modal{
   width: 100%;
-  max-width: 640px;
+  max-width: 580px;
   background: linear-gradient(180deg, var(--au-surface), var(--au-surface-2));
-  border: 1px solid var(--au-border);
   border-radius: 16px;
-  box-shadow: 0 22px 70px rgba(0,0,0,.45), inset 0 0 14px rgba(255,0,0,.06);
+  border: 1px solid var(--au-border);
+  box-shadow: 0 24px 70px rgba(0,0,0,.6);
+  padding: 1.5rem;
   color: var(--au-text);
-  padding: 1.1rem 1.2rem 1.2rem;
-  animation: modalIn .18s ease-out;
 }
-@keyframes modalIn{
-  from{ transform: translateY(6px); opacity: .85; }
-  to{ transform: translateY(0); opacity: 1; }
-}
+
 .modal h3{
-  margin: 0 0 .8rem 0;
-  font-size: 1.15rem;
-  font-weight: 900;
-  color: #fff;
-  text-shadow: 0 0 8px rgba(255,0,0,.12);
+  margin: 0 0 1.2rem 0;
+  font-size: 1.25rem;
+  font-weight: 800;
 }
 
 .form-grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: .8rem .9rem;
+  gap: 1rem;
 }
+
 .form-grid label{
-  display: flex; flex-direction: column; gap: .4rem;
-  font-weight: 800; color: #d8d8df;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  font-size: .9rem;
+  font-weight: 700;
 }
+
 .form-grid input{
-  padding: .78rem .95rem;
-  border-radius: 12px;
+  padding: .8rem 1rem;
+  border-radius: 10px;
   border: 1px solid #2b2b38;
-  background: #0c0c0f;
+  background: #0d0d11;
   color: #fff;
   outline: none;
 }
+
 .form-grid input:focus{
   border-color: var(--au-accent);
-  box-shadow: 0 0 0 3px rgba(255,26,26,.22);
-  background: #101015;
+  box-shadow: 0 0 0 3px rgba(255,26,26,.25);
 }
 
 .form-actions{
-  display: flex; justify-content: flex-end; gap: .6rem; margin-top: .6rem;
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: .8rem;
+  margin-top: .8rem;
 }
+
 .btn.btn-primary{
   background: linear-gradient(180deg, var(--au-accent), var(--au-accent-2));
-  border-color: rgba(255,255,255,.06);
-  box-shadow: 0 10px 26px rgba(255,0,0,.22);
+  border-color: rgba(255,255,255,.08);
+  box-shadow: 0 14px 34px rgba(255,0,0,.3);
 }
+
 .btn.btn-primary:hover{
-  box-shadow: 0 16px 36px rgba(255,0,0,.28);
+  box-shadow: 0 18px 40px rgba(255,0,0,.32);
 }
 
-@media (max-width: 720px){
-  .form-grid{ grid-template-columns: 1fr; }
-  .modal{ padding: 1rem; }
-  .form-actions{ flex-direction: column-reverse; align-items: stretch; }
-  .btn{ width: 100%; }
-}
-
-/* =========================================================
-   MOBILE (≤ 900px): compact + aliniere completă la stânga
-   ========================================================= */
+/* =================================================================
+   RESPONSIVE - TRANSFORMARE ÎN CARDURI (MOBIL)
+   ================================================================= */
 @media (max-width: 900px){
-  .allusers{ padding: 1rem; }
+  .allusers{
+    padding: 120px 10px 32px; /* Mai mult loc sus pentru navbar */
+  }
 
-  /* nu forța min-width pe tabel */
-  .users-table{
-    min-width: unset;
+  .allusers-head{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .search-wrap {
     width: 100%;
-    table-layout: fixed;
-    font-size: .95rem;
   }
 
-  /* ascunde ID */
-  .users-table thead th:nth-child(1),
-  .users-table tbody td:nth-child(1){
-    display: none;
+  /* 1. Resetăm containerul tabelului */
+  .table-wrap {
+    background: transparent;
+    box-shadow: none;
+    border: none;
   }
 
-  /* header sticky sub navbar */
-  .users-table thead th{
-    top: var(--nav-top, 72px);
-    z-index: 2;
-    padding: .7rem .7rem;
+  /* 2. Forțăm elementele tabelului să fie block (nu table-cell) */
+  .users-table, .users-table thead, .users-table tbody, .users-table th, .users-table td, .users-table tr {
+    display: block;
   }
 
-  /* celule compacte + wrap corect */
-  .users-table tbody td{
-    padding: .65rem .75rem;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-    text-align: left !important;
+  /* 3. Ascundem header-ul tabelului (ID, Nume, etc.) */
+  .users-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
   }
 
-  /* coloana „Nume”: vertical stack, TOT pe stânga */
-  .users-table td:nth-child(2){
-    display: flex !important;
+  /* 4. Fiecare rând devine un CARTONAȘ (Card) */
+  .users-table tbody tr {
+    background: rgba(255, 255, 255, 0.03); /* Fundal închis subtil */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    margin-bottom: 16px; /* Spațiu între carduri */
+    padding: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  /* 5. Stilul celulelor din card */
+  .users-table td {
+    border: none;
+    position: relative;
+    padding: 8px 0;
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: flex-start;
-    gap: 2px;
-  }
-  .users-table td:nth-child(2) .cell-username{
-    display: block;
-    margin: 0 0 2px 0;
-    line-height: 1.25;
-  }
-  .users-table td:nth-child(2) .link-edit{
-    display: block !important;
-    margin: 0;
-    padding: 0;
-    align-self: flex-start;
-    float: none !important;
-    text-align: left !important;
+    gap: 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   }
 
-  /* Rol + acțiuni pe două rânduri, aliniate stânga */
-  .rol-edit{
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: .5rem;
-    justify-items: start;
-  }
-  .rol-select{ width: 100%; min-width: 0; }
-
-  .actions{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: .5rem;
-    white-space: normal;
-    justify-items: start;
-    text-align: left !important;
-  }
-  .actions .btn{ width: 100%; }
-
-  /* look de „card” */
-  .users-table tbody tr td:first-child{
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-  }
-  .users-table tbody tr td:last-child{
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
+  .users-table td:last-child {
+    border-bottom: none;
   }
 
-  /* buton șterge mai înalt + full width, dar aliniat stânga */
-  .btn-danger{
-    height: 40px;
-    width: 100%;
-    text-align: left;
-    justify-content: flex-start;
-    padding-left: 1rem;
-  }
-
-  /* search-ul pe un rând separat */
-  .allusers-head{ gap: .6rem; }
-  .search-wrap{ width: 100%; }
-}
-
-/* Extra compact pentru telefoane mici */
-@media (max-width: 480px){
-  .users-table{ font-size: .9rem; }
-  .users-table tbody td{ padding: .6rem .6rem; }
-}
-
-
-
-/* ===== FINAL MOBILE OVERRIDES: forțează TOTUL pe stânga (Safari iOS) ===== */
-@media (max-width: 900px){
-  /* 0) Asigură că tabelul nu are centrări moștenite */
-  .users-table,
-  .users-table * {
-    text-align: left !important;
-  }
-
-  /* 1) Celulele: bloc, flux vertical, stânga */
-  .users-table tbody td {
-    display: block;                /* ← rupe orice inline-flex moștenit */
-    text-align: left !important;
-    padding-left: .8rem;
-    padding-right: .8rem;
-  }
-
-  /* 2) Coloana „Nume”: username + editează pe stânga, vertical */
-  .users-table td:nth-child(2){
-    display: block !important;
-  }
-  .users-table td:nth-child(2) .cell-username{
-    display: block !important;
-    margin: 0 0 2px 0 !important;
-  }
-  .users-table td:nth-child(2) .link-edit{
-    display: inline-block !important;
-    margin: 0 !important;
-    float: none !important;
-    align-self: flex-start !important;
-  }
-
-  /* 3) Coloana „Rol”: select pe rândul lui, butonul sub el, ambele stânga */
-  .users-table td:nth-child(4) .rol-edit{
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: .5rem !important;
-    justify-items: start !important;
-    align-items: start !important;
-  }
-  .users-table td:nth-child(4) .rol-select{
-    width: 100% !important;
-    min-width: 0 !important;
-    justify-self: start !important;
-  }
-  .users-table td:nth-child(4) .btn{
-    justify-self: start !important;
-    align-self: start !important;
-    margin: 0 !important;
-  }
-
-  /* 4) Coloana „Acțiuni”: butonul pe stânga, full-width dacă vrei */
-  .users-table td:nth-child(5){
-    display: block !important;
-  }
-  .users-table td:nth-child(5) .actions{
-    display: block !important;
-    text-align: left !important;
-  }
-  .users-table td:nth-child(5) .actions .btn{
-    width: 100% !important;        /* scoate dacă nu vrei full width */
-    justify-content: flex-start !important;
-    text-align: left !important;
-    padding-left: 1rem !important;
-    margin: 0 !important;
-  }
-
-  /* 5) Curăță orice auto-margin care ar putea împinge la dreapta */
-  .users-table .btn,
-  .users-table select,
-  .users-table a,
-  .users-table button{
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-}
-
-
-/* ==== MOBILE CARD TABLE (iOS-safe): totul pe stânga, fără centrări fantomă ==== */
-@media (max-width: 900px){
-  /* 0) Tabelul devine card-list pe mobil */
-  .users-table{
-    min-width: 0 !important;
-    width: 100% !important;
-    border-collapse: separate !important;
-    border-spacing: 0 !important;
-    table-layout: auto !important;
-    text-align: left !important;
-  }
-  .users-table thead{ display:none !important; }   /* ascundem header-ul */
-
-  /* 1) Fiecare TR devine „card” block */
-  .users-table tbody tr{
-    display: block !important;
-    background: linear-gradient(180deg, var(--au-surface), var(--au-surface-2));
-    border: 1px solid var(--au-border);
-    border-radius: 12px;
-    padding: 10px 12px;
-    margin: 12px 0;
-    box-shadow: var(--au-shadow);
-  }
-
-  /* 2) Celulele devin rânduri flex aliniate la stânga */
-  .users-table tbody td{
-    display: flex !important;
-    align-items: flex-start !important;
-    justify-content: flex-start !important;
-    gap: .65rem;
-    text-align: left !important;
-    padding: .5rem 0 !important;
-    width: 100% !important;
-  }
-
-  /* 3) Ascundem coloana ID */
-  .users-table tbody td:nth-child(1){ display:none !important; }
-
-  /* 4) Etichete pentru fiecare câmp (folosim ::before) */
-  .users-table tbody td:nth-child(2)::before{ content:"Nume"; }
-  .users-table tbody td:nth-child(3)::before{ content:"Email"; }
-  .users-table tbody td:nth-child(4)::before{ content:"Rol"; }
-  .users-table tbody td:nth-child(5)::before{ content:"Acțiuni"; }
-
-  .users-table tbody td::before{
-    flex: 0 0 82px;               /* lățime etichetă (poți regla) */
-    max-width: 35%;
-    font-weight: 800;
+  /* 6. Adăugăm etichete (Label) folosind atributul data-label */
+  .users-table td::before {
+    content: attr(data-label);
+    font-size: 0.75rem;
+    text-transform: uppercase;
     color: var(--au-muted);
-    line-height: 1.25;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
   }
 
-  /* 5) Conținutul celulei pe stânga, ocupă restul */
-  .users-table tbody td > *{
-    margin: 0 !important;
-    text-align: left !important;
-  }
-  .users-table tbody td > :not(:first-child){
-    /* spațiu mic între elementele din aceeași celulă (ex: username + editează) */
-    margin-left: .25rem !important;
+  /* Stiluri specifice pentru câmpuri */
+
+  /* Numele utilizatorului - Mare și Alb */
+  .cell-username {
+    font-size: 1.1rem;
+    color: #fff;
   }
 
-  /* 6) „Nume” – username pe rând, editează sub el */
-  .users-table td:nth-child(2){
-    flex-wrap: wrap;
-  }
-  .users-table td:nth-child(2) .cell-username{
-    display:block !important;
-    margin-left: 0 !important;
-    margin-bottom: 2px !important;
-    line-height: 1.25;
-  }
-  .users-table td:nth-child(2) .link-edit{
-    display:inline-block !important;
-    margin-left: 0 !important;
-    color:#ff80a6 !important;
+  /* Containerul de editare Rol (Select + Buton Salvează) */
+  .rol-edit {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Le punem unul sub altul */
+    gap: 10px;
+    margin-top: 5px;
   }
 
-  /* 7) „Email” se rupe frumos pe linii */
-  .users-table td:nth-child(3){
-    word-break: break-word;
-    overflow-wrap: anywhere;
+  .rol-select {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    background: #000;
+    border-color: #444;
   }
 
-  /* 8) „Rol” – dropdown pe un rând, butonul sub el, ambele stânga */
-  .users-table td:nth-child(4) .rol-edit{
-    display:grid !important;
-    grid-template-columns: 1fr !important;
-    gap:.5rem !important;
-    justify-items: start !important;
-    width:100%;
-  }
-  .users-table td:nth-child(4) .rol-select{
-    width:100% !important; min-width:0 !important;
-  }
-  .users-table td:nth-child(4) .btn{
-    justify-self: start !important;
+  /* Butonul Salvează - Lat */
+  .rol-edit .btn {
+    width: 100%;
+    padding: 12px;
+    justify-content: center;
   }
 
-  /* 9) „Acțiuni” – buton stânga, full width pentru tap ușor */
-  .users-table td:nth-child(5) .actions{
-    display:block !important;
-    text-align:left !important;
-    width:100%;
-  }
-  .users-table td:nth-child(5) .actions .btn{
-    width:100% !important;
-    justify-content:flex-start !important;
-    padding-left:1rem !important;
+  /* Acțiuni (Butonul Șterge) */
+  .users-table td.actions {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: none;
   }
 
-  /* 10) Mic polish */
-  .users-table tbody tr:nth-child(odd) td{ background: transparent !important; }
-  .btn-danger{ height: 40px; }
+  .users-table td.actions .btn {
+    width: 100%;
+    height: 44px; /* Buton mare pentru deget */
+    font-size: 1rem;
+  }
+
+  /* Ajustări Modal pe Mobil */
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse; /* Butonul salvează sus sau jos, dar full width */
+  }
+
+  .form-actions .btn {
+    width: 100%;
+    height: 48px;
+  }
 }
-
-/* compact extra mic */
-@media (max-width: 480px){
-  .users-table tbody tr{ padding: 8px 10px; }
-  .users-table tbody td{ gap:.55rem; }
-  .users-table tbody td::before{ flex-basis: 74px; }
-}
-

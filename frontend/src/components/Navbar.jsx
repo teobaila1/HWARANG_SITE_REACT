@@ -204,7 +204,7 @@ const Navbar = () => {
                     <div className="mobile-simple-links">
                         {!isLoggedIn && <button className="highlight-btn"
                                                 onClick={() => handleMobileNavigate("/inscriere")}>Alătură-te
-                            clubului</button>}
+                        </button>}
                         {isLoggedIn && rol !== "AntrenorExtern" && (
                             <>
                                 <a href="https://sites.google.com/hwarang.ro/hwarang-info" target="_blank"
@@ -243,7 +243,7 @@ const Navbar = () => {
                     ) : (
                         <div className="mobile-auth-row">
                             <button className="btn-login"
-                                    onClick={() => handleMobileNavigate("/autentificare")}>Autentificare
+                                    onClick={() => handleMobileNavigate("/autentificare")}>Login
                             </button>
                             <button className="btn-register"
                                     onClick={() => handleMobileNavigate("/inregistrare")}>Înregistrare
