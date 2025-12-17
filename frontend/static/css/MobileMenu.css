@@ -174,10 +174,3 @@
         pointer-events: auto;
     }
 }
-
-
-.navbar .nav-links::after {
-  content: "";
-  display: block;
-  height: 80px;
-}

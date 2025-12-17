@@ -71,6 +71,12 @@
   --nav-top: 72px;
 }
 
+
+body {
+  padding-top: var(--nav-top);
+}
+
+
 /* când meniul e deschis, blochează scroll-ul paginii */
 body.nav-open { overflow: hidden; }
 
