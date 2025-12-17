@@ -263,221 +263,42 @@ button.user-chip:focus-visible{
   .nav-links .auth-links button{ padding: .36rem .5rem; }
 }
 
-/*!* =======================*/
-/*   HAMBURGER + PANOU MOBIL*/
-/*   ======================= *!*/
-
-/*!* — micșorat — *!*/
-/*.nav-toggle{*/
-/*  display:none;                   !* devine vizibil pe mobil *!*/
-/*  margin-left:auto;*/
-/*  width:36px; height:36px;        !* ← mai mic *!*/
-/*  border:1px solid #2a2a2a;*/
-/*  border-radius:10px;*/
-/*  background:#141414;*/
-/*  cursor:pointer;*/
-/*  place-items:center;*/
-/*}*/
-/*.nav-toggle span{*/
-/*  width:18px; height:2px;         !* ← bare mai scurte *!*/
-/*  background:#eee; display:block; transition:.25s;*/
-/*}*/
-/*.nav-toggle span + span{ margin-top:4px; }*/
-/*.nav-toggle.is-open span:nth-child(1){ transform: translateY(6px) rotate(45deg); }*/
-/*.nav-toggle.is-open span:nth-child(2){ opacity:0; }*/
-/*.nav-toggle.is-open span:nth-child(3){ transform: translateY(-6px) rotate(-45deg); }*/
-
-/*!* close „×” și backdrop (ascunse pe desktop) *!*/
-/*.nav-close, .nav-backdrop{ display:none; }*/
-
-/*@media (max-width: 950px){*/
-/*  .nav-toggle{ display:grid; }*/
-
-/*  !* layout desktop ascuns *!*/
-/*  .navbar .nav-links{ display:none !important; }*/
-
-/*  !* Panoul full-screen sub bară *!*/
-/*  .navbar .nav-links{*/
-/*    position: fixed;*/
-/*    inset: 0;*/
-/*    padding: var(--nav-top) 0.9rem calc(1rem + env(safe-area-inset-bottom));*/
-/*    background:#0f0f0f;*/
-/*    border-bottom:1px solid #1e1e1e;*/
-/*    display:grid;*/
-/*    gap:.35rem;*/
-/*    height: 100dvh;*/
-/*    transform-origin: top;*/
-/*    transform: scaleY(0);*/
-/*    opacity: 0;*/
-/*    pointer-events: none;*/
-/*    transition: transform .18s ease, opacity .18s ease;*/
-/*    overflow-y: auto;*/
-/*    -webkit-overflow-scrolling: touch;*/
-/*    z-index: 3000;*/
-/*  }*/
-/*  .navbar .nav-links.show{*/
-/*    display:grid !important;*/
-/*    transform: scaleY(1);*/
-/*    opacity:1;*/
-/*    pointer-events:auto;*/
-/*  }*/
-
-/*  !* Elemente din panou *!*/
-/*  .navbar .nav-links a,*/
-/*  .navbar .nav-links button{*/
-/*    padding:.9rem .9rem;*/
-/*    border-radius:12px;*/
-/*    font-size:1.05rem;*/
-/*  }*/
-
-/*  !* Dropdown-urile devin secțiuni-„card” *!*/
-/*  .navbar .dropdown{*/
-/*    background:#121212; border:1px solid #222; border-radius: 12px; padding: 6px;*/
-/*  }*/
-
-/*  !* ----- ACORDEON (cheia) ----- *!*/
-/*  .navbar .dropdown .menu-title{*/
-/*    width: 100%;*/
-/*    text-align: left;*/
-/*    background: transparent;*/
-/*    border: none;*/
-/*    color: #ff4d4d;*/
-/*    font-weight: 800;*/
-/*    font-size: 1.06rem;*/
-/*    border-radius: 10px;*/
-/*    display:flex; align-items:center; gap:.6rem;*/
-/*    position: relative;*/
-/*  }*/
-/*  !*.navbar .dropdown .menu-title::after{*!*/
-/*  !*  content:"▾";*!*/
-/*  !*  margin-left:auto;*!*/
-/*  !*  transition: transform .25s ease, opacity .25s ease;*!*/
-/*  !*  opacity:.85;*!*/
-/*  !*}*!*/
 
 
-/*  .navbar .dropdown .dropdown-menu{*/
-/*    position: static;*/
-/*    transform: none; visibility: visible;*/
-/*    pointer-events: auto;*/
-/*    opacity: 0; max-height: 0;*/
-/*    overflow: hidden;*/
-/*    background: #141414;*/
-/*    border: 1px solid #222;*/
-/*    border-radius: 10px;*/
-/*    margin: 6px 4px 4px;*/
-/*    padding: 0;                     !* pornește fără padding la închis *!*/
-/*    transition: max-height .35s ease, opacity .25s ease, padding .2s ease;*/
-/*    box-shadow: 0 10px 28px rgba(0,0,0,.35);*/
-/*  }*/
-/*  .navbar .dropdown.open .dropdown-menu{*/
-/*    opacity: 1; max-height: 520px; padding: 4px 6px;*/
-/*  }*/
+/* =======================
+   HAMBURGER BUTTON
+   ======================= */
+.nav-toggle {
+  display: none; /* Ascuns pe desktop */
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.1);
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  z-index: 4100;
+  transition: background .2s;
+}
 
-/*  .navbar .dropdown .dropdown-menu li{ margin: .2rem 0; }*/
-/*  .navbar .dropdown .dropdown-menu a,*/
-/*  .navbar .dropdown .dropdown-menu button{*/
-/*    width: 100%;*/
-/*    text-align: left;*/
-/*    padding: .78rem .8rem;*/
-/*    border-radius: 10px;*/
-/*    background: #101010;*/
-/*    border: 1px solid #1f1f1f;*/
-/*    transition: background .15s ease, border-color .15s ease, transform .04s ease;*/
-/*  }*/
-/*  .navbar .dropdown .dropdown-menu a:active,*/
-/*  .navbar .dropdown .dropdown-menu button:active{*/
-/*    transform: translateY(1px);*/
-/*    background: #181818;*/
-/*    border-color: #2a2a2a;*/
-/*  }*/
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
 
-/*  !* buton × (vizibil doar când panoul e deschis) *!*/
-/*  .nav-close{*/
-/*    position: fixed;*/
-/*    top: calc(var(--nav-top) / 2 - 20px);*/
-/*    right: 10px;*/
-/*    width: 40px; height: 40px;*/
-/*    border-radius: 10px;*/
-/*    border: 1px solid #2a2a2a;*/
-/*    background: #141414; color: #fff;*/
-/*    font-size: 26px; line-height: 1;*/
-/*    display: grid; place-items: center;*/
-/*    z-index: 4100;*/
-/*    opacity: 0; pointer-events: none;*/
-/*    transition: opacity .18s ease;*/
-/*  }*/
-/*  .nav-close.show{ opacity:1; pointer-events:auto; }*/
+/* Afișează hamburgerul doar sub 950px */
+@media (max-width: 950px) {
+  .navbar .nav-links { display: none; } /* Ascunde meniul desktop */
+  .nav-toggle { display: flex; } /* Arată butonul */
 
-/*  !* Backdrop *!*/
-/*  .nav-backdrop{*/
-/*    position: fixed; inset: 0;*/
-/*    background: rgba(0,0,0,.4);*/
-/*    z-index: 2900;*/
-/*    opacity: 0; pointer-events: none;*/
-/*    transition: opacity .18s ease;*/
-/*    display: block;*/
-/*  }*/
-/*  .nav-backdrop.show{ opacity: 1; pointer-events: auto; }*/
-/*}*/
-
-/*!* ===== POLISH MOBILE PANEL (compact, fără spațiu mare sus) ===== *!*/
-/*@media (max-width: 950px){*/
-/*  .navbar .nav-links{*/
-/*    inset: 0;*/
-/*    height: 100svh; !* stabil pe iOS *!*/
-/*    padding: calc(env(safe-area-inset-top) + 8px) 12px*/
-/*             calc(12px + env(safe-area-inset-bottom));*/
-/*    background: #0e0e0e;*/
-/*    gap: .25rem;*/
-/*    border-bottom: 1px solid #1b1b1b;*/
-/*  }*/
-
-/*  .navbar .nav-links a,*/
-/*  .navbar .nav-links button{*/
-/*    padding: .8rem .85rem;*/
-/*    font-size: 1rem;*/
-/*    border-radius: 10px;*/
-/*  }*/
-
-/*  !* subtitlurile grupurilor (nu se aplică aici pentru că folosim .menu-title) *!*/
-/*  .navbar .dropdown > a{ padding-bottom: .0rem; }*/
-/*}*/
-
-
-/*!* când faci scroll spre un ID / titlu, ia în calcul înălțimea barei *!*/
-/*!*html {*!*/
-/*!*  scroll-padding-top: calc(var(--nav-top, 72px) + 16px);*!*/
-/*!*}*!*/
-
-/*!*!* împinge ÎNTREG conținutul sub bară (funcționează pentru toate paginile) *!*!*/
-/*!*body {*!*/
-/*!*  padding-top: calc(var(--nav-top, 72px) + 12px);*!*/
-/*!*}*!*/
-
-/*!* pe mobil, un mic plus ca titlurile să fie sigur vizibile *!*/
-/*@media (max-width: 950px) {*/
-/*  body {*/
-/*    padding-top: calc(var(--nav-top, 58px) + 16px);*/
-/*  }*/
-/*}*/
-
-/*!* iOS notch – alege automat valoarea cea mai sigură *!*/
-/*@supports (padding: max(0px)) {*/
-/*  !*body {*!*/
-/*  !*  padding-top: max(*!*/
-/*  !*    calc(var(--nav-top, 72px) + 12px),*!*/
-/*  !*    calc(env(safe-area-inset-top) + 8px)*!*/
-/*  !*  );*!*/
-/*  !*}*!*/
-/*  @media (max-width: 950px) {*/
-/*    body {*/
-/*      padding-top: max(*/
-/*        calc(var(--nav-top, 58px) + 16px),*/
-/*        calc(env(safe-area-inset-top) + 8px)*/
-/*      );*/
-/*    }*/
-/*  }*/
-/*}*/
-
+  /* Când meniul e deschis, hamburgerul poate dispărea sau se poate transforma,
+     dar avem butonul "X" dedicat în MobileMenu.css, deci îl putem ascunde opțional */
+  .nav-toggle.is-open { opacity: 0; pointer-events: none; }
+}
 

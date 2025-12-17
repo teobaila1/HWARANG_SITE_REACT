@@ -11,75 +11,41 @@ const Navbar = () => {
 
     const [hideNavbar, setHideNavbar] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
-    const [openSection, setOpenSection] = useState(null); // acordeon pe mobil: "tkd" | "cal" | "kick" | null
+    const [openSection, setOpenSection] = useState(null);
 
     const wrapRef = useRef(null);
     const navRef = useRef(null);
     const location = useLocation();
     const navigate = useNavigate();
 
-    // ascunde/arată navbar la scroll
+    // Ascunde bara la scroll
     const lastScrollY = useRef(typeof window !== "undefined" ? window.scrollY : 0);
     useEffect(() => {
         const onScroll = () => {
             const y = window.scrollY;
-            setHideNavbar(y > lastScrollY.current && y > 50);
+            setHideNavbar(y > lastScrollY.current && y > 50 && !menuOpen); // Nu ascunde dacă meniul e deschis
             lastScrollY.current = y;
         };
         window.addEventListener("scroll", onScroll, {passive: true});
         return () => window.removeEventListener("scroll", onScroll);
-    }, []);
+    }, [menuOpen]);
 
-    // setează --nav-top = înălțimea reală a barei
-    useEffect(() => {
-        const setVar = () => {
-            const h = navRef.current?.offsetHeight || 72;
-            document.documentElement.style.setProperty("--nav-top", `${h}px`);
-        };
-        setVar();
-        window.addEventListener("resize", setVar);
-        return () => window.removeEventListener("resize", setVar);
-    }, []);
-
-    // închide meniul la schimbarea rutei
     useEffect(() => {
         setMenuOpen(false);
         setOpenSection(null);
     }, [location.pathname]);
 
-    // închide la click în afara navbar-ului
+    // Blocare scroll body
     useEffect(() => {
-        const onDocClick = (e) => {
-            if (!menuOpen) return;
-            if (!wrapRef.current?.contains(e.target)) setMenuOpen(false);
-        };
-        document.addEventListener("click", onDocClick);
-        return () => document.removeEventListener("click", onDocClick);
-    }, [menuOpen]);
-
-    // ESC + blochează scroll pe body când e deschis
-    useEffect(() => {
-        const onKey = (e) => {
-            if (e.key === "Escape") setMenuOpen(false);
-        };
-        document.addEventListener("keydown", onKey);
         if (menuOpen) document.body.classList.add("nav-open");
         else document.body.classList.remove("nav-open");
-        return () => {
-            document.removeEventListener("keydown", onKey);
-            document.body.classList.remove("nav-open");
-        };
     }, [menuOpen]);
 
-    // helper sigur de navigație (rezolvă tap pe iOS)
     const handleNavigate = (to) => () => {
         setMenuOpen(false);
-        setOpenSection(null);
-        document.body.classList.remove("nav-open");
         navigate(to);
     };
 
-    // toggle pentru secțiuni (acordeon: doar una deschisă)
     const toggleSection = (key) => {
         setOpenSection((prev) => (prev === key ? null : key));
     };
@@ -87,7 +53,8 @@ const Navbar = () => {
     return (
         <header ref={wrapRef}>
             <nav ref={navRef} className={`navbar ${hideNavbar ? "hide-navbar" : ""}`}>
-                {/* stânga: logo */}
+
+                {/* LOGO */}
                 <div className="navbar-flex-container">
                     <div className="logo">
                         <Link to="/acasa" aria-label="Acasă">
@@ -96,51 +63,27 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                {/* buton hamburger (mobil) */}
+                {/* HAMBURGER BUTON */}
                 <button
                     type="button"
                     className={`nav-toggle ${menuOpen ? "is-open" : ""}`}
-                    aria-label={menuOpen ? "Închide meniul" : "Deschide meniul"}
-                    aria-expanded={menuOpen}
-                    aria-controls="primary-menu"
                     onClick={() => setMenuOpen((v) => !v)}
                 >
                     <span/><span/><span/>
                 </button>
 
-                {/* MENIU */}
-                <ul
-                    id="primary-menu"
-                    className={`nav-links ${menuOpen ? "show" : ""}`}
-                    aria-hidden={!menuOpen}
-                    onClick={(e) => {
-                        // închide panoul doar când se apasă pe un link real (nu pe titlurile de secțiune data-keep)
-                        const a = e.target.closest("a,button");
-                        if (!a) return;
-                        if (a.dataset.keep === "true") return;
-                        // pentru ancore interne tratăm în handleNavigate; aici nu forțăm nimic
-                    }}
-                >
-                    {/* ===== TAEKWON-DO (acordeon) ===== */}
+                {/* --- MENIU PRINCIPAL --- */}
+                <ul className={`nav-links ${menuOpen ? "show" : ""}`}>
+
+                    {/* 1. TAEKWON-DO */}
                     <li className={`dropdown ${openSection === "tkd" ? "open" : ""}`}>
-                        {/* titlu-secțiune: arată ca link, nu navighează; doar toggle */}
-                        <a
-                            href="#"
-                            className="menu-title text-danger"
-                            role="button"
-                            aria-expanded={openSection === "tkd"}
-                            aria-controls="tkd-submenu"
-                            data-keep="true"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                toggleSection("tkd");
-                            }}
-                        >
+                        <a href="#" className="menu-title text-danger" onClick={(e) => {
+                            e.preventDefault();
+                            toggleSection("tkd");
+                        }}>
                             TaeKwon-Do
                         </a>
-
-                        <ul id="tkd-submenu" className="dropdown-menu">
+                        <ul className="dropdown-menu">
                             <li>
                                 <button onClick={handleNavigate("/acasa")}>Acasă</button>
                             </li>
@@ -157,24 +100,16 @@ const Navbar = () => {
                         </ul>
                     </li>
 
-                    {/* ===== CALENDAR (doar logat) ===== */}
+                    {/* 2. CALENDAR */}
                     {isLoggedIn && (
                         <li className={`dropdown ${openSection === "cal" ? "open" : ""}`}>
-                            <a
-                                href="#"
-                                className="menu-title"
-                                role="button"
-                                aria-expanded={openSection === "cal"}
-                                aria-controls="cal-submenu"
-                                data-keep="true"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    toggleSection("cal");
-                                }}
-                            >
+                            <a href="#" className="menu-title" onClick={(e) => {
+                                e.preventDefault();
+                                toggleSection("cal");
+                            }}>
                                 Calendar
                             </a>
-                            <ul id="cal-submenu" className="dropdown-menu">
+                            <ul className="dropdown-menu">
                                 <li>
                                     <button onClick={handleNavigate("/calendar2025")}>Calendar 2025</button>
                                 </li>
@@ -182,47 +117,34 @@ const Navbar = () => {
                         </li>
                     )}
 
-                    {/* ===== KICKBOX ===== */}
+                    {/* 3. KICKBOX */}
                     <li className={`dropdown ${openSection === "kick" ? "open" : ""}`}>
-                        <a
-                            href="#"
-                            className="menu-title"
-                            role="button"
-                            aria-expanded={openSection === "kick"}
-                            aria-controls="kick-submenu"
-                            data-keep="true"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                toggleSection("kick");
-                            }}
-                        >
+                        <a href="#" className="menu-title" onClick={(e) => {
+                            e.preventDefault();
+                            toggleSection("kick");
+                        }}>
                             Kickbox
                         </a>
-                        <ul id="kick-submenu" className="dropdown-menu">
+                        <ul className="dropdown-menu">
                             <li>
                                 <button onClick={handleNavigate("/training")}>Antrenamente</button>
                             </li>
                         </ul>
                     </li>
 
-                    {/* ===== Alătură-te ===== */}
+                    {/* LINK-URI SIMPLE (Fără dropdown) */}
                     {!isLoggedIn && (
                         <li className="join-link">
                             <button onClick={handleNavigate("/inscriere")}>Alătură-te</button>
                         </li>
                     )}
 
-                    {/* ===== Diverse după rol ===== */}
                     {isLoggedIn && rol !== "AntrenorExtern" && (
                         <>
                             <li>
-                                <a
-                                    href="https://sites.google.com/hwarang.ro/hwarang-info/pagina-de-pornire"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    onClick={() => setMenuOpen(false)}
-                                >
-                                    Informații generale TKD
+                                <a href="https://sites.google.com/hwarang.ro/hwarang-info/pagina-de-pornire"
+                                   target="_blank" rel="noreferrer">
+                                    Info Generale
                                 </a>
                             </li>
                             <li>
@@ -247,37 +169,29 @@ const Navbar = () => {
                         <button onClick={handleNavigate("/antrenor_dashboard")}>Grupe</button>
                     </li>}
                     {rol === "AntrenorExtern" && <li>
-                        <button onClick={handleNavigate("/concursuri-extern")}>Concursuri</button>
+                        <button onClick={handleNavigate("/concursuri-extern")}>Concursuri Ext.</button>
                     </li>}
 
-                    {/* ===== User / Auth ===== */}
+                    {/* --- ZONA DE JOS (USER / LOGIN) --- */}
                     {isLoggedIn ? (
-                        <li className={`dropdown user-menu ${openSection === "user" ? "open" : ""}`}>
-                            <button
-                                className="user-chip"
-                                aria-haspopup="true"
-                                aria-expanded={openSection === "user"}
-                                data-keep="true"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    toggleSection("user");
-                                }}
-                            >
+                        <li className="user-menu">
+                            {/* Pe Desktop e Hover, Pe Mobile e Card Static */}
+                            <div className="user-chip">
                                 <span className="avatar">{username[0]?.toUpperCase() || "?"}</span>
                                 <span className="greet">
-                Bine ai venit,&nbsp;<strong className="name" title={username}>{username}</strong>
-            </span>
-                            </button>
+                                    <span style={{opacity: 0.6, fontSize: '0.85em'}}>Conectat ca</span>
+                                    <strong className="name">{username}</strong>
+                                </span>
+                            </div>
 
-                            {/* Desktop dropdown */}
+                            {/* Desktop Dropdown (ascuns pe mobil prin CSS) */}
                             <ul className="dropdown-menu dropdown-menu--right">
                                 <li className="dropdown-caption">Conectat ca <strong>{username}</strong></li>
                                 <li className="logout-item"><LogoutButton/></li>
                             </ul>
 
-                            {/* Mobile-only logout button - placed outside dropdown */}
-                            <div className="mobile-only logout-item-mobile">
+                            {/* Mobile Logout (vizibil doar pe mobil prin CSS) */}
+                            <div className="mobile-logout-btn">
                                 <LogoutButton/>
                             </div>
                         </li>
@@ -289,22 +203,17 @@ const Navbar = () => {
                     )}
                 </ul>
 
-                {/* buton închidere (mobil) */}
+                {/* Buton X pentru închidere (Mobile) */}
                 <button
                     type="button"
                     className={`nav-close ${menuOpen ? "show" : ""}`}
-                    aria-label="Închide meniul"
                     onClick={() => setMenuOpen(false)}
                 >
-                    ×
+                    &times;
                 </button>
             </nav>
 
-            {/* backdrop – tap închide */}
-            <div
-                className={`nav-backdrop ${menuOpen ? "show" : ""}`}
-                onClick={() => setMenuOpen(false)}
-            />
+            <div className={`nav-backdrop ${menuOpen ? "show" : ""}`} onClick={() => setMenuOpen(false)}/>
         </header>
     );
 };
