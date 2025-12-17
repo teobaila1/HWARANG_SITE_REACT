@@ -135,13 +135,23 @@
     --nb-border: rgba(255, 255, 255, .09);
     --nb-radius: 14px;
 
-    /* înălțimea reală a barei (actualizată din JS) */
-    --nav-top: 72px;
+    /* Înălțimea standard pentru Desktop */
+    --nav-top: 80px;
+}
+
+/* AICI ESTE MODIFICAREA: */
+body {
+    /* Pe desktop lăsăm 80px */
+    padding-top: var(--nav-top);
 }
 
 
-body {
-    padding-top: var(--nav-top);
+/* PE MOBIL: Forțăm conținutul să coboare mai mult */
+@media (max-width: 950px) {
+    body {
+        /* Mărim spațiul de sus la 110px sau chiar 120px */
+        padding-top: 110px !important;
+    }
 }
 
 
