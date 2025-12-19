@@ -150,3 +150,19 @@ ramane de facut mailurile cu noul domeniu de pe maghost
 
 sa verific fiecare functionalitate,
 de facut alta baza de date poate? sa vad putin, sqlite este foarte limitat
+
+
+de schimbat baza de date, sa modific fiecare fisier din backend, fiecare, pe alea
+cu albastru le-am luat pana la evidenta_plati.py sa inlocuiesc cu postgresql,
+sa vad cum merge, am nevoie de asta, sa nu se mai stearga userii, am inceput cu autentificare.py.
+am ramas la evidenta_plati.py de pus in chatgpt
+
+
+
+
+17 decembrie:
+
+de facut acolo la pagina de antrenori ca nu arata bine pe tel -> facut
+de facut la inscrieri concurs sa fie aliniate toate la colt ('genul' este pe mijloc la 'vezi inscrieri') -> facut
+de verificat fiecare pagina in parte pe telefon, daca nu e okay, modificam
+de facut pentru antrenori externi -> nu mai stiu

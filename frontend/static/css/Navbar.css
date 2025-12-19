@@ -139,11 +139,11 @@
     --nav-top: 80px;
 }
 
-/* AICI ESTE MODIFICAREA: */
-body {
-    /* Pe desktop lăsăm 80px */
-    padding-top: var(--nav-top);
-}
+/*!* AICI ESTE MODIFICAREA: *!*/
+/*body {*/
+/*    !* Pe desktop lăsăm 80px *!*/
+/*    padding-top: var(--nav-top);*/
+/*}*/
 
 
 /* PE MOBIL: Forțăm conținutul să coboare mai mult */
@@ -351,23 +351,35 @@ button.user-chip:focus-visible {
 
 /* --- user chip --- */
 .user-menu .user-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: .55rem;
-    padding: .45rem .7rem;
+    padding: 6px 14px !important;
+    gap: 10px !important;
+    background: rgba(255, 255, 255, 0.08); /* Fundal subtil */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px !important; /* Complet rotund la capete */
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
 
+
+.user-menu .user-chip:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+
 .user-menu .avatar {
-    width: 28px;
-    height: 28px;
     border-radius: 999px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(180deg, var(--nb-accent), var(--nb-accent-2));
     color: #fff;
-    font-weight: 900;
-    box-shadow: 0 8px 18px rgba(255, 0, 0, .25);
+    width: 36px !important;   /* Era 28px */
+    height: 36px !important;
+    font-size: 1.1rem !important;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3); /* Umbră roșie fină */
 }
 
 .user-menu .greet {
@@ -477,13 +489,13 @@ button.user-chip:focus-visible {
     min-width: 0;
 }
 
-.user-menu .user-chip {
-    display: flex;
-    align-items: center;
-    gap: .55rem;
-    min-width: 0;
-    white-space: nowrap;
-}
+/*.user-menu .user-chip {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    gap: .55rem;*/
+/*    min-width: 0;*/
+/*    white-space: nowrap;*/
+/*}*/
 
 .user-menu .greet {
     display: flex;
@@ -494,13 +506,14 @@ button.user-chip:focus-visible {
 }
 
 .user-menu .name {
-    display: block;
-    flex: 1 1 auto;
-    min-width: 0;
-    overflow: hidden;
+font-size: 1.05rem !important; /* Era ~0.9rem */
+    font-weight: 600 !important;
+    letter-spacing: 0.3px;
+    color: #fff;
+    max-width: 150px; /* Previne nume extrem de lungi */
     text-overflow: ellipsis;
+    overflow: hidden;
     white-space: nowrap;
-    max-width: none;
 }
 
 .nav-links .join-link {
@@ -664,4 +677,90 @@ button.user-chip:focus-visible {
         top: 90px !important;
         padding: 0 10px; /* Puțin spațiu lateral */
     }
+}
+
+
+/* =========================================
+   MODERN USER DROPDOWN (DESKTOP)
+   ========================================= */
+
+/* 1. Containerul Dropdown - Mai lat și elegant */
+.user-dropdown-modern {
+    min-width: 260px; /* Mai lat pentru a încăpea nume lungi */
+    padding: 8px;
+    background: #141414; /* Fundal solid închis */
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Bordură subtilă */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6); /* Umbră puternică */
+    border-radius: 16px; /* Colțuri rotunjite modern */
+    right: 0;
+    left: auto;
+    margin-top: 10px;
+}
+
+/* 2. Header-ul (Conectat ca + Nume) */
+.user-dropdown-modern .user-header {
+    padding: 14px 18px; /* Spațiere generoasă */
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    cursor: default;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Linie fină dedesubt */
+    margin-bottom: 6px;
+}
+
+/* Textul "Conectat ca" - MAI MARE */
+.user-dropdown-modern .user-header small {
+    color: #a0a0a0; /* Gri deschis, ușor de citit */
+    font-size: 0.9rem; /* Mărit (era prea mic) */
+    font-weight: 500;
+    text-transform: none; /* Fără majuscule forțate */
+    letter-spacing: 0.3px;
+    display: block;
+}
+
+/* Numele Utilizatorului */
+.user-dropdown-modern .user-header span {
+    color: #ffffff;
+    font-size: 1.15rem; /* Mărit și el */
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+}
+
+/* Ascundem div-ul separator vechi dacă există, folosim border-bottom pe header */
+.user-dropdown-modern .dropdown-divider {
+    display: none;
+}
+
+/* 3. Butonul de Logout */
+.user-dropdown-modern .logout-li {
+    padding: 4px;
+}
+
+/* Stilizăm butonul din interiorul componentei LogoutButton */
+.user-dropdown-modern .logout-li button {
+    width: 100%;
+    text-align: left;
+    background: transparent; /* Transparent inițial */
+    color: #ff4d4d; /* Text Roșu */
+    font-weight: 600;
+    font-size: 1rem; /* Text lizibil */
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Pentru a pune iconița (dacă există) în dreapta */
+    transition: all 0.2s ease;
+}
+
+/* Hover pe butonul de logout */
+.user-dropdown-modern .logout-li button:hover {
+    background: rgba(255, 26, 26, 0.1); /* Fundal roșu foarte pal */
+    color: #ff6666; /* Roșu mai deschis */
+    padding-left: 20px; /* Efect de mișcare spre dreapta */
 }

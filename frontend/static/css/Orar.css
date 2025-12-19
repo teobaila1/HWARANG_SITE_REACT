@@ -1,70 +1,177 @@
-/* ORAR */
+/* =========================================
+   Orar.css - Redesign Desktop & Mobile
+   ========================================= */
+
 .orar-section {
-  background-color: #161616;
-  color: white;
-  padding: 3rem 2rem;
+    background-color: #161616;
+    color: white;
+    padding: 4rem 1rem;
+    position: relative;
 }
 
-.orar-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
+.section-title-orar {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.orar-carousel {
-  background: #161616;
-  padding: 4rem 2rem;
-  color: white;
+.orar-carousel-wrapper {
+    max-width: 1300px; /* Limităm lățimea pe ecrane mari */
+    margin: 0 auto;
+    padding: 0 50px; /* Lăsăm loc pentru săgeți stânga/dreapta */
+    position: relative;
 }
 
+/* Container Swiper */
+.orar-swiper {
+    padding-bottom: 50px !important; /* Loc pentru buline jos */
+}
+
+/* CARDUL ORAR */
 .orar-card {
-  background-color: black;
-  padding: 2rem;
-  border-radius: 12px;
-  max-width: 350px;
-  height: 100%;
+    background: linear-gradient(145deg, #0a0a0a, #141414);
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    height: 100%; /* Important pentru aliniere egală */
+    min-height: 380px; /* Înălțime minimă uniformă */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
-.orar-title {
-  color: red;
-  text-align: center;
-  margin-bottom: 1rem;
+.orar-card:hover {
+    transform: translateY(-5px);
+    border-color: #cc0000;
+    box-shadow: 0 10px 30px rgba(204, 0, 0, 0.15);
 }
 
+/* Titlul Zilei (Luni, Marți...) */
+.orar-day {
+    color: #cc0000;
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(255,255,255,0.1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
-/* Stil personalizat pentru săgeți Swiper */
+/* Lista de evenimente */
+.orar-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1; /* Ocupă spațiul rămas */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrează vertical conținutul */
+    gap: 1.2rem;
+}
+
+.orar-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.orar-list li:last-child {
+    border-bottom: none;
+}
+
+/* Părțile textului (split by |) */
+/* Ora */
+.orar-part.part-0 {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #fff;
+    display: block;
+}
+
+/* Antrenor */
+.orar-part.part-1 {
+    font-size: 0.95rem;
+    color: #bbb;
+}
+
+/* Grupa de vârstă */
+.orar-part.part-2 {
+    font-size: 0.85rem;
+    color: #cc0000;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+/* --- NAVIGARE (Săgeți) --- */
 .swiper-button-next,
 .swiper-button-prev {
-    color: white !important; /* Schimbă culoarea săgeților */
-    font-size: 24px;
-    transition: all 0.3s ease-in-out;
+    color: #cc0000 !important;
+    background: rgba(255,255,255,0.05);
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50%;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.2s ease;
 }
+
+/* Le scoatem în afara cardurilor pe desktop */
+.swiper-button-prev { left: 0 !important; }
+.swiper-button-next { right: 0 !important; }
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-    color: red !important; /* Săgețile devin roșii la hover */
+    background: #cc0000;
+    color: #fff !important;
+    transform: scale(1.1);
 }
 
-/* Stil pentru buline (pagination) */
-.swiper-pagination .swiper-pagination-bullet {
-    background: white !important; /* Buline albe */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-size: 20px !important;
+    font-weight: bold;
+}
+
+/* --- PAGINATION (Buline) --- */
+.swiper-pagination-bullet {
+    background: #666 !important;
     opacity: 0.5;
-    transition: all 0.3s ease-in-out;
-    height: 12px;
-
+    width: 10px;
+    height: 10px;
+    transition: all 0.3s;
 }
 
-.swiper-pagination .swiper-pagination-bullet-active {
-    background: red !important; /* Bulină activă roșie */
+.swiper-pagination-bullet-active {
+    background: #cc0000 !important;
     opacity: 1;
+    width: 24px; /* O facem alungită */
+    border-radius: 5px;
 }
 
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .orar-carousel-wrapper {
+        padding: 0; /* Pe mobil scoatem padding-ul lateral */
+    }
 
-/* Poziționează bulinele sub linie */
-.swiper-pagination {
-    position: absolute;
-    bottom: -50px; /* Ajustează pentru a le aduce sub linie */
-    left: 50%;
-    transform: translateX(-50%);
+    /* Ascundem săgețile pe mobil (swipe e suficient) */
+    .swiper-button-next,
+    .swiper-button-prev {
+        display: none !important;
+    }
+
+    .orar-card {
+        min-height: auto;
+        margin: 0 10px;
+    }
 }

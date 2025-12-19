@@ -1,40 +1,158 @@
+/* =========================================
+   TermeniSiConditii.css - Premium Dark Theme
+   ========================================= */
+
+.termeni-page {
+    background-color: #161616; /* Fundal general dark */
+    min-height: 100vh;
+    padding: 120px 20px 60px; /* Padding generos pentru a nu intra sub navbar */
+    color: #e0e0e0;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Containerul principal - stil "Foaie digitală dark" */
 .termeni-container {
     max-width: 900px;
-    margin: 100px auto 60px auto;
-    padding: 30px;
-    background-color: rgba(255, 255, 255, 0.95);
+    margin: 0 auto;
+    background: linear-gradient(145deg, #1a1a1a, #1f1f1f);
+    border: 1px solid #333;
     border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    line-height: 1.6;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #222;
+    padding: 40px 50px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
 }
 
-.termeni-container h1 {
+/* HEADER ZONA */
+.termeni-header {
     text-align: center;
-    margin-bottom: 10px;
-    font-size: 2.5rem;
-    color: #c1121f;
+    margin-bottom: 40px;
 }
 
-.termeni-container .update-date {
-    text-align: center;
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 30px;
+.termeni-title {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 800;
+    margin: 0 0 10px 0;
+    color: #fff;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
 }
 
-.termeni-container section {
-    margin-bottom: 30px;
+.termeni-update {
+    font-size: 0.95rem;
+    color: #888;
+    font-weight: 500;
+    margin: 0;
 }
 
-.termeni-container h2 {
-    font-size: 1.3rem;
-    color: #2b2d42;
-    margin-bottom: 10px;
+/* Linia separatorie roșie */
+.termeni-divider {
+    width: 80px;
+    height: 4px;
+    background: #ff1a1a;
+    margin: 20px auto 0;
+    border-radius: 4px;
+    box-shadow: 0 0 15px rgba(255, 26, 26, 0.4);
 }
 
-.termeni-container p {
+/* CONTENT ZONA */
+.termeni-content {
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #ccc;
+}
+
+.termeni-section {
+    margin-bottom: 35px;
+}
+
+.termeni-section h2 {
+    font-size: 1.4rem;
+    color: #fff;
+    margin-bottom: 12px;
+    border-left: 4px solid #cc0000; /* Linie accent stânga */
+    padding-left: 15px;
+    font-weight: 700;
+}
+
+.termeni-section p {
     margin: 0;
     text-align: justify;
+}
+
+/* Evidențiere text important */
+.termeni-section strong {
+    color: #fff;
+    font-weight: 700;
+}
+
+/* CONTACT CARD SPECIAL */
+.contact-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 25px;
+    margin-top: 40px;
+}
+
+.contact-card h2 {
+    border-left: none;
+    padding-left: 0;
+    color: #ff1a1a;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.contact-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0;
+}
+
+.contact-card li {
+    display: flex;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.contact-card .label {
+    font-weight: 700;
+    color: #888;
+    width: 80px;
+}
+
+.contact-card .value {
+    color: #fff;
+    font-weight: 600;
+}
+
+/* FOOTER TEXT */
+.termeni-footer-text {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 1.1rem;
+    color: #fff;
+    opacity: 0.8;
+    border-top: 1px solid #333;
+    padding-top: 30px;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .termeni-container {
+        padding: 30px 20px;
+    }
+    
+    .termeni-title {
+        font-size: 1.8rem;
+    }
+
+    .termeni-content {
+        font-size: 1rem;
+    }
+
+    .termeni-section h2 {
+        font-size: 1.2rem;
+    }
 }

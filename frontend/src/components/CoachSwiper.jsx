@@ -19,14 +19,12 @@ const coachData = [
     },
     {
         nume: "Alexandru Băilă",
-        descriere: "Instructor, sportiv, multiplu campion național, balcanic, medaliat la campionatele" +
-            " europene și mondiale",
+        descriere: "Instructor, sportiv, multiplu campion național, balcanic, medaliat la campionatele europene și mondiale",
         imagine: "/images/people/alex_poza_edit.jpg",
     },
     {
         nume: "Teodor Băilă",
-        descriere: "Instructor, sportiv, multiplu campion național, balcanic, medaliat la campionatele" +
-            " europene",
+        descriere: "Instructor, sportiv, multiplu campion național, balcanic, medaliat la campionatele europene",
         imagine: "/images/people/teo_baila.jpg",
     },
     {
@@ -34,13 +32,11 @@ const coachData = [
         descriere: "Instructor, sportiv, multiplu campion național, campion european la proba de Tehnici Speciale echipe",
         imagine: "/images/people/raul_hurdu_senior.jpg",
     },
-
     {
         nume: "Andrei Dobră",
         descriere: "Instructor/Sportiv",
         imagine: "/images/people/dobrel1.jpg",
     },
-
     {
         nume: "Daniel Cristache",
         descriere: "Instructor/Sportiv",
@@ -63,20 +59,37 @@ const CoachSwiper = () => {
         <div className="coach-carousel">
             <Swiper
                 modules={[Navigation, Pagination]}
-                navigation
-                pagination={{clickable: true}}
-                spaceBetween={40}
-                slidesPerView={3}
+                navigation={true}
+                pagination={{clickable: true, dynamicBullets: true}}
+                grabCursor={true}
+                loop={true}
+                centeredSlides={true} /* Esențial pentru mobil */
                 breakpoints={{
-                    0: {slidesPerView: 1},
-                    768: {slidesPerView: 2},
-                    1024: {slidesPerView: 3},
+                    // Mobil: Arată 1 card și un pic din următorul (1.15)
+                    0: {
+                        slidesPerView: 1.15,
+                        spaceBetween: 15,
+                    },
+                    // Tabletă
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 30,
+                        centeredSlides: false, // Pe tabletă nu mai centrăm forțat
+                    },
+                    // Desktop
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 40,
+                        centeredSlides: false,
+                    },
                 }}
             >
                 {coachData.map((coach, index) => (
                     <SwiperSlide key={index}>
                         <div className="coach-card">
-                            <img src={coach.imagine} alt={coach.nume}/>
+                            <div className="img-wrapper">
+                                <img src={coach.imagine} alt={coach.nume} loading="lazy"/>
+                            </div>
                             <h3>{coach.nume}</h3>
                             <p>{coach.descriere}</p>
                         </div>

@@ -1,108 +1,160 @@
-.coach-carousel {
-  padding: 4rem 2rem;
-  background-color: #0e0e0e;
-}
+/* =========================================
+   Coaches.css - Responsive & Clean
+   ========================================= */
 
-
-
+/* Container Principal */
 .coaches-container {
   background-color: #0e0e0e;
-  padding: 4rem 2rem;
+  padding: 100px 1rem 4rem; /* Mai mult loc sus pentru navbar */
   text-align: center;
   position: relative;
+  overflow: hidden; /* Previne scroll orizontal nedorit */
 }
 
 .coaches-title {
-  font-size: 2.8rem;
+  font-size: clamp(2rem, 4vw, 3rem);
   color: white;
-  font-weight: bold;
-  margin-bottom: 3rem;
-  text-shadow: 2px 2px 4px black;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 15px rgba(0,0,0,0.8);
   letter-spacing: 1px;
 }
 
+/* Zona Carusel */
+.coach-carousel {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  /* Eliminăm padding-ul mare de container care strica mobilul */
+  padding: 0 0 3rem 0; 
+}
 
-
+/* Card Antrenor */
 .coach-card {
-  background-color: #111;
-  color: white;
-  border-radius: 12px;
-  padding: 1.5rem;
+  background: linear-gradient(145deg, #141414, #1a1a1a);
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  padding: 1.2rem;
   text-align: center;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%; /* Să fie toate egale */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .coach-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+  box-shadow: 0 10px 30px rgba(255, 0, 0, 0.15);
+  border-color: #333;
+}
+
+/* Wrapper imagine - fix pentru poze tăiate */
+.img-wrapper {
+  width: 100%;
+  aspect-ratio: 3/4; /* Format portret standard */
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  background: #000;
 }
 
 .coach-card img {
   width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  object-fit: cover;
+  height: 100%;
+  object-fit: cover; /* Umple cadrul fără deformare */
+  transition: transform 0.5s ease;
+}
+
+.coach-card:hover img {
+  transform: scale(1.05);
 }
 
 .coach-card h3 {
-  color: red;
-  margin-bottom: 0.5rem;
+  color: #ff1a1a;
+  margin: 0.5rem 0;
+  font-size: 1.3rem;
+  font-weight: 700;
 }
 
+.coach-card p {
+  color: #ccc;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
 
+/* Navigație Swiper (Săgeți) */
 .swiper-button-next,
 .swiper-button-prev {
-  color: white;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
+  color: #ff1a1a !important; /* Roșu */
+  background: rgba(0,0,0,0.6);
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
 }
 
-.swiper-button-prev {
-  left: -8.5px; /* sau -40px dacă vrei și mai spre margine */
-}
-
-.swiper-button-next {
-  right: -8.5px;
-}
-
-
-
-
-.about-motto {
-  text-align: center;
-  font-size: 2rem;
-  color: white;
-  margin: 5rem 0;
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 18px !important;
   font-weight: bold;
 }
 
-
-
-/* Lasă cardul cum e; doar adăugăm un container pentru poză ca să nu mai taie imaginea */
-.coach-photo {
-  position: relative;
-  aspect-ratio: 16 / 10;     /* schimbă la 4/5 dacă vrei mai portret */
-  background: #0b0b0b;
-  border-radius: 8px;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-  margin-bottom: 1rem;
+/* Bulinele de jos */
+.swiper-pagination-bullet {
+  background: #666;
+  opacity: 0.5;
+}
+.swiper-pagination-bullet-active {
+  background: #ff1a1a;
+  opacity: 1;
 }
 
-/* lăsăm cardul să “iasă” din slide la hover, fără să fie tăiat */
-.coach-carousel .swiper,
-.coach-carousel .swiper-wrapper,
-.coach-carousel .swiper-slide {
-  overflow: visible;
+/* Motto */
+.about-motto {
+  text-align: center;
+  color: white;
+  margin-top: 4rem;
+  padding: 0 1rem;
 }
 
-/* mic polish la text */
-.coach-card p {
-  margin: .25rem 0 0;
-  opacity: .95;
-  line-height: 1.35;
+.about-motto h2 {
+  font-size: clamp(1.2rem, 3vw, 2.2rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #fff, #999);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.9;
+}
+
+/* =========================================
+   RESPONSIVE (MOBIL)
+   ========================================= */
+@media (max-width: 768px) {
+  
+  .coaches-container {
+    padding-top: 120px; /* Loc pentru navbar */
+    padding-bottom: 2rem;
+  }
+
+  /* Pe mobil ascundem săgețile - folosim swipe */
+  .swiper-button-next, 
+  .swiper-button-prev {
+    display: none !important;
+  }
+
+  /* Cardul e puțin mai compact pe mobil */
+  .coach-card {
+    padding: 1rem;
+  }
+  
+  .coach-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .coach-card p {
+    font-size: 0.9rem;
+  }
 }

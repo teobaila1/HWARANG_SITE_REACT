@@ -120,10 +120,9 @@ const Navbar = () => {
                             </li>
                         </>
                     )}
-                    {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") &&
-                        <li>
-                            <button onClick={() => navigate("/concursuri")}>Concursuri</button>
-                        </li>}
+                    {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") && <li>
+                        <button onClick={() => navigate("/concursuri")}>Concursuri</button>
+                    </li>}
                     {rol === "Parinte" && <li>
                         <button onClick={() => navigate("/copiii-mei")}>Copiii mei</button>
                     </li>}
@@ -138,11 +137,19 @@ const Navbar = () => {
                     </li>}
 
                     {isLoggedIn ? (
-                        <li className="user-menu-desktop dropdown">
-                            <div className="user-chip"><span className="avatar">{username[0]?.toUpperCase()}</span><span
-                                className="name">{username}</span></div>
-                            <ul className="dropdown-menu dropdown-menu--right">
-                                <li><LogoutButton/></li>
+                        /* AICI AM FĂCUT MODIFICAREA: "user-menu-desktop" -> "user-menu" */
+                        <li className="user-menu dropdown">
+                            <div className="user-chip">
+                                <span className="avatar">{username[0]?.toUpperCase()}</span>
+                                <span className="name">{username}</span>
+                            </div>
+                            <ul className="dropdown-menu dropdown-menu--right user-dropdown-modern">
+                                <li className="user-header">
+                                    <small>Conectat ca</small>
+                                    <span>{username}</span>
+                                </li>
+                                <div className="dropdown-divider"></div>
+                                <li className="logout-li"><LogoutButton/></li>
                             </ul>
                         </li>
                     ) : (
@@ -154,12 +161,27 @@ const Navbar = () => {
                 </ul>
             </nav>
 
+
+
+
+
+
+
             {/* ================= MENIU MOBIL ================= */}
             <div className={`mobile-overlay ${menuOpen ? "is-open" : ""}`}>
 
                 {/* 1. HEADER - DOAR LOGO (FĂRĂ BUTON X) */}
                 <div className="mobile-menu-header">
                     <img src="/images/favicon/favicon_circle_BANNER.png" alt="Logo" className="mobile-logo"/>
+
+                    {/* Buton Dreapta (Adăugat din nou pentru consistență cu CSS-ul fixat) */}
+                    <button className="mobile-close-btn" onClick={closeMenu}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"
+                             strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
                 </div>
 
                 {/* 2. CONȚINUT SCROLLABIL */}
@@ -204,11 +226,11 @@ const Navbar = () => {
                     <div className="mobile-simple-links">
                         {!isLoggedIn && <button className="highlight-btn"
                                                 onClick={() => handleMobileNavigate("/inscriere")}>Alătură-te
-                        </button>}
+                            clubului</button>}
                         {isLoggedIn && rol !== "AntrenorExtern" && (
                             <>
                                 <a href="https://sites.google.com/hwarang.ro/hwarang-info" target="_blank"
-                                   rel="noreferrer">Info Generale</a>
+                                   rel="noreferrer">Info</a>
                                 <button onClick={() => handleMobileNavigate("/documente")}>Documente</button>
                             </>
                         )}
@@ -217,7 +239,7 @@ const Navbar = () => {
                         {rol === "Parinte" &&
                             <button onClick={() => handleMobileNavigate("/copiii-mei")}>Copiii mei</button>}
                         {rol === "admin" &&
-                            <button onClick={() => handleMobileNavigate("/admin-dashboard")}>Admin Dashboard</button>}
+                            <button onClick={() => handleMobileNavigate("/admin-dashboard")}>Admin</button>}
                         {rol === "Antrenor" &&
                             <button onClick={() => handleMobileNavigate("/antrenor_dashboard")}>Panou Antrenor</button>}
                     </div>

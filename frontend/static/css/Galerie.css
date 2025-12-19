@@ -168,11 +168,30 @@
   background: transparent;
   border: 1px solid #3b3f52;
   color: #c9c9d5;
-  border-radius: 10px;
-  padding: 6px 10px;
+  border-radius: 8px; /* Colțuri ușor rotunjite */
+
+  /* Dimensiuni fixe pentru a fi pătrat */
+  width: 36px;
+  height: 36px;
+
+  /* Centrare perfectă a X-ului */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
   cursor: pointer;
+  font-size: 1.1rem; /* Mărimea X-ului */
+  line-height: 1;
+  transition: all 0.2s ease;
 }
-.btn-close:hover { background: #1b1d27; }
+
+.btn-close:hover {
+  background: rgba(255, 26, 26, 0.15); /* Roșu pal la hover */
+  border-color: #ff1a1a;
+  color: #fff;
+  transform: scale(1.05);
+}
 
 .lightbox-body {
   position: relative;

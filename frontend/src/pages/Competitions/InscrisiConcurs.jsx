@@ -11,9 +11,13 @@ const InscrisiConcurs = () => {
 
   useEffect(() => {
     const fetchInscrisi = async () => {
-      const res = await fetch(`${API_BASE}/api/inscrisi_concurs/${encodeURIComponent(numeConcurs)}`);
-      const data = await res.json();
-      setInscrisi(data);
+      try {
+        const res = await fetch(`${API_BASE}/api/inscrisi_concurs/${encodeURIComponent(numeConcurs)}`);
+        const data = await res.json();
+        setInscrisi(Array.isArray(data) ? data : []);
+      } catch (e) {
+        console.error(e);
+      }
     };
     fetchInscrisi();
   }, [numeConcurs]);
@@ -72,15 +76,23 @@ const InscrisiConcurs = () => {
           <tbody>
             {inscrisiFiltrati.map((p, i) => (
               <tr key={i}>
-                <td>{p.nume}</td>
-                <td>{p.data_nasterii}</td>
-                <td>{p.categorie_varsta}</td>
-                <td>{p.grad_centura}</td>
-                <td>{p.greutate} kg</td>
-                <td>{p.probe}</td>
-                <td>{p.gen}</td>
+                <td data-label="Nume">{p.nume}</td>
+                <td data-label="Data nașterii">{p.data_nasterii}</td>
+                <td data-label="Vârstă">{p.categorie_varsta}</td>
+                <td data-label="Centură">{p.grad_centura}</td>
+                <td data-label="Greutate">{p.greutate} kg</td>
+                <td data-label="Probe">{p.probe}</td>
+                <td data-label="Gen">{p.gen}</td>
               </tr>
             ))}
+
+            {inscrisiFiltrati.length === 0 && (
+                <tr>
+                    <td colSpan="7" style={{textAlign: 'center', padding: '20px', color: '#888'}}>
+                        Nu există înscrieri care să corespundă căutării.
+                    </td>
+                </tr>
+            )}
           </tbody>
         </table>
       </div>
