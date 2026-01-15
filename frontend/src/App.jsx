@@ -51,7 +51,7 @@ function App() {
 
                 <Routes>
                     <Route path="/" element={<Home/>}/>
-                    <Route path="/calendar2025" element={<CalendarPage/>}/>
+                    <Route path="/calendar2026" element={<CalendarPage/>}/>
                     <Route path="/acasa" element={<Home/>}/>
                     <Route path="/desprenoi" element={<About/>}/>
                     <Route path="/inscriere" element={<JoinForm/>}/>

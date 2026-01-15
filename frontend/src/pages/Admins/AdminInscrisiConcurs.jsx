@@ -20,7 +20,12 @@ const AdminInscrisiConcurs = () => {
       navigate("/access-denied");
     }
 
-    fetch(`${API_BASE}/api/inscrisi_concursuri`)
+    const token = localStorage.getItem("token");
+    fetch(`${API_BASE}/api/inscrisi_concursuri`, {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })
       .then(res => res.json())
       .then(data => {
         if (data.status === "success") {
@@ -33,7 +38,13 @@ const AdminInscrisiConcurs = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Ești sigur că vrei să ștergi această înscriere?")) return;
 
-    const res = await fetch(`${API_BASE}/api/delete_inscriere/${id}`, { method: "DELETE" });
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${API_BASE}/api/delete_inscriere/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    });
 
     if (res.ok) {
       const updated = sportivi.filter((s) => s.id !== id);
@@ -55,9 +66,13 @@ const AdminInscrisiConcurs = () => {
   };
 
   const handleSave = async () => {
+    const token = localStorage.getItem("token");
     const res = await fetch(`${API_BASE}/api/update_inscriere/${editIndex}`, {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+      },
       body: JSON.stringify(editData)
     });
 
@@ -92,13 +107,12 @@ const AdminInscrisiConcurs = () => {
   return (
     <>
       <Navbar/>
-      {/* scope clar pentru override-urile de mobil */}
       <div className="inscrisi-container admin-inscrisi">
         <h2>Sportivi înscriși la concursuri</h2>
 
         <input
           type="text"
-          className="search-bar"
+          className="ai-search-bar"
           placeholder="Caută după nume, categorie, centură, concurs..."
           value={searchTerm}
           onChange={handleSearch}
@@ -112,6 +126,7 @@ const AdminInscrisiConcurs = () => {
               <th>Categoria</th>
               <th>Grad</th>
               <th>Greutate</th>
+              <th>Înălțime</th>
               <th>Probe</th>
               <th>Concurs</th>
               <th>Data nașterii</th>
@@ -161,11 +176,24 @@ const AdminInscrisiConcurs = () => {
                       onChange={e => setEditData({...editData, greutate: e.target.value})}
                     />
                   </td>
+
+                  <td data-label="Înălțime">
+                    <input
+                      value={editData.inaltime || ""}
+                      onChange={e => setEditData({...editData, inaltime: e.target.value})}
+                      placeholder="cm"
+                      style={{width: "60px"}}
+                    />
+                  </td>
+
                   <td data-label="Probe">
                     <input
                       value={editData.probe || ""}
                       onChange={e => setEditData({...editData, probe: e.target.value})}
                     />
+                  </td>
+                  <td data-label="Concurs">
+                     {editData.concurs}
                   </td>
                   <td data-label="Data nașterii">
                     <input
@@ -186,6 +214,9 @@ const AdminInscrisiConcurs = () => {
                   <td data-label="Categoria">{s.categorie}</td>
                   <td data-label="Grad">{s.grad}</td>
                   <td data-label="Greutate">{s.greutate} kg</td>
+
+                  <td data-label="Înălțime">{s.inaltime ? `${s.inaltime} cm` : "-"}</td>
+
                   <td data-label="Probe">{s.probe}</td>
                   <td data-label="Concurs">{s.concurs}</td>
                   <td data-label="Data nașterii">{s.data_nasterii}</td>

@@ -72,7 +72,7 @@ const CalendarPage = () => {
         <>
             <Navbar/>
             <div className="calendar-container">
-                <h2 className="calendar-title">Calendar Competiții 2025</h2>
+                <h2 className="calendar-title">Calendar Competiții 2026</h2>
                 {/*<table className="calendar-table">*/}
                 {/*    <thead>*/}
                 {/*    <tr>*/}

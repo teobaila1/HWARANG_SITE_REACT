@@ -1,4 +1,3 @@
-// frontend/pages/AntrenorDashboard.jsx
 import React, {useEffect, useState} from "react";
 import Navbar from "../../components/Navbar";
 import {useNavigate} from "react-router-dom";
@@ -8,7 +7,7 @@ import ConfirmDialog from "../ConfirmDialog";
 import {API_BASE} from "../../config";
 
 const AntrenorDashboard = () => {
-  // după agregare: [{ grupa, parents:[{id,username,email}], copii:[{..., _parent:{...}}] }]
+  // Structura: [{ grupa, parents:[{id,username,email}], copii:[{..., _parent:{...}}] }]
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mesaj, setMesaj] = useState("");
@@ -16,10 +15,10 @@ const AntrenorDashboard = () => {
   const [editElev, setEditElev] = useState(null);
   const [confirm, setConfirm] = useState({open: false, elevId: null, nume: ""});
 
-  // alegerea părintelui pt. “părinte existent” pe fiecare grupă
+  // Alegerile din dropdown pentru "părinte existent"
   const [parentChoice, setParentChoice] = useState({}); // { "Grupa 1": parentId, ... }
 
-  // afișează nume complet dacă există, altfel username
+  // Helper afișare nume părinte
   const parentName = (p) =>
     (p?.display && String(p.display).trim()) || p?.username || "—";
 
@@ -28,13 +27,13 @@ const AntrenorDashboard = () => {
   useEffect(() => {
     const username = localStorage.getItem("username");
     const rol = localStorage.getItem("rol");
-    if (!username || rol !== "Antrenor") {
+    if (!username || (rol !== "Antrenor" && rol !== "admin")) {
       navigate("/access-denied");
     }
   }, [navigate]);
 
+  // Grupează datele plate primite de la server
   const groupByGrupa = (rows) => {
-    // rows: [{ grupa, parinte:{id,username,email}, copii:[...] }]
     const map = new Map();
 
     for (const row of rows || []) {
@@ -43,20 +42,19 @@ const AntrenorDashboard = () => {
       const bucket = map.get(g);
 
       const p = row.parinte || {};
-      // cheie de unicititate: id (dacă există) + username (lowercase)
+      // Cheie unică pentru părinți (evităm duplicatele în dropdown)
       const pKey = `${p.id ?? "null"}::${(p.username || "").toLowerCase()}`;
       if ((p.id != null || p.username) && !bucket._pk.has(pKey)) {
         bucket._pk.add(pKey);
         bucket.parents.push(p);
       }
 
-      // atașăm părintele la fiecare copil pentru afișare
+      // Atașăm părintele la fiecare copil pentru a ști cui aparține
       for (const c of (row.copii || [])) {
         bucket.copii.push({...c, _parent: p});
       }
     }
 
-    // scoatem setul intern și sortăm
     return Array.from(map.values())
       .map(({_pk, ...rest}) => rest)
       .sort((a, b) => (a.grupa || "").localeCompare(b.grupa || ""));
@@ -66,9 +64,13 @@ const AntrenorDashboard = () => {
     setLoading(true);
     setMesaj("");
     try {
+      const token = localStorage.getItem("token");
       const res = await fetch(`${API_BASE}/api/antrenor_dashboard_data`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify({username: localStorage.getItem("username")}),
       });
       const result = await res.json();
@@ -76,7 +78,7 @@ const AntrenorDashboard = () => {
         const grouped = groupByGrupa(result.date || []);
         setData(grouped);
 
-        // selecție implicită a părintelui (primul din listă) pe fiecare grupă
+        // Preselectăm primul părinte în dropdown-uri
         const defaults = {};
         grouped.forEach(g => {
           if (g.parents.length > 0) defaults[g.grupa] = g.parents[0].id;
@@ -105,7 +107,9 @@ const AntrenorDashboard = () => {
     return g;
   };
 
-  // Add (părinte existent) — folosim alegerea din dropdown
+  // --- ACȚIUNI ---
+
+  // 1. Adaugă elev (părinte existent selectat)
   const handleAddExisting = (grupaName) => {
     const pid = parentChoice[grupaName];
     if (!pid) {
@@ -116,40 +120,48 @@ const AntrenorDashboard = () => {
     const g = data.find(x => x.grupa === grupaName);
     const p = g?.parents?.find(x => x.id === pid);
 
-    // IMPORTANT: pregătim initial cu parinte_id (backend vrea exact această cheie)
+    // Setăm datele inițiale. Backend-ul va folosi parinte_id.
     setEditElev({
       parinte_id: pid,
       grupa: grupaName,
+      // Afișăm numele ca să știe antrenorul pe cine a selectat
       parent_display: (p?.display && String(p.display).trim()) || p?.username || `Părinte #${pid}`
     });
     setShowForm(true);
   };
 
-  // Add (părinte nou) — nu avem parinte_id, formularul cere numele părintelui
+  // 2. Adaugă elev (părinte nou - se va crea placeholder)
   const handleAddNewParent = (grupaName) => {
     setEditElev({grupa: grupaName, parinte_id: null, parent_display: ""});
     setShowForm(true);
   };
 
-  // Edit
+  // 3. Editează elev existent
   const handleEdit = (copil) => {
-    // pentru edit nu e obligatoriu parinte_id; backend găsește copilul după id
+    // Calculăm numele părintelui curent
+    const numeParinteVizibil = parentName(copil._parent);
+
     setEditElev({
       ...copil,
-      parinte_id: copil._parent?.id ?? null,    // <— IMPORTANT
-      parent_display: parentName(copil._parent)
+      // IMPORTANT: Populăm aceste câmpuri pentru ca ElevForm să le afișeze
+      parent_display: numeParinteVizibil,
+      parinte_id: copil._parent?.id ?? null
     });
     setShowForm(true);
   };
 
-  // Delete (confirm)
+  // 4. Șterge elev
   const handleDeleteAsk = (copil) => {
     setConfirm({open: true, elevId: copil.id, nume: copil.nume});
   };
 
   const handleDeleteConfirm = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/elevi/${confirm.elevId}`, {method: "DELETE"});
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE}/api/elevi/${confirm.elevId}`, {
+          method: "DELETE",
+          headers: { "Authorization": `Bearer ${token}` }
+      });
       const dataRes = await res.json().catch(() => ({}));
       if (res.ok) {
         setMesaj("Elev șters.");
@@ -164,14 +176,19 @@ const AntrenorDashboard = () => {
     }
   };
 
-  // Submit din formular (add/edit) – payload vine deja cu parinte_id/parinte_nume din formular
+  // Submit formular (Add / Edit)
   const handleSubmitForm = async (payload, isEdit) => {
     try {
+      const token = localStorage.getItem("token");
       const url = isEdit ? `${API_BASE}/api/elevi/${payload.id}` : `${API_BASE}/api/elevi`;
       const method = isEdit ? "PATCH" : "POST";
+
       const res = await fetch(url, {
         method,
-        headers: {"Content-Type": "application/json"},
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify(payload),
       });
       const dataRes = await res.json().catch(() => ({}));
@@ -265,8 +282,7 @@ const AntrenorDashboard = () => {
 
         {showForm && (
           <ElevForm
-            initial={editElev}            // Add: {grupa} sau {parinte_id, grupa}; Edit: copilul
-            parents={(data.find(g => g.grupa === (editElev?.grupa || ""))?.parents) || []}
+            initial={editElev}
             onClose={() => setShowForm(false)}
             onSubmit={handleSubmitForm}
           />

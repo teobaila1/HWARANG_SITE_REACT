@@ -18,7 +18,6 @@ function EvidentaPlati() {
     status: "neplatit",
   });
 
-  // Construieste eticheta "username (Nume Complet)"
   const parentLabel = (row) => {
     const u = (row.parinte_nume || row.parinte_username || "").trim();
     const d = (row.parinte_display || "").trim();
@@ -150,33 +149,36 @@ function EvidentaPlati() {
     <>
       <Navbar />
 
-      <div className="evidenta-container">
-        <div className="header-row">
-          <h2>Evidență plăți</h2>
-          <button className="btn btn-primary" onClick={handleAddNew}>
+      <div className="ep-container">
+        <div className="ep-header-row">
+          <h2 className="ep-title">Evidență plăți</h2>
+          {/* BUTON MIC */}
+          <button className="ep-btn ep-btn-add" onClick={handleAddNew}>
             Adaugă plată
           </button>
         </div>
 
         <input
           type="text"
-          className="search-bar"
+          className="ep-search-bar"
           placeholder="Caută după copil, părinte sau lună..."
           value={searchTerm}
           onChange={handleSearch}
         />
 
         {showForm && (
-          <div className="plata-form card">
-            <div className="form-head">
+          <div className="ep-form-wrapper">
+            <div className="ep-form-head">
               <h4>{editingPlata?.id ? "Editează plată" : "Adaugă plată"}</h4>
-              <button className="btn btn-ghost" onClick={() => setShowForm(false)}>✖</button>
+              {/* X MIC ȘI ROTUND */}
+              <button className="ep-btn ep-btn-close" onClick={() => setShowForm(false)}>×</button>
             </div>
 
-            <div className="form-grid">
-              <div className="field">
+            <div className="ep-form-grid">
+              <div className="ep-field">
                 <label>Copil</label>
                 <input
+                  className="ep-input"
                   name="copil_nume"
                   placeholder="Nume copil"
                   value={formData.copil_nume}
@@ -184,9 +186,10 @@ function EvidentaPlati() {
                 />
               </div>
 
-              <div className="field">
+              <div className="ep-field">
                 <label>Lună</label>
                 <input
+                  className="ep-input"
                   name="luna"
                   placeholder="ex: ianuarie"
                   value={formData.luna}
@@ -194,9 +197,10 @@ function EvidentaPlati() {
                 />
               </div>
 
-              <div className="field">
+              <div className="ep-field">
                 <label>Sumă (RON)</label>
                 <input
+                  className="ep-input"
                   name="suma"
                   type="number"
                   placeholder="0"
@@ -205,9 +209,10 @@ function EvidentaPlati() {
                 />
               </div>
 
-              <div className="field">
+              <div className="ep-field">
                 <label>Tip plată</label>
                 <select
+                  className="ep-input"
                   name="tip_plata"
                   value={formData.tip_plata}
                   onChange={handleChange}
@@ -217,9 +222,10 @@ function EvidentaPlati() {
                 </select>
               </div>
 
-              <div className="field">
+              <div className="ep-field">
                 <label>Status</label>
                 <select
+                  className="ep-input"
                   name="status"
                   value={formData.status}
                   onChange={handleChange}
@@ -230,19 +236,19 @@ function EvidentaPlati() {
               </div>
             </div>
 
-            <div className="form-actions">
-              <button className="btn btn-primary" onClick={handleSubmit}>
-                {editingPlata?.id ? "Salvează" : "Adaugă"}
-              </button>
-              <button className="btn btn-ghost" onClick={() => setShowForm(false)}>
+            <div className="ep-form-actions">
+              <button className="ep-btn ep-btn-ghost" onClick={() => setShowForm(false)}>
                 Renunță
+              </button>
+              <button className="ep-btn ep-btn-add" onClick={handleSubmit}>
+                {editingPlata?.id ? "Salvează" : "Adaugă"}
               </button>
             </div>
           </div>
         )}
 
-        <div className="table-wrap">
-          <table className="plati-table">
+        <div className="ep-table-container">
+          <table className="ep-table">
             <thead>
               <tr>
                 <th>Copil</th>
@@ -251,50 +257,52 @@ function EvidentaPlati() {
                 <th>Sumă</th>
                 <th>Tip</th>
                 <th>Status</th>
-                <th>Acțiuni</th>
+                <th className="ep-th-center">Acțiuni</th>
               </tr>
             </thead>
             <tbody>
               {filteredPlati.map((p, i) => (
                 <tr key={p.id ?? `${p.copil_nume}-${i}`}>
-                  <td className="cell-name">{p.copil_nume}</td>
-                  <td>{parentLabel(p)}</td>
-                  <td className="cell-month">{p.luna || "-"}</td>
-                  <td className="cell-amount">
+                  <td data-label="Copil" className="ep-cell-bold">{p.copil_nume}</td>
+                  <td data-label="Părinte">{parentLabel(p)}</td>
+                  <td data-label="Lună" style={{textTransform: "capitalize"}}>{p.luna || "-"}</td>
+                  <td data-label="Sumă" className="ep-cell-mono">
                     {p.suma != null ? `${p.suma} RON` : "-"}
                   </td>
-                  <td>
-                    <span className={`chip ${p.tip_plata === "card" ? "chip--card" : "chip--cash"}`}>
+                  <td data-label="Tip">
+                    <span className={`ep-chip ${p.tip_plata === "card" ? "ep-chip-card" : "ep-chip-cash"}`}>
                       {p.tip_plata || "-"}
                     </span>
                   </td>
-                  <td>
-                    <span className={`status ${p.status === "platit" ? "status--ok" : "status--no"}`}>
+                  <td data-label="Status">
+                    <span className={`ep-status ${p.status === "platit" ? "ep-status-ok" : "ep-status-no"}`}>
                       {p.status}
                     </span>
                   </td>
-                  <td className="actions">
-                    <button
-                      className="btn btn-icon"
-                      title="Editează"
-                      onClick={() => handleEdit(p)}
-                    >
-                      Modifică
-                    </button>
-                    <button
-                      className="btn btn-icon btn-danger"
-                      title="Șterge"
-                      onClick={() => deletePlata(p.id)}
-                      disabled={!p.id}
-                    >
-                      Șterge
-                    </button>
+                  <td data-label="Acțiuni">
+                    <div className="ep-actions-cell">
+                        <button
+                          className="ep-btn ep-btn-table ep-btn-edit"
+                          title="Editează"
+                          onClick={() => handleEdit(p)}
+                        >
+                          Modifică
+                        </button>
+                        <button
+                          className="ep-btn ep-btn-table ep-btn-delete"
+                          title="Șterge"
+                          onClick={() => deletePlata(p.id)}
+                          disabled={!p.id}
+                        >
+                          Șterge
+                        </button>
+                    </div>
                   </td>
                 </tr>
               ))}
               {filteredPlati.length === 0 && (
                 <tr>
-                  <td colSpan={7} style={{ textAlign: "center", opacity: .8 }}>
+                  <td colSpan={7} style={{ textAlign: "center", opacity: .6, padding: "2rem" }}>
                     Nicio înregistrare găsită.
                   </td>
                 </tr>

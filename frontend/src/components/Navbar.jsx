@@ -95,7 +95,7 @@ const Navbar = () => {
                             <a href="#">Calendar</a>
                             <ul className="dropdown-menu">
                                 <li>
-                                    <button onClick={() => navigate("/calendar2025")}>Calendar 2025</button>
+                                    <button onClick={() => navigate("/calendar2026")}>Calendar 2026</button>
                                 </li>
                             </ul>
                         </li>
@@ -123,15 +123,15 @@ const Navbar = () => {
                     {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") && <li>
                         <button onClick={() => navigate("/concursuri")}>Concursuri</button>
                     </li>}
-                    {rol === "Parinte" && <li>
+                    {(rol === "Parinte" || rol === "admin") && <li>
                         <button onClick={() => navigate("/copiii-mei")}>Copiii mei</button>
                     </li>}
                     {rol === "admin" && <li>
                         <button onClick={() => navigate("/admin-dashboard")}>Admin</button>
                     </li>}
-                    {rol === "Antrenor" && <li>
+                    {(rol === "Antrenor" || rol === "admin") && (<li>
                         <button onClick={() => navigate("/antrenor_dashboard")}>Grupe</button>
-                    </li>}
+                    </li>)}
                     {rol === "AntrenorExtern" && <li>
                         <button onClick={() => navigate("/concursuri-extern")}>Extern</button>
                     </li>}
@@ -160,10 +160,6 @@ const Navbar = () => {
                     )}
                 </ul>
             </nav>
-
-
-
-
 
 
 
@@ -207,7 +203,7 @@ const Navbar = () => {
                                     onClick={() => toggleMobileSection('cal')}>Calendar <span className="arrow">›</span>
                             </button>
                             <div className={`mobile-sub-links ${mobileExpanded.cal ? 'open' : ''}`}>
-                                <button onClick={() => handleMobileNavigate("/calendar2025")}>Calendar 2025</button>
+                                <button onClick={() => handleMobileNavigate("/calendar2026")}>Calendar 2026</button>
                             </div>
                         </div>
                     )}

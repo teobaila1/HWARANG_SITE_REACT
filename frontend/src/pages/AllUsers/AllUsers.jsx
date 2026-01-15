@@ -1,4 +1,3 @@
-// src/pages/TotiUtilizatorii.jsx
 import React, {useEffect, useMemo, useState} from "react";
 import Navbar from "../../components/Navbar";
 import "../../../static/css/TotiUtilizatorii.css";
@@ -8,20 +7,23 @@ const ROLURI = ["admin", "Parinte", "Sportiv", "Antrenor", "AntrenorExtern"];
 
 const TotiUtilizatorii = () => {
     const [users, setUsers] = useState([]);
-    const [editari, setEditari] = useState({}); // { [id]: "rol_nou" }
+    const [editari, setEditari] = useState({});
     const [searchTerm, setSearchTerm] = useState("");
     const [loading, setLoading] = useState(true);
     const [mesaj, setMesaj] = useState("");
     const isAdmin = (localStorage.getItem("rol") || "").toLowerCase() === "admin";
 
-    // modal edit user (nume/email)
+    // State pentru modal editare (inclusiv grupe)
     const [showEdit, setShowEdit] = useState(false);
-    const [editUser, setEditUser] = useState({id: null, username: "", email: ""});
+    const [editUser, setEditUser] = useState({id: null, username: "", email: "", grupe: ""});
 
     const loadUsers = async () => {
         try {
             setLoading(true);
-            const res = await fetch(`${API_BASE}/api/users`);
+            const token = localStorage.getItem("token");
+            const res = await fetch(`${API_BASE}/api/users`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
             const data = await res.json();
             setUsers(Array.isArray(data) ? data : []);
             setMesaj("");
@@ -57,11 +59,15 @@ const TotiUtilizatorii = () => {
         if (!rol_nou) return;
         const user = users.find(u => u.id === userId);
         const admin_username = localStorage.getItem("username");
+        const token = localStorage.getItem("token");
 
         try {
             const res = await fetch(`${API_BASE}/api/modifica-rol`, {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
                 body: JSON.stringify({
                     admin_username,
                     target_username: user.username,
@@ -81,73 +87,86 @@ const TotiUtilizatorii = () => {
                 setMesaj(data.error || "Eroare la actualizarea rolului.");
             }
         } catch (e) {
-            setMesaj("Eroare de rețea la actualizarea rolului.");
+            setMesaj("Eroare de rețea.");
             console.error(e);
         }
     };
 
     const stergeUtilizator = async (username) => {
         if (!isAdmin) return;
-        const admin_username = localStorage.getItem("username");
         if (!window.confirm(`Sigur vrei să ștergi utilizatorul ${username}?`)) return;
+        const token = localStorage.getItem("token");
 
         try {
-            const res = await fetch(`${API_BASE}/api/users/${encodeURIComponent(username)}?admin_username=${encodeURIComponent(admin_username)}`, {
+            const res = await fetch(`${API_BASE}/api/users/${encodeURIComponent(username)}`, {
                 method: "DELETE",
+                headers: { "Authorization": `Bearer ${token}` }
             });
             const data = await res.json();
             if (data.status === "success") {
                 setMesaj("Utilizator șters.");
                 setUsers(prev => prev.filter(u => u.username !== username));
             } else {
-                setMesaj(data.message || data.error || "Eroare la ștergere.");
+                setMesaj(data.message || "Eroare la ștergere.");
             }
         } catch (e) {
-            setMesaj("Eroare de rețea la ștergere.");
             console.error(e);
         }
     };
 
-    // === Editare nume/email (modal) ===
+    // === Deschidere Modal ===
     const openEdit = (u) => {
         if (!isAdmin) return;
-        setEditUser({id: u.id, username: u.username || "", email: u.email || ""});
+        setEditUser({
+            id: u.id,
+            username: u.username || "",
+            email: u.email || "",
+            grupe: u.grupe || "" // Pre-populăm grupele existente
+        });
         setShowEdit(true);
     };
 
     const closeEdit = () => setShowEdit(false);
 
+    // === SALVARE DATE (AICI ERA PROBLEMA) ===
     const saveEdit = async (e) => {
         e.preventDefault();
         if (!isAdmin) return;
 
         const admin_username = localStorage.getItem("username");
+        const token = localStorage.getItem("token");
+
         try {
             const res = await fetch(`${API_BASE}/api/users/${editUser.id}`, {
                 method: "PATCH",
-                headers: {"Content-Type": "application/json"},
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
                 body: JSON.stringify({
                     admin_username,
                     username: editUser.username.trim(),
                     email: editUser.email.trim(),
+                    grupe: editUser.grupe // <--- ACUM TRIMITEM GRUPELE!
                 }),
             });
             const data = await res.json();
             if (res.ok && data.status === "success") {
                 setMesaj("Utilizator actualizat.");
+                // Actualizăm local lista ca să vedem modificarea instant
                 setUsers(prev =>
                     prev.map(u => u.id === editUser.id
-                        ? {...u, username: editUser.username.trim(), email: editUser.email.trim()}
+                        ? {...u, username: editUser.username.trim(), email: editUser.email.trim(), grupe: editUser.grupe}
                         : u
                     )
                 );
                 setShowEdit(false);
             } else {
-                setMesaj(data.message || data.error || "Eroare la actualizare.");
+                setMesaj(data.message || "Eroare la actualizare.");
             }
         } catch (e2) {
-            setMesaj("Eroare de rețea la actualizare.");
             console.error(e2);
+            setMesaj("Eroare de rețea.");
         }
     };
 
@@ -168,14 +187,10 @@ const TotiUtilizatorii = () => {
                         <input
                             className="search-input"
                             type="text"
-                            placeholder="Caută după ID / nume / email / rol…"
+                            placeholder="Caută..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        {!!searchTerm && (
-                            <button className="btn-clear" onClick={() => setSearchTerm("")}
-                                    aria-label="Resetează căutarea">✕</button>
-                        )}
                     </div>
                 </div>
 
@@ -190,6 +205,7 @@ const TotiUtilizatorii = () => {
                                 <th>ID</th>
                                 <th>Nume</th>
                                 <th>Email</th>
+                                <th>Grupe</th>
                                 <th>Rol</th>
                                 <th>Acțiuni</th>
                             </tr>
@@ -197,20 +213,23 @@ const TotiUtilizatorii = () => {
                             <tbody>
                             {filteredUsers.map((u) => (
                                 <tr key={u.id}>
-                                    {/* AICI SUNT MODIFICĂRILE: data-label pentru mobile cards */}
                                     <td data-label="ID">{u.id}</td>
 
                                     <td data-label="Nume">
                                         <span className="cell-username">{userLabel(u)}</span>
                                         {isAdmin && (
                                             <button className="link-edit" onClick={() => openEdit(u)}
-                                                    title="Editează nume/email">
+                                                    title="Editează detalii">
                                                 editează
                                             </button>
                                         )}
                                     </td>
 
                                     <td data-label="Email">{u.email}</td>
+
+                                    <td data-label="Grupe">
+                                        {u.grupe ? u.grupe : <span style={{color:"#888"}}>-</span>}
+                                    </td>
 
                                     <td data-label="Rol">
                                         <div className="rol-edit">
@@ -226,9 +245,8 @@ const TotiUtilizatorii = () => {
                                                 className="btn btn-sm"
                                                 disabled={!isAdmin || !editari[u.id] || editari[u.id] === (u.rol || "").trim()}
                                                 onClick={() => handleSaveRol(u.id)}
-                                                title="Salvează rolul"
                                             >
-                                                Salvează
+                                                Save
                                             </button>
                                         </div>
                                     </td>
@@ -238,21 +256,12 @@ const TotiUtilizatorii = () => {
                                             className="btn btn-sm btn-danger"
                                             onClick={() => stergeUtilizator(u.username)}
                                             disabled={!isAdmin}
-                                            title="Șterge utilizator"
                                         >
                                             Șterge
                                         </button>
                                     </td>
                                 </tr>
                             ))}
-
-                            {filteredUsers.length === 0 && (
-                                <tr>
-                                    <td colSpan={5} className="empty">
-                                        Niciun utilizator găsit pentru criteriul curent.
-                                    </td>
-                                </tr>
-                            )}
                             </tbody>
                         </table>
                     </div>
@@ -281,6 +290,20 @@ const TotiUtilizatorii = () => {
                                         required
                                     />
                                 </label>
+
+                                <label>
+                                    Grupe (separate prin virgulă)
+                                    <input
+                                        type="text"
+                                        placeholder="Ex: Grupa 1, Grupa Avansati"
+                                        value={editUser.grupe}
+                                        onChange={(e) => setEditUser(s => ({...s, grupe: e.target.value}))}
+                                    />
+                                    <small style={{color:"#888"}}>
+                                        Completează aici pentru ca acest admin să apară și ca Antrenor.
+                                    </small>
+                                </label>
+
                                 <div className="form-actions">
                                     <button type="button" className="btn" onClick={closeEdit}>Renunță</button>
                                     <button type="submit" className="btn btn-primary">Salvează</button>

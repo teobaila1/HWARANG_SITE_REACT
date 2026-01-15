@@ -54,28 +54,119 @@ a { text-decoration: none; color: inherit; }
 /* ===== Tabel stil desktop ===== */
 table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 10px;
   margin: 0 auto 2rem;
-  background: linear-gradient(180deg, #111114, #15151a);
-  border: 1px solid #2a2a34;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 16px 40px rgba(0,0,0,.35);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  /* --- FIX CRITIC: Forțează respectarea lățimilor coloanelor --- */
+  table-layout: fixed;
 }
+
 thead th {
-  background: #1b1b22;
-  color: #e9e9f0;
-  padding: 1rem;
-  font-weight: 700;
+  background: transparent;
+  color: #a1a1aa;
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
   text-align: left;
+  border: none;
 }
+
+/* RÂNDURILE */
+tbody tr {
+  background: linear-gradient(145deg, #18181b, #121214);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-left: 4px solid transparent;
+}
+
+tbody tr:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(220, 38, 38, 0.15);
+  border-left-color: #ff1a1a;
+  background: #1e1e24;
+}
+
 tbody td {
-  padding: 1rem;
-  border-top: 1px solid #222230;
-  color: #f3f3f6;
+  padding: 1.5rem;
+  border-top: 1px solid #27272a;
+  border-bottom: 1px solid #27272a;
+
+  /* Aliniere verticală la mijloc pentru a nu se decala */
   vertical-align: middle;
+
+  /* Previne ieșirea textului din celulă */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-tbody tr:nth-child(odd) td { background: rgba(255,255,255,.02); }
+
+/* Rotunjim colțurile */
+tbody tr td:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; border-left: 1px solid #27272a; }
+tbody tr td:last-child { border-top-right-radius: 12px; border-bottom-right-radius: 12px; border-right: 1px solid #27272a; }
+
+/* === STILIZARE SPECIFICĂ COLOANE === */
+
+/* 1. PERIOADA */
+.col-perioada {
+  font-family: 'Courier New', Courier, monospace;
+  color: #ff4d4d;
+  font-weight: 700;
+  font-size: 1.1rem;
+  white-space: nowrap; /* Data să stea pe un rând dacă e loc */
+  letter-spacing: -0.5px;
+}
+
+/* 2. ACTIVITATE (NUME) */
+.col-nume {
+  color: #ffffff;
+  font-size: 1.3rem; /* Ușor ajustat */
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+
+  /* Permite textului să treacă pe rândul următor dacă e lung */
+  white-space: normal;
+}
+
+/* 3. LOCALITATE */
+.col-localitate {
+  color: #d4d4d8;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: normal; /* Permite wrap la locații lungi */
+}
+
+/* === RESPONSIVE (Card View pe Mobil) === */
+@media (max-width: 768px) {
+  table, thead, tbody, th, td, tr { display: block; }
+  thead { display: none; }
+
+  tbody tr {
+    border-left: 4px solid #ff1a1a;
+    margin-bottom: 20px;
+    height: auto; /* Înălțime automată pe mobil */
+  }
+
+  .col-nume { font-size: 1.3rem; margin-bottom: 5px; }
+  .col-perioada { font-size: 1rem; margin-bottom: 5px; color: #ff6666; }
+  .col-localitate { font-size: 1rem; color: #aaa; margin-bottom: 15px; }
+
+  tbody td { display: block; border: none; padding: 5px 15px; }
+
+  /* Resetăm containerele flex pe mobil */
+  .td-actions > div {
+      flex-direction: row; /* Pe mobil poate le vrei unul lângă altul sau column */
+  }
+}
+
+
 
 /* ===== Butoane ===== */
 button {
@@ -99,123 +190,258 @@ button:hover { background: #a80000; transform: translateY(-1px); }
   min-width: 100%;
 }
 
-/* ===== Formular ===== */
-.form-row td {
-  background: transparent;
-  padding: 0;
+/* ============================================================
+   FORMULAR ÎNSCRIERE - DESIGN PREMIUM
+   ============================================================ */
+
+.form-inscriere-wrapper {
+  position: relative;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 750px;
 }
 
 .form-inscriere,
 .form-inscriere--inline {
-  border-radius: 18px;
-  padding: 1.1rem 1.2rem;
-  max-width: 640px;
-  margin: 1.2rem auto 0;
-  text-align: left;
-  background: linear-gradient(180deg, #111114, #15151a);
-  color: #fff;
-  border: 1px solid #2a2a34;
-  box-shadow: 0 12px 34px rgba(0,0,0,.28), 0 0 14px rgba(255,0,0,.12) inset;
-  animation: formDrop .18s ease-out;
-}
-@keyframes formDrop{
-  from{ transform: translateY(-6px); opacity: .6; }
-  to{ transform: translateY(0); opacity: 1; }
-}
-
-.form-inscriere h2{
-  margin: 0 0 1rem;
-  text-align: left;
-  color: #ff1a1a;
-  font-weight: 800;
-  font-size: clamp(1.2rem, 1.9vw, 1.6rem);
-}
-.form-concurs-nume{ color:#fff; }
-
-.form-grid{
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: .5rem;
-}
-.form-field{ display: flex; flex-direction: column; gap: 6px; }
-.form-field--full{ grid-column: 1 / -1; }
-
-.form-field label{
-  font-size: .92rem;
-  color: #d8d8de;
-}
-
-.form-inscriere input,
-.form-inscriere select{
-  padding: .78rem .9rem;
+  position: relative;
+  background: #141414;
+  border: 1px solid #333;
+  border-top: 4px solid #b91c1c;
   border-radius: 12px;
-  border: 1px solid #2e2e38;
-  background: #0c0c0f;
-  color: #fff;
-  outline: none;
-  transition: border .25s ease, box-shadow .25s ease, background .25s ease;
-}
-.form-inscriere input:focus,
-.form-inscriere select:focus{
-  border-color: #ff1a1a;
-  box-shadow: 0 0 0 3px rgba(255,26,26,.2), 0 0 10px rgba(255,0,0,.2);
-  background: #101015;
+  padding: 30px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  text-align: left;
+  animation: slideIn 0.3s ease-out;
 }
 
-.form-actions{
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-inscriere h2 {
+  margin: 0 0 25px 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  border-bottom: 1px solid #2a2a2a;
+  padding-bottom: 15px;
   display: flex;
-  gap: 8px;
-  margin-top: .6rem;
+  align-items: center;
+  gap: 10px;
 }
-.form-actions button{
-  flex: 1 1 0;
-  min-height: 46px;
-  border-radius: 12px;
+
+.form-concurs-nume {
+  color: #ef4444;
   font-weight: 800;
 }
-.form-actions .btn-cancel{
-  background: linear-gradient(180deg, #2a2a2a, #1b1b1b);
-}
-.form-actions .btn-cancel:hover{ background:#303030; }
 
-/* ===== react-select ===== */
-.react-select-container .react-select__control {
-  background: #0c0c0f;
-  color: #fff;
-  border-radius: 12px;
-  min-height: 46px;
-  border: 1px solid #2e2e38;
-  box-shadow: none;
+/* Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
-.react-select-container .react-select__control--is-focused {
-  border-color: #ff1a1a;
-  box-shadow: 0 0 0 3px rgba(255,26,26,.2);
+@media (max-width: 650px) {
+  .form-grid { grid-template-columns: 1fr; }
 }
-.react-select__placeholder { color:#b8b8bf; font-style: italic; }
-.react-select__input-container { color:#fff; }
-.react-select__multi-value { background: #ffe1e1; border-radius: 10px; }
-.react-select__multi-value__label { color: #000; font-weight: 600; padding: 2px 6px; }
-.react-select__multi-value__remove { color: #cc0000; }
-.react-select__multi-value__remove:hover {
-  background: #ffb3b3; color: #7a0000; border-radius: 0 10px 10px 0;
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
+.form-field--full { grid-column: 1 / -1; }
+
+.form-field label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  color: #a1a1aa;
+  margin-left: 2px;
+}
+
+/* INPUTURI & SELECTOARE STANDARD */
+.form-inscriere input,
+.form-inscriere select {
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 12px 14px;
+  background: #09090b;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  color: #f4f4f5;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.form-inscriere input:focus,
+.form-inscriere select:focus {
+  border-color: #7f1d1d;
+  background: #101012;
+  box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2);
+}
+
+.form-inscriere input[readonly] {
+  background: #1c1c1f;
+  color: #71717a;
+  border-color: transparent;
+  cursor: default;
+}
+
+/* ============================================================
+   FIX REACT SELECT (Dropdown Probe)
+   ============================================================ */
+
+/* 1. Asigurăm că rândul cu formularul lasă conținutul să iasă în afară */
+tr.form-row,
+tr.form-row td {
+    overflow: visible !important;
+    position: static !important; /* Resetare poziționare pentru a nu bloca z-index */
+}
+
+/* Container principal React Select */
+.react-select-container {
+    width: 100%;
+    font-size: 0.95rem;
+    text-align: left;
+}
+
+/* Câmpul de input (Control) */
+.react-select__control {
+    background-color: #09090b !important;
+    border: 1px solid #333 !important;
+    border-radius: 8px !important;
+    min-height: 44px !important;
+    box-shadow: none !important;
+    cursor: pointer;
+}
+
+/* Focus pe control */
+.react-select__control--is-focused {
+    border-color: #dc2626 !important; /* Roșu la focus */
+    box-shadow: 0 0 0 1px #dc2626 !important;
+}
+
+/* Meniul care se deschide (Dropdown) */
 .react-select__menu {
-  background: #ffffff;
-  color: #000;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 18px 40px rgba(0,0,0,.35);
-  z-index: 9999;
+    background-color: #18181b !important; /* Gri foarte închis */
+    border: 1px solid #333 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.9) !important;
+    z-index: 99999 !important; /* Cel mai sus posibil */
+    margin-top: 8px !important;
+    /* overflow: hidden !important; */ /* Comentat pentru siguranță */
 }
+
+/* Lista de opțiuni */
+.react-select__menu-list {
+    padding: 0 !important;
+    max-height: 250px !important;
+}
+
+/* Opțiunile individuale */
 .react-select__option {
-  background: #fff;
-  color: #000;
-  padding: 10px 12px;
+    background-color: transparent !important;
+    color: #e4e4e7 !important; /* Text alb-gri */
+    padding: 12px 16px !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Hover pe opțiuni - Roșu Elegant */
+.react-select__option:hover,
+.react-select__option--is-focused {
+    background-color: #dc2626 !important;
+    color: #fff !important;
+}
+
+/* Opțiunea deja selectată */
+.react-select__option--is-selected {
+    background-color: #991b1b !important; /* Roșu mai închis */
+    color: #fff !important;
+}
+
+/* Input text în dropdown și Placeholder */
+.react-select__input-container,
+.react-select__single-value {
+    color: #fff !important;
+}
+.react-select__placeholder {
+    color: #71717a !important;
+}
+
+/* Tag-urile pentru selecție multiplă */
+.react-select__multi-value {
+    background-color: #27272a !important;
+    border-radius: 4px !important;
+    border: 1px solid #3f3f46;
+}
+.react-select__multi-value__label {
+    color: #fff !important;
+    padding: 3px 6px !important;
+}
+.react-select__multi-value__remove {
+    color: #a1a1aa !important;
+    cursor: pointer;
+}
+.react-select__multi-value__remove:hover {
+    background-color: #dc2626 !important;
+    color: white !important;
+}
+
+/* ============================================================
+   BUTOANE ACȚIUNI FORMULAR
+   ============================================================ */
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #2a2a2a;
+}
+
+.form-actions button {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
   cursor: pointer;
 }
-.react-select__option--is-focused { background: #fbe2e2; color: #000; }
-.react-select__option--is-selected { background: #ff1a1a; color: #fff; }
+
+.form-actions button[type="submit"] {
+  background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%);
+  color: white;
+  border: 1px solid #991b1b;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+.form-actions button[type="submit"]:hover {
+  background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+  transform: translateY(-1px);
+}
+
+.form-actions .btn-cancel {
+  background: transparent;
+  color: #a1a1aa;
+  border: 1px solid #3f3f46;
+}
+
+.form-actions .btn-cancel:hover {
+  background: #27272a;
+  color: #fff;
+  border-color: #52525b;
+}
 
 /* ===== Responsive ===== */
 @media (max-width: 720px){
@@ -267,7 +493,7 @@ button:hover { background: #a80000; transform: translateY(-1px); }
   .btn-inscriere { width: 100%; }
 }
 
-/* ===== Aliniere completă la stânga pentru pagina Concursuri ===== */
+/* ===== Aliniere stânga pagină ===== */
 .concursuri-container.concursuri-intern {
   text-align: left !important;
   align-items: flex-start;
@@ -362,10 +588,8 @@ button:hover { background: #a80000; transform: translateY(-1px); }
   }
 }
 
-
 /* ——— Mobile: aliniere completă la stânga și etichete vizibile ——— */
 @media (max-width: 768px) {
-  /* fiecare celulă pe două rânduri: etichetă sus, conținut jos */
   .concursuri-container tbody td {
     display: block;
     text-align: left !important;
@@ -374,7 +598,6 @@ button:hover { background: #a80000; transform: translateY(-1px); }
     padding: .5rem 0;
   }
 
-  /* eticheta din stânga (Perioadă / Activitate / Localitate / Acțiune) */
   .concursuri-container tbody td::before {
     display: block;
     content: attr(data-label);
@@ -383,7 +606,6 @@ button:hover { background: #a80000; transform: translateY(-1px); }
     margin-bottom: .25rem;
   }
 
-  /* celula de acțiuni: butoane full-width, stivuite */
   .concursuri-container .td-actions {
     display: grid !important;
     grid-template-columns: 1fr;

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Select from 'react-select';
 import {ToastContainer, toast} from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "../../components/Navbar";
 import "../../../static/css/Concursuri.css";
 import Footer from "../../components/Footer";
@@ -21,58 +20,136 @@ const Concursuri = () => {
         categorieVarsta: "",
         gradCentura: "",
         greutate: "",
+        inaltime: "",
         probe: "",
-        gen: "", // <-- adaugă aici
+        gen: "",
     });
 
+    const [sugestii, setSugestii] = useState({rol: "", nume_propriu: "", copii: []});
+    const [numeSelectat, setNumeSelectat] = useState("");
+
     const role = (rol || "").toLowerCase();
-    const CAN_SEE_ENTRIES = role === "admin" || role === "Antrenor";   // poate vedea înscrierile
+    const CAN_SEE_ENTRIES = role === "admin" || role === "Antrenor";
     const CAN_DELETE = role === "admin";
 
     const [selectedProbes, setSelectedProbes] = useState([]);
 
-    const probeOptions = [
+    // --- LISTA STANDARD DE PROBE ---
+    const probeOptionsStandard = [
         {value: 'Tull', label: 'Tull'},
+        {value: 'Tull Echipe', label: 'Tull Echipe'},
+        {value: 'Luptă Tradițională', label: 'Luptă Tradițională'},
         {value: 'Luptă', label: 'Luptă'},
+        {value: 'Luptă Echipe', label: 'Luptă Echipă'},
         {value: 'Tehnici speciale', label: 'Tehnici speciale'},
-        {value: 'Spargeri', label: 'Spargeri'}
+        {value: 'Tehnici speciale Echipe', label: 'Tehnici speciale Echipă'},
+        {value: 'Spargeri Forță', label: 'Spargeri Forță'},
+        {value: 'Spargeri Forță Echipe', label: 'Spargeri Forță Echipe'},
+        {value: 'Speed-Kick', label: 'Speed-Kick'},
+        {value: 'Speed-Punch', label: 'Speed-Punch'},
+        {value: 'Dinamometru', label: 'Dinamometru'}
     ];
 
+    // --- MAPPING GRADE PENTRU LOGICĂ ---
+    const mapGradToGup = {
+        "Alb": 10,
+        "Alb_cu_tresă_galbenă": 9,
+        "Galbena": 8,
+        "Galben_cu_tresă_verde": 7,
+        "Verde": 6,
+        "Verde_cu_tresă_albastru": 5,
+        "Albastră": 4,
+        "Albastră_cu_tresă_roșie": 3,
+        "Roșie": 2,
+        "Roșie_cu_tresă_neagră": 1,
+        "Neagră": 0
+    };
+
+    // --- FUNCȚIA DE FILTRARE PROBE (LOGICĂ SPECIALĂ) ---
+    const getProbeOptions = () => {
+        const numeConcurs = concursSelectat.toLowerCase();
+
+        // 1. LOGICĂ CUPA FAMILIEI (Prioritate maximă)
+        if (numeConcurs.includes("familiei")) {
+            return [
+                {value: 'Participare', label: 'Participare'}
+            ];
+        }
+
+        // 2. LOGICĂ CUPA HWARANG (Doar dacă nu e Cupa Familiei, dar e Hwarang)
+        if (numeConcurs.includes("hwarang")) {
+            const gradCurent = formData.gradCentura;
+            const gup = mapGradToGup[gradCurent];
+
+            if (gup === undefined) return probeOptionsStandard;
+
+            // Grade Mici (10 GUP -> 6 GUP) = Combinată
+            if (gup >= 6) {
+                return [
+                    {value: 'Probă Combinată', label: 'Probă Combinată'}
+                ];
+            }
+            // Grade Mari (5 GUP -> Dan) = Standard (fără combinată)
+            else {
+                return probeOptionsStandard;
+            }
+        }
+
+        // 3. LOGICĂ STANDARD (Orice alt concurs)
+        return probeOptionsStandard;
+    };
+    // ----------------------------------------------------
 
     const [concursuriViitoare, setConcursuriViitoare] = useState([]);
     const [numarInscrisi, setNumarInscrisi] = useState({});
+
     const fetchNumarInscrisi = async (numeConcurs) => {
-        const res = await fetch(`${API_BASE}/api/numar_inscrisi/${encodeURIComponent(numeConcurs)}`);
+        // Poate fi public, dar trimitem token just in case
+        const token = localStorage.getItem("token");
+        const headers = token ? { "Authorization": `Bearer ${token}` } : {};
+        const res = await fetch(`${API_BASE}/api/numar_inscrisi/${encodeURIComponent(numeConcurs)}`, {headers});
         const result = await res.json();
         setNumarInscrisi(prev => ({...prev, [numeConcurs]: result.nr}));
     };
-
 
     useEffect(() => {
         const r = localStorage.getItem("rol");
         setRol(r);
     }, []);
 
+    useEffect(() => {
+        const username = localStorage.getItem("username");
+        if (username) {
+            const token = localStorage.getItem("token");
+            fetch(`${API_BASE}/api/profil/sugestii_inscriere?username=${encodeURIComponent(username)}`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        setSugestii(data.data);
+                        if (data.data.rol === "sportiv") {
+                            setNumeSelectat(data.data.nume_propriu);
+                            setFormData(prev => ({...prev, nume: data.data.nume_propriu}));
+                        }
+                    }
+                })
+                .catch(err => console.error("Eroare la preluarea sugestiilor:", err));
+        }
+    }, []);
 
     useEffect(() => {
         const fetchConcursuri = async () => {
             const res = await fetch(`${API_BASE}/api/concursuri`);
             const data = await res.json();
-
-            // const viitoare = data.filter(c => new Date(c.dataStart) > new Date());
             setConcursuriViitoare(data);
-
-            // 🔁 Mutați aici
             for (const c of data) {
-                const res = await fetch(`${API_BASE}/api/numar_inscrisi/${encodeURIComponent(c.nume)}`);
-                const result = await res.json();
-                setNumarInscrisi(prev => ({...prev, [c.nume]: result.nr}));
+                // Aici apelam functia helper care gestioneaza token-ul optional
+                await fetchNumarInscrisi(c.nume);
             }
         };
-
         fetchConcursuri();
     }, []);
-
 
     const calculateAge = (dateString) => {
         const today = new Date();
@@ -97,14 +174,21 @@ const Concursuri = () => {
                 else if (age > 18) updated.categorieVarsta = "Senior";
                 else updated.categorieVarsta = "nu poate participa la concurs";
             }
+            if (name === "gradCentura") {
+                setSelectedProbes([]);
+            }
             return updated;
         });
     };
 
     const handleTrimiteCerere = (numeConcurs) => {
         setConcursSelectat(numeConcurs);
-        setOpenFormFor(prev => prev === numeConcurs ? null : numeConcurs); // toggle pe același concurs
+        setOpenFormFor(prev => prev === numeConcurs ? null : numeConcurs);
         setMesaj("");
+        if (openFormFor !== numeConcurs) {
+            setSelectedProbes([]);
+            setFormData(prev => ({...prev, gradCentura: ""}));
+        }
     };
 
     const handleAnuleaza = () => {
@@ -115,23 +199,31 @@ const Concursuri = () => {
             categorieVarsta: "",
             gradCentura: "",
             greutate: "",
+            inaltime: "",
             probe: "",
             gen: ""
         });
         setSelectedProbes([]);
         setGender("");
+        if (sugestii.rol !== "sportiv") {
+            setNumeSelectat("");
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const username = localStorage.getItem("username");
         const email = localStorage.getItem("email");
+        const token = localStorage.getItem("token");
         const probeTrimise = selectedProbes.map(p => p.value).join(", ");
 
         try {
             const res = await fetch(`${API_BASE}/api/inscriere_concurs`, {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
                 body: JSON.stringify({
                     username,
                     email,
@@ -143,7 +235,7 @@ const Concursuri = () => {
             });
 
             toast.success("Inscrierea a fost facuta cu succes!");
-            handleAnuleaza();                  // <- închide și resetează
+            handleAnuleaza();
             await fetchNumarInscrisi(concursSelectat);
         } catch (error) {
             console.error("Eroare la trimitere:", error);
@@ -151,48 +243,28 @@ const Concursuri = () => {
         }
     };
 
-
-    // useEffect(() => {
-    //     const fetchConcurs = async () => {
-    //         const res = await fetch("http://localhost:5000/api/concurs_permis", {
-    //             method: "POST",
-    //             headers: {"Content-Type": "application/json"},
-    //             body: JSON.stringify({username: localStorage.getItem("username")})
-    //         });
-    //
-    //         const result = await res.json();
-    //         if (result.status === "success") {
-    //             setConcurs(result.concurs); // ex: Cupa Hwarang 2025
-    //         } else {
-    //             navigate("/access-denied");
-    //         }
-    //     };
-    //
-    //     fetchConcurs();
-    // }, []);
-
-
     const handleDeleteConcurs = async (numeConcurs) => {
         const confirmDelete = window.confirm(`Ești sigur că vrei să ștergi concursul "${numeConcurs}"?`);
         if (!confirmDelete) return;
+        const token = localStorage.getItem("token");
 
         try {
             const res = await fetch(`${API_BASE}/api/sterge_concurs/${encodeURIComponent(numeConcurs)}`, {
-                method: "DELETE"
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
             });
 
             if (res.ok) {
-                toast.success("Concursul a fost șters cu succes!",
-                );
+                toast.success("Concursul a fost șters cu succes!");
                 setConcursuriViitoare(prev => prev.filter(c => c.nume !== numeConcurs));
             } else {
-                toast.error("Eroare la ștergerea concursului.",
-                );
+                toast.error("Eroare la ștergerea concursului.");
             }
         } catch (error) {
             console.error("Eroare la ștergere:", error);
-            toast.error("Eroare de rețea.",
-            );
+            toast.error("Eroare de rețea.");
         }
     };
 
@@ -200,7 +272,6 @@ const Concursuri = () => {
         c.nume.toLowerCase().includes(searchTerm.toLowerCase()) ||
         c.locatie.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
 
     return (
         <>
@@ -220,10 +291,10 @@ const Concursuri = () => {
                 <table>
                     <thead>
                     <tr>
-                        <th>Perioadă</th>
-                        <th>Activitate</th>
-                        <th>Localitate</th>
-                        <th>Acțiune</th>
+                        <th width="20%">Perioadă</th>
+                        <th width="35%">Activitate</th>
+                        <th width="25%">Localitate</th>
+                        <th width="20%">Acțiune</th>
                     </tr>
                     </thead>
 
@@ -231,39 +302,55 @@ const Concursuri = () => {
                     {concursuriFiltrate.map((c, index) => (
                         <React.Fragment key={index}>
                             <tr>
-                                <td data-label="Perioadă">{c.perioada}</td>
-                                <td data-label="Activitate">{c.nume}</td>
-                                <td data-label="Localitate">{c.locatie}</td>
-                                <td data-label="Acțiune" className="td-actions"
-                                    style={{display: "flex", flexDirection: "column", gap: "6px"}}>
-                                    <button className="btn-inscriere" onClick={() => handleTrimiteCerere(c.nume)}>
-                                        {openFormFor === c.nume ? "Ascunde formularul" : "Înscrie-te la concurs"}
-                                    </button>
+                                <td className="col-perioada" data-label="Perioadă">{c.perioada}</td>
+                                <td className="col-nume" data-label="Activitate">{c.nume}</td>
+                                <td className="col-localitate" data-label="Localitate">{c.locatie}</td>
 
-                                    {CAN_SEE_ENTRIES && (
-                                        <Link to={`/inscrisi/${encodeURIComponent(c.nume)}`}>
-                                            <button className="btn-inscriere">
-                                                Vezi înscrieri: {numarInscrisi[c.nume] ?? 0}
-                                            </button>
-                                        </Link>
-                                    )}
-
-                                    {CAN_DELETE && (
-                                        <button
-                                            className="btn-inscriere"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                                handleDeleteConcurs(c.nume);
-                                            }}
-                                        >
-                                            Șterge concursul
+                                <td data-label="Acțiune" className="td-actions">
+                                    <div style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "8px",
+                                        alignItems: "stretch"
+                                    }}>
+                                        <button className="btn-inscriere" onClick={() => handleTrimiteCerere(c.nume)}>
+                                            {openFormFor === c.nume ? "Ascunde formularul" : "Înscrie-te la concurs"}
                                         </button>
-                                    )}
+
+                                        {CAN_SEE_ENTRIES && (
+                                            <Link to={`/inscrisi/${encodeURIComponent(c.nume)}`}
+                                                  style={{textDecoration: 'none'}}>
+                                                <button className="btn-inscriere" style={{
+                                                    background: "#27272a",
+                                                    border: "1px solid #3f3f46",
+                                                    width: "100%"
+                                                }}>
+                                                    Vezi înscrieri: {numarInscrisi[c.nume] ?? 0}
+                                                </button>
+                                            </Link>
+                                        )}
+
+                                        {CAN_DELETE && (
+                                            <button
+                                                className="btn-inscriere"
+                                                style={{
+                                                    background: "transparent",
+                                                    border: "1px solid #ef4444",
+                                                    color: "#ef4444"
+                                                }}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    handleDeleteConcurs(c.nume);
+                                                }}
+                                            >
+                                                Șterge concursul
+                                            </button>
+                                        )}
+                                    </div>
                                 </td>
                             </tr>
 
-                            {/* ✅ Formularul apare fix sub concursul selectat */}
                             {openFormFor === c.nume && (
                                 <tr className="form-row">
                                     <td colSpan={4}>
@@ -271,49 +358,95 @@ const Concursuri = () => {
                                             <h2>Înscriere la: <span className="form-concurs-nume">{c.nume}</span></h2>
 
                                             <div className="form-grid">
+                                                {/* Câmpuri Nume, Data, Categorie... (identic cu înainte) */}
                                                 <div className="form-field">
                                                     <label>Nume complet sportiv</label>
-                                                    <input
-                                                        type="text"
-                                                        name="nume"
-                                                        placeholder="Nume complet sportiv"
-                                                        value={formData.nume}
-                                                        onChange={handleFormChange}
-                                                        required
-                                                    />
+                                                    {sugestii.rol === "sportiv" ? (
+                                                        <input
+                                                            type="text"
+                                                            name="nume"
+                                                            value={formData.nume}
+                                                            readOnly
+                                                            style={{
+                                                                backgroundColor: "#2a2a2a",
+                                                                color: "#ccc",
+                                                                cursor: "not-allowed",
+                                                                border: "1px solid #444"
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        <>
+                                                            {sugestii.copii && sugestii.copii.length > 0 && (
+                                                                <select
+                                                                    value={numeSelectat}
+                                                                    onChange={(e) => {
+                                                                        const val = e.target.value;
+                                                                        setNumeSelectat(val);
+                                                                        if (val !== "manual") {
+                                                                            setFormData(prev => ({...prev, nume: val}));
+                                                                        } else {
+                                                                            setFormData(prev => ({...prev, nume: ""}));
+                                                                        }
+                                                                    }}
+                                                                    style={{
+                                                                        width: "100%",
+                                                                        padding: "10px",
+                                                                        marginBottom: "10px",
+                                                                        borderRadius: "8px",
+                                                                        border: "1px solid #333",
+                                                                        backgroundColor: "#18181b",
+                                                                        color: "#fff"
+                                                                    }}
+                                                                >
+                                                                    <option value="">-- Alege un copil din listă --
+                                                                    </option>
+                                                                    {sugestii.copii.map((child, idx) => (
+                                                                        <option key={idx} value={child.nume}>
+                                                                            {child.nume} {child.grupa ? `(${child.grupa})` : ""}
+                                                                        </option>
+                                                                    ))}
+                                                                    <option value="manual">+ Înscrie pe altcineva
+                                                                        (manual)
+                                                                    </option>
+                                                                </select>
+                                                            )}
+
+                                                            {(numeSelectat === "manual" || !sugestii.copii || sugestii.copii.length === 0) && (
+                                                                <input
+                                                                    type="text"
+                                                                    name="nume"
+                                                                    placeholder="Scrie numele complet..."
+                                                                    value={formData.nume}
+                                                                    onChange={handleFormChange}
+                                                                    required
+                                                                />
+                                                            )}
+                                                        </>
+                                                    )}
                                                 </div>
 
                                                 <div className="form-field">
                                                     <label>Data nașterii</label>
-                                                    <input
-                                                        type="date"
-                                                        name="dataNasterii"
-                                                        value={formData.dataNasterii}
-                                                        onChange={handleFormChange}
-                                                        required
-                                                    />
+                                                    <input type="date" name="dataNasterii" value={formData.dataNasterii}
+                                                           onChange={handleFormChange} required/>
                                                 </div>
 
                                                 <div className="form-field">
                                                     <label>Categorie de vârstă</label>
-                                                    <input
-                                                        type="text"
-                                                        name="categorieVarsta"
-                                                        value={formData.categorieVarsta}
-                                                        readOnly
-                                                        placeholder="Categorie de vârstă"
-                                                    />
+                                                    <input type="text" name="categorieVarsta"
+                                                           value={formData.categorieVarsta} readOnly
+                                                           placeholder="Calculată automat"
+                                                           style={{backgroundColor: "#2a2a2a", cursor: "default"}}/>
                                                 </div>
 
                                                 <div className="form-field">
                                                     <label>Grad (centură)</label>
-                                                    <select
-                                                        name="gradCentura"
-                                                        value={formData.gradCentura}
-                                                        onChange={handleFormChange}
-                                                        required
-                                                    >
+                                                    <select name="gradCentura" value={formData.gradCentura}
+                                                            onChange={handleFormChange} required>
                                                         <option value="">Alege gradul</option>
+                                                        <option value="Alb">Alb (10 GUP)</option>
+                                                        <option value="Alb_cu_tresă_galbenă">Alb cu tresă galbenă
+                                                        </option>
                                                         <option value="Galbena">Galbenă</option>
                                                         <option value="Galben_cu_tresă_verde">Galben cu tresă verde
                                                         </option>
@@ -334,24 +467,24 @@ const Concursuri = () => {
 
                                                 <div className="form-field">
                                                     <label>Greutate (kg)</label>
-                                                    <input
-                                                        type="number"
-                                                        name="greutate"
-                                                        placeholder="Greutate (kg)"
-                                                        value={formData.greutate}
-                                                        onChange={handleFormChange}
-                                                        required
-                                                    />
+                                                    <input type="number" name="greutate" placeholder="Greutate (kg)"
+                                                           value={formData.greutate} onChange={handleFormChange}
+                                                           required/>
                                                 </div>
+
+                                                {c.cere_inaltime && (
+                                                    <div className="form-field">
+                                                        <label>Înălțime (cm)</label>
+                                                        <input type="number" name="inaltime" placeholder="Ex: 175"
+                                                               value={formData.inaltime} onChange={handleFormChange}
+                                                               required/>
+                                                    </div>
+                                                )}
 
                                                 <div className="form-field">
                                                     <label>Gen</label>
-                                                    <select
-                                                        name="gen"
-                                                        value={gender}
-                                                        onChange={(e) => setGender(e.target.value)}
-                                                        required
-                                                    >
+                                                    <select name="gen" value={gender}
+                                                            onChange={(e) => setGender(e.target.value)} required>
                                                         <option value="">Alege genul</option>
                                                         <option value="Masculin">Masculin</option>
                                                         <option value="Feminin">Feminin</option>
@@ -359,14 +492,26 @@ const Concursuri = () => {
                                                 </div>
 
                                                 <div className="form-field form-field--full">
-                                                    <label>Probele la care participă</label>
+                                                    {/* ETICHETA DINAMICĂ */}
+                                                    <label>
+                                                        {concursSelectat.toLowerCase().includes("familiei")
+                                                            ? "Mod de participare"
+                                                            : "Probele la care participă"
+                                                        }
+                                                    </label>
+
+                                                    {/* DROPDOWN DINAMIC (Probă Combinată / Participare / Standard) */}
                                                     <Select
-                                                        options={probeOptions}
+                                                        options={getProbeOptions()}
                                                         isMulti
                                                         value={selectedProbes}
                                                         onChange={setSelectedProbes}
                                                         className="react-select-container"
                                                         classNamePrefix="react-select"
+                                                        placeholder="Selectează..."
+                                                        noOptionsMessage={() => "Selectează întâi gradul centurii"}
+                                                        menuPosition="fixed"
+                                                        menuPlacement="auto"
                                                     />
                                                 </div>
                                             </div>
@@ -385,22 +530,7 @@ const Concursuri = () => {
                     ))}
                     </tbody>
                 </table>
-
-                {/* formularul global NU mai e necesar */}
             </div>
-
-            {/*<ToastContainer*/}
-            {/*    position="top-center"*/}
-            {/*    autoClose={4000}*/}
-            {/*    hideProgressBar={false}*/}
-            {/*    newestOnTop={false}*/}
-            {/*    closeOnClick*/}
-            {/*    rtl={false}*/}
-            {/*    pauseOnFocusLoss*/}
-            {/*    draggable*/}
-            {/*    pauseOnHover*/}
-            {/*    theme="dark"*/}
-            {/*/>*/}
             <Footer/>
         </>
     );

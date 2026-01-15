@@ -2,26 +2,22 @@ import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import {toast, ToastContainer} from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import {toast} from "react-toastify";
 import "../../../static/css/Login.css";
 import {Link} from "react-router-dom";
 import {API_BASE} from "../../config";
-
 
 const LoginForm = () => {
     const [formData, setFormData] = useState({username: "", password: ""});
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-
     useEffect(() => {
         const username = localStorage.getItem("username");
         if (username) {
-            navigate("/acasa", {replace: true}); // sau altă pagină principală
+            navigate("/acasa", {replace: true});
         }
     }, []);
-
 
     const handleChange = (e) => {
         setFormData((prev) => ({
@@ -44,20 +40,23 @@ const LoginForm = () => {
             const result = await res.json();
             if (result.status === "success") {
                 toast.success("Autentificare reușită!");
+
+                // SALVĂM TOKEN-UL
+                localStorage.setItem("token", result.token);
+
                 localStorage.setItem("username", result.user);
                 localStorage.setItem("rol", result.rol);
                 localStorage.setItem("email", result.email);
 
-                // ⏳ așteaptă 1.5 secunde înainte de redirect
                 setTimeout(() => {
                     if (["admin", "Parinte", "Sportiv"].includes(result.rol)) {
                         navigate("/acasa");
-                    }
-                    if (["Antrenor"].includes(result.rol)) {
+                    } else if (["Antrenor"].includes(result.rol)) {
                         navigate("/antrenor_dashboard");
-                    }
-                    if (["AntrenorExtern"].includes(result.rol)) {
+                    } else if (["AntrenorExtern"].includes(result.rol)) {
                         navigate("/concursuri-extern");
+                    } else {
+                        navigate("/acasa");
                     }
                 }, 750);
 
@@ -72,7 +71,6 @@ const LoginForm = () => {
     return (
         <>
             <Navbar/>
-            {/*<ToastContainer/>*/}
             <section className="login-container">
                 <h2>Autentificare</h2>
                 <form onSubmit={handleLogin}>

@@ -1,300 +1,248 @@
-/* ===== AdminDashboard.css – elegant dark+red, fără modificări în JSX ===== */
+/* =========================================
+   AdminDashboard.css - Layout Modern Grid
+   ========================================= */
 
-:root{
-  --adm-bg: #0f0f10;
-  --adm-surface: #111114;
-  --adm-surface-2: #16161b;
+:root {
+  --adm-bg: #0f0f12;
+  --adm-card-bg: #16161b;
+  --adm-border: #2a2a34;
   --adm-text: #ffffff;
-  --adm-muted: #b8b8c2;
-  --adm-border: #26262f;
-  --adm-accent: #ff1a1a;   /* roșu principal */
-  --adm-accent-2: #b30000; /* roșu închis pt hover */
-  --adm-gold: #ffd166;     /* accente linkuri doc */
-  --adm-shadow: 0 18px 60px rgba(0,0,0,.35);
-  --adm-radius: 14px;
+  --adm-text-muted: #a0a0aa;
+  --adm-accent: #b91c1c;       /* Roșu închis elegant */
+  --adm-accent-hover: #dc2626; /* Roșu mai aprins la hover */
 }
 
-/* ===== Layout general ===== */
-.admin-dashboard-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 1.6fr;
-  gap: clamp(1rem, 3vw, 2.5rem);
-  padding: clamp(1.25rem, 3vw, 2rem);
-  background: linear-gradient(180deg, var(--adm-bg), #0b0b0d);
-}
+/* Container Principal */
+.admin-dashboard-container {
+  min-height: 100vh;
 
-@media (max-width: 1024px) {
-  .admin-dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-}
+  /* --- MODIFICARE AICI --- */
+  /* Era 100px 20px 40px. Am redus primul număr (sus) la 40px */
+  padding: 40px 20px 40px;
+  /* ----------------------- */
 
-
-/* Breakpoints – control fin pe câte coloane apar */
-@media (max-width: 1024px){
-  .admin-left .btn-dashboard,
-  .admin-left a.btn-dashboard{ flex: 1 1 48%; }  /* ~2 pe rând */
-}
-@media (max-width: 560px){
-  .admin-left .btn-dashboard,
-  .admin-left a.btn-dashboard{ flex: 1 1 100%; } /* 1 pe rând pe mobil */
-}
-
-
-/* ===== Panouri (stânga/dreapta) ===== */
-.admin-left,
-.admin-right {
-  background: linear-gradient(180deg, var(--adm-surface), var(--adm-surface-2));
+  background-color: var(--adm-bg);
+  font-family: system-ui, -apple-system, sans-serif;
   color: var(--adm-text);
-  border: 1px solid var(--adm-border);
-  border-radius: var(--adm-radius);
-  box-shadow: var(--adm-shadow);
-  padding: clamp(1rem, 2vw, 1.5rem);
 }
 
-.admin-left h2,
-.admin-right h2,
-.admin-right h3 {
-  margin-top: 0;
-  margin-bottom: .9rem;
+.dashboard-header {
+  max-width: 1400px;
+  margin: 0 auto 30px;
+  border-bottom: 1px solid var(--adm-border);
+  padding-bottom: 20px;
+}
+
+.dashboard-header h1 {
+  font-size: 2rem;
   font-weight: 800;
-  letter-spacing: .2px;
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255,0,0,.15);
+  margin: 0;
+  background: linear-gradient(90deg, #fff, #aaa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.admin-left > div[style*="flex"]{
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 14px !important;
-  align-items: stretch;          /* butoane cu aceeași înălțime vizuală */
+/* Grid Layout */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 25px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.admin-right {
+/* --- CARDURI (Cutii) --- */
+.dashboard-card {
+  background: var(--adm-card-bg);
+  border: 1px solid var(--adm-border);
+  border-radius: 16px;
+  padding: 25px;
   display: flex;
   flex-direction: column;
-}
-
-/* ===== Grup de linkuri/butoane din stânga ===== */
-.admin-left .btn-dashboard,
-.admin-left a.btn-dashboard {
-  background: linear-gradient(180deg, var(--adm-accent), #cc0000);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,.06);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: .95rem;
-  transition: transform .18s ease, box-shadow .22s ease, filter .18s ease;
-  gap: .5rem;
-  box-shadow: 0 8px 22px rgba(255,0,0,.18);
-  flex: 1 1 clamp(240px, 32%, 360px); /* 3 pe rând pe ecrane mari, 2 pe medii, 1 pe mobil */
-  display: flex;                      /* centrare frumoasă a textului */
-  justify-content: center;
-  align-items: center;
-  min-height: 52px;                   /* înălțime uniformă */
-  padding: .9rem 1.1rem;
-  text-align: center;
-  white-space: normal;                /* permite wrap pe titluri lungi */
-  border-radius: 12px;
-
-}
-
-.admin-left .btn-dashboard:hover,
-.admin-left a.btn-dashboard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 34px rgba(255,0,0,.28);
-  filter: saturate(1.03);
-}
-
-/* Spațiere mai echilibrată între rânduri */
-.admin-left .btn-dashboard + .btn-dashboard {
-  margin-left: 0; /* siguranta, rely on gap */
-}
-
-.admin-left .btn-dashboard:active,
-.admin-left a.btn-dashboard:active {
-  transform: translateY(0);
-}
-
-.admin-left .btn-dashboard:hover,
-.admin-left a.btn-dashboard:hover{
-  transform: translateY(-2px);
-}
-
-/* ===== Stil alternativ pt .btn-dashboard peste tot (fallback dacă se folosesc și în dreapta) ===== */
-.btn-dashboard {
-  background: linear-gradient(180deg, var(--adm-accent), #cc0000);
-  color: #fff;
-  padding: .6rem 1rem;
-  border: 1px solid rgba(255,255,255,.06);
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: .95rem;
-  transition: transform .18s ease, box-shadow .22s ease, filter .18s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: .5rem;
-  box-shadow: 0 8px 22px rgba(255,0,0,.18);
-}
-.btn-dashboard:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(255,0,0,.28); }
-
-/* ===== Upload fișiere (dreapta) ===== */
-.custom-file-upload {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: .75rem;
-  margin-bottom: 1rem;
+  overflow: hidden;
 }
 
-.custom-file-upload label {
-  background: #fff;
-  color: #000;
-  padding: .7rem 1.2rem;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 800;
-  border: 1px solid #e8e8e8;
-  transition: background .2s ease, color .2s ease, transform .18s ease, box-shadow .22s ease;
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border-color: #444;
 }
 
-.custom-file-upload label:hover {
-  background: var(--adm-accent);
+/* Linia roșie decorativă sus */
+.dashboard-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--adm-accent), #7f1d1d);
+  opacity: 0.7;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
   color: #fff;
-  box-shadow: 0 10px 24px rgba(255,0,0,.25);
-  transform: translateY(-1px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.custom-file-upload input[type="file"] {
-  display: none;
+.card-title i {
+  color: var(--adm-accent-hover);
 }
 
-/* ===== Lista fișierelor selectate ===== */
-.admin-right ul {
-  list-style: none;
-  padding: 0;
-  margin: .25rem 0 0 0;
-  color: var(--adm-muted);
+/* --- LISTA DE LINKURI (Butoane) --- */
+.action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-.admin-right li {
+
+.dashboard-btn {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: .75rem;
-  background: rgba(255,255,255,.02);
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--adm-border);
   border-radius: 10px;
-  padding: .6rem .8rem;
-  margin-bottom: .6rem;
-}
-
-/* ===== Butoane din dreapta (upload + delete) ===== */
-.admin-right button {
-  background: linear-gradient(180deg, var(--adm-accent), #cc0000);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,.06);
-  border-radius: 10px;
-  padding: .6rem 1rem;
-  font-weight: 800;
-  cursor: pointer;
-  transition: transform .18s ease, box-shadow .22s ease, filter .18s ease;
-  box-shadow: 0 8px 22px rgba(255,0,0,.18);
-}
-
-.admin-right button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 14px 34px rgba(255,0,0,.28);
-}
-
-.admin-right li button {
-  /* butonul „Șterge” din listă */
-  background: linear-gradient(180deg, #2a2a2a, #1b1b1b);
-  color: #fff;
-  border: 1px solid var(--adm-border);
-  box-shadow: none;
-}
-.admin-right li button:hover {
-  background: #2f2f2f;
-  transform: translateY(-1px);
-}
-
-/* ——— Butonul „Încarcă fișierele” mic și compact ——— */
-.btn-upload{
-  align-self: flex-start;          /* nu se mai întinde pe lățime */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 12px;                    /* înălțime fixă mică */
-  padding: 0 4px;                 /* lateral doar */
-  margin-top: .25rem;
-  border-radius: 10px;
-  font-size: .95rem;
-  background: linear-gradient(180deg, var(--adm-accent), #cc0000);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,.06);
-  cursor: pointer;
-  transition: transform .18s ease, box-shadow .22s ease, filter .18s ease;
-  box-shadow: 0 8px 22px rgba(255,0,0,.18);
-}
-.btn-upload:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 14px 34px rgba(255,0,0,.28);
-}
-
-
-/* ===== Link către document încărcat ===== */
-.document-link {
-  color: var(--adm-gold);
+  color: #e4e4e7;
   text-decoration: none;
-  font-weight: 800;
-  letter-spacing: .2px;
-  transition: color .18s ease, text-shadow .18s ease;
-}
-.document-link:hover {
-  color: #ff4da6; /* accent roz-roșu pe hover */
-  text-decoration: underline;
-  text-shadow: 0 0 10px rgba(255,77,166,.25);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
 }
 
-/* ===== Mesaje de status upload ===== */
-.admin-right p {
-  margin: .35rem 0;
-}
-.admin-right p[style*="color: lime"] {
-  /* mesajul tău existent de succes are style inline "color: 'lime'"; îl facem să arate bine pe dark */
-  font-weight: 700;
-  text-shadow: 0 0 12px rgba(0,255,0,.25);
-}
-
-/* ===== Spațiere internă / micro layout ===== */
-.admin-left > div[style*="flex"] {
-  /* containerul cu butoanele din stânga */
-  gap: .75rem !important;
-}
-
-.admin-right h3 {
-  margin: 1.25rem 0 .75rem;
-  font-weight: 800;
+.dashboard-btn:hover {
+  background: rgba(185, 28, 28, 0.1); /* Tentă roșie fină */
+  border-color: var(--adm-accent);
   color: #fff;
+  padding-left: 20px; /* Efect de mișcare */
 }
 
-/* ===== Focus vizibil pentru accesibilitate ===== */
-.btn-dashboard:focus,
-.custom-file-upload label:focus,
-.admin-right button:focus,
-.document-link:focus {
-  outline: 3px solid rgba(255, 26, 26, 0.35);
-  outline-offset: 2px;
-  border-radius: 10px;
+.dashboard-btn::after {
+  content: '→';
+  opacity: 0;
+  transition: opacity 0.2s;
 }
 
-/* ===== Scrollbar discret pt liste mai lungi (opțional) ===== */
-.admin-right ul::-webkit-scrollbar {
-  height: 8px;
-  width: 8px;
+.dashboard-btn:hover::after {
+  opacity: 1;
 }
-.admin-right ul::-webkit-scrollbar-thumb {
-  background: #2b2b34;
-  border-radius: 999px;
+
+/* --- ZONA DE UPLOAD --- */
+.upload-zone {
+  margin-bottom: 20px;
+  border: 2px dashed var(--adm-border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.2s;
+  background: rgba(0,0,0,0.2);
+}
+
+.upload-zone:hover {
+  border-color: var(--adm-text-muted);
+  background: rgba(255,255,255,0.02);
+}
+
+.custom-file-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background: var(--adm-border);
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.custom-file-label:hover {
+  background: #3f3f46;
+}
+
+.upload-action-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  background: linear-gradient(135deg, var(--adm-accent), var(--adm-accent-hover));
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.upload-action-btn:hover {
+  filter: brightness(1.1);
+}
+
+.file-list-preview {
+  margin: 10px 0;
+  list-style: none;
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--adm-text-muted);
+}
+
+/* Lista Documente Existente */
+.doc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.doc-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.9rem;
+}
+
+.doc-link {
+  color: var(--adm-text);
+  text-decoration: none;
+  transition: color 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70%;
+}
+
+.doc-link:hover {
+  color: var(--adm-accent-hover);
+  text-decoration: underline;
+}
+
+.btn-delete-doc {
+  background: transparent;
+  color: #666;
+  border: 1px solid #333;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.btn-delete-doc:hover {
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+/* Responsive Mobile */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -21,8 +21,12 @@ const AdminSetPermisiuni = () => {
   }, [navigate]);
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/antrenori_externi`).then(r => r.json()).then(setAntrenori);
-    fetch(`${API_BASE}/api/toate_concursurile`).then(r => r.json()).then(d => setConcursuri(d.concursuri));
+    // Cereri cu token (chiar dacă antrenorii externi ar putea fi publici, e bine să securizăm)
+    const token = localStorage.getItem("token");
+    const headers = { "Authorization": `Bearer ${token}` };
+
+    fetch(`${API_BASE}/api/antrenori_externi`, { headers }).then(r => r.json()).then(setAntrenori);
+    fetch(`${API_BASE}/api/toate_concursurile`, { headers }).then(r => r.json()).then(d => setConcursuri(d.concursuri));
   }, []);
 
   const handleUserSelect = (e) => {
@@ -38,9 +42,13 @@ const AdminSetPermisiuni = () => {
   };
 
   const handleSave = () => {
+    const token = localStorage.getItem("token");
     fetch(`${API_BASE}/api/set_permisiuni`, {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+      },
       body: JSON.stringify({ user_id: userId, concurs_ids: selectedConcursIds })
     })
       .then(res => res.json())
@@ -52,7 +60,10 @@ const AdminSetPermisiuni = () => {
 
   useEffect(() => {
     if (selectedUser) {
-      fetch(`${API_BASE}/api/get_permisiuni/${selectedUser}`)
+      const token = localStorage.getItem("token");
+      fetch(`${API_BASE}/api/get_permisiuni/${selectedUser}`, {
+          headers: { "Authorization": `Bearer ${token}` }
+      })
         .then(res => res.json())
         .then(data => {
           const set = new Set(data);

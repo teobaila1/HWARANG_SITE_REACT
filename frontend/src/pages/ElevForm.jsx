@@ -17,11 +17,11 @@ const ElevForm = ({ initial = {}, onClose, onSubmit }) => {
   const [grupa, setGrupa] = useState(initial.grupa || "");
 
   // preferăm exact cheile backend-ului: parinte_id / parinte_nume
-  const [parinteId] = useState(
-    initial.parinte_id ?? initial.parent_id ?? null
+  const [parinteId, setParinteId] = useState(
+    initial.parinte_id || initial.parent_id || ""
   );
   const [parinteNume, setParinteNume] = useState(
-    initial.parinte_nume || initial.parent_name || initial.parent_display || ""
+    initial.parent_display || initial.parinte_nume || ""
   );
 
   // dacă inițial vine „M/F”, normalizează la Masculin/Feminin
@@ -36,20 +36,17 @@ const ElevForm = ({ initial = {}, onClose, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const payload = {
-      ...(isEdit ? { id: initial.id } : {}),
-      nume: nume.trim(),
-      varsta: varsta === "" ? null : Number(varsta),
-      gen: normGen(gen),
-      grupa: grupa.trim(),
-    };
-
-    // IMPORTANT: backend cere exact una din aceste chei
-    if (parinteId != null) payload.parinte_id = Number(parinteId);
-    if (parinteNume && parinteNume.trim()) payload.parinte_nume = parinteNume.trim();
-
-    onSubmit(payload, isEdit);
+    onSubmit({
+      id: initial.id, // null dacă e add
+      nume,
+      varsta,
+      gen,
+      grupa,
+      // Trimitem ambele: și ID-ul (dacă există) și Numele (dacă a fost modificat)
+      parinte_id: parinteId || null,
+      parent_display: parinteNume,
+      parinte_nume: parinteNume // Backend-ul caută și acest câmp
+    }, isEdit);
   };
 
   return (

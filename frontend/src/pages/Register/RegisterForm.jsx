@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import {ToastContainer, toast} from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import "../../../static/css/Register.css";
 import {Link} from "react-router-dom";
 import {API_BASE} from "../../config";
@@ -15,7 +14,7 @@ const Register = () => {
         password: "",
         confirm: "",
         tip: "",
-        varsta: "",
+        data_nasterii: "",
         grupe: ""
     });
 
@@ -24,16 +23,14 @@ const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
 
-    // copiii sunt OPȚIONALI
     const [useChildren, setUseChildren] = useState(false);
-    const [copii, setCopii] = useState([]); // start cu listă goală
+    const [copii, setCopii] = useState([]);
 
     const handleChange = (e) => {
         const {name, value} = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]: value,
-            ...(name === "tip" && value === "Parinte" ? {varsta: "Peste 18"} : {}),
+            [name]: value
         }));
     };
 
@@ -50,6 +47,13 @@ const Register = () => {
         });
     };
 
+    const isAdultByYear = (dateString) => {
+        if (!dateString) return false;
+        const birthYear = new Date(dateString).getFullYear();
+        const currentYear = new Date().getFullYear();
+        return (currentYear - birthYear) >= 18;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
@@ -59,12 +63,25 @@ const Register = () => {
             return;
         }
 
-        if (formData.tip === "Sportiv" && formData.varsta === "Sub 18") {
-            toast.error("Sportivii sub 18 ani nu pot crea cont. Rugăm părintele să se înregistreze.");
-            return;
+        if (formData.tip === "Sportiv") {
+            if (!formData.data_nasterii) {
+                toast.error("Data nașterii este obligatorie.");
+                return;
+            }
+            if (!isAdultByYear(formData.data_nasterii)) {
+                toast.error("Pentru sportivii sub 18 ani (calculat la nivel de an), contul trebuie creat de un părinte.");
+                return;
+            }
         }
 
-        // trimitem numai copiii completați cu ceva (inclusiv gen)
+        // Validare Antrenor - Data nașterii e acum obligatorie
+        if (formData.tip === "Antrenor") {
+             if (!formData.data_nasterii) {
+                toast.error("Data nașterii este obligatorie pentru antrenori.");
+                return;
+            }
+        }
+
         const copiiTrimisi =
             useChildren && formData.tip === "Parinte"
                 ? copii.filter((c) => c.nume || c.grupa || c.varsta || c.gen)
@@ -88,7 +105,7 @@ const Register = () => {
                     password: "",
                     confirm: "",
                     tip: "",
-                    varsta: "",
+                    data_nasterii: "",
                     grupe: ""
                 });
                 setUseChildren(false);
@@ -104,7 +121,6 @@ const Register = () => {
     return (
         <>
             <Navbar/>
-            {/* <ToastContainer /> */}
             <section className="register-container">
                 <h2>Cerere Cont HWARANG</h2>
                 <form onSubmit={handleSubmit}>
@@ -149,8 +165,8 @@ const Register = () => {
                             onChange={handleChange}
                         />
                         <span onClick={() => setShowPassword(!showPassword)} className="eye-toggle">
-              {showPassword ? "🙈" : "👁️"}
-            </span>
+                          {showPassword ? "🙈" : "👁️"}
+                        </span>
                     </div>
 
                     <label>Confirmă Parola</label>
@@ -164,26 +180,36 @@ const Register = () => {
                             onChange={handleChange}
                         />
                         <span onClick={() => setShowConfirm(!showConfirm)} className="eye-toggle">
-              {showConfirm ? "🙈" : "👁️"}
-            </span>
+                          {showConfirm ? "🙈" : "👁️"}
+                        </span>
                     </div>
 
                     <label>Tip utilizator:</label>
                     <select name="tip" required onChange={handleChange} value={formData.tip}>
                         <option value="">Selectează</option>
                         <option value="Parinte">Părinte</option>
-                        <option value="Sportiv">Sportiv/Copil</option>
+                        <option value="Sportiv">Sportiv (Peste 18 ani)</option>
                         <option value="Antrenor">Antrenor</option>
                     </select>
 
-                    {formData.tip === "Sportiv" && (
+                    {/* --- CÂMP DATĂ NAȘTERE --- */}
+                    {/* Afișăm pentru Sportiv, Parinte ȘI Antrenor */}
+                    {(formData.tip === "Sportiv" || formData.tip === "Parinte" || formData.tip === "Antrenor") && (
                         <>
-                            <label>Vârstă:</label>
-                            <select name="varsta" required onChange={handleChange} value={formData.varsta}>
-                                <option value="">Selectează</option>
-                                <option value="Peste 18">Peste 18 ani</option>
-                                <option value="Sub 18">Sub 18 ani</option>
-                            </select>
+                            <label>Data Nașterii:</label>
+                            <input
+                                type="date"
+                                name="data_nasterii"
+                                // Este required pentru Sportiv și Antrenor
+                                required={formData.tip === "Sportiv" || formData.tip === "Antrenor"}
+                                value={formData.data_nasterii}
+                                onChange={handleChange}
+                            />
+                            {formData.tip === "Sportiv" && (
+                                <small style={{color: "#aaa", display: "block", marginTop: "-10px", marginBottom: "10px"}}>
+                                    * Trebuie să împlinești 18 ani anul acesta.
+                                </small>
+                            )}
                         </>
                     )}
 
@@ -211,15 +237,13 @@ const Register = () => {
                                             />
                                             <input
                                                 type="number"
-                                                placeholder="Vârstă"
-                                                min="1"
-                                                max="30"
+                                                placeholder="Vârstă (ani)"
                                                 value={copil.varsta}
                                                 onChange={(e) => handleCopilChange(index, "varsta", e.target.value)}
                                             />
                                             <input
                                                 type="text"
-                                                placeholder="Grupa (ex: Grupa 1)"
+                                                placeholder="Grupa"
                                                 value={copil.grupa}
                                                 onChange={(e) => handleCopilChange(index, "grupa", e.target.value)}
                                             />
@@ -227,22 +251,16 @@ const Register = () => {
                                                 value={copil.gen || ""}
                                                 onChange={(e) => handleCopilChange(index, "gen", e.target.value)}
                                             >
-                                                <option value="">Gen (—)</option>
+                                                <option value="">Gen</option>
                                                 <option value="M">M</option>
                                                 <option value="F">F</option>
                                             </select>
-                                            <button
-                                                type="button"
-                                                className="btn btn-ghost"
-                                                onClick={() => stergeCopil(index)}
-                                            >
+                                            <button type="button" className="btn btn-ghost" onClick={() => stergeCopil(index)}>
                                                 Elimină
                                             </button>
                                         </div>
                                     ))}
-                                    <button type="button" onClick={adaugaCopil} className="adauga-copil">
-                                        + Adaugă copil
-                                    </button>
+                                    <button type="button" onClick={adaugaCopil} className="adauga-copil">+ Adaugă copil</button>
                                 </>
                             )}
                         </>
@@ -259,7 +277,6 @@ const Register = () => {
                                 onChange={(e) => setFormData({...formData, grupe: e.target.value})}
                                 required
                             />
-                            <small>Separă grupele prin virgulă.</small>
                         </>
                     )}
 
@@ -268,11 +285,8 @@ const Register = () => {
 
                     <button type="submit">Trimite cererea</button>
                     Ai un cont deja creat?
-                    <Link
-                        to="/autentificare"
-                        style={{color: "#b266ff", textDecoration: "none", fontWeight: "bold"}}
-                    >
-                        Autentifică-te aici.
+                    <Link to="/autentificare" style={{color: "#b266ff", textDecoration: "none", fontWeight: "bold", marginLeft: "5px"}}>
+                         Autentifică-te aici.
                     </Link>
                 </form>
             </section>

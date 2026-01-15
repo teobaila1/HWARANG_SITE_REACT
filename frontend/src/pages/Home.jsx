@@ -6,7 +6,7 @@ import 'aos/dist/aos.css';
 import Navbar from "../components/Navbar";
 import OrarSwiper from "../components/OrarSwiper";
 import Footer from "../components/Footer";
-// import NextEventFeed from "../components/NextEventFeed";
+import NextEventFeed from "../components/NextEventFeed";
 import "../../static/css/FooterHome.css";
 import {toast} from "react-toastify";
 
@@ -26,6 +26,11 @@ const Home = () => {
     return (
         <>
             <Navbar/>
+
+
+            {/* Adaugi componenta aici, sub Navbar */}
+      <NextEventFeed />
+
 
             <div className="video-container">
                 <video autoPlay muted loop playsInline id="bg-video" poster="/images/hero_poster.jpg">

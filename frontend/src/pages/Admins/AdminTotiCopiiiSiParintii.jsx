@@ -21,7 +21,12 @@ const AdminTotiCopiiiSiParintii = () => {
     setLoading(true);
     setMesaj("");
     try {
-      const res = await fetch(`${API_BASE}/api/toti_copiii`);
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE}/api/toti_copiii`, {
+          headers: {
+              "Authorization": `Bearer ${token}`
+          }
+      });
       const result = await res.json();
       if (result.status === "success") {
         setData(result.date || []);
@@ -75,11 +80,15 @@ const AdminTotiCopiiiSiParintii = () => {
   const saveEditChild = async () => {
     if (!editChild) return;
     const admin_username = localStorage.getItem("username") || "";
+    const token = localStorage.getItem("token");
 
     try {
       const res = await fetch(`${API_BASE}/api/admin/copii/${editChild.child.id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify({
           admin_username,
           parent_username: editChild.parentUsername,
@@ -105,11 +114,15 @@ const AdminTotiCopiiiSiParintii = () => {
   const deleteChild = async (parentUsername, child) => {
     const admin_username = localStorage.getItem("username") || "";
     if (!window.confirm(`Ștergi copilul „${child.nume}”?`)) return;
+    const token = localStorage.getItem("token");
 
     try {
       const res = await fetch(`${API_BASE}/api/admin/copii/${child.id}`, {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify({ admin_username, parent_username: parentUsername }),
       });
       const js = await res.json().catch(() => ({}));
@@ -133,18 +146,22 @@ const AdminTotiCopiiiSiParintii = () => {
   const saveEditParent = async () => {
     if (!editParent) return;
     const admin_username = localStorage.getItem("username") || "";
+    const token = localStorage.getItem("token");
 
     try {
       const res = await fetch(
         `${API_BASE}/api/admin/parinte/${encodeURIComponent(editParent.username)}`,
         {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+          },
           body: JSON.stringify({
             admin_username,
             new_username: editParent.username.trim(),
             email: (editParent.email || "").trim() || null,
-            nume_complet: (editParent.nume_complet || "").trim() || null, // 👈 trimitem numele complet
+            nume_complet: (editParent.nume_complet || "").trim() || null,
           }),
         }
       );
@@ -164,13 +181,17 @@ const AdminTotiCopiiiSiParintii = () => {
   const deleteParent = async (username) => {
     const admin_username = localStorage.getItem("username") || "";
     if (!window.confirm(`Ștergi părintele „${username}” (cu toți copiii lui)?`)) return;
+    const token = localStorage.getItem("token");
 
     try {
       const res = await fetch(
         `${API_BASE}/api/admin/parinte/${encodeURIComponent(username)}`,
         {
           method: "DELETE",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+          },
           body: JSON.stringify({ admin_username }),
         }
       );
@@ -218,7 +239,7 @@ const AdminTotiCopiiiSiParintii = () => {
                             openEditParent(
                               entry.parinte.username,
                               entry.parinte.email,
-                              entry.parinte.nume_complet // 👈 vine din backend
+                              entry.parinte.nume_complet
                             )
                           }
                         >

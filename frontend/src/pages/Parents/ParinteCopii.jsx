@@ -12,10 +12,22 @@ const ParinteCopii = () => {
     const [gen, setGen] = useState("");
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const rol = localStorage.getItem("rol");
+        if (rol !== "Parinte" && rol !== "admin") {
+            navigate("/access-denied");
+        }
+        fetchCopii();
+    }, []);
+
     const fetchCopii = async () => {
+        const token = localStorage.getItem("token");
         const res = await fetch(`${API_BASE}/api/copiii_mei`, {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}` // <-- Token
+            },
             body: JSON.stringify({username: localStorage.getItem("username")}),
         });
 
@@ -25,43 +37,37 @@ const ParinteCopii = () => {
         }
     };
 
-    useEffect(() => {
-        fetchCopii();
-    }, []);
-
-    useEffect(() => {
-        const rol = localStorage.getItem("rol");
-        if (rol !== "Parinte" && rol !== "admin") {
-            navigate("/access-denied");
-        }
-    }, []);
-
     const handleAddCopil = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem("token");
 
-        const payload = {
-            username: localStorage.getItem("username"),
-            nume,
-            varsta,
-            grupa,
-            gen,  // ← Adăugat aici
-        };
-
+        // Backend-ul pentru adăugare copil de către părinte e de obicei /api/adauga_copil
+        // Verifică numele exact al rutei în backend (probabil toti_copiii_parintilor.py)
         const res = await fetch(`${API_BASE}/api/adauga_copil`, {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(payload),
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}` // <-- Token
+            },
+            body: JSON.stringify({
+                parinte_username: localStorage.getItem("username"),
+                nume,
+                varsta,
+                grupa,
+                gen
+            }),
         });
 
         const result = await res.json();
         if (result.status === "success") {
+            // Reîncărcăm lista și resetăm formularul
+            fetchCopii();
             setNume("");
             setVarsta("");
             setGrupa("");
             setGen("");
-            fetchCopii(); // reîncarcă lista
         } else {
-            alert("Eroare la adăugarea copilului.");
+            alert(result.message || "Eroare la adăugare copil.");
         }
     };
 

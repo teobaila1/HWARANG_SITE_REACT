@@ -1,173 +1,241 @@
-/* ========= FormConcurs.css – elegant dark+red ========= */
+/* =========================================
+   FormConcurs.css - IZOLAT & OPTIMIZAT
+   ========================================= */
 
-:root{
-  --fc-bg: #0f0f12;
-  --fc-surface: #111114;
-  --fc-surface-2: #16161b;
-  --fc-text: #ffffff;
-  --fc-muted: #c8c8d0;
-  --fc-border: #2a2a34;
-  --fc-accent: #ff1a1a;
-  --fc-accent-2: #cc0000;
-  --fc-shadow: 0 22px 60px rgba(0,0,0,.35);
-  --fc-radius: 16px;
-}
-
-/* Card wrapper */
-.form-concurs-wrapper{
-  max-width: 760px;
-  margin: 96px auto 56px;
-  padding: clamp(1.25rem, 3.5vw, 2rem);
-  background: linear-gradient(180deg, var(--fc-surface), var(--fc-surface-2));
-  color: var(--fc-text);
-  border: 1px solid var(--fc-border);
-  border-radius: var(--fc-radius);
-  box-shadow: var(--fc-shadow);
+.admin-create-scope {
+    --ac-bg: #0f0f12;
+    --ac-card: #18181c;
+    --ac-input: #0b0b0e;
+    --ac-border: #2a2a34;
+    --ac-accent: #ff1a1a;
+    --ac-text: #ffffff;
+    --ac-text-muted: #a0a0aa;
 }
 
-.form-concurs-wrapper h2{
-  margin: 0 0 .9rem;
-  text-align: center;
-  font-weight: 900;
-  letter-spacing: .3px;
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255,0,0,.18);
+.admin-create-scope.page-container {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: var(--ac-bg);
 }
 
-/* Form layout */
-.form-concurs{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
+.admin-create-scope .create-card {
+    width: 100%;
+    max-width: 550px; /* Puțin mai îngust pentru eleganță */
+    background: var(--ac-card);
+    border: 1px solid var(--ac-border);
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: visible; /* Pt ca calendarul să iasă din card dacă e nevoie */
 }
 
-/* Labels */
-.form-concurs label{
-  margin-top: 10px;
-  margin-bottom: 4px;
-  font-size: .95rem;
-  font-weight: 700;
-  color: #e9e9f2;
+.admin-create-scope .create-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #990000, var(--ac-accent));
 }
 
-/* Inputs (inclusiv cele generate de react-datepicker) */
-.form-concurs input,
-.form-concurs .react-datepicker__input-container input{
-  width: 100%;
-  padding: .78rem .9rem;
-  border-radius: 12px;
-  border: 1px solid #2e2e38;
-  background: #0c0c10;
-  color: #fff;
-  font-size: 1rem;
-  outline: none;
-  transition: border .25s ease, box-shadow .25s ease, background .25s ease;
+.admin-create-scope h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--ac-text);
+    font-weight: 800;
+    font-size: 1.6rem;
 }
 
-.form-concurs input::placeholder,
-.form-concurs .react-datepicker__input-container input::placeholder{
-  color: #a7a7b0;
+/* INPUTURI */
+.admin-create-scope label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--ac-text-muted);
+    font-weight: 600;
+    font-size: 0.85rem;
 }
 
-.form-concurs input:hover,
-.form-concurs .react-datepicker__input-container input:hover{
-  border-color: #3a3a46;
+.admin-create-scope input[type="text"],
+.admin-create-scope .react-datepicker__input-container input {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--ac-input);
+    border: 1px solid var(--ac-border);
+    border-radius: 10px;
+    color: var(--ac-text);
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    margin-bottom: 15px;
 }
 
-.form-concurs input:focus,
-.form-concurs .react-datepicker__input-container input:focus{
-  border-color: var(--fc-accent);
-  background: #101015;
-  box-shadow: 0 0 0 3px rgba(255,26,26,.22), 0 0 12px rgba(255,0,0,.18);
+.admin-create-scope input:focus,
+.admin-create-scope .react-datepicker__input-container input:focus {
+    border-color: var(--ac-accent);
+    box-shadow: 0 0 0 3px rgba(255, 26, 26, 0.15);
+    background: #121216;
 }
 
-/* Range picker (2 coloane pe ecrane medii+) */
-.date-range-picker{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-}
-@media (min-width: 560px){
-  .date-range-picker{ grid-template-columns: 1fr 1fr; }
+/* Datepicker Grid */
+.admin-create-scope .date-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 5px;
 }
 
-/* Button */
-.form-concurs button{
-  margin-top: .6rem;
-  padding: .9rem 1.1rem;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(180deg, var(--fc-accent), var(--fc-accent-2));
-  color: #fff;
-  font-weight: 900;
-  letter-spacing: .2px;
-  cursor: pointer;
-  box-shadow: 0 12px 30px rgba(255,0,0,.22);
-  transition: transform .18s ease, box-shadow .22s ease, filter .18s ease;
-}
-.form-concurs button:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 18px 42px rgba(255,0,0,.30);
-  filter: saturate(1.04);
+/* --- CHECKBOX CUSTOM --- */
+.admin-create-scope .checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--ac-border);
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 25px;
+    margin-top: 5px;
 }
 
-/* Status */
-.status-msg{
-  margin-top: .75rem;
-  text-align: center;
-  font-weight: 800;
-  color: #6bff93;              /* lime plăcut pe dark */
-  text-shadow: 0 0 10px rgba(0,255,120,.22);
+.admin-create-scope .checkbox-wrapper:hover {
+    background: rgba(255, 255, 255, 0.05);
 }
 
-/* ========= React DatePicker – dark theme ========= */
+.admin-create-scope .checkbox-wrapper input { display: none; }
 
-.react-datepicker{
-  background: #0e0e13;
-  border: 1px solid var(--fc-border);
-  border-radius: 12px;
-  color: #fff;
-  box-shadow: 0 20px 50px rgba(0,0,0,.45);
-  overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 13px;
-}
-.react-datepicker-popper{ z-index: 9999 !important; }
-
-.react-datepicker__header{
-  background: #151519;
-  border-bottom: 1px solid var(--fc-border);
-}
-.react-datepicker__current-month{
-  color: #fff;
-  font-weight: 800;
-  font-size: 16px;
-}
-.react-datepicker__day-name,
-.react-datepicker__day,
-.react-datepicker__time-name{
-  color: #e8e8ef;
-  width: 2rem;
-  line-height: 2rem;
+.admin-create-scope .custom-check-box {
+    width: 18px;
+    height: 18px;
+    background: var(--ac-input);
+    border: 2px solid #555;
+    border-radius: 4px;
+    position: relative;
+    flex-shrink: 0;
 }
 
-.react-datepicker__day:hover{
-  background: rgba(255,26,26,.14);
-  border-radius: 8px;
+.admin-create-scope .checkbox-wrapper input:checked + .custom-check-box {
+    background: var(--ac-accent);
+    border-color: var(--ac-accent);
 }
 
-.react-datepicker__day--selected,
-.react-datepicker__day--keyboard-selected{
-  background: var(--fc-accent) !important;
-  color: #fff !important;
-  border-radius: 8px;
+.admin-create-scope .custom-check-box::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    display: none;
+}
+.admin-create-scope .checkbox-wrapper input:checked + .custom-check-box::after { display: block; }
+
+.admin-create-scope .checkbox-text {
+    font-size: 0.9rem;
+    color: #eee;
 }
 
-.react-datepicker__navigation{
-  top: 10px;
-  width: 28px; height: 28px;
+/* --- BUTON SALVARE (MICȘORAT) --- */
+.admin-create-scope .btn-save {
+    width: 100%;
+    padding: 12px;           /* Redus de la 16px */
+    background: linear-gradient(135deg, #cc0000, #ff1a1a);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;         /* Redus de la 1.1rem */
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s;
 }
-.react-datepicker__navigation-icon::before{
-  border-color: #fff;
-  border-width: 2px 2px 0 0;
+.admin-create-scope .btn-save:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* Status Mesaj */
+.admin-create-scope .status-msg {
+    margin-top: 15px;
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+.admin-create-scope .status-msg.success { background: rgba(0, 255, 0, 0.1); color: #4ade80; }
+.admin-create-scope .status-msg.error { background: rgba(255, 0, 0, 0.1); color: #ff4d4d; }
+
+
+/* ==================================================
+   CALENDAR FIX - COMPACT ȘI MIC
+   ================================================== */
+
+/* Forțăm z-index mare și resetăm fonturile */
+.admin-create-scope .react-datepicker-popper {
+    z-index: 9999 !important;
+}
+
+.admin-create-scope .react-datepicker {
+    font-family: -apple-system, system-ui, sans-serif !important;
+    font-size: 0.8rem !important; /* Scris mic în tot calendarul */
+    background-color: #1a1a20 !important;
+    border: 1px solid #333 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important;
+}
+
+/* Header-ul calendarului (Luna + An) */
+.admin-create-scope .react-datepicker__header {
+    background-color: #222 !important;
+    border-bottom: 1px solid #333 !important;
+    padding: 8px 0 !important; /* Mai puțin spațiu sus/jos */
+}
+
+.admin-create-scope .react-datepicker__current-month {
+    color: #fff !important;
+    font-size: 0.95rem !important; /* Titlu mai mic */
+    font-weight: 700 !important;
+    margin-bottom: 4px !important;
+}
+
+.admin-create-scope .react-datepicker__day-name {
+    color: #888 !important;
+    width: 2rem !important;
+    line-height: 2rem !important;
+    margin: 0 !important;
+}
+
+/* Zilele */
+.admin-create-scope .react-datepicker__day {
+    color: #ddd !important;
+    width: 2rem !important;      /* Lățime fixă mică */
+    line-height: 2rem !important;/* Înălțime fixă mică */
+    margin: 0 !important;        /* Fără spații extra */
+    border-radius: 4px !important;
+}
+
+.admin-create-scope .react-datepicker__day:hover {
+    background-color: #333 !important;
+}
+
+.admin-create-scope .react-datepicker__day--selected,
+.admin-create-scope .react-datepicker__day--keyboard-selected {
+    background-color: var(--ac-accent) !important;
+    color: #fff !important;
+    font-weight: bold !important;
+}
+
+/* Săgețile de navigare (stânga-dreapta) */
+.admin-create-scope .react-datepicker__navigation {
+    top: 8px !important; /* Ajustat poziția */
 }

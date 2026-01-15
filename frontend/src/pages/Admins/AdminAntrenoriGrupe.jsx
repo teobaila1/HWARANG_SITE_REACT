@@ -1,4 +1,3 @@
-// frontend/pages/Admins/AdminAntrenoriGrupe.jsx
 import React, {useEffect, useState} from "react";
 import Navbar from "../../components/Navbar";
 import {useNavigate} from "react-router-dom";
@@ -27,7 +26,6 @@ const AdminAntrenoriGrupe = () => {
     loadData();
   }, [navigate]);
 
-  // ——— helper: ia array indiferent de formă
   const toArray = (x) => {
     if (Array.isArray(x)) return x;
     if (x && typeof x === "object") return Object.values(x);
@@ -45,13 +43,14 @@ const AdminAntrenoriGrupe = () => {
     setLoading(true);
     setMsg("");
     try {
-      const res = await fetch(`${API_BASE}/api/toate_grupele_antrenori`);
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE}/api/toate_grupele_antrenori`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
       const json = await res.json();
-
-      // acceptă data/date/results sau map
-      const raw =
-        json?.data ?? json?.date ?? json?.results ?? json ?? [];
-
+      const raw = json?.data ?? json?.date ?? json?.results ?? json ?? [];
       const normalized = normalize(raw);
       setData(normalized);
     } catch (e) {
@@ -71,16 +70,33 @@ const AdminAntrenoriGrupe = () => {
     return `${u} (${d})`;
   };
 
+  // --- ACȚIUNEA DE EDITARE (Corectată) ---
   const handleEdit = (copil, grupaName) => {
-    setEditElev({...copil, grupa: grupaName});
+    // Extragem numele părintelui din obiectul _parent (dacă există)
+    let parentName = "";
+    if (copil._parent) {
+        parentName = copil._parent.display || copil._parent.nume_complet || copil._parent.username || "";
+    }
+
+    setEditElev({
+        ...copil,
+        grupa: grupaName,
+        // IMPORTANT: Trimitem numele părintelui ca să apară în formular
+        parent_display: parentName,
+        parinte_id: copil._parent?.id
+    });
     setShowForm(true);
   };
 
   const handleSubmitForm = async (payload) => {
     try {
+      const token = localStorage.getItem("token");
       const res = await fetch(`${API_BASE}/api/elevi/${payload.id}`, {
         method: "PATCH",
-        headers: {"Content-Type": "application/json"},
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify(payload),
       });
       const js = await res.json().catch(() => ({}));
@@ -101,7 +117,13 @@ const AdminAntrenoriGrupe = () => {
 
   const confirmDelete = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/elevi/${confirm.id}`, {method: "DELETE"});
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE}/api/elevi/${confirm.id}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+      });
       const js = await res.json().catch(() => ({}));
       if (res.ok) {
         setMsg("Elev șters.");
@@ -160,6 +182,11 @@ const AdminAntrenoriGrupe = () => {
                           <div className="athlete-field">
                             <span className="label">Vârstă:</span>
                             <span>{copil.varsta != null ? `${copil.varsta} ani` : "—"}</span>
+                          </div>
+                          <div className="athlete-field">
+                             <span className="label">Părinte:</span>
+                             {/* Afișare nume părinte în listă (opțional, dar util pentru verificare) */}
+                             <span>{copil._parent?.display || copil._parent?.username || "—"}</span>
                           </div>
 
                           <div className="athlete-actions">

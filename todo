@@ -166,3 +166,46 @@ de facut acolo la pagina de antrenori ca nu arata bine pe tel -> facut
 de facut la inscrieri concurs sa fie aliniate toate la colt ('genul' este pe mijloc la 'vezi inscrieri') -> facut
 de verificat fiecare pagina in parte pe telefon, daca nu e okay, modificam
 de facut pentru antrenori externi -> nu mai stiu
+
+
+22 decembrie:
+
+vreau sa mai modific pagina de concursuri sa fie mai eleganta (pe pc si dupa pt telefon)
+sa fie puse un pic mai sus titlurile, aproape de mavbar si sa nu se mai vada acel micut spatiu
+cateva linii de sub titlu pe tel nu arata bine
+
+
+
+
+8 ianuarie 2026:
+pentru cupa hwarang (doar pentru acest concurs), sa fac separat proba combinata (tull si lupta) de la
+gradele de 10 GUP (centura alba) la 6 GUP (centura verde) sa fie proba combinata => facut
+
+de la 5 GUP la centura neagra sa fie probe normale de tull si lupta, necombinate => facut
+
+acum as vrea sa fac asta: cand inscriu un copil, din contul de parinte sau de admin,
+la un concurs să apara numele deja? Si cei care au cont de sportiv sa apara numele lor direct => facut
+
+cand adaug un copil la parinte sau admin, sa imi ceara data nasterii in loc sa adaug varsta, iar la inscriere de concurs,
+cand selectez copilul X, sa ii stie deja varsta de la data nasterii si sa il bage la categoria corecta
+
+Si oare putem sa facem sa trimită mail , la adresa cu care sa inscris, cand expira abonamentul?
+in 16 ale lunii sa se trimita automat la fiecare parinte ca a expirat abonamentul
+eventaul sa scrie singur pe grup siteul
+
+La fel si la competiții, dupa ca i-ai inscris sa iyi apara sau sa primesti mail cat ai de plată si pana cand trebuie platit
+
+
+9 ianuarie 2026:
+
+de facut cand un antrenor adauga un sportiv, sa adauge si numele la parinte, dar dupa ce parintele isi creaza cont,
+sa se suprascrie cumva tot ce continea informatia despre acel sportiv/copil => cand parintele isi creeaza cont
+si adauga copiii lui, sa se inlocuiasca copiii adaugati de antrenori sau cumva sa se suprascrie
+
+
+12 ianuarie 2026:
+
+am innebunit siteul cu securizari si am reusit cat de cat sa-l fac sa mearga, trebuie monitorizat si testat in continuare sa vedem
+cu parintii ce se intampla cu adaugarile, editarile si stergerile din partea parintilor si antrenorilor
+
+sa refac pagina de incarcat documente

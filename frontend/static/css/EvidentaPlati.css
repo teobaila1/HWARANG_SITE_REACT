@@ -1,260 +1,334 @@
-:root{
-  --bg:#0f0f10;
-  --surface:#111114;
-  --surface2:#16161b;
-  --text:#ffffff;
-  --muted:#b8b8c2;
-  --border:#25252e;
-  --accent:#ff1a1a;
-  --accent2:#cc0000;
-  --shadow:0 18px 50px rgba(0,0,0,.35);
-  --radius:14px;
+/* ===== EvidentaPlati.css – STRICTLY ISOLATED ===== */
+
+:root {
+  --ep-bg: #0f0f10;
+  --ep-surface: #111114;
+  --ep-surface2: #16161b;
+  --ep-text: #ffffff;
+  --ep-muted: #b8b8c2;
+  --ep-border: #25252e;
+  --ep-accent: #ff1a1a;
+  --ep-accent-dark: #cc0000;
+  --ep-shadow: 0 18px 50px rgba(0,0,0,.35);
+  --ep-radius: 14px;
 }
 
-/* container */
-.evidenta-container{
+/* ===== CONTAINER ===== */
+.ep-container {
   padding: clamp(1.25rem, 2.8vw, 2rem);
   min-height: 100vh;
-  color: var(--text);
-  background: linear-gradient(180deg, var(--bg), #0b0b0d);
+  color: var(--ep-text);
+  background: linear-gradient(180deg, var(--ep-bg), #0b0b0d);
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
-.header-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+/* ===== HEADER (Titlu + Buton Adaugă) ===== */
+.ep-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Titlu stânga, buton dreapta */
   gap: 1rem;
-  margin-bottom: .8rem;
-}
-.evidenta-container h2{
-  margin:0;
-  font-weight: 900;
-  letter-spacing:.2px;
-  text-shadow: 0 0 10px rgba(255,0,0,.15);
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
-.evidenta-container h2::after{
+.ep-title {
+  margin: 0;
+  font-weight: 900;
+  font-size: 1.8rem;
+  text-shadow: 0 0 10px rgba(255, 0, 0, .15);
+  position: relative;
+}
+
+.ep-title::after {
   content: "";
   display: block;
   height: 3px;
-  width: clamp(120px, 18vw, 185px);
-  margin-top: .55rem;
+  width: 100%;
+  max-width: 180px;
+  margin-top: .5rem;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  box-shadow: 0 0 10px rgba(255,26,26,.35);
+  background: linear-gradient(90deg, var(--ep-accent), var(--ep-accent-dark));
 }
 
-/* search */
-.search-bar{
-  width:100%;
+/* ===== SEARCH ===== */
+.ep-search-bar {
   max-width: 520px;
+  width: 100%;
   padding: .8rem 1rem;
-  margin: .4rem 0 1rem;
+  margin-bottom: 1.5rem;
   border-radius: 12px;
-  border:1px solid #2a2a34;
-  background:#141418;
-  color:#fff;
-  outline:none;
-  transition: border .22s ease, box-shadow .22s ease, background .22s ease;
-}
-.search-bar::placeholder{ color:#9fa1ac; }
-.search-bar:focus{
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(255,26,26,.2), 0 0 14px rgba(255,0,0,.25);
-  background:#17171c;
+  border: 1px solid #2a2a34;
+  background: #141418;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.2s ease;
 }
 
-/* buttons */
-.btn{
-  border:none; cursor:pointer; border-radius: 10px;
-  font-weight: 800; color:#fff; display:inline-flex; align-items:center; gap:.5rem;
-  transition: transform .18s ease, box-shadow .22s ease, filter .18s ease, opacity .18s ease;
-}
-.btn:disabled{ opacity:.5; cursor:not-allowed; }
-.btn-primary{
-  background: linear-gradient(180deg, var(--accent), var(--accent2));
-  padding: .6rem 1rem;
-  box-shadow: 0 10px 24px rgba(255,0,0,.22);
-}
-.btn-primary:hover{ transform: translateY(-1px); box-shadow: 0 16px 34px rgba(255,0,0,.28); }
-.btn-ghost{ background: transparent; color:#fff; padding:.4rem .6rem; }
-.btn-ghost:hover{ background: rgba(255,26,26,.12); }
-.btn-icon{ background:orange; padding:.45rem .55rem; border:1px solid rgba(255,255,255,.06); border-radius: 10px; }
-.btn-icon:hover{ background:#303030; }
-.btn-danger{ background: darkred; }
-.btn-danger:hover{ background:#303030; }
-
-/* card form */
-.card{
-  background: linear-gradient(180deg, var(--surface), var(--surface2));
-  border:1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-.plata-form{ padding: 1rem; margin: 0 0 1rem; }
-.form-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:.4rem;}
-.plata-form h4{ margin:0; font-weight:900; }
-
-.form-grid{
-  display:grid; grid-template-columns: repeat(2, minmax(0,1fr));
-  gap: 12px; margin-top: .4rem;
-}
-.field{ display:flex; flex-direction:column; gap:6px; }
-.field label{ color:#d7d7dd; font-size:.92rem; }
-
-.plata-form input,
-.plata-form select{
-  padding: .78rem .9rem; border-radius: 12px;
-  border:1px solid #2e2e38; background:#0c0c0f; color:#fff;
-  outline:none; transition: border .22s ease, box-shadow .22s ease, background .22s ease;
-}
-.plata-form input:focus,
-.plata-form select:focus{
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(255,26,26,.2);
-  background:#101015;
+.ep-search-bar:focus {
+  outline: none;
+  border-color: var(--ep-accent);
+  box-shadow: 0 0 0 3px rgba(255, 26, 26, .2);
 }
 
-.form-actions{ display:flex; gap:.6rem; margin-top:.6rem; }
-
-/* table */
-.table-wrap{ overflow-x:auto; }
-.plati-table{
-  width:100%;
-  border-collapse: collapse;
-  background: linear-gradient(180deg, #111114, #15151a);
-  border:1px solid var(--border);
-  border-radius: 14px; overflow:hidden;
-  box-shadow: 0 16px 40px rgba(0,0,0,.35);
-}
-.plati-table thead th{
-  background:#1b1b22; color:#e9e9f0; padding: .9rem .8rem; text-align:left; font-weight:800;
-}
-.plati-table tbody td{
-  padding: .8rem; border-top:1px solid #222230; color:#f3f3f6; vertical-align: middle;
-  text-align:left;
-}
-.plati-table tbody tr:nth-child(odd) td{ background: rgba(255,255,255,.02); }
-
-.cell-name{ font-weight:800; }
-.cell-month{ text-transform: capitalize; }
-.cell-amount{ text-align:right; white-space:nowrap; }
-
-/* chips & status */
-.chip{
-  display:inline-flex; align-items:center; padding:.2rem .5rem;
-  border-radius:999px; font-weight:800; font-size:.86rem;
-  border:1px solid rgba(255,255,255,.06);
-}
-.chip--cash{ background:#222; }
-.chip--card{ background:#1a1f2d; }
-
-.status{
-  padding:.25rem .6rem; border-radius:999px; font-weight:900; text-transform: capitalize;
-  border:1px solid rgba(255,255,255,.06);
-}
-.status--ok{ background:#113918; color:#d6ffd8; }
-.status--no{ background:#3a1515; color:#ffd8d8; }
-
-.actions{ display:flex; gap:.4rem; justify-content:flex-end; }
-
-/* responsive */
-@media (max-width: 720px){
-  .form-grid{ grid-template-columns: 1fr; }
-  .cell-amount{ text-align:left; }
+/* ===== BUTOANE GENERALE (Reset) ===== */
+.ep-btn {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px; /* Raza mai mică */
+  font-weight: 700;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  line-height: 1;
 }
 
-/* butonul din header să NU se întindă pe toată lățimea */
-.header-row .btn{
-  flex: 0 0 auto !important;
+/* === FIX CRITIC: BUTON ADAUGĂ MIC === */
+.ep-btn-add {
+  background: linear-gradient(180deg, var(--ep-accent), var(--ep-accent-dark));
+
+  /* Dimensiuni explicite mici */
   width: auto !important;
+  flex: 0 0 auto !important; /* Nu lăsa flexbox să-l întindă */
   min-width: 0 !important;
+
+  padding: 8px 16px !important; /* Padding mic */
+  font-size: 0.85rem !important; /* Scris mic */
+  height: 36px !important; /* Înălțime fixă mică */
+
+  box-shadow: 0 4px 10px rgba(255, 0, 0, 0.25);
+  white-space: nowrap;
 }
 
-/* variantă mai mică a butonului */
-.btn-sm{
-  padding: .45rem .8rem;
-  font-size: .95rem;
-  border-radius: 10px;
+.ep-btn-add:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(255, 0, 0, 0.35);
 }
 
-/* opțional: pe ecrane foarte mici îl facem full-width ca să fie ușor de apăsat */
-@media (max-width: 560px){
-  .header-row{
-    flex-wrap: wrap;
-    gap: .6rem;
-  }
-  .header-row .btn{
-    width: 100% !important;
-  }
+/* --- BUTON X (CERC MIC, FIX, DREAPTA) --- */
+.ep-btn-close {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ccc !important;
+
+  /* RESETĂM ORICE PADDING/MARGIN CARE L-AR LUNGI */
+  padding: 0 !important;
+  margin: 0 0 0 auto !important; /* margin-left auto îl împinge în dreapta */
+
+  /* FORȚĂM FORMA DE CERC MIC */
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  max-width: 32px !important;
+  border-radius: 50% !important;
+
+  /* ALINIERE PERFECTĂ A ICONIȚEI */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 1.4rem !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+
+  /* PREVENIM FLEX-GROW */
+  flex-grow: 0 !important;
+  flex-shrink: 0 !important;
 }
 
-/* === MOBILE FIX: totul aliniat la stânga, tabel ca "carduri" === */
-@media (max-width: 900px){
-  .plati-table thead{ display:none !important; }
-
-  .plati-table tbody tr{
-    display:block;
-    background: linear-gradient(180deg, var(--surface), var(--surface2));
-    border:1px solid var(--border);
-    border-radius: 12px;
-    margin: 12px 0;
-    padding: 10px 12px;
-    box-shadow: var(--shadow);
-  }
-
-  .plati-table tbody td{
-    display:block;
-    width:100%;
-    text-align:left !important;
-    padding:.55rem 0 !important;
-    border:none !important;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-  }
-
-  .plati-table tbody td + td{
-    border-top:1px dashed rgba(255,255,255,.08) !important;
-    margin-top:.4rem;
-    padding-top:.55rem !important;
-  }
-
-  .cell-name,
-  .cell-month,
-  .cell-amount,
-  .status,
-  .actions{
-    text-align:left !important;
-    justify-content:flex-start !important;
-  }
-
-  .status{
-    display:inline-block;
-    margin-top:.25rem;
-  }
-
-  .actions{
-    display:grid;
-    grid-template-columns: 1fr;
-    gap:.4rem;
-    margin-top:.6rem;
-  }
-
-  .actions .btn{
-    width:100%;
-    justify-content:flex-start;
-    padding-left:1rem;
-    height:40px;
-  }
-
-  /* mic polish */
-  .chip, .status{
-    margin-left:0 !important;
-  }
+.ep-btn-close:hover {
+  background: rgba(220, 38, 38, 0.2);
+  color: #fff;
+  border-color: #ef4444;
 }
 
-/* extra compact */
-@media (max-width:480px){
-  .plati-table tbody tr{ padding:8px 10px; }
-  .plati-table tbody td{ padding:.45rem 0 !important; }
+/* Buton Ghost (Renunță) */
+.ep-btn-ghost {
+  background: transparent;
+  color: #aaa;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+.ep-btn-ghost:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+}
+
+/* ===== FORMULAR (CARD) ===== */
+.ep-form-wrapper {
+  background: linear-gradient(180deg, var(--ep-surface), var(--ep-surface2));
+  border: 1px solid var(--ep-border);
+  border-radius: var(--ep-radius);
+  box-shadow: var(--ep-shadow);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  max-width: 700px; /* Mai îngust */
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header Formular - Titlu stânga, X dreapta */
+.ep-form-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Esențial pentru poziționare */
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding-bottom: 0.8rem;
+}
+
+.ep-form-head h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #fff;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.ep-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.ep-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ep-field label {
+  font-size: 0.8rem;
+  color: #bbb;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.ep-input {
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #0a0a0c;
+  color: #fff;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.ep-input:focus {
+  border-color: var(--ep-accent);
+}
+
+.ep-form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: flex-end;
+}
+
+/* ===== TABEL ===== */
+.ep-table-container {
+  width: 100%;
+  border-radius: 14px;
+  background: #111;
+  border: 1px solid var(--ep-border);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.ep-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.ep-table thead th {
+  background: #18181b;
+  color: #e4e4e7;
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  border-bottom: 1px solid #333;
+  white-space: nowrap;
+}
+
+.ep-th-center { text-align: center !important; }
+
+.ep-table tbody td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #222;
+  color: #f4f4f5;
+  vertical-align: middle;
+  font-size: 0.95rem;
+  white-space: normal;
+}
+
+.ep-table tbody tr:nth-child(even) { background-color: rgba(255,255,255,0.02); }
+.ep-table tbody tr:hover { background-color: rgba(255,255,255,0.04); }
+
+.ep-cell-bold { font-weight: 700; color: #fff; }
+.ep-cell-mono { font-family: monospace; font-weight: 600; font-size: 1rem; }
+
+/* Chips */
+.ep-chip {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.1);
+  text-transform: uppercase;
+}
+.ep-chip-cash { background: #222; color: #ccc; }
+.ep-chip-card { background: #1e1b4b; color: #a5b4fc; border-color: #312e81; }
+
+.ep-status {
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.ep-status-ok { background: rgba(22, 163, 74, 0.2); color: #4ade80; }
+.ep-status-no { background: rgba(220, 38, 38, 0.2); color: #f87171; }
+
+/* Acțiuni */
+.ep-actions-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  min-width: 160px;
+}
+
+/* Butoane tabel mici */
+.ep-btn-table {
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+}
+
+.ep-btn-edit { background: #27272a; border: 1px solid #3f3f46; }
+.ep-btn-edit:hover { background: #3f3f46; color: #fff; }
+
+.ep-btn-delete { background: rgba(220,38,38,0.15); border: 1px solid rgba(220,38,38,0.4); color: #ef4444; }
+.ep-btn-delete:hover { background: rgba(220,38,38,0.25); }
+
+/* Mobile */
+@media (max-width: 900px) {
+  .ep-table, .ep-table thead, .ep-table tbody, .ep-table tr, .ep-table td { display: block; }
+  .ep-table thead { display: none; }
+  .ep-table tr { margin-bottom: 1rem; border: 1px solid var(--ep-border); border-radius: 12px; background: #141414; padding: 1rem; }
+  .ep-table td { border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; text-align: right; padding: 0.6rem 0; }
+  .ep-table td:last-child { border-bottom: none; justify-content: center; margin-top: 10px; }
+  .ep-table td::before { content: attr(data-label); font-weight: 700; color: #888; text-transform: uppercase; font-size: 0.75rem; margin-right: 10px; }
+  .ep-actions-cell { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ep-btn-table { width: 100%; padding: 10px; font-size: 0.9rem; }
 }

@@ -11,23 +11,23 @@ const scheduleData = [
         day: "Luni",
         events: [
             "17:00 - 17:45 | Antrenor: Raul Hurdu & Andrei Dobră | 4-10 ani",
-            "18:00 - 19:30 | Antrenor: Teodor Băilă & Daniel Cristache | Avansați: +8 ani",
-            "19:30 - 21:00 | Antrenor: Florin Bîrluț | Performanță: +12 ani"
+            "17:45 - 18:30 | Antrenor: Alex Băilă & Radu Mareș | +10 ani",
+            "19:00 - 20:30 | Antrenor: Răzvan Tudor | KickBox"
         ]
     },
     {
         day: "Marți",
         events: [
             "17:00 - 18:00 | Antrenor: Florin Bîrluț | Începători: 5-10 ani",
-            "18:00 - 19:30 | Antrenor: Răzvan Tudor | KickBox",
-            "19:30 - 21:00 | Antrenor: Florin Bîrluț | Performanță"
+            "18:00 - 19:30 | Antrenor: Teodor Băilă & Daniel Cristache | Avansați: +8 ani",
+            "19:30 - 21:00 | Antrenor: Florin Bîrluț | Performanță: +12 ani"
         ]
     },
     {
         day: "Miercuri",
         events: [
             "17:00 - 17:45 | Antrenor: Raul Hurdu & Andrei Dobră | 4-10 ani",
-            "17:00 - 17:45 | Antrenor: Alex Băilă & Radu Mareș | +10 ani",
+            "17:45 - 18:30 | Antrenor: Alex Băilă & Radu Mareș | +10 ani",
             "19:00 - 20:30 | Antrenor: Răzvan Tudor | KickBox"
         ]
     },

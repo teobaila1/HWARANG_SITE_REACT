@@ -1,16 +1,13 @@
 /* =========================================
-   InscrisiConcurs.css - Dark & Red Theme
+   InscrisiConcurs.css - Final & Compact
    ========================================= */
 
 .inscrisi-container {
   min-height: 100vh;
-  /* MODIFICARE: Am redus padding-ul de sus de la 100px la 40px */
   padding: 40px 20px 50px;
   background: #161616;
   color: #fff;
   font-family: system-ui, -apple-system, sans-serif;
-
-  /* Container mare (cum ai cerut) */
   max-width: 1600px;
   margin: 0 auto;
 }
@@ -23,32 +20,66 @@
   text-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
   border-bottom: 3px solid #cc0000;
   padding-bottom: 5px;
-
-  /* Titlul stă pe rândul lui, dar linia e doar sub text */
-  display: block;
+  display: inline-block;
   width: fit-content;
 }
 
-.input-cautare.inscrisi-cautare {
-  /* Search bar sub titlu, aliniat stânga */
-  display: block;
+/* --- CONTAINER NOU PENTRU ALINIERE --- */
+.search-actions-container {
+  display: flex; /* Le pune pe același rând */
+  align-items: center; /* Le centrează vertical */
+  gap: 15px; /* Spațiu între ele */
+  margin-bottom: 20px;
   width: 100%;
-  max-width: 400px;
-  margin: 0 0 20px 0;
+}
 
-  padding: 12px 16px;
-  border-radius: 12px;
+/* --- INPUT-UL CARE SE ÎNTINDE --- */
+.search-actions-container .input-cautare {
+  flex-grow: 1; /* Ocupă tot spațiul liber */
+  max-width: 400px; /* Dar nu mai mult de atât */
+  padding: 10px 14px;
+  border-radius: 10px;
   border: 1px solid #333;
   background: #1f1f1f;
   color: #fff;
-  font-size: 1rem;
+  font-size: 0.95rem;
   outline: none;
-  transition: all 0.2s;
+  height: 40px; /* Înălțime fixă */
+  box-sizing: border-box;
 }
 
-.input-cautare:focus {
+.search-actions-container .input-cautare:focus {
   border-color: #ff1a1a;
   box-shadow: 0 0 0 3px rgba(255, 26, 26, 0.2);
+}
+
+/* --- BUTONUL EXCEL STRICT --- */
+.btn-excel-compact {
+  flex-grow: 0; /* NU are voie să crească */
+  flex-shrink: 0; /* NU are voie să se micșoreze */
+  width: auto !important; /* Lățime automată bazată pe text */
+
+  height: 40px; /* Aceeași înălțime cu inputul */
+  padding: 0 16px;
+
+  background: linear-gradient(180deg, #1D6F42, #155734);
+  color: #fff;
+  border: 1px solid #1D6F42;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.85rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-excel-compact:hover {
+  background: #155734;
+  transform: translateY(-1px);
 }
 
 .inscrisi-stats {
@@ -58,7 +89,7 @@
   font-weight: 600;
 }
 
-/* TABLE STYLES (DESKTOP) */
+/* TABLE STYLES */
 .inscrisi-table {
   width: 100%;
   border-collapse: collapse;
@@ -83,87 +114,56 @@
   color: #eee;
 }
 
-.inscrisi-table tbody tr:nth-child(even) {
-  background: rgba(255,255,255,0.02);
-}
-.inscrisi-table tbody tr:hover {
-  background: rgba(255,255,255,0.05);
-}
+.inscrisi-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+.inscrisi-table tbody tr:hover { background: rgba(255,255,255,0.05); }
 
-/* =========================================
-   MOBILE CARD VIEW (< 900px)
-   ========================================= */
+/* MOBILE */
 @media (max-width: 900px) {
+  .inscrisi-container { padding-top: 40px; }
 
-  /* MODIFICARE: Redus și pe mobil de la 140px la 40px (navbar-ul are padding pe body) */
-  .inscrisi-container {
-    padding-top: 40px;
+  .search-actions-container {
+    flex-direction: column; /* Pe mobil, unul sub altul */
+    align-items: flex-start;
   }
 
-  /* 2. Ascundem header-ul tabelului */
-  .inscrisi-table thead {
-    display: none;
-  }
-
-  .inscrisi-table,
-  .inscrisi-table tbody,
-  .inscrisi-table tr,
-  .inscrisi-table td {
-    display: block;
+  .search-actions-container .input-cautare {
     width: 100%;
+    max-width: 100%;
   }
 
-  /* 3. Fiecare rând devine un CARD */
+  .btn-excel-compact {
+    width: auto !important;
+  }
+
+  .inscrisi-table thead { display: none; }
+  .inscrisi-table, .inscrisi-table tbody, .inscrisi-table tr, .inscrisi-table td {
+    display: block; width: 100%;
+  }
   .inscrisi-table tbody tr {
-    background: linear-gradient(145deg, #1a1a1a, #222);
+    background: #1a1a1a;
     border: 1px solid #333;
     border-radius: 16px;
     margin-bottom: 16px;
     padding: 16px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   }
-
-  /* 4. Celulele devin rânduri Flex (Label stânga - Valoare dreapta) */
   .inscrisi-table tbody td {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
     text-align: right;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
   }
-
-  /* REPARATIE: Asigurăm că ULTIMUL copil (Gen) se comportă la fel */
-  .inscrisi-table tbody td:last-child {
-    border-bottom: none;
-    flex-direction: row !important;
-    gap: 0 !important;
-  }
-
-  /* 5. Eticheta din stânga */
+  .inscrisi-table tbody td:last-child { border-bottom: none; }
   .inscrisi-table tbody td::before {
     content: attr(data-label);
     font-weight: 700;
     color: #999;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 0.5px;
     text-align: left;
-    margin-right: 15px;
   }
-
-  /* Stil specific pentru Nume (titlu card) */
   .inscrisi-table td[data-label="Nume"] {
     font-size: 1.2rem;
     font-weight: 800;
     color: #fff;
     border-bottom: 1px solid #444;
-    padding-bottom: 12px;
-    margin-bottom: 5px;
-    justify-content: flex-start;
   }
-
-  .inscrisi-table td[data-label="Nume"]::before {
-    display: none;
-  }
+  .inscrisi-table td[data-label="Nume"]::before { display: none; }
 }

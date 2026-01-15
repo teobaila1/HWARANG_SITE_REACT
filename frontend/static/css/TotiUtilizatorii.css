@@ -52,9 +52,11 @@
 .allusers-head h2::after{
   content:"";
   position:absolute; left:0; bottom:0;
-  width: 120px; height: 3px;
+  width: 280px;
+  height: 3px;
   background: linear-gradient(90deg, var(--au-accent), var(--au-accent-2));
   border-radius: 999px;
+  box-shadow: 0 0 10px rgba(255,26,26,.35);
 }
 
 .search-wrap{
@@ -110,7 +112,6 @@
   border-radius: var(--au-radius);
   border: 1px solid var(--au-border);
   box-shadow: var(--au-shadow);
-  /* Pe desktop e ok */
 }
 
 /* Tabelul efectiv */
@@ -118,8 +119,13 @@
   width: 100%;
   border-collapse: collapse;
   color: var(--au-text);
+
+  /* --- FIX SUPRASCRIERE --- */
+  /* Resetăm comportamentul global de la Concursuri (fixed) înapoi la auto */
+  table-layout: auto;
 }
 
+/* Header Tabel */
 .users-table thead th{
   background: #191922;
   padding: .85rem .9rem;
@@ -129,7 +135,43 @@
   position: sticky;
   top: 0;
   z-index: 2;
+  white-space: nowrap; /* Să nu se rupă titlurile */
 }
+
+/* ===== FIX DIMENSIUNI COLOANE (Desktop) ===== */
+
+/* 1. Coloana ID - Mică */
+.users-table th:nth-child(1),
+.users-table td:nth-child(1) {
+  width: 60px;
+  text-align: center;
+}
+
+/* 2. Nume - Să ocupe spațiu */
+.users-table th:nth-child(2) {
+  width: 25%;
+}
+
+/* 3. Email - Să ocupe spațiu */
+.users-table th:nth-child(3) {
+  width: 25%;
+}
+
+/* 4. Rol - Mediu */
+.users-table th:nth-child(4) {
+  width: 20%;
+}
+
+/* 5. Acțiuni - Aliniat dreapta sau fit */
+.users-table th:last-child {
+  width: auto;
+  text-align: right;
+}
+.users-table td:last-child {
+  text-align: right;
+}
+
+/* =========================================== */
 
 .users-table tbody td{
   padding: .8rem .9rem;
@@ -150,7 +192,7 @@
 .cell-username{
   font-weight: 800;
   margin-right: .4rem;
-  font-size: 1.05rem; /* Nume mai vizibil */
+  font-size: 1.05rem;
 }
 
 .link-edit{
@@ -320,7 +362,7 @@
    ================================================================= */
 @media (max-width: 900px){
   .allusers{
-    padding: 120px 10px 32px; /* Mai mult loc sus pentru navbar */
+    padding: 100px 10px 32px;
   }
 
   .allusers-head{
@@ -340,12 +382,12 @@
     border: none;
   }
 
-  /* 2. Forțăm elementele tabelului să fie block (nu table-cell) */
+  /* 2. Forțăm elementele tabelului să fie block */
   .users-table, .users-table thead, .users-table tbody, .users-table th, .users-table td, .users-table tr {
     display: block;
   }
 
-  /* 3. Ascundem header-ul tabelului (ID, Nume, etc.) */
+  /* 3. Ascundem header-ul tabelului */
   .users-table thead tr {
     position: absolute;
     top: -9999px;
@@ -354,10 +396,10 @@
 
   /* 4. Fiecare rând devine un CARTONAȘ (Card) */
   .users-table tbody tr {
-    background: rgba(255, 255, 255, 0.03); /* Fundal închis subtil */
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
-    margin-bottom: 16px; /* Spațiu între carduri */
+    margin-bottom: 16px;
     padding: 16px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     position: relative;
@@ -373,13 +415,15 @@
     align-items: flex-start;
     gap: 4px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    width: auto !important; /* Reset width pe mobil */
+    text-align: left !important;
   }
 
   .users-table td:last-child {
     border-bottom: none;
   }
 
-  /* 6. Adăugăm etichete (Label) folosind atributul data-label */
+  /* 6. Etichete (Label) */
   .users-table td::before {
     content: attr(data-label);
     font-size: 0.75rem;
@@ -390,19 +434,17 @@
     margin-bottom: 2px;
   }
 
-  /* Stiluri specifice pentru câmpuri */
-
   /* Numele utilizatorului - Mare și Alb */
   .cell-username {
     font-size: 1.1rem;
     color: #fff;
   }
 
-  /* Containerul de editare Rol (Select + Buton Salvează) */
+  /* Containerul de editare Rol */
   .rol-edit {
     width: 100%;
     display: flex;
-    flex-direction: column; /* Le punem unul sub altul */
+    flex-direction: column;
     gap: 10px;
     margin-top: 5px;
   }
@@ -415,7 +457,6 @@
     border-color: #444;
   }
 
-  /* Butonul Salvează - Lat */
   .rol-edit .btn {
     width: 100%;
     padding: 12px;
@@ -432,7 +473,7 @@
 
   .users-table td.actions .btn {
     width: 100%;
-    height: 44px; /* Buton mare pentru deget */
+    height: 44px;
     font-size: 1rem;
   }
 
@@ -442,7 +483,7 @@
   }
 
   .form-actions {
-    flex-direction: column-reverse; /* Butonul salvează sus sau jos, dar full width */
+    flex-direction: column-reverse;
   }
 
   .form-actions .btn {

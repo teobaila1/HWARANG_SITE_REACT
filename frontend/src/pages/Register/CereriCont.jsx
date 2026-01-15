@@ -18,13 +18,20 @@ function CereriConturi() {
       return;
     }
 
-    fetch(`${API_BASE}/api/cereri?username=${username}`)
+    const token = localStorage.getItem("token");
+
+
+    fetch(`${API_BASE}/api/cereri?username=${username}`, {
+        headers: {
+            "Authorization": `Bearer ${token}` // <-- Token
+        }
+    })
       .then((res) => {
         if (!res.ok) throw new Error("Eroare la încărcare cereri.");
         return res.json();
       })
       .then((data) => {
-        setCereri(data);
+        setCereri(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch((err) => {
@@ -33,29 +40,49 @@ function CereriConturi() {
       });
   }, []);
 
+
   const handleAccept = async (id) => {
     try {
-      const res = await fetch(`${API_BASE}/api/cereri/accepta/${id}`, { method: "POST" });
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE}/api/cereri/accepta/${id}`, {
+          method: "POST",
+          headers: {
+              "Authorization": `Bearer ${token}` // <-- Token
+          }
+      });
       const data = await res.json();
+
       if (data.status === "success") {
-        alert("Cererea a fost acceptată.");
         setCereri((prev) => prev.filter((c) => c.id !== id));
-      } else alert(data.error || "Eroare la acceptare.");
-    } catch {
-      alert("Eroare la server.");
+      } else {
+        alert(data.error || "Eroare la acceptare.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Eroare de rețea.");
     }
   };
 
   const handleReject = async (id) => {
+    if (!window.confirm("Sigur respingi cererea?")) return;
     try {
-      const res = await fetch(`${API_BASE}/api/cereri/respingere/${id}`, { method: "DELETE" });
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE}/api/cereri/respingere/${id}`, {
+          method: "DELETE",
+          headers: {
+              "Authorization": `Bearer ${token}` // <-- Token
+          }
+      });
       const data = await res.json();
+
       if (data.status === "success") {
-        alert("Cererea a fost respinsă.");
         setCereri((prev) => prev.filter((c) => c.id !== id));
-      } else alert(data.error || "Eroare la respingere.");
-    } catch {
-      alert("Eroare la server.");
+      } else {
+        alert(data.error || "Eroare la respingere.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Eroare de rețea.");
     }
   };
 

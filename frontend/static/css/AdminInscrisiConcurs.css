@@ -109,6 +109,38 @@
   border: 1px solid #3a0a0a;
 }
 
+
+
+
+/* ===== Search Bar (Stil Unificat) ===== */
+.ai-search-bar {
+  width: 100%;
+  max-width: 520px;       /* Lățime maximă ca la celelalte pagini */
+  padding: .8rem 1rem;
+  margin: 0 auto 1.5rem;  /* Centrat pe mijloc + spațiu jos */
+  display: block;         /* Asigură centrarea cu margin auto */
+  border-radius: 12px;
+  border: 1px solid #2a2a34;
+  background: #141418;    /* Fundal întunecat */
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.ai-search-bar::placeholder {
+  color: #9ca3af;
+}
+
+.ai-search-bar:focus {
+  border-color: var(--ai-accent); /* Roșu din tema paginii */
+  box-shadow: 0 0 0 3px rgba(255, 26, 26, .2);
+  background: #18181e;
+}
+
+
+
+
 /* ===== Responsive: tabel -> carduri ===== */
 /* ===== Responsive: tabel -> carduri (mobil) ===== */
 @media (max-width: 920px){

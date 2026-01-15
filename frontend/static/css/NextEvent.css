@@ -1,113 +1,185 @@
-/*.next-wrapper{*/
-/*  width:100%;*/
-/*  background: radial-gradient(1200px 400px at 50% -10%, rgba(255,26,26,.08), transparent 60%),*/
-/*              linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));*/
-/*  padding: clamp(16px, 4vw, 32px) clamp(12px, 3vw, 24px);*/
-/*}*/
+/* NextEvent.css - Stil Modern Hwa Rang */
 
-/*.next-grid{*/
-/*  display: grid;*/
-/*  grid-template-columns: 1.2fr .8fr .8fr;*/
-/*  gap: clamp(12px, 2.4vw, 18px);*/
-/*}*/
-/*@media (max-width: 1000px){*/
-/*  .next-grid{ grid-template-columns: 1fr; }*/
-/*}*/
+.next-event-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+    padding: 0 1rem;
+}
 
-/*.next-card{*/
-/*  display: grid;*/
-/*  grid-template-columns: 260px 1fr;*/
-/*  gap: 16px;*/
-/*  padding: 12px;*/
-/*  border-radius: 16px;*/
-/*  background: rgba(15,15,15,.85);*/
-/*  border: 1px solid rgba(255,255,255,.06);*/
-/*  box-shadow: 0 18px 50px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.02);*/
-/*  backdrop-filter: blur(6px);*/
-/*}*/
-/*.next-card--highlight{*/
-/*  grid-column: 1 / -1;*/
-/*  grid-template-columns: 360px 1fr;*/
-/*  border: 1px solid rgba(255,26,26,.25);*/
-/*  box-shadow: 0 26px 70px rgba(255,26,26,.12);*/
-/*}*/
-/*@media (max-width: 700px){*/
-/*  .next-card,*/
-/*  .next-card--highlight{ grid-template-columns: 1fr; }*/
-/*}*/
+.next-event-card {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    background: linear-gradient(145deg, #1a1a1e, #0d0d10);
+    border: 1px solid #333;
+    border-radius: 20px;
+    padding: 2rem;
+    color: #fff;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-/*.next-card__media{*/
-/*  position: relative; overflow: hidden; border-radius: 12px;*/
-/*  background: #101010; min-height: 220px;*/
-/*}*/
-/*.next-card__media img{ width:100%; height:100%; object-fit: cover; display:block; }*/
-/*.next-card__placeholder{*/
-/*  width:100%; height:100%;*/
-/*  background: linear-gradient(135deg,#151515,#0f0f0f);*/
-/*}*/
-/*.next-card__badge{*/
-/*  position:absolute; top:10px; left:10px;*/
-/*  padding: .35rem .6rem;*/
-/*  border-radius: 999px;*/
-/*  background: linear-gradient(90deg,#ef4444,#b91c1c);*/
-/*  color:#fff; font-weight:800; font-size:.78rem; letter-spacing:.3px;*/
-/*  box-shadow: 0 8px 24px rgba(239,68,68,.35);*/
-/*}*/
+.next-event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 60px rgba(255, 0, 0, 0.15); /* Glow roșu discret */
+    border-color: #444;
+}
 
-/*.next-card__body{ display:flex; flex-direction:column; justify-content:center; }*/
-/*.next-card__title{*/
-/*  margin: 0 0 2px; color:#fff; font-size: clamp(1.05rem, 2.2vw, 1.35rem);*/
-/*  font-weight: 900; letter-spacing: .1px;*/
-/*}*/
-/*.next-card__meta{*/
-/*  margin: 0 0 10px; color:#cfcfd6; opacity:.9; font-weight:700;*/
-/*}*/
-/*.next-card__meta i{ opacity:.8; margin-right:6px; }*/
+/* Badge-ul "Următorul Concurs" */
+.live-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: rgba(255, 26, 26, 0.15);
+    color: #ff4d4d;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(255, 26, 26, 0.3);
+}
 
-/*.countdown{*/
-/*  display: grid; grid-auto-flow: column; gap: 10px; align-items: center;*/
-/*  width: max-content; margin: 6px 0 12px;*/
-/*  padding: 8px 10px; border-radius: 12px;*/
-/*  background: rgba(255,255,255,.04);*/
-/*  border:1px solid rgba(255,255,255,.06);*/
-/*}*/
-/*.cd-box{ text-align:center; min-width:62px; }*/
-/*.cd-num{*/
-/*  display:block; color:#fff; font-weight:900; font-size: clamp(1.1rem, 2.4vw, 1.6rem);*/
-/*}*/
-/*.cd-lbl{*/
-/*  display:block; color:#c9c9d1; font-weight:800; font-size:.78rem; letter-spacing:.2px;*/
-/*}*/
-/*.countdown__done{*/
-/*  color:#a7f3d0; font-weight:900; letter-spacing:.3px;*/
-/*}*/
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ff1a1a;
+    border-radius: 50%;
+    box-shadow: 0 0 0 rgba(255, 26, 26, 0.7);
+    animation: pulse-red 2s infinite;
+}
 
-/*.next-card__actions{ display:flex; gap:10px; flex-wrap: wrap; }*/
-/*.btn{*/
-/*  padding:.6rem .9rem; border-radius: 999px; font-weight:800;*/
-/*  border:1px solid rgba(255,255,255,.18); color:#fff; text-decoration:none;*/
-/*  transition: transform .12s ease, box-shadow .18s ease, background .18s ease;*/
-/*}*/
-/*.btn-primary{ background: linear-gradient(90deg,#ef4444,#b91c1c); border-color: transparent; }*/
-/*.btn-primary:hover{ transform: translateY(-2px); box-shadow:0 14px 32px rgba(239,68,68,.35); }*/
-/*.btn-ghost{ background: rgba(255,255,255,.06); }*/
-/*.btn-ghost:hover{ background: rgba(255,255,255,.12); transform: translateY(-2px); }*/
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(255, 26, 26, 0.7); }
+    70% { box-shadow: 0 0 0 6px rgba(255, 26, 26, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 26, 26, 0); }
+}
 
-/*!* schelet încărcare *!*/
-/*.next-skel{*/
-/*  height: 220px; border-radius: 16px;*/
-/*  background: linear-gradient(90deg, #121212, #1a1a1a, #121212);*/
-/*  background-size: 200% 100%;*/
-/*  animation: shine 1.4s infinite linear;*/
-/*  border:1px solid rgba(255,255,255,.06);*/
-/*}*/
-/*@keyframes shine {*/
-/*  0% { background-position: 200% 0; }*/
-/*  100% { background-position: -200% 0; }*/
-/*}*/
+/* Titlu și Info */
+.ne-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 1.5rem 0 1rem;
+    background: linear-gradient(90deg, #fff, #ccc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+}
 
-/*.next-empty{*/
-/*  padding: 18px; border-radius: 14px; text-align:center;*/
-/*  color:#ddd; font-weight:800; background: rgba(255,255,255,.04);*/
-/*  border:1px solid rgba(255,255,255,.06);*/
-/*}*/
+.ne-meta {
+    display: flex;
+    gap: 20px;
+    color: #aaa;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.ne-meta-item i {
+    color: #ff1a1a;
+    margin-right: 8px;
+}
+
+/* Timer-ul */
+.ne-timer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 2rem;
+    background: rgba(0,0,0,0.3);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid #222;
+}
+
+.timer-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.t-val {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.t-val.is-red {
+    color: #ff1a1a;
+}
+
+.t-lbl {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #666;
+    margin-top: 5px;
+    font-weight: 600;
+}
+
+.timer-sep {
+    font-size: 2rem;
+    color: #444;
+    margin-top: -5px;
+}
+
+.ne-started {
+    font-size: 1.5rem;
+    color: #4caf50;
+    font-weight: bold;
+}
+
+/* Buton */
+.btn-participa {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #ff1a1a;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 26, 26, 0.3);
+}
+
+.btn-participa:hover {
+    background: #cc0000;
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 26, 26, 0.5);
+}
+
+/* Iconiță de fundal (Watermark) */
+.ne-bg-icon {
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    font-size: 12rem;
+    color: rgba(255, 255, 255, 0.03);
+    pointer-events: none;
+    z-index: 0;
+    transform: rotate(-15deg);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .ne-title { font-size: 1.5rem; }
+    .t-val { font-size: 1.8rem; }
+    .timer-sep { display: none; } /* Ascundem : pe mobil pt spațiu */
+    .ne-timer { gap: 10px; padding: 1rem; }
+}
