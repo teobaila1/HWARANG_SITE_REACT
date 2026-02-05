@@ -20,17 +20,17 @@ export default defineConfig({
         scope: '/',
         icons: [
           {
-            src: 'icons/hwarang.png',
+            src: 'icons/hwarang_512.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'icons/hwarang.png',
+            src: 'icons/hwarang_512.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: 'icons/hwarang.png',
+            src: 'icons/hwarang_512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable any'

@@ -12,11 +12,13 @@ const ElevForm = ({ initial = {}, onClose, onSubmit }) => {
   const isEdit = Boolean(initial.id);
 
   const [nume, setNume] = useState(initial.nume || "");
-  const [varsta, setVarsta] = useState(initial.varsta || "");
+
+  // --- MODIFICARE: Folosim data_nasterii, nu varsta ---
+  const [dataNasterii, setDataNasterii] = useState(initial.data_nasterii || "");
+
   const [gen, setGen] = useState(normGen(initial.gen));
   const [grupa, setGrupa] = useState(initial.grupa || "");
 
-  // preferăm exact cheile backend-ului: parinte_id / parinte_nume
   const [parinteId, setParinteId] = useState(
     initial.parinte_id || initial.parent_id || ""
   );
@@ -24,10 +26,14 @@ const ElevForm = ({ initial = {}, onClose, onSubmit }) => {
     initial.parent_display || initial.parinte_nume || ""
   );
 
-  // dacă inițial vine „M/F”, normalizează la Masculin/Feminin
   useEffect(() => {
     setGen(normGen(initial.gen));
   }, [initial.gen]);
+
+  // Populăm data nașterii când se deschide modalul
+  useEffect(() => {
+    setDataNasterii(initial.data_nasterii || "");
+  }, [initial.data_nasterii]);
 
   const title = useMemo(
     () => (isEdit ? "Editează elev" : "Adaugă elev"),
@@ -37,15 +43,14 @@ const ElevForm = ({ initial = {}, onClose, onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit({
-      id: initial.id, // null dacă e add
+      id: initial.id,
       nume,
-      varsta,
+      data_nasterii: dataNasterii, // <-- Trimitem data exactă
       gen,
       grupa,
-      // Trimitem ambele: și ID-ul (dacă există) și Numele (dacă a fost modificat)
       parinte_id: parinteId || null,
       parent_display: parinteNume,
-      parinte_nume: parinteNume // Backend-ul caută și acest câmp
+      parinte_nume: parinteNume
     }, isEdit);
   };
 
@@ -65,15 +70,15 @@ const ElevForm = ({ initial = {}, onClose, onSubmit }) => {
             />
           </label>
 
+          {/* --- CALENDAR (Data Nașterii) --- */}
           <label>
-            <span>Vârstă</span>
+            <span>Data Nașterii</span>
             <input
-              type="number"
-              min="1"
-              max="99"
-              value={varsta}
-              onChange={(e) => setVarsta(e.target.value)}
+              type="date"
+              value={dataNasterii}
+              onChange={(e) => setDataNasterii(e.target.value)}
               required
+              style={{ fontFamily: "inherit" }}
             />
           </label>
 
@@ -96,7 +101,6 @@ const ElevForm = ({ initial = {}, onClose, onSubmit }) => {
             />
           </label>
 
-          {/* ✨ pentru părinte nou – backend vrea 'parinte_nume' */}
           <label className="field--full">
             <span>Nume părinte (opțional – pentru părinte nou)</span>
             <input

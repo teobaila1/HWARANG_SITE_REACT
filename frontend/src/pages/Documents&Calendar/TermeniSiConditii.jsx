@@ -14,14 +14,15 @@ const TermeniSiConditii = () => {
             <Navbar/>
             <main className="termeni-page">
                 <div className="termeni-container">
-                    <header className="termeni-header">
-                        <h1 className="termeni-title">Termeni și Condiții</h1>
-                        <p className="termeni-update">Ultima actualizare: 1 Iulie 2025</p>
-                        <div className="termeni-divider"></div>
-                    </header>
+                    {/*<header className="termeni-header">*/}
+                    {/*    /!*<h1 className="termeni-title">Termeni și Condiții</h1>*!/*/}
+                    {/*    /!*<p className="termeni-update">Ultima actualizare: 1 Ianuarie 2026</p>*!/*/}
+                    {/*    /!*<div className="termeni-divider"></div>*!/*/}
+                    {/*</header>*/}
 
                     <div className="termeni-content">
                         <section className="termeni-section">
+                            <p className="termeni-update">Ultima actualizare: 1 Ianuarie 2026</p>
                             <h2>1. Introducere</h2>
                             <p>
                                 Vă mulțumim că ați accesat site-ul <strong>ACS Hwarang Academy Sibiu</strong>.
@@ -51,8 +52,8 @@ const TermeniSiConditii = () => {
                         <section className="termeni-section">
                             <h2>4. Proprietate Intelectuală</h2>
                             <p>
-                                Întregul conținut al acestui site — incluzând, dar fără a se limita la: imagini, texte, elemente grafice,
-                                logo-uri, clipuri video și structură — este proprietatea <strong>ACS Hwarang Academy</strong> și este
+                                Întregul conținut al acestui site incluzând, dar fără a se limita la: imagini, texte, elemente grafice,
+                                logo-uri, clipuri video și structură este proprietatea <strong>ACS Hwarang Academy</strong> și este
                                 protejat de Legea dreptului de autor. Reproducerea, distribuirea sau utilizarea acestor materiale fără acordul
                                 scris al clubului este strict interzisă.
                             </p>
@@ -98,7 +99,7 @@ const TermeniSiConditii = () => {
                             <ul>
                                 <li>
                                     <span className="label">Email:</span>
-                                    <span className="value">secretariat@hwarang.ro</span> {/* Am pus un email generic, poti modifica */}
+                                    <span className="value">secretary@hwarang.com</span> {/* Am pus un email generic, poti modifica */}
                                 </li>
                                 <li>
                                     <span className="label">Telefon:</span>

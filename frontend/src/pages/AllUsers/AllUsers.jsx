@@ -299,9 +299,6 @@ const TotiUtilizatorii = () => {
                                         value={editUser.grupe}
                                         onChange={(e) => setEditUser(s => ({...s, grupe: e.target.value}))}
                                     />
-                                    <small style={{color:"#888"}}>
-                                        Completează aici pentru ca acest admin să apară și ca Antrenor.
-                                    </small>
                                 </label>
 
                                 <div className="form-actions">

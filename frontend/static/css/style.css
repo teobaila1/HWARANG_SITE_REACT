@@ -1,10 +1,5 @@
 /* PAGINA PRINCIPALA */
 
-
-
-
-
-
 /* Resetare stiluri implicite */
 * {
     margin: 0;
@@ -16,11 +11,44 @@
 /* Stilizare generală */
 body {
     font-family: Arial, sans-serif;
-    background-color: rgba(18, 18, 18, 40); /* Culoare semi-transparentă */
+    background-color: rgba(18, 18, 18, 40);
     color: white;
     line-height: 1.6;
-    margin-top: 150px; /* ajustează în funcție de înălțimea reală a navbar-ului */
+
+    /* ❌ ȘTERGE SAU COMENTEAZĂ LINIA DE MAI JOS */
+    /* margin-top: 150px; <--- ASTA STRICĂ PE MOBIL */
+
+    /* ✅ Navbar.css se ocupă deja de padding-top (padding-top: 80px/140px).
+       Lăsăm body-ul curat. */
+    margin: 0;
 }
+
+
+/* === FIX MOBIL CRITIC === */
+@media (max-width: 768px) {
+    /* Previne zoom-ul automat pe iPhone când dai click pe input */
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+
+    /* Ascunde scroll-ul orizontal nedorit */
+    body, html {
+        overflow-x: hidden;
+    }
+}
+
+
+
+/* === FEEDBACK VIZUAL LA APĂSARE (TOUCH) === */
+button:active,
+.btn:active,
+a.btn:active,
+.btn-primary:active {
+    transform: scale(0.96) !important; /* Se micșorează puțin */
+    filter: brightness(0.8);           /* Se întunecă puțin */
+    transition: transform 0.1s;
+}
+
 
 
 

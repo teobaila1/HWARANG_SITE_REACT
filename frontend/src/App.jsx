@@ -39,7 +39,9 @@ import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Galerie from "./pages/Gallery/Galerie";
 import Training from "./Kickbox/Trainings";
-import FooterKickbox from "./components/FooterKickbox";
+// import FooterKickbox from "./components/FooterKickbox";
+import ScannerPage from "./pages/ScannerPage";
+import CalendarClub from "./pages/Documents&Calendar/CalendarClub";
 
 
 function App() {
@@ -51,7 +53,7 @@ function App() {
 
                 <Routes>
                     <Route path="/" element={<Home/>}/>
-                    <Route path="/calendar2026" element={<CalendarPage/>}/>
+                    {/*<Route path="/calendar2026" element={<CalendarPage/>}/>*/}
                     <Route path="/acasa" element={<Home/>}/>
                     <Route path="/desprenoi" element={<About/>}/>
                     <Route path="/inscriere" element={<JoinForm/>}/>
@@ -82,6 +84,8 @@ function App() {
                     <Route path="/resetare-parola" element={<CerereResetareParola/>}/>
                     <Route path="/galerie" element={<Galerie/>}/>
                     <Route path="/training" element={<Training/>} />
+                    <Route path="/scan" element={<ScannerPage />} />
+                    <Route path="/calendar" element ={<CalendarClub/>} />
 
 
 

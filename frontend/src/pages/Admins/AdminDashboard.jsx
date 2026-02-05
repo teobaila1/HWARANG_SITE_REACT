@@ -18,36 +18,28 @@ const AdminDashboard = () => {
         }
     }, [navigate]);
 
+    // --- LOGICA DE UPLOAD ---
     const handleUpload = async () => {
         if (files.length === 0) {
             setUploadStatus('Selectează cel puțin un fișier!');
             return;
         }
-
         const formData = new FormData();
         files.forEach((file) => formData.append('files', file));
-        // Adăugăm username ca fallback
         formData.append('username', username);
-
-        // --- AICI ERA PROBLEMA: TREBUIE LUAT TOKEN-UL ---
         const token = localStorage.getItem("token");
 
         try {
             const response = await fetch(`${API_BASE}/api/upload_document`, {
                 method: 'POST',
-                headers: {
-                    // FĂRĂ Content-Type (browserul îl pune automat la FormData)
-                    "Authorization": `Bearer ${token}` // <--- OBLIGATORIU
-                },
+                headers: { "Authorization": `Bearer ${token}` },
                 body: formData,
             });
-
             if (response.ok) {
                 setUploadStatus('Fișierele au fost încărcate!');
                 setFiles([]);
                 setTimeout(() => setUploadStatus(''), 3000);
-                // Opțional: Poți reîncărca lista dacă ai funcția aici,
-                // dar lista e în pagina Documente.jsx
+                fetchDocuments(); // Reîncărcăm lista
             } else {
                 const errData = await response.json();
                 setUploadStatus(errData.message || 'Eroare la upload!');
@@ -58,20 +50,14 @@ const AdminDashboard = () => {
         }
     };
 
-    // ... (Restul funcțiilor pentru listare/ștergere din Dashboard, dacă le ai aici)
-    // Asigură-te că și la ele pui Authorization dacă le folosești.
-
-    // Funcția de ștergere (dacă e folosită în acest fișier):
+    // --- LOGICA ȘTERGERE ---
     const handleDelete = async (id, filename) => {
         if (!window.confirm(`Ștergi fișierul ${filename}?`)) return;
         const token = localStorage.getItem("token");
-
         try {
             const res = await fetch(`${API_BASE}/api/delete_document/id/${id}`, {
                 method: 'DELETE',
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
+                headers: { "Authorization": `Bearer ${token}` }
             });
             if (res.ok) {
                 setUploadedDocs(prev => prev.filter(doc => doc.id !== id));
@@ -81,7 +67,7 @@ const AdminDashboard = () => {
         } catch(e) { console.error(e); }
     };
 
-    // Funcția de listare documente (pentru Dashboard)
+    // --- LOGICA LISTARE ---
     const fetchDocuments = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -106,11 +92,33 @@ const AdminDashboard = () => {
             <div className="admin-dashboard-container">
                 <div className="dashboard-header">
                     <h1>Panou Administrare</h1>
-                    <p style={{color: '#888', marginTop: '5px'}}>Bine ai venit, {username}</p>
+                    <p style={{color: '#888', marginTop: '5px', marginBottom: '20px'}}>Bine ai venit, {username}</p>
+
+                    {/* --- BUTON SCANARE DOAR AICI --- */}
+                    <div style={{ display: "flex", justifyContent: "center", marginBottom: "30px" }}>
+                        <button
+                            onClick={() => navigate("/scan")}
+                            style={{
+                                background: "linear-gradient(135deg, #D4AF37 0%, #B8860B 100%)",
+                                color: "white",
+                                border: "none",
+                                padding: "12px 35px",
+                                fontSize: "1.1rem",
+                                fontWeight: "bold",
+                                borderRadius: "30px",
+                                cursor: "pointer",
+                                boxShadow: "0 4px 15px rgba(212, 175, 55, 0.4)",
+                                display: "flex", alignItems: "center", gap: "10px"
+                            }}
+                        >
+                            <i className="fas fa-qrcode" style={{fontSize: "1.2rem"}}></i>
+                            Scanează Prezența
+                        </button>
+                    </div>
                 </div>
 
                 <div className="dashboard-grid">
-                    {/* ... (CARDURILE UTILIZATORI / COMPETIȚII RĂMÂN LA FEL) ... */}
+                    {/* CARD 1: Utilizatori */}
                     <div className="dashboard-card">
                         <div className="card-title"><i className="fas fa-users"></i> Gestiune Utilizatori</div>
                         <div className="action-list">
@@ -121,17 +129,17 @@ const AdminDashboard = () => {
                         </div>
                     </div>
 
+                    {/* CARD 2: Competiții */}
                     <div className="dashboard-card">
                         <div className="card-title"><i className="fas fa-trophy"></i> Competiții & Financiar</div>
                         <div className="action-list">
                             <Link to="/creeaza-concurs" className="dashboard-btn">Creează concurs nou</Link>
                             <Link to="/toti-inscrisi-concurs" className="dashboard-btn">Vezi toate înscrierile</Link>
-                            <Link to="/admin-set-permisiuni" className="dashboard-btn">Permisiuni concurs</Link>
                             <Link to="/plati" className="dashboard-btn">Evidență Plăți</Link>
                         </div>
                     </div>
 
-                    {/* CARD 3: DOCUMENTE (Aici e upload-ul) */}
+                    {/* CARD 3: DOCUMENTE */}
                     <div className="dashboard-card">
                         <div className="card-title">
                             <i className="fas fa-folder-open"></i> Documente
@@ -167,7 +175,6 @@ const AdminDashboard = () => {
                             )}
                         </div>
 
-                        {/* Listare rapidă documente (opțional în dashboard) */}
                         <ul className="doc-list">
                             {uploadedDocs.map((doc) => (
                                 <li key={doc.id} className="doc-item">

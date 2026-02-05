@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import {ToastContainer, toast} from "react-toastify";
+import {toast} from "react-toastify";
 import "../../../static/css/Register.css";
 import {Link} from "react-router-dom";
 import {API_BASE} from "../../config";
@@ -15,8 +15,10 @@ const Register = () => {
         confirm: "",
         tip: "",
         data_nasterii: "",
-        grupe: ""
+        grupe: "" // Acest câmp va stoca "Grupele gestionate" (Antrenor) sau "Grupa" (Sportiv)
     });
+
+    const [acceptTerms, setAcceptTerms] = useState(false);
 
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -58,6 +60,11 @@ const Register = () => {
         e.preventDefault();
         setError(null);
 
+        if(!acceptTerms) {
+            toast.error("Te rugăm să accepți Termenii și Condițiile.");
+            return;
+        }
+
         if (formData.password !== formData.confirm) {
             toast.error("Parolele nu coincid.");
             return;
@@ -72,9 +79,13 @@ const Register = () => {
                 toast.error("Pentru sportivii sub 18 ani (calculat la nivel de an), contul trebuie creat de un părinte.");
                 return;
             }
+            // Validare grupă pentru sportiv
+            if (!formData.grupe) {
+                toast.error("Te rugăm să specifici grupa din care faci parte.");
+                return;
+            }
         }
 
-        // Validare Antrenor - Data nașterii e acum obligatorie
         if (formData.tip === "Antrenor") {
              if (!formData.data_nasterii) {
                 toast.error("Data nașterii este obligatorie pentru antrenori.");
@@ -110,6 +121,7 @@ const Register = () => {
                 });
                 setUseChildren(false);
                 setCopii([]);
+                setAcceptTerms(false);
             } else {
                 toast.error(result.message || "Eroare la înregistrare.");
             }
@@ -122,7 +134,7 @@ const Register = () => {
         <>
             <Navbar/>
             <section className="register-container">
-                <h2>Cerere Cont HWARANG</h2>
+                <h2>Cerere Creare Cont HWARANG</h2>
                 <form onSubmit={handleSubmit}>
                     <label>Nume complet</label>
                     <input
@@ -193,14 +205,13 @@ const Register = () => {
                     </select>
 
                     {/* --- CÂMP DATĂ NAȘTERE --- */}
-                    {/* Afișăm pentru Sportiv, Parinte ȘI Antrenor */}
                     {(formData.tip === "Sportiv" || formData.tip === "Parinte" || formData.tip === "Antrenor") && (
                         <>
                             <label>Data Nașterii:</label>
                             <input
                                 type="date"
                                 name="data_nasterii"
-                                // Este required pentru Sportiv și Antrenor
+                                // Required doar pentru Sportiv și Antrenor
                                 required={formData.tip === "Sportiv" || formData.tip === "Antrenor"}
                                 value={formData.data_nasterii}
                                 onChange={handleChange}
@@ -213,6 +224,7 @@ const Register = () => {
                         </>
                     )}
 
+                    {/* --- SECȚIUNE PĂRINTE --- */}
                     {formData.tip === "Parinte" && (
                         <>
                             <label className="checkbox-inline">
@@ -266,6 +278,7 @@ const Register = () => {
                         </>
                     )}
 
+                    {/* --- SECȚIUNE ANTRENOR --- */}
                     {formData.tip === "Antrenor" && (
                         <>
                             <label>Grupele gestionate</label>
@@ -280,10 +293,55 @@ const Register = () => {
                         </>
                     )}
 
+                    {/* --- MODIFICARE AICI: SECȚIUNE SPORTIV --- */}
+                    {formData.tip === "Sportiv" && (
+                        <>
+                            <label>Grupa din care faci parte</label>
+                            <input
+                                type="text"
+                                name="grupe" // Folosim același câmp 'grupe' din state
+                                placeholder="Ex: Grupa Performanță / Grupa 1"
+                                value={formData.grupe || ""}
+                                onChange={(e) => setFormData({...formData, grupe: e.target.value})}
+                                required
+                            />
+                        </>
+                    )}
+
+
+                    {/* --- 2. UI PENTRU TERMENI ȘI CONDIȚII --- */}
+                    <div style={{marginTop: "15px", marginBottom: "15px", display: "flex", alignItems: "flex-start", gap: "10px"}}>
+                        <input
+                            type="checkbox"
+                            id="termsCheck"
+                            checked={acceptTerms}
+                            onChange={(e) => setAcceptTerms(e.target.checked)}
+                            style={{marginTop:"4px", cursor: "pointer", width: "18px", height: "18px"}}
+                        />
+                        <label htmlFor="termsCheck" style={{margin:0, fontWeight:"normal", fontSize: "0.95rem", cursor: "pointer", lineHeight: "1.4"}}>
+                            Am citit și sunt de acord cu <Link to="/termeni_si_conditii" target="_blank" style={{color: "#b266ff", textDecoration: "underline"}}>Termenii și Condițiile</Link> ACS Hwarang Academy.
+                        </label>
+                    </div>
+
+                    {/*{error && <p className="error-msg">{error}</p>}*/}
+                    {/*{success && <p className="success-msg">Cererea a fost trimisă cu succes!</p>}*/}
+
+                    {/* --- 3. BUTON DEZACTIVAT DACĂ NU SUNT BIFATE TERMENELE --- */}
+                    <button
+                        type="submit"
+                        disabled={!acceptTerms}
+                        style={{
+                            opacity: acceptTerms ? 1 : 0.6,
+                            cursor: acceptTerms ? "pointer" : "not-allowed"
+                        }}
+                    >
+                        Trimite cererea
+                    </button>
+
+
                     {error && <p className="error-msg">{error}</p>}
                     {success && <p className="success-msg">Cererea a fost trimisă cu succes!</p>}
 
-                    <button type="submit">Trimite cererea</button>
                     Ai un cont deja creat?
                     <Link to="/autentificare" style={{color: "#b266ff", textDecoration: "none", fontWeight: "bold", marginLeft: "5px"}}>
                          Autentifică-te aici.

@@ -119,10 +119,14 @@
 /* câmpuri full width pe ultimul rând dacă e nevoie */
 .formular-copil > :nth-last-child(1){ grid-column: 1 / -1; }
 
-/* Inputs & Select – stil dark */
+/* Inputs & Select – stil dark (FIXAT PENTRU MOBIL) */
 .formular-copil input,
-.formular-copil select{
+.formular-copil select {
   width: 100%;
+  max-width: 100%; /* Asigură că nu depășește niciodată părintele */
+  box-sizing: border-box; /* Include padding-ul în lățimea totală */
+  margin: 0; /* Elimină marginile default din iOS */
+
   padding: .78rem .95rem;
   border-radius: 12px;
   border: 1px solid #2b2b38;
@@ -131,6 +135,10 @@
   font-size: 1rem;
   outline: none;
   transition: border .22s ease, box-shadow .22s ease, background .22s ease;
+
+  /* Fix specific pentru iOS Safari la input-uri de tip date/text */
+  -webkit-appearance: none;
+  appearance: none;
 }
 .formular-copil input::placeholder{ color:#a8a8b4; }
 
@@ -223,4 +231,48 @@
 @media (max-width: 520px){
   .kid-row{ flex-direction: column; align-items: flex-start; }
   .kid-label{ min-width: 0; }
+}
+
+
+
+/* === FIX CARD COPIL PE MOBIL === */
+
+@media (max-width: 600px) {
+    /* 1. Facem cardul flexibil vertical */
+    .kid-item {
+        display: flex;
+        flex-direction: column;
+        padding-right: 1rem; /* Resetăm spațiul din dreapta */
+        padding-bottom: 1.2rem;
+    }
+
+    /* 2. Resetăm poziționarea absolută a butonului */
+    /* Presupunând că butonul este un <a> sau <button> direct în .kid-item */
+    .kid-item button,
+    .kid-item .btn-card-digital {
+        position: static !important; /* Anulăm absolute */
+        transform: none !important;
+        margin-top: 15px; /* Spațiu față de text */
+        width: 100%; /* Pe toată lățimea */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.08); /* Fundal discret sau auriu */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Opțional: Poți face butonul auriu să iasă în evidență */
+    .kid-item button {
+        background: linear-gradient(90deg, #D4AF37, #B8860B);
+        border: none;
+        color: white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    /* 3. Asigurăm că rândurile de text nu sunt înghesuite */
+    .kid-row {
+        width: 100%;
+        justify-content: space-between; /* Împarte spațiul */
+    }
 }

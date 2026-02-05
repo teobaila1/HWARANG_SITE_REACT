@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import "../../static/css/Orar.css";
 import "../../static/css/Divider_Why_us.css";
 import AOS from 'aos';
@@ -9,17 +9,30 @@ import Footer from "../components/Footer";
 import NextEventFeed from "../components/NextEventFeed";
 import "../../static/css/FooterHome.css";
 import {toast} from "react-toastify";
-
+import MemberCard from "../components/MemberCard"; // <--- IMPORT PENTRU CARD
 
 const Home = () => {
+    // Stări pentru Cardul Digital
+    const [showMyCard, setShowMyCard] = useState(false);
+    const [userData, setUserData] = useState(null); // { id, nume }
 
     useEffect(() => {
-        AOS.init({duration: 1000, once: true}); // 1 secundă + animare o singură dată
+        AOS.init({duration: 1000, once: true});
         window.history.pushState(null, "", window.location.href);
         const handlePop = () => {
             window.history.pushState(null, "", window.location.href);
         };
         window.addEventListener("popstate", handlePop);
+
+        // --- VERIFICARE LOGIN PENTRU CARD ---
+        const token = localStorage.getItem("token");
+        const id = localStorage.getItem("user_id");
+        const nume = localStorage.getItem("nume_complet") || localStorage.getItem("username");
+
+        if (token && id) {
+            setUserData({ id, nume });
+        }
+
         return () => window.removeEventListener("popstate", handlePop);
     }, []);
 
@@ -27,47 +40,101 @@ const Home = () => {
         <>
             <Navbar/>
 
+            <NextEventFeed />
 
-            {/* Adaugi componenta aici, sub Navbar */}
-      <NextEventFeed />
+            {/*/!* --- BUTON FLOTANT CARD DIGITAL (Doar dacă e logat) --- *!/*/}
+            {/*{userData && (*/}
+            {/*    <>*/}
+            {/*        <button*/}
+            {/*            onClick={() => setShowMyCard(true)}*/}
+            {/*            style={{*/}
+            {/*                position: "fixed",*/}
+            {/*                bottom: "20px",*/}
+            {/*                right: "20px",*/}
+            {/*                zIndex: 9999, // Z-index mare să fie peste video/footer*/}
+            {/*                background: "linear-gradient(135deg, #D4AF37 0%, #B8860B 100%)", // Auriu Hwarang*/}
+            {/*                color: "white",*/}
+            {/*                border: "none",*/}
+            {/*                borderRadius: "50px",*/}
+            {/*                padding: "12px 24px",*/}
+            {/*                boxShadow: "0 4px 15px rgba(0,0,0,0.6)",*/}
+            {/*                display: "flex",*/}
+            {/*                alignItems: "center",*/}
+            {/*                gap: "10px",*/}
+            {/*                cursor: "pointer",*/}
+            {/*                fontWeight: "bold",*/}
+            {/*                fontSize: "1rem",*/}
+            {/*                transition: "transform 0.2s ease"*/}
+            {/*            }}*/}
+            {/*            onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}*/}
+            {/*            onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}*/}
+            {/*        >*/}
+            {/*            <i className="fas fa-qrcode" style={{fontSize: "1.2rem"}}></i>*/}
+            {/*            <span className="hide-mobile">Cardul Meu</span>*/}
+            {/*        </button>*/}
 
+            {/*        /!* MODAL CARD PERSONAL *!/*/}
+            {/*        {showMyCard && (*/}
+            {/*            <div style={{*/}
+            {/*                position: "fixed", top: 0, left: 0, right: 0, bottom: 0,*/}
+            {/*                backgroundColor: "rgba(0,0,0,0.9)", // Fundal întunecat*/}
+            {/*                backdropFilter: "blur(5px)",*/}
+            {/*                display: "flex", justifyContent: "center", alignItems: "center",*/}
+            {/*                zIndex: 10000*/}
+            {/*            }} onClick={() => setShowMyCard(false)}>*/}
+
+            {/*                <div onClick={e => e.stopPropagation()} style={{animation: "fadeIn 0.3s ease"}}>*/}
+            {/*                    <MemberCard*/}
+            {/*                        id={userData.id}*/}
+            {/*                        nume={userData.nume}*/}
+            {/*                        titlu="Membru Hwarang"*/}
+            {/*                    />*/}
+            {/*                    <div style={{textAlign: "center", marginTop: "15px"}}>*/}
+            {/*                        <button*/}
+            {/*                            onClick={() => setShowMyCard(false)}*/}
+            {/*                            style={{*/}
+            {/*                                background: "transparent",*/}
+            {/*                                border: "1px solid #666",*/}
+            {/*                                color: "#ccc",*/}
+            {/*                                padding: "8px 20px",*/}
+            {/*                                borderRadius: "20px",*/}
+            {/*                                cursor: "pointer"*/}
+            {/*                            }}*/}
+            {/*                        >*/}
+            {/*                            Închide*/}
+            {/*                        </button>*/}
+            {/*                    </div>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*        )}*/}
+            {/*    </>*/}
+            {/*)}*/}
 
             <div className="video-container">
                 <video autoPlay muted loop playsInline id="bg-video" poster="/images/hero_poster.jpg">
                     <source src="/video/hwarang.mp4" type="video/mp4"/>
                 </video>
-
-                {/* overlay existent + gradient + noise subtil */}
                 <div className="video-overlay"/>
                 <div className="video-gradient" aria-hidden/>
                 <div className="video-noise" aria-hidden/>
 
-                {/* HERO copy */}
                 <div className="hero-copy">
                     <h1>ACS Hwarang Academy Sibiu</h1>
                     <p>Respect. Integritate. Perseverență. Autocontrol. Spirit de luptă neînfricat.</p>
                     <div className="hero-cta">
                         <a href="/galerie" className="btn btn-primary">Vezi atmosfera</a>
-                        <a href="/inscriere" className="btn btn-ghost">Haide in echipa noastră</a>
+                        <a href="/inregistrare" className="btn btn-ghost">Haide in echipa noastră</a>
                     </div>
                 </div>
-
                 <div className="video-spacer"/>
             </div>
-
-
-            {/*/!* COUNTDOWN + feed concursuri *!/*/}
-            {/*<NextEventFeed/>*/}
-
 
             <div className="fade-transition"></div>
 
             <div data-aos="fade-up">
                 <OrarSwiper/>
             </div>
-            {/*<div className="brush-divider"></div>*/}
 
-            {/* Tranziție cu imagine */}
             <div style={{width: '100%', overflow: 'hidden', lineHeight: 0}}>
                 <img
                     src="images/brush_transition/brush.png"
@@ -76,8 +143,6 @@ const Home = () => {
                 />
             </div>
 
-
-            {/*<div data-aos="fade-down">*/}
             <section id="de-ce-noi" className="why-us-v2">
                 <div
                     className="why-panel"
@@ -135,31 +200,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/*</div>*/}
-
-            {/*/!*<div data-aos="flip-up">*!/*/}
-            {/*<section className="tarife-section">*/}
-            {/*    <h2 className="tarife-title">Tarife</h2>*/}
-            {/*    <div className="tarife-cards">*/}
-            {/*        <div className="tarif-card">*/}
-            {/*            <i className="fas fa-child"></i>*/}
-            {/*            <h3>Copii</h3>*/}
-            {/*            <p>200 RON / lună</p>*/}
-            {/*        </div>*/}
-            {/*        <div className="tarif-card">*/}
-            {/*            <i className="fas fa-user"></i>*/}
-            {/*            <h3>Adulți</h3>*/}
-            {/*            <p>200 RON / lună</p>*/}
-            {/*        </div>*/}
-            {/*        <div className="tarif-card">*/}
-            {/*            <i className="fas fa-trophy"></i>*/}
-            {/*            <h3>Performanță</h3>*/}
-            {/*            <p>200 RON / lună</p>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</section>*/}
-            {/*/!*</div>*!/*/}
-
             <div style={{width: '100%', overflow: 'hidden', lineHeight: 0}}>
                 <img
                     src="images/brush_transition/brush_invers.png"
@@ -167,10 +207,6 @@ const Home = () => {
                     style={{width: '100%', height: 'auto', display: 'block'}}
                 />
             </div>
-
-            {/*import {toast} from "react-toastify";*/}
-
-            {/*<button onClick={() => toast("Ping!")}>Test toast</button>*/}
 
             <Footer/>
         </>

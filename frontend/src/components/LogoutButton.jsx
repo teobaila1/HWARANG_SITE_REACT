@@ -1,4 +1,3 @@
-// src/components/LogoutButton.jsx
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import {toast} from "react-toastify";
@@ -8,25 +7,28 @@ const LogoutButton = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        // Ștergem TOATE datele de sesiune, cel mai important fiind token-ul
-        localStorage.removeItem("token");     // <--- CRITIC: Fără asta nu ești deconectat real
+        localStorage.removeItem("token");
         localStorage.removeItem("username");
         localStorage.removeItem("rol");
         localStorage.removeItem("email");
+        localStorage.removeItem("user_id"); // Asigură-te că ștergi și ID-ul
 
-        toast.success("Te-ai deconectat cu succes!");
+        toast.info("Te-ai deconectat."); // 'info' e mai puțin agresiv decât success
 
-        // Redirect rapid către login
         setTimeout(() => {
             navigate("/autentificare", {replace: true});
-        }, 750)
+        }, 500)
     };
 
     return (
         <button
             onClick={handleLogout}
-            className="logout_button">
-            Deconectare
+            className="logout_button"
+            title="Deconectare"
+        >
+            {/* Iconiță elegantă */}
+            <i className="fas fa-power-off"></i>
+            <span>Deconectare</span>
         </button>
     );
 };

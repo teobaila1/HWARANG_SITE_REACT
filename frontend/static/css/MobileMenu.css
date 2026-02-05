@@ -244,3 +244,63 @@
         color: #fff;
     }
 }
+
+
+
+/* === FIX SUPRAPUNERE MENIU MOBIL === */
+
+/* Footer-ul devine o coloană (elementele unul sub altul) */
+.mobile-menu-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Spațiu între rânduri */
+    padding-bottom: 30px; /* Mai mult loc jos pentru iPhone */
+}
+
+/* Cardul utilizatorului (Avatar + Nume + Logout) */
+.mobile-user-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 12px 16px;
+    border-radius: 12px;
+}
+
+/* Asigurăm că numele nu se suprapune */
+.mobile-user-card .info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1; /* Ocupă tot spațiul disponibil */
+    min-width: 0; /* Permite scurtarea textului */
+}
+
+.mobile-user-card .text strong {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 120px; /* Limităm lățimea numelui */
+}
+
+/* Butonul "Cardul Meu" - Îl facem mare și separat */
+/* NOTĂ: Asigură-te că butonul tău are o clasă sau e un <button> în afara .mobile-user-card,
+   sau dacă e înăuntru, îl scoatem vizual */
+
+.mobile-menu-footer .btn-card-meniu {
+    width: 100%;
+    background: linear-gradient(90deg, #D4AF37, #B8860B); /* Auriu */
+    color: white;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-align: center;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}

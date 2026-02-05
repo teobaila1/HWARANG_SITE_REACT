@@ -134,23 +134,32 @@
     --nb-accent-2: #cc0000;
     --nb-border: rgba(255, 255, 255, .09);
     --nb-radius: 14px;
+    /* --- DIMENSIUNI NAVBAR (Aici reglăm înălțimea) --- */
+    --nav-height-desktop: 120px; /* Mărit pentru logo-ul tău mare */
+    --nav-height-mobile: 90px;
 
     /* Înălțimea standard pentru Desktop */
     --nav-top: 80px;
 }
 
-/*!* AICI ESTE MODIFICAREA: *!*/
-/*body {*/
-/*    !* Pe desktop lăsăm 80px *!*/
-/*    padding-top: var(--nav-top);*/
-/*}*/
+/* Pe Desktop */
+body {
+    padding-top: var(--nav-height-desktop);
+    margin-top: 0 !important; /* Ne asigurăm că nu mai există margine veche */
+}
 
 
-/* PE MOBIL: Forțăm conținutul să coboare mai mult */
+/* Pe Mobil */
 @media (max-width: 950px) {
     body {
-        /* Mărim spațiul de sus la 110px sau chiar 120px */
-        padding-top: 140px !important;
+        /* Calculăm spațiul: înălțime meniu + spațiu de siguranță sus + puțin aer */
+        padding-top: calc(var(--nav-height-mobile) + env(safe-area-inset-top) + 60px) !important;
+    }
+
+    .navbar {
+        /* Navbar-ul stă sub notch-ul telefonului */
+        padding-top: max(0.5rem, env(safe-area-inset-top));
+        min-height: var(--nav-height-mobile);
     }
 }
 

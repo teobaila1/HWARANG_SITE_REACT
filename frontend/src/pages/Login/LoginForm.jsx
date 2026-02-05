@@ -13,8 +13,9 @@ const LoginForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        // Dacă e deja logat, îl trimitem acasă
         const username = localStorage.getItem("username");
-        if (username) {
+        if (username && username !== "undefined") {
             navigate("/acasa", {replace: true});
         }
     }, []);
@@ -38,32 +39,46 @@ const LoginForm = () => {
             });
 
             const result = await res.json();
-            if (result.status === "success") {
+
+            if (res.ok && result.status === "success") {
                 toast.success("Autentificare reușită!");
 
-                // SALVĂM TOKEN-UL
+                // --- SALVARE DATE SESIUNE ---
                 localStorage.setItem("token", result.token);
-
-                localStorage.setItem("username", result.user);
+                localStorage.setItem("username", result.username);
                 localStorage.setItem("rol", result.rol);
-                localStorage.setItem("email", result.email);
 
+                // IMPORTANT: Salvăm ID-ul pentru generarea codului QR
+                // Unificăm: dacă backend-ul trimite 'id' sau 'user_id', îl salvăm ca 'user_id'
+                const idToSave = result.user_id || result.id;
+                if (idToSave) {
+                    localStorage.setItem("user_id", idToSave);
+                }
+
+                if (result.nume_complet) localStorage.setItem("nume_complet", result.nume_complet);
+                if (result.email) localStorage.setItem("email", result.email);
+
+                // Redirect în funcție de rol
                 setTimeout(() => {
-                    if (["admin", "Parinte", "Sportiv"].includes(result.rol)) {
-                        navigate("/acasa");
-                    } else if (["Antrenor"].includes(result.rol)) {
+                    const r = result.rol;
+                    if (r === "admin") {
+                        navigate("/admin-dashboard");
+                    } else if (r === "Antrenor") {
                         navigate("/antrenor_dashboard");
-                    } else if (["AntrenorExtern"].includes(result.rol)) {
+                    } else if (r === "AntrenorExtern") {
                         navigate("/concursuri-extern");
+                    } else if (r === "Parinte") {
+                        navigate("/copiii-mei");
                     } else {
                         navigate("/acasa");
                     }
-                }, 750);
+                }, 500);
 
             } else {
                 setError(result.message || "Autentificare eșuată.");
             }
         } catch (err) {
+            console.error(err);
             setError("Eroare server. Încearcă din nou.");
         }
     };
@@ -82,6 +97,7 @@ const LoginForm = () => {
                         required
                         value={formData.username}
                         onChange={handleChange}
+                        placeholder="Nume utilizator"
                     />
 
                     <label htmlFor="password">Parolă:</label>
@@ -92,6 +108,7 @@ const LoginForm = () => {
                         required
                         value={formData.password}
                         onChange={handleChange}
+                        placeholder="Parola"
                     />
 
                     {error && <p className="error-msg">{error}</p>}

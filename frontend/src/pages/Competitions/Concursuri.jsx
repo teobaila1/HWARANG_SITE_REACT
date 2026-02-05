@@ -33,6 +33,7 @@ const Concursuri = () => {
     const CAN_DELETE = role === "admin";
 
     const [selectedProbes, setSelectedProbes] = useState([]);
+    const [istoricInscrieri, setIstoricInscrieri] = useState([]);
 
     // --- LISTA STANDARD DE PROBE ---
     const probeOptionsStandard = [
@@ -64,6 +65,29 @@ const Concursuri = () => {
         "Roșie_cu_tresă_neagră": 1,
         "Neagră": 0
     };
+
+
+    // --- FUNCTION FETCH ISTORIC ---
+    useEffect(() => {
+        const fetchIstoric = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/api/inscrierile_mele`, {
+                    headers: {"Authorization": `Bearer ${token}`}
+                });
+                const data = await res.json();
+                if (data.status === "success") {
+                    setIstoricInscrieri(data.data);
+                }
+            } catch (error) {
+                console.error("Eroare la încărcarea istoricului:", error);
+            }
+        };
+        fetchIstoric();
+    }, []);
+
 
     // --- FUNCȚIA DE FILTRARE PROBE (LOGICĂ SPECIALĂ) ---
     const getProbeOptions = () => {
@@ -106,7 +130,7 @@ const Concursuri = () => {
     const fetchNumarInscrisi = async (numeConcurs) => {
         // Poate fi public, dar trimitem token just in case
         const token = localStorage.getItem("token");
-        const headers = token ? { "Authorization": `Bearer ${token}` } : {};
+        const headers = token ? {"Authorization": `Bearer ${token}`} : {};
         const res = await fetch(`${API_BASE}/api/numar_inscrisi/${encodeURIComponent(numeConcurs)}`, {headers});
         const result = await res.json();
         setNumarInscrisi(prev => ({...prev, [numeConcurs]: result.nr}));
@@ -122,7 +146,7 @@ const Concursuri = () => {
         if (username) {
             const token = localStorage.getItem("token");
             fetch(`${API_BASE}/api/profil/sugestii_inscriere?username=${encodeURIComponent(username)}`, {
-                headers: { "Authorization": `Bearer ${token}` }
+                headers: {"Authorization": `Bearer ${token}`}
             })
                 .then(res => res.json())
                 .then(data => {
@@ -273,6 +297,35 @@ const Concursuri = () => {
         c.locatie.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+
+    // --- FUNCȚIE PENTRU BUTONUL DE STARE (ADMIN) ---
+    const handleToggleStatus = async (numeConcurs) => {
+        const token = localStorage.getItem("token");
+        try {
+            const res = await fetch(`${API_BASE}/api/concursuri/toggle_status/${encodeURIComponent(numeConcurs)}`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+                toast.success(data.message);
+                // Actualizăm lista locală ca să se schimbe culoarea butonului instant
+                setConcursuriViitoare(prev => prev.map(c =>
+                    c.nume === numeConcurs ? {...c, inscrieri_deschise: !c.inscrieri_deschise} : c
+                ));
+            } else {
+                toast.error(data.message || "Eroare la schimbarea stării");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Eroare de conexiune");
+        }
+    };
+
+
     return (
         <>
             <Navbar/>
@@ -307,15 +360,47 @@ const Concursuri = () => {
                                 <td className="col-localitate" data-label="Localitate">{c.locatie}</td>
 
                                 <td data-label="Acțiune" className="td-actions">
-                                    <div style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "8px",
-                                        alignItems: "stretch"
-                                    }}>
-                                        <button className="btn-inscriere" onClick={() => handleTrimiteCerere(c.nume)}>
-                                            {openFormFor === c.nume ? "Ascunde formularul" : "Înscrie-te la concurs"}
-                                        </button>
+                                    <div style={{display: "flex", flexDirection: "column", gap: "8px"}}>
+
+                                        {/* 1. Logica pentru Butonul de Înscriere (Să fie dezactivat dacă e închis) */}
+                                        {c.inscrieri_deschise ? (
+                                            <button className="btn-inscriere"
+                                                    onClick={() => handleTrimiteCerere(c.nume)}>
+                                                {openFormFor === c.nume ? "Ascunde formularul" : "Înscrie-te la concurs"}
+                                            </button>
+                                        ) : (
+                                            <button className="btn-inscriere" disabled style={{
+                                                opacity: 0.5,
+                                                cursor: "not-allowed",
+                                                background: "#333",
+                                                border: "1px solid #555"
+                                            }}>
+                                                ⛔ Înscrieri Închise
+                                            </button>
+                                        )}
+
+
+                                        {/* === AICI ADAUGI BUTONUL NOU PENTRU ADMIN === */}
+                                        {rol === "admin" && (
+                                            <button
+                                                onClick={() => handleToggleStatus(c.nume)}
+                                                className="btn-inscriere"
+                                                style={{
+                                                    backgroundColor: c.inscrieri_deschise ? "#7f1d1d" : "#14532d", // Rosu inchis (sa inchizi) sau Verde (sa deschizi)
+                                                    border: c.inscrieri_deschise ? "1px solid #ef4444" : "1px solid #22c55e",
+                                                    color: "white",
+                                                    marginTop: "5px"
+                                                }}
+                                            >
+                                                {c.inscrieri_deschise ? "🔒 Închide Înscrierile" : "🔓 Deschide Înscrierile"}
+                                            </button>
+                                        )}
+                                        {/* =========================================== */}
+
+
+                                        {/*<button className="btn-inscriere" onClick={() => handleTrimiteCerere(c.nume)}>*/}
+                                        {/*    {openFormFor === c.nume ? "Ascunde formularul" : "Înscrie-te la concurs"}*/}
+                                        {/*</button>*/}
 
                                         {CAN_SEE_ENTRIES && (
                                             <Link to={`/inscrisi/${encodeURIComponent(c.nume)}`}
@@ -510,8 +595,23 @@ const Concursuri = () => {
                                                         classNamePrefix="react-select"
                                                         placeholder="Selectează..."
                                                         noOptionsMessage={() => "Selectează întâi gradul centurii"}
-                                                        menuPosition="fixed"
-                                                        menuPlacement="auto"
+
+                                                        /* --- FIX COMPLET IOS/MOBILE --- */
+                                                        menuPlacement="bottom"            /* Forțează deschiderea în JOS */
+                                                        menuPosition="fixed"              /* Rămâne fixat pe ecran */
+                                                        menuPortalTarget={document.body}  /* Randează peste tot site-ul */
+                                                        maxMenuHeight={160}               /* <--- IMPORTANT: Meniu mai scurt ca să nu intre sub tastatură */
+                                                        menuShouldScrollIntoView={false}  /* <--- IMPORTANT: Previne săriturile paginii */
+                                                        styles={{
+                                                            menuPortal: (base) => ({...base, zIndex: 999999}),
+                                                            menu: (base) => ({
+                                                                ...base,
+                                                                backgroundColor: "#18181b",
+                                                                zIndex: 999999
+                                                            }),
+                                                            menuList: (base) => ({...base, padding: 0})
+                                                        }}
+                                                        /* ------------------------------ */
                                                     />
                                                 </div>
                                             </div>
@@ -530,6 +630,83 @@ const Concursuri = () => {
                     ))}
                     </tbody>
                 </table>
+
+                {/* ================= ZONA ISTORIC INSCRIERI ================= */}
+                <div className="istoric-container"
+                     style={{marginTop: "60px", borderTop: "1px solid #333", paddingTop: "40px"}}>
+                    <h2 className="concursuri-title" style={{borderLeft: "4px solid #d32f2f", paddingLeft: "15px"}}>
+
+                        Înscrierile Mele (Istoric)
+                    </h2>
+
+                    {istoricInscrieri.length === 0 ? (
+                        <p style={{color: "#888", fontStyle: "italic"}}>Nu ai nicio înscriere înregistrată.</p>
+                    ) : (
+                        <div style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+                            gap: "20px",
+                            marginTop: "20px"
+                        }}>
+                            {istoricInscrieri.map((item, idx) => (
+                                <div key={idx} style={{
+                                    backgroundColor: "#18181b",
+                                    border: "1px solid #333",
+                                    borderRadius: "12px",
+                                    padding: "20px",
+                                    boxShadow: "0 4px 6px rgba(0,0,0,0.3)",
+                                    position: "relative"
+                                }}>
+                                    <div style={{
+                                        fontSize: "1.1rem",
+                                        fontWeight: "bold",
+                                        color: "#fff",
+                                        marginBottom: "8px",
+                                        borderBottom: "1px solid #333",
+                                        paddingBottom: "8px"
+                                    }}>
+                                        {item.concurs}
+                                    </div>
+                                    <div style={{
+                                        position: "absolute",
+                                        top: "20px",
+                                        right: "20px",
+                                        background: "#333",
+                                        color: "#aaa",
+                                        fontSize: "0.8rem",
+                                        padding: "2px 8px",
+                                        borderRadius: "4px"
+                                    }}>
+                                        {item.data_inscriere}
+                                    </div>
+
+                                    <div style={{color: "#ccc", marginBottom: "4px"}}>
+                                        <span style={{
+                                            color: "#d32f2f",
+                                            fontWeight: "bold"
+                                        }}>Sportiv:</span> {item.nume_sportiv}
+                                    </div>
+                                    <div style={{color: "#ccc", marginBottom: "4px"}}>
+                                        <span style={{
+                                            color: "#d32f2f",
+                                            fontWeight: "bold"
+                                        }}>Categorie:</span> {item.categorie}
+                                    </div>
+                                    <div style={{
+                                        color: "#ccc",
+                                        fontSize: "0.9rem",
+                                        marginTop: "10px",
+                                        lineHeight: "1.4"
+                                    }}>
+                                        <span style={{color: "#d32f2f", fontWeight: "bold"}}>Probe:</span><br/>
+                                        {item.probe}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
             </div>
             <Footer/>
         </>

@@ -1,19 +1,18 @@
-// frontend/pages/AdminTotiCopiiiSiParintii.jsx
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import "../../../static/css/AdminTotiCopiiiSiParintii.css";
 import {API_BASE} from "../../config";
 
-
 const AdminTotiCopiiiSiParintii = () => {
   const [data, setData] = useState([]);
   const [mesaj, setMesaj] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // modale
-  const [editChild, setEditChild] = useState(null);   // { parentUsername, child:{id,nume,varsta,gen,grupa} }
-  const [editParent, setEditParent] = useState(null); // { username, email, nume_complet }
+  // Modale
+  // --- MODIFICARE: Folosim data_nasterii în loc de varsta ---
+  const [editChild, setEditChild] = useState(null);
+  const [editParent, setEditParent] = useState(null);
 
   const navigate = useNavigate();
 
@@ -49,7 +48,6 @@ const AdminTotiCopiiiSiParintii = () => {
     load();
   }, [navigate]);
 
-  // username (Nume Complet) dacă numele complet există și diferă
   const parentLabel = (p) => {
     if (!p) return "—";
     const u = (p.username || "").trim();
@@ -62,14 +60,15 @@ const AdminTotiCopiiiSiParintii = () => {
     return (t[0] || "P").toUpperCase();
   };
 
-  // --- acțiuni copil ---
+  // --- ACȚIUNI COPIL ---
   const openEditChild = (parentUsername, child) => {
     setEditChild({
       parentUsername,
       child: {
         id: child.id,
         nume: child.nume || "",
-        varsta: child.varsta ?? "",
+        // --- AICI ERA PROBLEMA: Luam vârsta, acum luăm Data ---
+        data_nasterii: child.data_nasterii || "",
         gen: child.gen || "",
         grupa: child.grupa || "",
       },
@@ -93,7 +92,10 @@ const AdminTotiCopiiiSiParintii = () => {
           admin_username,
           parent_username: editChild.parentUsername,
           nume: editChild.child.nume.trim(),
-          varsta: Number(editChild.child.varsta),
+
+          // --- MODIFICARE: Trimitem Data Nașterii ---
+          data_nasterii: editChild.child.data_nasterii,
+
           grupa: editChild.child.grupa.trim(),
           gen: editChild.child.gen || null,
         }),
@@ -137,7 +139,7 @@ const AdminTotiCopiiiSiParintii = () => {
     }
   };
 
-  // --- acțiuni părinte ---
+  // --- ACȚIUNI PĂRINTE ---
   const openEditParent = (username, email, fullName) =>
     setEditParent({ username, email: email || "", nume_complet: fullName || "" });
 
@@ -266,8 +268,8 @@ const AdminTotiCopiiiSiParintii = () => {
                             <span>{copil.gen ?? "N/A"}</span>
                           </div>
                           <div className="kid-row">
-                            <span className="label">Vârstă:</span>
-                            <span>{copil.varsta} ani</span>
+                            <span className="label">Data Nașterii:</span>
+                            <span>{copil.data_nasterii || "—"}</span>
                           </div>
                           {copil.grupa && (
                             <div className="kid-row">
@@ -316,6 +318,7 @@ const AdminTotiCopiiiSiParintii = () => {
                       }
                     />
                   </label>
+
                   <label>
                     Gen
                     <select
@@ -327,26 +330,27 @@ const AdminTotiCopiiiSiParintii = () => {
                         }))
                       }
                     >
-                      <option value="">—</option>
-                      <option value="M">M</option>
-                      <option value="F">F</option>
+                      <option value="">— Selectează —</option>
+                      <option value="Masculin">Masculin</option>
+                      <option value="Feminin">Feminin</option>
                     </select>
                   </label>
+
+                  {/* --- CALENDAR ÎN LOC DE VÂRSTĂ --- */}
                   <label>
-                    Vârstă
+                    Data Nașterii
                     <input
-                      type="number"
-                      min="3"
-                      max="18"
-                      value={editChild.child.varsta}
+                      type="date"
+                      value={editChild.child.data_nasterii || ""}
                       onChange={(e) =>
                         setEditChild((st) => ({
                           ...st,
-                          child: { ...st.child, varsta: e.target.value },
+                          child: { ...st.child, data_nasterii: e.target.value },
                         }))
                       }
                     />
                   </label>
+
                   <label>
                     Grupa
                     <input
@@ -373,7 +377,7 @@ const AdminTotiCopiiiSiParintii = () => {
             </div>
           )}
 
-          {/* Modal edit părinte */}
+          {/* Modal edit părinte (neschimbat) */}
           {editParent && (
             <div className="modal-backdrop" onClick={cancelEditParent}>
               <div className="modal" onClick={(e) => e.stopPropagation()}>
