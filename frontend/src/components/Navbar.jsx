@@ -127,7 +127,7 @@ const Navbar = () => {
                             <li><button onClick={() => navigate("/acasa")}>Acasă</button></li>
                             <li><button onClick={() => navigate("/desprenoi")}>Despre</button></li>
                             <li><button onClick={() => navigate("/antrenori")}>Antrenori</button></li>
-                            <li><button onClick={() => navigate("/galerie")}>Galerie</button></li>
+                            <li><button onClick={() => navigate("/galerie")}>Galerie și Palmares</button></li>
                             <li><a href="#footer">Contact</a></li>
                         </ul>
                     </li>
@@ -221,7 +221,7 @@ const Navbar = () => {
                             <button onClick={() => handleMobileNavigate("/acasa")}>Acasă</button>
                             <button onClick={() => handleMobileNavigate("/desprenoi")}>Despre Noi</button>
                             <button onClick={() => handleMobileNavigate("/antrenori")}>Antrenori</button>
-                            <button onClick={() => handleMobileNavigate("/galerie")}>Galerie Foto</button>
+                            <button onClick={() => handleMobileNavigate("/galerie")}>Galerie și Palmares</button>
                             <a href="#footer" onClick={closeMenu}>Contact</a>
                         </div>
                     </div>
@@ -244,9 +244,18 @@ const Navbar = () => {
                         <div className={`mobile-sub-links ${mobileExpanded.kick ? 'open' : ''}`}>
                             <button onClick={() => handleMobileNavigate("/training")}>Antrenamente</button>
                         </div>
+
                     </div>
 
                     <div className="mobile-simple-links">
+
+                        {/* --- ADĂUGAT: Buton Termeni & Condiții pentru Mobil --- */}
+                        {!isLoggedIn && (
+                            <button onClick={() => handleMobileNavigate("/termeni_si_conditii")}>
+                                Termeni & Condiții
+                            </button>
+                        )}
+
                         {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") &&
                             <button onClick={() => handleMobileNavigate("/concursuri")}>Concursuri</button>}
 

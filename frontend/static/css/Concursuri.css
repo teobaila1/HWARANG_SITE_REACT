@@ -1,619 +1,398 @@
-/* ====== Concursuri.css – dark+red, responsive card view ====== */
+/* ====== Concursuri.css – Balanced, Elegant & Full Width ====== */
 
-a { text-decoration: none; color: inherit; }
-
+/* 1. CONTAINER PRINCIPAL */
 .concursuri-container {
-  padding: clamp(2.5rem, 4vw, 4rem) clamp(1rem, 3vw, 2rem);
-  background: #161616;
+  width: 100%;
+  padding: 2rem 3%;
+  background: #121212;
   color: #fff;
   min-height: 100vh;
-  text-align: center;
+  text-align: left;
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0;
 }
 
+.concursuri-container a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 2. HEADER WRAPPER */
+.concursuri-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #27272a;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+/* 3. TITLU */
 .concursuri-title {
   color: white;
-  font-size: clamp(1.6rem, 2.2vw, 2rem);
-  margin: 0 0 1.25rem;
+  font-size: 2.2rem;
+  margin: 0;
   font-weight: 800;
-  letter-spacing: .2px;
-  text-shadow: 0 0 8px rgba(255,0,0,.25);
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  line-height: 1.2;
+  display: inline-block;
+  position: relative;
 }
 
 .concursuri-title::after {
   content: "";
   display: block;
-  height: 3px;
-  width: 340px;
-  margin-top: .55rem;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--cc-accent), var(--cc-accent-2));
-  box-shadow: 0 0 10px rgba(255,26,26,.35);
+  height: 4px;
+  width: 100%;
+  margin-top: 5px;
+  background: #dc2626;
+  border-radius: 2px;
+  box-shadow: 0 2px 10px rgba(220, 38, 38, 0.4);
 }
 
-/* ===== Căutare ===== */
+/* 4. ZONA DE ACȚIUNI */
+.concursuri-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.view-registrations-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #a1a1aa;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.view-registrations-link:hover { color: #fff; }
+.view-registrations-link .icon { color: #dc2626; font-size: 1.1rem; }
+
 .input-cautare {
-  padding: .75rem 1rem;
-  margin: 10px auto 8px;
-  font-size: 1rem;
-  width: 100%;
-  max-width: 420px;
-  border-radius: 10px;
-  background: #1b1b1b;
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  width: 300px;
+  border-radius: 6px;
+  background: #18181b;
   color: #fff;
-  border: 1px solid #2e2e2e;
+  border: 1px solid #333;
   outline: none;
-  transition: border .25s ease, box-shadow .25s ease, background .25s ease;
+  transition: all 0.2s ease;
 }
-.input-cautare::placeholder{ color:#9c9c9c; }
 .input-cautare:focus {
-  border: 1px solid #ff1a1a;
-  box-shadow: 0 0 0 3px rgba(255,26,26,.2), 0 0 14px rgba(255,0,0,.25);
-  background:#1e1e1e;
+  border-color: #dc2626;
+  background: #202025;
 }
 
-/* ===== Tabel stil desktop ===== */
-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 10px;
-  margin: 0 auto 2rem;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-
-  /* --- FIX CRITIC: Forțează respectarea lățimilor coloanelor --- */
-  table-layout: fixed;
+.input-select-elegant {
+    width: 100%;
+    padding: 12px; /* Mai înalt */
+    margin-bottom: 0; /* Reset margin */
+    border-radius: 8px;
+    border: 1px solid #333;
+    background-color: #09090b; /* Mai închis */
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
 }
-
-thead th {
-  background: transparent;
-  color: #a1a1aa;
-  padding: 1rem 1.5rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  letter-spacing: 1px;
-  text-align: left;
-  border: none;
-}
-
-/* RÂNDURILE */
-tbody tr {
-  background: linear-gradient(145deg, #18181b, #121214);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border-left: 4px solid transparent;
-}
-
-tbody tr:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(220, 38, 38, 0.15);
-  border-left-color: #ff1a1a;
-  background: #1e1e24;
-}
-
-tbody td {
-  padding: 1.5rem;
-  border-top: 1px solid #27272a;
-  border-bottom: 1px solid #27272a;
-
-  /* Aliniere verticală la mijloc pentru a nu se decala */
-  vertical-align: middle;
-
-  /* Previne ieșirea textului din celulă */
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Rotunjim colțurile */
-tbody tr td:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; border-left: 1px solid #27272a; }
-tbody tr td:last-child { border-top-right-radius: 12px; border-bottom-right-radius: 12px; border-right: 1px solid #27272a; }
-
-/* === STILIZARE SPECIFICĂ COLOANE === */
-
-/* 1. PERIOADA */
-.col-perioada {
-  font-family: 'Courier New', Courier, monospace;
-  color: #ff4d4d;
-  font-weight: 700;
-  font-size: 1.1rem;
-  white-space: nowrap; /* Data să stea pe un rând dacă e loc */
-  letter-spacing: -0.5px;
-}
-
-/* 2. ACTIVITATE (NUME) */
-.col-nume {
-  color: #ffffff;
-  font-size: 1.3rem; /* Ușor ajustat */
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  line-height: 1.2;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-
-  /* Permite textului să treacă pe rândul următor dacă e lung */
-  white-space: normal;
-}
-
-/* 3. LOCALITATE */
-.col-localitate {
-  color: #d4d4d8;
-  font-size: 1rem;
-  font-weight: 500;
-  white-space: normal; /* Permite wrap la locații lungi */
-}
-
-/* === RESPONSIVE (Card View pe Mobil) === */
-@media (max-width: 768px) {
-  table, thead, tbody, th, td, tr { display: block; }
-  thead { display: none; }
-
-  tbody tr {
-    border-left: 4px solid #ff1a1a;
-    margin-bottom: 20px;
-    height: auto; /* Înălțime automată pe mobil */
-  }
-
-  .col-nume { font-size: 1.3rem; margin-bottom: 5px; }
-  .col-perioada { font-size: 1rem; margin-bottom: 5px; color: #ff6666; }
-  .col-localitate { font-size: 1rem; color: #aaa; margin-bottom: 15px; }
-
-  tbody td { display: block; border: none; padding: 5px 15px; }
-
-  /* Resetăm containerele flex pe mobil */
-  .td-actions > div {
-      flex-direction: row; /* Pe mobil poate le vrei unul lângă altul sau column */
-  }
-}
-
-
-
-/* ===== Butoane ===== */
-button {
-  padding: .7rem 1rem;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 700;
-  color: #fff;
-  background: linear-gradient(180deg, #ff1a1a, #cc0000);
-  transition: transform .2s ease, box-shadow .2s ease;
-  min-height: 44px;
-  flex: 1 1 auto;
-}
-button:hover { background: #a80000; transform: translateY(-1px); }
-
-.btn-inscriere {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 100%;
+.input-select-elegant:focus {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.3);
 }
 
 /* ============================================================
-   FORMULAR ÎNSCRIERE - DESIGN PREMIUM
+   5. TABEL DESKTOP
    ============================================================ */
-
-.form-inscriere-wrapper {
-  position: relative;
-  margin: 20px auto;
+.concursuri-table {
   width: 100%;
-  max-width: 750px;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  margin-bottom: 3rem;
+  background: transparent;
 }
 
-.form-inscriere,
-.form-inscriere--inline {
-  position: relative;
-  background: #141414;
-  border: 1px solid #333;
-  border-top: 4px solid #b91c1c;
-  border-radius: 12px;
-  padding: 30px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+.concursuri-table thead th {
+  background: transparent;
+  color: #71717a;
+  padding: 0.8rem 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
   text-align: left;
-  animation: slideIn 0.3s ease-out;
 }
 
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+.concursuri-table tbody tr {
+  background: #1e1e22;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.concursuri-table tbody tr:hover {
+  transform: translateY(-2px);
+  background: #25252a;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  border-left: 3px solid #dc2626;
+}
+
+.concursuri-table tbody tr.row-closed {
+    opacity: 0.6;
+    background: #141414;
+    border: 1px solid #222;
+}
+
+.concursuri-table tbody td {
+  padding: 1.2rem 1.5rem;
+  vertical-align: middle;
+  border-top: 1px solid #2a2a2a;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.concursuri-table tbody tr td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-left: 1px solid #2a2a2a;
+}
+.concursuri-table tbody tr td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-right: 1px solid #2a2a2a;
+}
+
+/* Tipografie Tabel */
+.col-perioada {
+  font-family: 'Courier New', monospace;
+  color: #ef4444;
+  font-weight: 700;
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+.deadline-info { margin-top: 4px; color: #a1a1aa; font-size: 0.85rem; }
+.col-nume { color: #fff; font-size: 1.2rem; font-weight: 700; line-height: 1.3; }
+.col-localitate { color: #d4d4d8; font-size: 1rem; font-weight: 400; }
+
+/* ============================================================
+   6. BUTOANE GENERALE
+   ============================================================ */
+.concursuri-container button {
+  padding: 0.7rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  color: #fff;
+  transition: all 0.2s ease;
+  min-height: 40px;
+}
+
+.btn-inscriere {
+  background: #dc2626;
+  width: auto;
+  min-width: 140px;
+}
+.btn-inscriere:hover { background: #b91c1c; transform: translateY(-1px); }
+
+.btn-closed {
+    background: #27272a;
+    color: #52525b;
+    border: 1px solid #3f3f46;
+    cursor: default;
+    width: 100%;
+}
+
+/* ============================================================
+   7. FORMULAR ÎNSCRIERE - DESIGN PREMIUM (MODIFICAT)
+   ============================================================ */
+.form-inscriere--inline {
+    margin: 20px 0;
+    background: #121214; /* Foarte închis */
+    border: 1px solid #333;
+    border-top: 4px solid #dc2626; /* Accent sus */
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6); /* Umbră adâncă */
 }
 
 .form-inscriere h2 {
-  margin: 0 0 25px 0;
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #fff;
-  border-bottom: 1px solid #2a2a2a;
-  padding-bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #2a2a2a;
+    padding-bottom: 15px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
+.form-concurs-nume { color: #ef4444; font-weight: 800; }
 
-.form-concurs-nume {
-  color: #ef4444;
-  font-weight: 800;
-}
-
-/* Grid */
 .form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-@media (max-width: 650px) {
-  .form-grid { grid-template-columns: 1fr; }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive */
+    gap: 25px;
+    align-items: end; /* Aliniere la bază */
 }
 
 .form-field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 .form-field--full { grid-column: 1 / -1; }
 
 .form-field label {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 600;
-  color: #a1a1aa;
-  margin-left: 2px;
+    font-size: 0.8rem;
+    color: #a1a1aa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    margin-left: 2px;
 }
 
-/* INPUTURI & SELECTOARE STANDARD */
-.form-inscriere input,
-.form-inscriere select {
-  width: 100%;
-  box-sizing: border-box;
-  max-width: 100%;
-  padding: 12px 14px;
-  background: #09090b;
-  border: 1px solid #27272a;
-  border-radius: 8px;
-  color: #f4f4f5;
-  font-size: 0.95rem;
-  outline: none;
-  transition: all 0.2s ease;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.form-inscriere input:focus,
-.form-inscriere select:focus {
-  border-color: #7f1d1d;
-  background: #101012;
-  box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2);
-}
-
-.form-inscriere input[readonly] {
-  background: #1c1c1f;
-  color: #71717a;
-  border-color: transparent;
-  cursor: default;
-}
-
-/* ============================================================
-   FIX REACT SELECT (Dropdown Probe)
-   ============================================================ */
-
-/* 1. Asigurăm că rândul cu formularul lasă conținutul să iasă în afară */
-tr.form-row,
-tr.form-row td {
-    overflow: visible !important;
-    position: static !important; /* Resetare poziționare pentru a nu bloca z-index */
-}
-
-/* Container principal React Select */
-.react-select-container {
+/* Stiluri Input-uri Formular */
+.form-field input,
+.form-field select {
     width: 100%;
-    font-size: 0.95rem;
-    text-align: left;
+    padding: 12px 16px;
+    font-size: 1rem;
+    background: #09090b; /* Aproape negru */
+    border: 1px solid #27272a;
+    border-radius: 8px;
+    color: #f4f4f5;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
 }
 
-/* Câmpul de input (Control) */
+.form-field input:focus,
+.form-field select:focus {
+    border-color: #dc2626;
+    background: #09090b;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+.form-field input[readonly] {
+    background: #1c1c1f;
+    color: #71717a;
+    border-color: transparent;
+    cursor: not-allowed;
+}
+
+/* === STYLE OVERRIDE PENTRU REACT-SELECT (Dropdown Pro) === */
+.react-select-container { font-size: 1rem; }
+
 .react-select__control {
     background-color: #09090b !important;
-    border: 1px solid #333 !important;
+    border-color: #27272a !important;
     border-radius: 8px !important;
-    min-height: 44px !important;
+    min-height: 46px !important;
     box-shadow: none !important;
-    cursor: pointer;
+    cursor: pointer !important;
 }
-
-/* Focus pe control */
 .react-select__control--is-focused {
-    border-color: #dc2626 !important; /* Roșu la focus */
-    box-shadow: 0 0 0 1px #dc2626 !important;
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15) !important;
 }
 
-/* Meniul care se deschide (Dropdown) */
 .react-select__menu {
-    background-color: #18181b !important; /* Gri foarte închis */
+    background-color: #18181b !important;
     border: 1px solid #333 !important;
+    z-index: 9999 !important;
     border-radius: 8px !important;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.9) !important;
-    z-index: 99999 !important; /* Cel mai sus posibil */
-    margin-top: 8px !important;
-    /* overflow: hidden !important; */ /* Comentat pentru siguranță */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8) !important;
 }
 
-/* Lista de opțiuni */
-.react-select__menu-list {
-    padding: 0 !important;
-    max-height: 250px !important;
-}
-
-/* Opțiunile individuale */
 .react-select__option {
     background-color: transparent !important;
-    color: #e4e4e7 !important; /* Text alb-gri */
-    padding: 12px 16px !important;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    color: #d4d4d8 !important;
+    cursor: pointer !important;
+    padding: 10px 15px !important;
 }
-
-/* Hover pe opțiuni - Roșu Elegant */
-.react-select__option:hover,
 .react-select__option--is-focused {
-    background-color: #dc2626 !important;
+    background-color: #27272a !important; /* Gri închis la hover */
     color: #fff !important;
 }
-
-/* Opțiunea deja selectată */
 .react-select__option--is-selected {
-    background-color: #991b1b !important; /* Roșu mai închis */
+    background-color: #dc2626 !important; /* Roșu când e selectat */
     color: #fff !important;
 }
 
-/* Input text în dropdown și Placeholder */
-.react-select__input-container,
-.react-select__single-value {
-    color: #fff !important;
-}
-.react-select__placeholder {
-    color: #71717a !important;
-}
-
-/* Tag-urile pentru selecție multiplă */
 .react-select__multi-value {
     background-color: #27272a !important;
     border-radius: 4px !important;
-    border: 1px solid #3f3f46;
 }
-.react-select__multi-value__label {
-    color: #fff !important;
-    padding: 3px 6px !important;
-}
-.react-select__multi-value__remove {
-    color: #a1a1aa !important;
-    cursor: pointer;
-}
-.react-select__multi-value__remove:hover {
-    background-color: #dc2626 !important;
-    color: white !important;
-}
+.react-select__multi-value__label { color: #fff !important; }
+.react-select__multi-value__remove { color: #a1a1aa !important; cursor: pointer !important; }
+.react-select__multi-value__remove:hover { background-color: #dc2626 !important; color: white !important; }
 
-/* ============================================================
-   BUTOANE ACȚIUNI FORMULAR
-   ============================================================ */
+.react-select__input-container { color: white !important; }
+.react-select__placeholder { color: #71717a !important; }
+.react-select__single-value { color: white !important; }
 
+/* === Butoane Acțiuni Formular === */
 .form-actions {
-  display: flex;
-  gap: 15px;
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid #2a2a2a;
-}
-
-.form-actions button {
-  flex: 1;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: all 0.2s ease;
-  cursor: pointer;
+    margin-top: 35px;
+    display: flex;
+    gap: 15px;
+    padding-top: 20px;
+    border-top: 1px solid #2a2a2a;
 }
 
 .form-actions button[type="submit"] {
-  background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%);
-  color: white;
-  border: 1px solid #991b1b;
-  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
 }
-
 .form-actions button[type="submit"]:hover {
-  background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
-  transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
 }
 
 .form-actions .btn-cancel {
-  background: transparent;
-  color: #a1a1aa;
-  border: 1px solid #3f3f46;
+    background: transparent;
+    border: 1px solid #3f3f46;
+    color: #a1a1aa;
+    text-transform: uppercase;
+    font-size: 0.9rem;
 }
-
 .form-actions .btn-cancel:hover {
-  background: #27272a;
-  color: #fff;
-  border-color: #52525b;
+    background: #27272a;
+    color: #fff;
+    border-color: #52525b;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 720px){
-  .form-grid{ grid-template-columns: 1fr; }
-  .form-inscriere,
-  .form-inscriere--inline { padding: .9rem 1rem; border-radius: 16px; }
-  .form-inscriere input,
-  .form-inscriere select { padding: .72rem .85rem; }
+/* ============================================================
+   8. ADAPTARE MOBIL
+   ============================================================ */
+@media (max-width: 1100px) {
+    .concursuri-header-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    .concursuri-header-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .input-cautare { width: 100%; }
 }
 
-/* ===== Responsive: tabel -> carduri ===== */
 @media (max-width: 768px) {
-  table, thead, tbody, th, td, tr { display: block; }
-  thead { display: none; }
+  .concursuri-container { padding: 15px 10px; }
+  .concursuri-table thead { display: none; }
+  .concursuri-header-actions { flex-direction: column; align-items: flex-start; }
 
-  tbody tr {
-    background: linear-gradient(180deg, #121216, #18181f);
-    margin-bottom: 1.2rem;
-    border: 1px solid #2a2a34;
-    border-radius: 12px;
-    padding: 1rem;
-    box-shadow: 0 8px 24px rgba(0,0,0,.25);
-    text-align: left !important;
-  }
-
-  tbody td {
-    border: none;
-    padding: .5rem 0;
-    text-align: left !important;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  tbody td::before {
-    content: attr(data-label);
-    font-weight: 700;
-    color: #bbb;
-    flex: 0 0 40%;
-    padding-right: 10px;
-    text-align: left;
-  }
-
-  tbody td:last-child {
-    flex-direction: column;
-    gap: .5rem;
-  }
-
-  .btn-inscriere { width: 100%; }
-}
-
-/* ===== Aliniere stânga pagină ===== */
-.concursuri-container.concursuri-intern {
-  text-align: left !important;
-  align-items: flex-start;
-}
-
-.concursuri-intern .concursuri-title {
-  width: fit-content;
-  margin: 0 0 .9rem 0 !important;
-  text-align: left !important;
-}
-
-.concursuri-intern .concursuri-title::after {
-  margin-left: 0;
-  width: 340px;
-  background: linear-gradient(90deg,#ff1a1a,#cc0000);
-  border-radius: 999px;
-  box-shadow: 0 0 10px rgba(255,26,26,.35);
-}
-
-.concursuri-intern .input-cautare {
-  margin: 10px 0 8px 0 !important;
-  text-align: left;
-}
-
-/* ===== MOBILE FIX: aliniere totală ===== */
-@media (max-width: 900px) {
-  .concursuri-container {
-    padding: 1rem;
-    text-align: left !important;
-  }
-
-  .concursuri-container h1,
-  .concursuri-container h2 {
-    text-align: left !important;
-    font-size: 1.6rem;
-    margin-bottom: 0.8rem;
-  }
-
-  .input-cautare {
-    width: 100%;
-    text-align: left;
-    padding: 0.7rem 1rem;
-  }
-
-  .concurs-card,
-  .concurs-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left !important;
-    background: linear-gradient(180deg, #111114, #16161b);
-    border: 1px solid #2a2a36;
-    border-radius: 12px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
-  }
-
-  .concurs-card p,
-  .concurs-card span,
-  .concurs-item p,
-  .concurs-item span {
-    text-align: left !important;
-    width: 100%;
-    margin: 0.25rem 0;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-  }
-
-  .concurs-card .btn,
-  .concurs-item .btn {
-    width: 100%;
-    text-align: center;
-    justify-content: center;
-    margin-top: 0.5rem;
-  }
-
-  .concurs-card .btn + .btn,
-  .concurs-item .btn + .btn {
-    margin-top: 0.4rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .concursuri-container h1,
-  .concursuri-container h2 {
-    font-size: 1.4rem;
-  }
-  .concurs-card,
-  .concurs-item {
-    padding: 0.8rem;
-  }
-}
-
-/* ——— Mobile: aliniere completă la stânga și etichete vizibile ——— */
-@media (max-width: 768px) {
-  .concursuri-container tbody td {
-    display: block;
-    text-align: left !important;
-    justify-content: flex-start !important;
-    align-items: flex-start !important;
-    padding: .5rem 0;
-  }
-
-  .concursuri-container tbody td::before {
-    display: block;
-    content: attr(data-label);
-    font-weight: 700;
-    color: #bbb;
-    margin-bottom: .25rem;
-  }
-
-  .concursuri-container .td-actions {
-    display: grid !important;
-    grid-template-columns: 1fr;
-    row-gap: .5rem !important;
-  }
-  .concursuri-container .td-actions .btn-inscriere,
-  .concursuri-container .td-actions a > .btn-inscriere {
-    width: 100%;
-    justify-content: center;
-  }
+  .form-inscriere--inline { padding: 20px 15px; }
+  .form-actions { flex-direction: column; }
+  .form-actions button { width: 100%; }
 }

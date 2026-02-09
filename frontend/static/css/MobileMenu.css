@@ -304,3 +304,9 @@
     gap: 10px;
     box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
+
+
+/* --- ASCUNDE BUTONUL "X" NESIMȚIT --- */
+.mobile-close-btn {
+    display: none !important;
+}

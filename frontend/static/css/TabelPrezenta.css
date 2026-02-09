@@ -1,0 +1,203 @@
+/* frontend/src/static/css/TabelPrezenta.css */
+
+/* --- 1. CONTAINER --- */
+.tp-container {
+    background-color: #111;
+    color: #fff;
+    border-radius: 12px;
+    border: 1px solid #333;
+    padding: 15px;
+    margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Header */
+.tp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #d32f2f;
+    padding-bottom: 10px;
+}
+.tp-title {
+    margin: 0;
+    color: #d32f2f;
+    font-weight: 800;
+    font-size: 1.4rem;
+}
+
+/* --- MODIFICARE: BUTOANE MICI DESKTOP --- */
+.tp-btn-nav {
+    background: #222;
+    border: 1px solid #444;
+    color: white;
+
+    /* Le facem pătrate și mici */
+    width: 32px;
+    height: 32px;
+    padding: 0;   /* Resetăm padding-ul ca să fie centrat */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9rem; /* Iconița mai mică */
+    transition: 0.2s;
+}
+
+.tp-btn-nav:hover {
+    background: #d32f2f;
+    border-color: #d32f2f;
+}
+
+/* --- 2. ZONA DE SCROLL --- */
+.tp-table-wrapper {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid #333;
+    background-color: #111;
+}
+
+/* --- 3. TABELUL --- */
+.tp-table {
+    display: table !important;
+    border-collapse: separate !important;
+    border-spacing: 0;
+    width: max-content !important;
+    min-width: 100%;
+    margin: 0;
+}
+
+/* --- 4. STRUCTURA TABEL --- */
+.tp-table thead, .tp-table tbody {
+    display: table-row-group !important;
+}
+.tp-table tr {
+    display: table-row !important;
+    background: transparent;
+}
+.tp-th, .tp-td {
+    display: table-cell !important;
+    vertical-align: middle !important;
+    border-right: 1px solid #333;
+    border-bottom: 1px solid #333;
+    text-align: center;
+    padding: 0;
+    height: 40px;
+    box-sizing: border-box;
+}
+
+/* Header Cells */
+.tp-th {
+    background-color: #1a1a1a;
+    color: #aaa;
+    font-size: 0.9rem;
+    padding: 10px 0;
+    min-width: 40px !important;
+    width: 40px !important;
+}
+
+/* Body Cells */
+.tp-td {
+    min-width: 40px !important;
+    width: 40px !important;
+}
+
+/* --- 5. COLOANA STICKY (NUMELE) --- */
+.tp-sticky-col {
+    display: table-cell !important;
+    position: sticky !important;
+    left: 0;
+    z-index: 100;
+    background-color: #111 !important;
+    color: #fff !important;
+
+    width: 220px !important;
+    min-width: 220px !important;
+    max-width: 220px !important;
+
+    text-align: left;
+    padding: 0 10px;
+    border-right: 3px solid #d32f2f;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tp-th.tp-sticky-col {
+    z-index: 110;
+    background-color: #222 !important;
+    color: #d32f2f !important;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 2px solid #d32f2f;
+}
+
+/* --- 6. VIZUAL --- */
+.tp-table tbody tr:hover td,
+.tp-table tbody tr:hover .tp-sticky-col {
+    background-color: #222 !important;
+}
+
+.tp-check {
+    color: #00e676;
+    font-weight: 900;
+    font-size: 1.2rem;
+    display: inline-block;
+    line-height: 40px;
+}
+
+.tp-total-badge {
+    background-color: #d32f2f;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+.tp-msg { text-align: center; color: #888; padding: 20px; }
+
+
+/* ========================================= */
+/* 📱 MOBIL                                  */
+/* ========================================= */
+@media (max-width: 768px) {
+    .tp-container { padding: 5px; border: none; }
+    .tp-title { font-size: 1.1rem; }
+
+    /* Resetăm butoanele pe mobil să fie ușor de apăsat cu degetul */
+    .tp-btn-nav {
+        width: auto;
+        height: auto;
+        padding: 5px 15px;
+    }
+
+    .tp-sticky-col {
+        width: 130px !important;
+        min-width: 130px !important;
+        max-width: 130px !important;
+        font-size: 0.85rem;
+        padding: 0 5px;
+        border-right: 2px solid #d32f2f;
+    }
+
+    .tp-th.tp-sticky-col {
+        width: 130px !important;
+        min-width: 130px !important;
+        max-width: 130px !important;
+    }
+
+    .tp-th, .tp-td {
+        min-width: 40px !important;
+        width: 40px !important;
+        height: 40px;
+        font-size: 0.8rem;
+    }
+}

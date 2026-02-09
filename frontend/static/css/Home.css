@@ -1,0 +1,256 @@
+/* --- BUTON FLOTANT WHATSAPP --- */
+.whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25D366;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    text-decoration: none;
+    font-weight: bold;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    border: 2px solid white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+.whatsapp-text {
+    white-space: nowrap;
+}
+
+/* --- SECȚIUNE PROGRAM & TARIFE --- */
+.tarife-section {
+    padding: 80px 20px;
+    background-color: #161616; /* Culoarea neagră de tranziție */
+    color: #fff;
+}
+
+.tarife-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.tarife-title {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: #d32f2f;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.tarife-subtitle {
+    margin-bottom: 50px;
+    font-size: 1.1rem;
+    color: #aaa;
+    max-width: 600px;
+    margin: 0 auto 50px auto;
+}
+
+.tarife-highlight-text {
+    color: #4ade80;
+    font-weight: bold;
+}
+
+/* --- CARDURI --- */
+.tarife-cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.tarife-card {
+    flex: 1 1 350px;
+    background-color: #1e1e20;
+    padding: 40px 30px;
+    border-radius: 16px;
+    border: 1px solid #333;
+    text-align: left;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Card Header (Icon + Title) */
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.icon-circle {
+    background: #333;
+    padding: 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-circle i {
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.card-title {
+    color: #fff;
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+/* Lists inside cards */
+.card-list {
+    list-style: none;
+    padding: 0;
+    line-height: 1.8;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.card-list li {
+    margin-bottom: 15px;
+}
+
+/* Specific styles for Info Card List */
+.info-list li {
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+}
+
+.list-label {
+    color: #d32f2f;
+    display: block;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.card-note {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: auto;
+    font-style: italic;
+}
+
+/* --- CARD EVIDENȚIAT (PREȚ) --- */
+.tarife-card.highlight {
+    border: 2px solid #d32f2f;
+    box-shadow: 0 10px 40px rgba(211, 47, 47, 0.15);
+    position: relative;
+}
+
+.recomandat-badge {
+    position: absolute;
+    top: -15px;
+    right: 50%;
+    transform: translateX(50%);
+    background: #d32f2f;
+    color: white;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.price-desc {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.price-amount {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 25px;
+    line-height: 1;
+}
+
+.price-currency {
+    font-size: 1rem;
+    color: #aaa;
+    font-weight: normal;
+}
+
+.check-icon {
+    color: #4ade80;
+    margin-right: 10px;
+}
+
+/* --- BUTON ÎNSCRIERE --- */
+.tarife-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #d32f2f;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    transition: background 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    cursor: pointer;
+}
+
+.tarife-btn:hover {
+    background-color: #b71c1c;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+    .whatsapp-text {
+        display: none; /* Ascunde textul pe ecrane foarte mici */
+    }
+    .whatsapp-float {
+        padding: 12px; /* Buton rotund pe mobil */
+    }
+}
+
+
+
+
+
+/* --- FIX SPECIAL PENTRU PWA (Când e instalat pe telefon) --- */
+@media all and (display-mode: standalone) {
+
+    body {
+        /* Respectă zona "ceasului" și a "barei de jos" de la iPhone */
+        padding-top: env(safe-area-inset-top) !important;
+        padding-bottom: env(safe-area-inset-bottom) !important;
+
+        /* Oprește efectul de "bouncing" (elastic) care arată negrul din spate */
+        overscroll-behavior-y: none;
+
+        /* Forțăm înălțimea să fie fixă */
+        min-height: 100vh;
+        background-color: #000;
+    }
+
+    /* Navbar-ul trebuie să coboare puțin ca să nu intre sub ceas */
+    nav, .navbar {
+        padding-top: env(safe-area-inset-top) !important;
+        height: auto !important;
+    }
+
+    /* Forțăm conținutul să fie vizibil (în caz că AOS s-a blocat iar) */
+    * {
+        -webkit-overflow-scrolling: touch;
+    }
+}

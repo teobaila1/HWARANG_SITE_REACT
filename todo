@@ -209,3 +209,13 @@ am innebunit siteul cu securizari si am reusit cat de cat sa-l fac sa mearga, tr
 cu parintii ce se intampla cu adaugarile, editarile si stergerile din partea parintilor si antrenorilor
 
 sa refac pagina de incarcat documente
+
+
+
+
+9 februarie 2026:
+
+-am sters toate fisierele css nebune, am modificat sa fie mai elegant pe telefon
+-ramane de facut sa facem stil mai elegant pt fiecare pagina, pagina de antrenori, concurs etc, sa vad si la prezente
+sagetile alea urate si asa
+-sa vad iar cu celelalte fisiere css (mobile_overrides)

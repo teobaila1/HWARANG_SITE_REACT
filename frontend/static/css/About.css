@@ -134,3 +134,124 @@
 .hero-wrap:hover .hero-img{
   transform: scale(1.01);
 }
+
+
+
+
+/* --- VALUES GRID (Carduri cu iconițe) --- */
+.values-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto 50px;
+}
+
+.value-card {
+  flex: 1 1 200px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 25px 20px;
+  text-align: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.value-card i {
+  font-size: 2.5rem;
+  color: var(--accent);
+  margin-bottom: 15px;
+  display: block;
+}
+
+.value-card h3 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.value-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* --- COACHES TEASER (Link către pagina Antrenori) --- */
+.coaches-teaser-box {
+  text-align: center;
+  background: linear-gradient(90deg, var(--surface-2), var(--surface-1));
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 12px;
+  padding: 40px;
+  max-width: 800px;
+  margin: 50px auto;
+}
+
+.coaches-teaser-box h3 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.coaches-teaser-box p {
+  color: #ccc;
+  margin-bottom: 25px;
+}
+
+.btn-outline-red {
+  display: inline-block;
+  padding: 10px 30px;
+  border: 2px solid var(--accent);
+  color: #fff;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-red:hover {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(255, 26, 26, 0.4);
+}
+
+/* --- CTA PRINCIPAL --- */
+.about-cta-btn {
+  display: inline-block;
+  background-color: var(--accent);
+  color: white;
+  padding: 15px 50px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 5px 20px rgba(255, 26, 26, 0.4);
+  transition: all 0.3s ease;
+}
+
+.about-cta-btn:hover {
+  background-color: var(--accent-2);
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(255, 26, 26, 0.6);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .values-grid {
+        gap: 15px;
+    }
+    .coaches-teaser-box {
+        padding: 25px;
+    }
+}

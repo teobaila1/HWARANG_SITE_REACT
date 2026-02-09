@@ -10,7 +10,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 22px; /* a bit more space to show the underline */
+  margin-bottom: 22px;
 }
 
 .galerie-head h2 {
@@ -22,15 +22,14 @@
   line-height: 1.2;
 }
 
-/* 🔴 red underline under the title */
 .galerie-head h2::after {
   content: "";
   display: block;
   height: 3px;
-  width: clamp(120px, 18vw, 160px);            /* lățime adaptivă */
-  margin-top: .55rem;                          /* distanță de titlu */
+  width: clamp(120px, 18vw, 160px);
+  margin-top: .55rem;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--cc-accent), var(--cc-accent-2));
+  background: linear-gradient(90deg, #d32f2f, #ff6659); /* Am pus direct culorile roșii */
   box-shadow: 0 0 10px rgba(255,26,26,.35);
 }
 
@@ -43,10 +42,9 @@
   min-width: 260px;
   outline: none;
   transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
-  caret-color: #e74c3c;               /* red caret for consistency */
+  caret-color: #e74c3c;
 }
 
-/* 🔴 red focus state */
 .galerie-search input:focus {
   border-color: #e74c3c;
   box-shadow: 0 0 0 3px rgba(231, 76, 60, .18);
@@ -165,32 +163,32 @@
 }
 
 .btn-close {
-  background: transparent;
-  border: 1px solid #3b3f52;
-  color: #c9c9d5;
-  border-radius: 8px; /* Colțuri ușor rotunjite */
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 50%;
 
-  /* Dimensiuni fixe pentru a fi pătrat */
-  width: 36px;
-  height: 36px;
+  width: 40px !important;
+  height: 40px !important;
+  flex: 0 0 40px;
 
-  /* Centrare perfectă a X-ului */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
+  margin-left: 15px;
 
   cursor: pointer;
-  font-size: 1.1rem; /* Mărimea X-ului */
+  font-size: 1.2rem;
   line-height: 1;
   transition: all 0.2s ease;
 }
 
 .btn-close:hover {
-  background: rgba(255, 26, 26, 0.15); /* Roșu pal la hover */
-  border-color: #ff1a1a;
+  background: #d32f2f;
+  border-color: #d32f2f;
+  transform: rotate(90deg);
   color: #fff;
-  transform: scale(1.05);
 }
 
 .lightbox-body {
@@ -250,3 +248,270 @@
   display: block;
 }
 .thumb.active { border-color: #8a63ff; }
+
+
+/* --- HALL OF FAME (DESIGN PREMIUM) --- */
+.hall-of-fame {
+  margin-bottom: 60px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid #333;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+
+  /* IMAGINE DE FUNDAL CU GRADIENT PESTE EA */
+  background:
+    linear-gradient(to right, rgba(10, 10, 15, 0.95) 30%, rgba(10, 10, 15, 0.7)),
+    url('/images/gallery/poze_concursuri/cover_2.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 50px;
+}
+
+/* Linia roșie din stânga */
+.hall-of-fame::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: #d32f2f;
+  box-shadow: 0 0 15px #d32f2f;
+}
+
+.hof-header {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 40px;
+  max-width: 600px;
+}
+
+.hof-title {
+  font-size: 2.2rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.hof-title i {
+  color: #ffd700;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+}
+
+.hof-subtitle {
+  color: #ccc;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.hof-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+/* Cardurile semi-transparente (Glass Effect) */
+.hof-item {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.hof-item:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: #d32f2f;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.hof-icon-wrapper {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  background: rgba(0,0,0,0.3);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.hof-year {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: #ff4d4d;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.hof-event {
+  font-size: 1.4rem;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.hof-result {
+  font-size: 1rem;
+  color: #b0b0b0;
+  line-height: 1.6;
+}
+
+.hof-highlight {
+  color: #4ade80;
+  font-weight: bold;
+}
+
+/* --- EXTRA PALMARES ELEMENTS --- */
+.champions-list {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  position: relative;
+  z-index: 2;
+}
+
+.champions-title {
+  font-size: 1.1rem;
+  color: #aaa;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.champions-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.champion-tag {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: #ffd700;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.champion-tag:hover {
+  background: rgba(255, 215, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.official-badge {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(0,0,0,0.4);
+  padding: 15px 25px;
+  border-radius: 12px;
+  width: fit-content;
+  border: 1px solid rgba(255,255,255,0.05);
+  backdrop-filter: blur(5px);
+  position: relative;
+  z-index: 2;
+}
+
+.badge-text span {
+  display: block;
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.badge-text strong {
+  display: block;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.hof-cta {
+  text-align: right;
+  position: relative;
+  z-index: 2;
+}
+
+.btn-join-team {
+  display: inline-block;
+  background: #d32f2f;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.btn-join-team:hover {
+  background: #b71c1c;
+}
+
+
+/* --- FIX CRITIC PENTRU MOBIL (NUCLEAR OPTION) --- */
+@media (max-width: 900px) {
+
+    /* 1. Omoară Animațiile AOS pe mobil */
+    [data-aos] {
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+        transition: none !important;
+        pointer-events: auto !important;
+    }
+
+    /* 2. Ajustări Palmares Mobile */
+    .hall-of-fame {
+        padding: 25px !important;
+        background-attachment: scroll !important;
+    }
+
+    .hof-title {
+        font-size: 1.6rem !important;
+    }
+
+    .hof-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .official-badge {
+        width: 100%;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hof-cta {
+        text-align: center;
+        width: 100%;
+    }
+
+    .galerie-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .galerie-search input {
+        width: 100%;
+    }
+}

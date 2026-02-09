@@ -15,10 +15,12 @@ const AntrenorDashboard = () => {
     const [editElev, setEditElev] = useState(null);
     const [confirm, setConfirm] = useState({open: false, elevId: null, nume: ""});
 
-    // Alegerile din dropdown pentru "părinte existent"
-    const [parentChoice, setParentChoice] = useState({}); // { "Grupa 1": parentId, ... }
+    // Statistici calculate
+    const [stats, setStats] = useState({ totalElevi: 0, totalGrupe: 0 });
 
-    // Helper afișare nume părinte
+    // Alegerile din dropdown pentru "părinte existent"
+    const [parentChoice, setParentChoice] = useState({});
+
     const parentName = (p) =>
         (p?.display && String(p.display).trim()) || p?.username || "—";
 
@@ -32,32 +34,38 @@ const AntrenorDashboard = () => {
         }
     }, [navigate]);
 
-    // Grupează datele plate primite de la server
     const groupByGrupa = (rows) => {
         const map = new Map();
+        let countElevi = 0;
 
         for (const row of rows || []) {
             const g = row.grupa || "Fără grupă";
-            if (!map.has(g)) map.set(g, {grupa: g, parents: [], copii: [], _pk: new Set()});
+            if (!map.has(g)) map.set(g, {
+                grupa: g,
+                grupa_id: row.grupa_id,
+                parents: [], copii: [], _pk: new Set()
+            });
             const bucket = map.get(g);
 
             const p = row.parinte || {};
-            // Cheie unică pentru părinți (evităm duplicatele în dropdown)
             const pKey = `${p.id ?? "null"}::${(p.username || "").toLowerCase()}`;
             if ((p.id != null || p.username) && !bucket._pk.has(pKey)) {
                 bucket._pk.add(pKey);
                 bucket.parents.push(p);
             }
 
-            // Atașăm părintele la fiecare copil pentru a ști cui aparține
             for (const c of (row.copii || [])) {
                 bucket.copii.push({...c, _parent: p});
+                countElevi++;
             }
         }
 
-        return Array.from(map.values())
+        const groups = Array.from(map.values())
             .map(({_pk, ...rest}) => rest)
             .sort((a, b) => (a.grupa || "").localeCompare(b.grupa || ""));
+
+        setStats({ totalElevi: countElevi, totalGrupe: groups.length });
+        return groups;
     };
 
     const loadData = async () => {
@@ -78,7 +86,6 @@ const AntrenorDashboard = () => {
                 const grouped = groupByGrupa(result.date || []);
                 setData(grouped);
 
-                // Preselectăm primul părinte în dropdown-uri
                 const defaults = {};
                 grouped.forEach(g => {
                     if (g.parents.length > 0) defaults[g.grupa] = g.parents[0].id;
@@ -102,55 +109,43 @@ const AntrenorDashboard = () => {
     const prettyGen = (g) => {
         if (!g) return "N/A";
         const v = String(g).toLowerCase();
-        if (v === "m" || v === "masculin") return "Masculin";
-        if (v === "f" || v === "feminin") return "Feminin";
+        if (v === "m" || v === "masculin") return "M";
+        if (v === "f" || v === "feminin") return "F";
         return g;
     };
 
-    // --- ACȚIUNI ---
-
-    // 1. Adaugă elev (părinte existent selectat)
+    // --- ACTIONS ---
     const handleAddExisting = (grupaName) => {
         const pid = parentChoice[grupaName];
         if (!pid) {
             setMesaj("Selectează un părinte pentru această grupă.");
             return;
         }
-
         const g = data.find(x => x.grupa === grupaName);
         const p = g?.parents?.find(x => x.id === pid);
-
-        // Setăm datele inițiale. Backend-ul va folosi parinte_id.
         setEditElev({
             parinte_id: pid,
             grupa: grupaName,
-            // Afișăm numele ca să știe antrenorul pe cine a selectat
             parent_display: (p?.display && String(p.display).trim()) || p?.username || `Părinte #${pid}`
         });
         setShowForm(true);
     };
 
-    // 2. Adaugă elev (părinte nou - se va crea placeholder)
     const handleAddNewParent = (grupaName) => {
         setEditElev({grupa: grupaName, parinte_id: null, parent_display: ""});
         setShowForm(true);
     };
 
-    // 3. Editează elev existent
     const handleEdit = (copil) => {
-        // Calculăm numele părintelui curent
         const numeParinteVizibil = parentName(copil._parent);
-
         setEditElev({
             ...copil,
-            // IMPORTANT: Populăm aceste câmpuri pentru ca ElevForm să le afișeze
             parent_display: numeParinteVizibil,
             parinte_id: copil._parent?.id ?? null
         });
         setShowForm(true);
     };
 
-    // 4. Șterge elev
     const handleDeleteAsk = (copil) => {
         setConfirm({open: true, elevId: copil.id, nume: copil.nume});
     };
@@ -162,12 +157,11 @@ const AntrenorDashboard = () => {
                 method: "DELETE",
                 headers: {"Authorization": `Bearer ${token}`}
             });
-            const dataRes = await res.json().catch(() => ({}));
             if (res.ok) {
                 setMesaj("Elev șters.");
                 await loadData();
             } else {
-                setMesaj(dataRes.message || "Nu s-a putut șterge elevul.");
+                setMesaj("Nu s-a putut șterge elevul.");
             }
         } catch {
             setMesaj("Eroare de rețea la ștergere.");
@@ -176,7 +170,6 @@ const AntrenorDashboard = () => {
         }
     };
 
-    // Submit formular (Add / Edit)
     const handleSubmitForm = async (payload, isEdit) => {
         try {
             const token = localStorage.getItem("token");
@@ -191,12 +184,12 @@ const AntrenorDashboard = () => {
                 },
                 body: JSON.stringify(payload),
             });
-            const dataRes = await res.json().catch(() => ({}));
             if (res.ok) {
                 setMesaj(isEdit ? "Elev actualizat." : "Elev adăugat.");
                 setShowForm(false);
                 await loadData();
             } else {
+                const dataRes = await res.json().catch(() => ({}));
                 setMesaj(dataRes.message || "Operația a eșuat.");
             }
         } catch (e) {
@@ -208,110 +201,117 @@ const AntrenorDashboard = () => {
     return (
         <>
             <Navbar/>
-            <div className="dashboard">
-                <div className="dashboard-header">
-                    <h2>Grupele și elevii tăi</h2>
-                </div>
+            <div className="ant-dashboard">
 
-
-                {/* --- START COD NOU: BUTON SCANARE --- */}
-                <div style={{marginBottom: "30px", display: "flex", justifyContent: "center"}}>
-                    <button
-                        onClick={() => navigate("/scan")}
-                        style={{
-                            background: "linear-gradient(135deg, #D4AF37 0%, #B8860B 100%)", // Auriu specific Hwarang
-                            color: "white",
-                            border: "none",
-                            padding: "15px 40px",
-                            fontSize: "1.1rem",
-                            fontWeight: "bold",
-                            borderRadius: "30px",
-                            cursor: "pointer",
-                            boxShadow: "0 4px 15px rgba(212, 175, 55, 0.4)",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "10px"
-                        }}
-                    >
-                        <i className="fa-solid fa-qrcode" style={{fontSize: "1.3rem"}}></i>
-                        Scanează Prezența
-                    </button>
-                </div>
-                {/* --- END COD NOU --- */}
-
-                {loading && <p>Se încarcă…</p>}
-                {!loading && mesaj && <div className="alert">{mesaj}</div>}
-
-                {!loading && data.map((grupaData, idx) => (
-                    <div key={idx} className="grupa-card">
-                        <div className="grupa-head">
-                            <h3>{grupaData.grupa}</h3>
-
-                            <div className="btn-group">
-                                {grupaData.parents.length > 0 && (
-                                    <>
-                                        {grupaData.parents.length > 1 && (
-                                            <select
-                                                className="parent-select"
-                                                value={parentChoice[grupaData.grupa] ?? ""}
-                                                onChange={(e) =>
-                                                    setParentChoice(prev => ({
-                                                        ...prev,
-                                                        [grupaData.grupa]: Number(e.target.value)
-                                                    }))
-                                                }
-                                            >
-                                                {grupaData.parents.map(p => (
-                                                    <option key={p.id} value={p.id}>
-                                                        {parentName(p)}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        )}
-                                        <button
-                                            className="btn btn-primary"
-                                            onClick={() => handleAddExisting(grupaData.grupa)}
-                                        >
-                                            Adaugă elev (părinte existent)
-                                        </button>
-                                    </>
-                                )}
-
-                                <button className="btn" onClick={() => handleAddNewParent(grupaData.grupa)}>
-                                    Adaugă elev (părinte nou)
-                                </button>
-                            </div>
-                        </div>
-
-                        <ul className="elevi-list">
-                            {grupaData.copii.map((copil) => (
-                                <li key={copil.id} className="elev-item">
-                                    <div className="elev-info">
-                                        <div><span className="elev-label">Nume:</span> <span
-                                            className="elev-value">{copil.nume}</span></div>
-                                        <div><span className="elev-label">Gen:</span> <span
-                                            className="elev-value">{prettyGen(copil.gen)}</span></div>
-                                        <div><span className="elev-label">Vârstă:</span> <span
-                                            className="elev-value">{copil.varsta} ani</span></div>
-                                        <div>
-                                            <span className="elev-label">Părinte:</span>{" "}
-                                            <span className="elev-value">{parentName(copil._parent)}</span>
-                                        </div>
-                                        <div><span className="elev-label">Email părinte:</span> <span
-                                            className="elev-value">{copil._parent?.email || "—"}</span></div>
-                                    </div>
-                                    <div className="elev-actions">
-                                        <button className="btn btn-sm" onClick={() => handleEdit(copil)}>Editează
-                                        </button>
-                                        <button className="btn btn-sm btn-danger"
-                                                onClick={() => handleDeleteAsk(copil)}>Șterge
-                                        </button>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
+                {/* --- HEADER + STATS --- */}
+                <div className="ant-header-wrapper">
+                    <div className="ant-header-content">
+                        <h1>PANOU ANTRENOR</h1>
+                        <p>Gestionează grupele și prezența sportivilor.</p>
                     </div>
-                ))}
+
+                    <div className="ant-stats-row">
+                        <div className="ant-stat-card">
+                            <span className="stat-val">{stats.totalElevi}</span>
+                            <span className="stat-label">SPORTIVI TOTAL</span>
+                        </div>
+                        <div className="ant-stat-card">
+                            <span className="stat-val">{stats.totalGrupe}</span>
+                            <span className="stat-label">GRUPE ACTIVE</span>
+                        </div>
+                        <button className="btn-scan-qr" onClick={() => navigate("/scan")}>
+                            SCANEAZĂ QR
+                        </button>
+                    </div>
+                </div>
+
+                {loading && <div className="loading-spinner">Se încarcă datele...</div>}
+                {!loading && mesaj && <div className="ant-alert">{mesaj}</div>}
+
+                {/* --- GRUPE CONTAINER --- */}
+                {!loading && (
+                    <div className="ant-groups-container">
+                        {data.map((grupaData, idx) => (
+                            <div key={idx} className="ant-group-card">
+
+                                {/* HEADER GRUPĂ */}
+                                <div className="ant-group-header">
+                                    <div className="group-title-area">
+                                        <h3>{grupaData.grupa}</h3>
+                                        <span className="student-count">{grupaData.copii.length} elevi</span>
+                                    </div>
+
+                                    <div className="group-actions-area">
+                                        <button
+                                            className="btn-attendance"
+                                            onClick={() => navigate(`/prezenta/grupa/${grupaData.grupa_id}`)}
+                                        >
+                                            Vezi Prezențe
+                                        </button>
+
+                                        <div className="add-student-area">
+                                            {grupaData.parents.length > 0 && (
+                                                <select
+                                                    className="ant-select"
+                                                    value={parentChoice[grupaData.grupa] ?? ""}
+                                                    onChange={(e) => setParentChoice(prev => ({ ...prev, [grupaData.grupa]: Number(e.target.value) }))}
+                                                >
+                                                    {grupaData.parents.map(p => (
+                                                        <option key={p.id} value={p.id}>{parentName(p)}</option>
+                                                    ))}
+                                                </select>
+                                            )}
+
+                                            <div className="add-buttons">
+                                                {grupaData.parents.length > 0 && (
+                                                    <button className="btn-add existing" onClick={() => handleAddExisting(grupaData.grupa)}>
+                                                        + Părinte Existent
+                                                    </button>
+                                                )}
+                                                <button className="btn-add new" onClick={() => handleAddNewParent(grupaData.grupa)}>
+                                                    + Părinte Nou
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* GRID ELEVI */}
+                                {grupaData.copii.length === 0 ? (
+                                    <p className="no-students">Nu sunt elevi în această grupă.</p>
+                                ) : (
+                                    <div className="ant-students-grid">
+                                        {grupaData.copii.map((copil) => (
+                                            <div key={copil.id} className="ant-student-card">
+                                                <div className="student-main">
+                                                    <div className="student-avatar">{copil.nume.charAt(0)}</div>
+                                                    <div className="student-details">
+                                                        <span className="student-name">{copil.nume}</span>
+                                                        <span className="student-meta">{prettyGen(copil.gen)} • {copil.varsta} ani</span>
+                                                    </div>
+                                                </div>
+
+                                                <div className="student-parent-info">
+                                                    <small>Părinte:</small>
+                                                    <span>{parentName(copil._parent)}</span>
+                                                </div>
+
+                                                <div className="student-actions">
+                                                    <button className="btn-icon edit" onClick={() => handleEdit(copil)}>
+                                                        Editează
+                                                    </button>
+                                                    <button className="btn-icon delete" onClick={() => handleDeleteAsk(copil)}>
+                                                        Șterge
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
 
                 {showForm && (
                     <ElevForm

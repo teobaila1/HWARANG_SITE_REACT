@@ -6,8 +6,8 @@ import "../static/css/Orar.css"
 import "../static/css/Divider_Why_us.css"
 import "../static/css/Navbar.css"
 import "../static/css/Footer.css"
-import JoinForm from "./pages/Login/JoinForm";
-import CalendarPage from "./pages/Documents&Calendar/CalendarPage";
+// import JoinForm from "./pages/Login/JoinForm";
+// import CalendarPage from "./pages/Documents&Calendar/CalendarPage";
 import About from "./pages/Documents&Calendar/About";
 import LoginForm from "./pages/Login/LoginForm";
 import Register from "./pages/Register/RegisterForm";
@@ -42,6 +42,9 @@ import Training from "./Kickbox/Trainings";
 // import FooterKickbox from "./components/FooterKickbox";
 import ScannerPage from "./pages/ScannerPage";
 import CalendarClub from "./pages/Documents&Calendar/CalendarClub";
+import PaginaPrezenta from './pages/PaginaPrezenta'; // <--- IMPORT
+import IstoricPrezenteCopil from './components/IstoricPrezenteCopil';
+import PaginaPrezentaFamilie from "./pages/PaginaPrezentaFamilie"; // <--- IMPORT
 
 
 function App() {
@@ -56,7 +59,7 @@ function App() {
                     {/*<Route path="/calendar2026" element={<CalendarPage/>}/>*/}
                     <Route path="/acasa" element={<Home/>}/>
                     <Route path="/desprenoi" element={<About/>}/>
-                    <Route path="/inscriere" element={<JoinForm/>}/>
+                    {/*<Route path="/inscriere" element={<JoinForm/>}/>*/}
                     <Route path="/autentificare" element={<LoginForm/>}/>
                     <Route path="/inregistrare" element={<Register/>}/>
                     <Route path="/cereri-conturi" element={<CereriConturi/>}/>
@@ -86,6 +89,9 @@ function App() {
                     <Route path="/training" element={<Training/>} />
                     <Route path="/scan" element={<ScannerPage />} />
                     <Route path="/calendar" element ={<CalendarClub/>} />
+                    <Route path="/prezenta/grupa/:id" element={<PaginaPrezenta />} />
+                    <Route path="/prezenta/copil/:id" element={<IstoricPrezenteCopil />} />
+                    <Route path="/prezenta/familie" element={<PaginaPrezentaFamilie />} />
 
 
 

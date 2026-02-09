@@ -66,6 +66,13 @@ const Concursuri = () => {
         "Neagră": 0
     };
 
+    // --- SCROLL LA ISTORIC ---
+    const scrollToHistory = () => {
+        const element = document.getElementById('zona-istoric');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     // --- FUNCTION FETCH ISTORIC ---
     useEffect(() => {
@@ -93,14 +100,14 @@ const Concursuri = () => {
     const getProbeOptions = () => {
         const numeConcurs = concursSelectat.toLowerCase();
 
-        // 1. LOGICĂ CUPA FAMILIEI (Prioritate maximă)
+        // 1. LOGICĂ CUPA FAMILIEI
         if (numeConcurs.includes("familiei")) {
             return [
                 {value: 'Participare', label: 'Participare'}
             ];
         }
 
-        // 2. LOGICĂ CUPA HWARANG (Doar dacă nu e Cupa Familiei, dar e Hwarang)
+        // 2. LOGICĂ CUPA HWARANG
         if (numeConcurs.includes("hwarang")) {
             const gradCurent = formData.gradCentura;
             const gup = mapGradToGup[gradCurent];
@@ -119,16 +126,14 @@ const Concursuri = () => {
             }
         }
 
-        // 3. LOGICĂ STANDARD (Orice alt concurs)
+        // 3. LOGICĂ STANDARD
         return probeOptionsStandard;
     };
-    // ----------------------------------------------------
 
     const [concursuriViitoare, setConcursuriViitoare] = useState([]);
     const [numarInscrisi, setNumarInscrisi] = useState({});
 
     const fetchNumarInscrisi = async (numeConcurs) => {
-        // Poate fi public, dar trimitem token just in case
         const token = localStorage.getItem("token");
         const headers = token ? {"Authorization": `Bearer ${token}`} : {};
         const res = await fetch(`${API_BASE}/api/numar_inscrisi/${encodeURIComponent(numeConcurs)}`, {headers});
@@ -168,7 +173,6 @@ const Concursuri = () => {
             const data = await res.json();
             setConcursuriViitoare(data);
             for (const c of data) {
-                // Aici apelam functia helper care gestioneaza token-ul optional
                 await fetchNumarInscrisi(c.nume);
             }
         };
@@ -192,7 +196,7 @@ const Concursuri = () => {
             const updated = {...prev, [name]: value};
             if (name === "dataNasterii") {
                 const age = calculateAge(value);
-                if (age >= 6 && age <= 12) updated.categorieVarsta = "Junior III";
+                if (age >= 5 && age <= 12) updated.categorieVarsta = "Junior III";
                 else if (age >= 13 && age <= 15) updated.categorieVarsta = "Junior II";
                 else if (age >= 16 && age <= 18) updated.categorieVarsta = "Junior I";
                 else if (age > 18) updated.categorieVarsta = "Senior";
@@ -258,12 +262,29 @@ const Concursuri = () => {
                 })
             });
 
-            toast.success("Inscrierea a fost facuta cu succes!");
-            handleAnuleaza();
-            await fetchNumarInscrisi(concursSelectat);
+            const data = await res.json();
+
+            if (res.ok) {
+                toast.success(data.message || "Inscrierea a fost facuta cu succes!");
+                handleAnuleaza();
+                await fetchNumarInscrisi(concursSelectat);
+
+                // Reîncărcăm istoricul după o înscriere reușită
+                const resIstoric = await fetch(`${API_BASE}/api/inscrierile_mele`, {
+                    headers: {"Authorization": `Bearer ${token}`}
+                });
+                const dataIstoric = await resIstoric.json();
+                if (dataIstoric.status === "success") {
+                    setIstoricInscrieri(dataIstoric.data);
+                }
+
+            } else {
+                toast.error(data.message || "A apărut o eroare la înscriere.");
+            }
+
         } catch (error) {
             console.error("Eroare la trimitere:", error);
-            setMesaj("A apărut o eroare.");
+            toast.error("Eroare de conexiune cu serverul.");
         }
     };
 
@@ -297,8 +318,6 @@ const Concursuri = () => {
         c.locatie.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-
-    // --- FUNCȚIE PENTRU BUTONUL DE STARE (ADMIN) ---
     const handleToggleStatus = async (numeConcurs) => {
         const token = localStorage.getItem("token");
         try {
@@ -312,7 +331,6 @@ const Concursuri = () => {
 
             if (res.ok) {
                 toast.success(data.message);
-                // Actualizăm lista locală ca să se schimbe culoarea butonului instant
                 setConcursuriViitoare(prev => prev.map(c =>
                     c.nume === numeConcurs ? {...c, inscrieri_deschise: !c.inscrieri_deschise} : c
                 ));
@@ -329,32 +347,48 @@ const Concursuri = () => {
     return (
         <>
             <Navbar/>
-            <div className="concursuri-container concursuri-intern">
-                <h2 className="concursuri-title">Concursuri viitoare</h2>
-                <input
-                    type="text"
-                    placeholder="Caută concurs..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="input-cautare"
-                />
+            <div className="concursuri-container">
 
-                {mesaj && <p style={{color: "lightgreen", fontWeight: "bold"}}>{mesaj}</p>}
+                {/* --- HEADER WRAPPER NOU (Pt. Aliniere Orizontală) --- */}
+                <div className="concursuri-header-wrapper">
+                    <h1 className="concursuri-title">CONCURSURI VIITOARE</h1>
 
-                <table>
+                    <div className="concursuri-header-actions">
+                        <button
+                            onClick={scrollToHistory}
+                            className="view-registrations-link"
+                            style={{background:'transparent', border:'none', cursor:'pointer', fontFamily:'inherit'}}
+                        >
+                            VEZI ÎNSCRIERILE MELE
+                        </button>
+
+                        <input
+                            type="text"
+                            placeholder="Caută concurs..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="input-cautare"
+                        />
+                    </div>
+                </div>
+                {/* ------------------------------------------------ */}
+
+                {mesaj && <p style={{color: "lightgreen", fontWeight: "bold", marginTop: "1rem"}}>{mesaj}</p>}
+
+                <table className="concursuri-table">
                     <thead>
                     <tr>
-                        <th width="20%">Perioadă</th>
-                        <th width="35%">Activitate</th>
-                        <th width="25%">Localitate</th>
-                        <th width="20%">Acțiune</th>
+                        <th width="20%">PERIOADĂ</th>
+                        <th width="35%">ACTIVITATE</th>
+                        <th width="25%">LOCALITATE</th>
+                        <th width="20%">ACȚIUNE</th>
                     </tr>
                     </thead>
 
                     <tbody>
                     {concursuriFiltrate.map((c, index) => (
                         <React.Fragment key={index}>
-                            <tr>
+                            <tr className={!c.inscrieri_deschise ? "row-closed" : ""}>
                                 <td className="col-perioada" data-label="Perioadă">{c.perioada}</td>
                                 <td className="col-nume" data-label="Activitate">{c.nume}</td>
                                 <td className="col-localitate" data-label="Localitate">{c.locatie}</td>
@@ -362,45 +396,33 @@ const Concursuri = () => {
                                 <td data-label="Acțiune" className="td-actions">
                                     <div style={{display: "flex", flexDirection: "column", gap: "8px"}}>
 
-                                        {/* 1. Logica pentru Butonul de Înscriere (Să fie dezactivat dacă e închis) */}
+                                        {/* Buton Înscriere */}
                                         {c.inscrieri_deschise ? (
                                             <button className="btn-inscriere"
                                                     onClick={() => handleTrimiteCerere(c.nume)}>
                                                 {openFormFor === c.nume ? "Ascunde formularul" : "Înscrie-te la concurs"}
                                             </button>
                                         ) : (
-                                            <button className="btn-inscriere" disabled style={{
-                                                opacity: 0.5,
-                                                cursor: "not-allowed",
-                                                background: "#333",
-                                                border: "1px solid #555"
-                                            }}>
+                                            <button className="btn-closed" disabled>
                                                 ⛔ Înscrieri Închise
                                             </button>
                                         )}
 
-
-                                        {/* === AICI ADAUGI BUTONUL NOU PENTRU ADMIN === */}
+                                        {/* Buton Admin Status */}
                                         {rol === "admin" && (
                                             <button
                                                 onClick={() => handleToggleStatus(c.nume)}
                                                 className="btn-inscriere"
                                                 style={{
-                                                    backgroundColor: c.inscrieri_deschise ? "#7f1d1d" : "#14532d", // Rosu inchis (sa inchizi) sau Verde (sa deschizi)
+                                                    backgroundColor: c.inscrieri_deschise ? "#7f1d1d" : "#14532d",
                                                     border: c.inscrieri_deschise ? "1px solid #ef4444" : "1px solid #22c55e",
                                                     color: "white",
                                                     marginTop: "5px"
                                                 }}
                                             >
-                                                {c.inscrieri_deschise ? "🔒 Închide Înscrierile" : "🔓 Deschide Înscrierile"}
+                                                {c.inscrieri_deschise ? "🔒 Închide" : "🔓 Deschide"}
                                             </button>
                                         )}
-                                        {/* =========================================== */}
-
-
-                                        {/*<button className="btn-inscriere" onClick={() => handleTrimiteCerere(c.nume)}>*/}
-                                        {/*    {openFormFor === c.nume ? "Ascunde formularul" : "Înscrie-te la concurs"}*/}
-                                        {/*</button>*/}
 
                                         {CAN_SEE_ENTRIES && (
                                             <Link to={`/inscrisi/${encodeURIComponent(c.nume)}`}
@@ -429,7 +451,7 @@ const Concursuri = () => {
                                                     handleDeleteConcurs(c.nume);
                                                 }}
                                             >
-                                                Șterge concursul
+                                                Șterge
                                             </button>
                                         )}
                                     </div>
@@ -443,7 +465,6 @@ const Concursuri = () => {
                                             <h2>Înscriere la: <span className="form-concurs-nume">{c.nume}</span></h2>
 
                                             <div className="form-grid">
-                                                {/* Câmpuri Nume, Data, Categorie... (identic cu înainte) */}
                                                 <div className="form-field">
                                                     <label>Nume complet sportiv</label>
                                                     {sugestii.rol === "sportiv" ? (
@@ -473,26 +494,15 @@ const Concursuri = () => {
                                                                             setFormData(prev => ({...prev, nume: ""}));
                                                                         }
                                                                     }}
-                                                                    style={{
-                                                                        width: "100%",
-                                                                        padding: "10px",
-                                                                        marginBottom: "10px",
-                                                                        borderRadius: "8px",
-                                                                        border: "1px solid #333",
-                                                                        backgroundColor: "#18181b",
-                                                                        color: "#fff"
-                                                                    }}
+                                                                    className="input-select-elegant"
                                                                 >
-                                                                    <option value="">-- Alege un copil din listă --
-                                                                    </option>
+                                                                    <option value="">-- Alege un copil din listă --</option>
                                                                     {sugestii.copii.map((child, idx) => (
                                                                         <option key={idx} value={child.nume}>
                                                                             {child.nume} {child.grupa ? `(${child.grupa})` : ""}
                                                                         </option>
                                                                     ))}
-                                                                    <option value="manual">+ Înscrie pe altcineva
-                                                                        (manual)
-                                                                    </option>
+                                                                    <option value="manual">+ Înscrie pe altcineva (manual)</option>
                                                                 </select>
                                                             )}
 
@@ -530,22 +540,15 @@ const Concursuri = () => {
                                                             onChange={handleFormChange} required>
                                                         <option value="">Alege gradul</option>
                                                         <option value="Alb">Alb (10 GUP)</option>
-                                                        <option value="Alb_cu_tresă_galbenă">Alb cu tresă galbenă
-                                                        </option>
+                                                        <option value="Alb_cu_tresă_galbenă">Alb cu tresă galbenă</option>
                                                         <option value="Galbena">Galbenă</option>
-                                                        <option value="Galben_cu_tresă_verde">Galben cu tresă verde
-                                                        </option>
+                                                        <option value="Galben_cu_tresă_verde">Galben cu tresă verde</option>
                                                         <option value="Verde">Verde</option>
-                                                        <option value="Verde_cu_tresă_albastru">Verde cu tresă
-                                                            albastru
-                                                        </option>
+                                                        <option value="Verde_cu_tresă_albastru">Verde cu tresă albastru</option>
                                                         <option value="Albastră">Albastră</option>
-                                                        <option value="Albastră_cu_tresă_roșie">Albastră cu tresă
-                                                            roșie
-                                                        </option>
+                                                        <option value="Albastră_cu_tresă_roșie">Albastră cu tresă roșie</option>
                                                         <option value="Roșie">Roșie</option>
-                                                        <option value="Roșie_cu_tresă_neagră">Roșie cu tresă neagră
-                                                        </option>
+                                                        <option value="Roșie_cu_tresă_neagră">Roșie cu tresă neagră</option>
                                                         <option value="Neagră">Neagră</option>
                                                     </select>
                                                 </div>
@@ -577,7 +580,6 @@ const Concursuri = () => {
                                                 </div>
 
                                                 <div className="form-field form-field--full">
-                                                    {/* ETICHETA DINAMICĂ */}
                                                     <label>
                                                         {concursSelectat.toLowerCase().includes("familiei")
                                                             ? "Mod de participare"
@@ -585,7 +587,6 @@ const Concursuri = () => {
                                                         }
                                                     </label>
 
-                                                    {/* DROPDOWN DINAMIC (Probă Combinată / Participare / Standard) */}
                                                     <Select
                                                         options={getProbeOptions()}
                                                         isMulti
@@ -595,13 +596,11 @@ const Concursuri = () => {
                                                         classNamePrefix="react-select"
                                                         placeholder="Selectează..."
                                                         noOptionsMessage={() => "Selectează întâi gradul centurii"}
-
-                                                        /* --- FIX COMPLET IOS/MOBILE --- */
-                                                        menuPlacement="bottom"            /* Forțează deschiderea în JOS */
-                                                        menuPosition="fixed"              /* Rămâne fixat pe ecran */
-                                                        menuPortalTarget={document.body}  /* Randează peste tot site-ul */
-                                                        maxMenuHeight={160}               /* <--- IMPORTANT: Meniu mai scurt ca să nu intre sub tastatură */
-                                                        menuShouldScrollIntoView={false}  /* <--- IMPORTANT: Previne săriturile paginii */
+                                                        menuPlacement="bottom"
+                                                        menuPosition="fixed"
+                                                        menuPortalTarget={document.body}
+                                                        maxMenuHeight={160}
+                                                        menuShouldScrollIntoView={false}
                                                         styles={{
                                                             menuPortal: (base) => ({...base, zIndex: 999999}),
                                                             menu: (base) => ({
@@ -611,7 +610,6 @@ const Concursuri = () => {
                                                             }),
                                                             menuList: (base) => ({...base, padding: 0})
                                                         }}
-                                                        /* ------------------------------ */
                                                     />
                                                 </div>
                                             </div>
@@ -632,71 +630,68 @@ const Concursuri = () => {
                 </table>
 
                 {/* ================= ZONA ISTORIC INSCRIERI ================= */}
-                <div className="istoric-container"
-                     style={{marginTop: "60px", borderTop: "1px solid #333", paddingTop: "40px"}}>
-                    <h2 className="concursuri-title" style={{borderLeft: "4px solid #d32f2f", paddingLeft: "15px"}}>
-
-                        Înscrierile Mele (Istoric)
+                <div id="zona-istoric" className="istoric-container"
+                     style={{marginTop: "80px", borderTop: "1px solid #333", paddingTop: "40px"}}>
+                    <h2 className="concursuri-title" style={{fontSize: "2rem", borderLeft: "5px solid #d32f2f", paddingLeft: "20px"}}>
+                        ISTORIC ÎNSCRIERI
                     </h2>
 
                     {istoricInscrieri.length === 0 ? (
-                        <p style={{color: "#888", fontStyle: "italic"}}>Nu ai nicio înscriere înregistrată.</p>
+                        <p style={{color: "#888", fontStyle: "italic", marginTop: "20px"}}>Nu ai nicio înscriere înregistrată.</p>
                     ) : (
                         <div style={{
                             display: "grid",
-                            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-                            gap: "20px",
-                            marginTop: "20px"
+                            gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
+                            gap: "25px",
+                            marginTop: "30px"
                         }}>
                             {istoricInscrieri.map((item, idx) => (
                                 <div key={idx} style={{
-                                    backgroundColor: "#18181b",
+                                    backgroundColor: "#1e1e22",
                                     border: "1px solid #333",
                                     borderRadius: "12px",
-                                    padding: "20px",
-                                    boxShadow: "0 4px 6px rgba(0,0,0,0.3)",
+                                    padding: "25px",
+                                    boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
                                     position: "relative"
                                 }}>
                                     <div style={{
-                                        fontSize: "1.1rem",
+                                        fontSize: "1.3rem",
                                         fontWeight: "bold",
                                         color: "#fff",
-                                        marginBottom: "8px",
+                                        marginBottom: "12px",
                                         borderBottom: "1px solid #333",
-                                        paddingBottom: "8px"
+                                        paddingBottom: "10px"
                                     }}>
                                         {item.concurs}
                                     </div>
                                     <div style={{
                                         position: "absolute",
-                                        top: "20px",
-                                        right: "20px",
+                                        top: "25px",
+                                        right: "25px",
                                         background: "#333",
                                         color: "#aaa",
-                                        fontSize: "0.8rem",
-                                        padding: "2px 8px",
-                                        borderRadius: "4px"
+                                        fontSize: "0.9rem",
+                                        padding: "4px 10px",
+                                        borderRadius: "6px",
+                                        fontWeight: "600"
                                     }}>
                                         {item.data_inscriere}
                                     </div>
 
-                                    <div style={{color: "#ccc", marginBottom: "4px"}}>
-                                        <span style={{
-                                            color: "#d32f2f",
-                                            fontWeight: "bold"
-                                        }}>Sportiv:</span> {item.nume_sportiv}
+                                    <div style={{color: "#e4e4e7", marginBottom: "6px", fontSize: "1.1rem"}}>
+                                        <span style={{color: "#d32f2f", fontWeight: "bold"}}>Sportiv:</span> {item.nume_sportiv}
                                     </div>
-                                    <div style={{color: "#ccc", marginBottom: "4px"}}>
-                                        <span style={{
-                                            color: "#d32f2f",
-                                            fontWeight: "bold"
-                                        }}>Categorie:</span> {item.categorie}
+                                    <div style={{color: "#a1a1aa", marginBottom: "6px", fontSize: "1rem"}}>
+                                        <span style={{fontWeight: "bold"}}>Categorie:</span> {item.categorie}
                                     </div>
                                     <div style={{
-                                        color: "#ccc",
-                                        fontSize: "0.9rem",
-                                        marginTop: "10px",
-                                        lineHeight: "1.4"
+                                        color: "#d4d4d8",
+                                        fontSize: "1rem",
+                                        marginTop: "15px",
+                                        lineHeight: "1.5",
+                                        backgroundColor: "#18181b",
+                                        padding: "10px",
+                                        borderRadius: "8px"
                                     }}>
                                         <span style={{color: "#d32f2f", fontWeight: "bold"}}>Probe:</span><br/>
                                         {item.probe}

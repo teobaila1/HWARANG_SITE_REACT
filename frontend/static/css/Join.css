@@ -1,185 +1,185 @@
-/* ===== Join.css – aliniat vizual cu Login.css, fără coliziuni globale ===== */
+/*!* ===== Join.css – aliniat vizual cu Login.css, fără coliziuni globale ===== *!*/
 
-/* Card wrapper (similar to .login-container) */
-.signup-container {
-  --_bg: var(--surface, #161616);
-  color: #ffffff;
-  padding: clamp(2.5rem, 3vw, 3rem) clamp(1.25rem, 3vw, 2rem);
-  max-width: 900px;
-  margin: 5rem auto;
-  border-radius: 14px;
-  border: 1px solid #2a2a2a;
-  box-shadow: 0 0 22px rgba(255, 0, 0, 0.25), 0 20px 60px rgba(0, 0, 0, 0.35);
-  background: var(--_bg);
-}
+/*!* Card wrapper (similar to .login-container) *!*/
+/*.signup-container {*/
+/*  --_bg: var(--surface, #161616);*/
+/*  color: #ffffff;*/
+/*  padding: clamp(2.5rem, 3vw, 3rem) clamp(1.25rem, 3vw, 2rem);*/
+/*  max-width: 900px;*/
+/*  margin: 5rem auto;*/
+/*  border-radius: 14px;*/
+/*  border: 1px solid #2a2a2a;*/
+/*  box-shadow: 0 0 22px rgba(255, 0, 0, 0.25), 0 20px 60px rgba(0, 0, 0, 0.35);*/
+/*  background: var(--_bg);*/
+/*}*/
 
-/* Titlu + subtitlu (stil apropiat de login) */
-.signup-container .signup-head {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-.signup-container .signup-head h2 {
-  color: #ff1a1a;
-  margin: 0 0 .5rem 0;
-  font-weight: 800;
-  letter-spacing: .3px;
-  text-shadow: 0 0 6px rgba(255, 0, 0, 0.35);
-}
-.signup-container .signup-head .subtitle {
-  margin: 0;
-  opacity: .9;
-  color: #dcdcdc;
-}
+/*!* Titlu + subtitlu (stil apropiat de login) *!*/
+/*.signup-container .signup-head {*/
+/*  text-align: center;*/
+/*  margin-bottom: 1.5rem;*/
+/*}*/
+/*.signup-container .signup-head h2 {*/
+/*  color: #ff1a1a;*/
+/*  margin: 0 0 .5rem 0;*/
+/*  font-weight: 800;*/
+/*  letter-spacing: .3px;*/
+/*  text-shadow: 0 0 6px rgba(255, 0, 0, 0.35);*/
+/*}*/
+/*.signup-container .signup-head .subtitle {*/
+/*  margin: 0;*/
+/*  opacity: .9;*/
+/*  color: #dcdcdc;*/
+/*}*/
 
-/* Grid-ul formularului (2 coloane pe desktop) */
-.signup-container .form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-@media (max-width: 720px) {
-  .signup-container .form-grid { grid-template-columns: 1fr; }
-}
+/*!* Grid-ul formularului (2 coloane pe desktop) *!*/
+/*.signup-container .form-grid {*/
+/*  display: grid;*/
+/*  grid-template-columns: repeat(2, minmax(0, 1fr));*/
+/*  gap: 1rem;*/
+/*  margin-top: 1rem;*/
+/*}*/
+/*@media (max-width: 720px) {*/
+/*  .signup-container .form-grid { grid-template-columns: 1fr; }*/
+/*}*/
 
-/* Câmpuri */
-.signup-container .field {
-  display: flex;
-  flex-direction: column;
-  gap: .5rem;
-}
-.signup-container .field--full { grid-column: 1 / -1; }
+/*!* Câmpuri *!*/
+/*.signup-container .field {*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  gap: .5rem;*/
+/*}*/
+/*.signup-container .field--full { grid-column: 1 / -1; }*/
 
-/* Etichete */
-.signup-container .field > span,
-.signup-container label {
-  font-size: .95rem;
-  color: #dcdcdc;
-}
+/*!* Etichete *!*/
+/*.signup-container .field > span,*/
+/*.signup-container label {*/
+/*  font-size: .95rem;*/
+/*  color: #dcdcdc;*/
+/*}*/
 
-/* Inputs & textarea – focus roșu, ca la login */
-.signup-container input,
-.signup-container textarea {
-  padding: 0.8rem 0.9rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #2f2f2f;
-  color: #ffffff;
-  background: #111;
-  outline: none;
-  transition: border .25s ease, box-shadow .25s ease, background .25s ease;
-}
-.signup-container input::placeholder,
-.signup-container textarea::placeholder { color: #8a8a8a; }
-.signup-container input:focus,
-.signup-container textarea:focus {
-  border: 1px solid #ff1a1a;
-  box-shadow: 0 0 0 3px rgba(255, 26, 26, 0.2), 0 0 14px rgba(255, 0, 0, 0.25);
-  background: #0f0f0f;
-}
+/*!* Inputs & textarea – focus roșu, ca la login *!*/
+/*.signup-container input,*/
+/*.signup-container textarea {*/
+/*  padding: 0.8rem 0.9rem;*/
+/*  font-size: 1rem;*/
+/*  border-radius: 8px;*/
+/*  border: 1px solid #2f2f2f;*/
+/*  color: #ffffff;*/
+/*  background: #111;*/
+/*  outline: none;*/
+/*  transition: border .25s ease, box-shadow .25s ease, background .25s ease;*/
+/*}*/
+/*.signup-container input::placeholder,*/
+/*.signup-container textarea::placeholder { color: #8a8a8a; }*/
+/*.signup-container input:focus,*/
+/*.signup-container textarea:focus {*/
+/*  border: 1px solid #ff1a1a;*/
+/*  box-shadow: 0 0 0 3px rgba(255, 26, 26, 0.2), 0 0 14px rgba(255, 0, 0, 0.25);*/
+/*  background: #0f0f0f;*/
+/*}*/
 
-/* Fix autofill Chrome */
-.signup-container input:-webkit-autofill {
-  -webkit-text-fill-color: black;
-  transition: background-color 5000s ease-in-out 0s;
-  border: 1px solid #2f2f2f;
-}
+/*!* Fix autofill Chrome *!*/
+/*.signup-container input:-webkit-autofill {*/
+/*  -webkit-text-fill-color: black;*/
+/*  transition: background-color 5000s ease-in-out 0s;*/
+/*  border: 1px solid #2f2f2f;*/
+/*}*/
 
-/* Checkbox termeni */
-.signup-container .terms-checkbox {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: .95rem;
-  color: #e9e9ee;
-  margin-top: .25rem;
-}
-.signup-container .terms-checkbox input {
-  margin-top: 2px;
-  accent-color: #ff1a1a;
-}
-.signup-container .terms-checkbox a {
-  color: #ff1a1a;
-  font-weight: 800;
-  text-decoration: none;
-}
-.signup-container .terms-checkbox a:hover { text-decoration: underline; }
+/*!* Checkbox termeni *!*/
+/*.signup-container .terms-checkbox {*/
+/*  display: flex;*/
+/*  align-items: flex-start;*/
+/*  gap: 10px;*/
+/*  font-size: .95rem;*/
+/*  color: #e9e9ee;*/
+/*  margin-top: .25rem;*/
+/*}*/
+/*.signup-container .terms-checkbox input {*/
+/*  margin-top: 2px;*/
+/*  accent-color: #ff1a1a;*/
+/*}*/
+/*.signup-container .terms-checkbox a {*/
+/*  color: #ff1a1a;*/
+/*  font-weight: 800;*/
+/*  text-decoration: none;*/
+/*}*/
+/*.signup-container .terms-checkbox a:hover { text-decoration: underline; }*/
 
-/* Butoane – gradient roșu ca la login */
-.signup-container .btn {
-  appearance: none;
-  border: 1px solid transparent;
-  padding: 0.9rem 1rem;
-  border-radius: 10px;
-  font-weight: 700;
-  cursor: pointer;
-}
-.signup-container .btn-primary {
-  background: linear-gradient(180deg, #ff1a1a, #cc0000);
-  color: white;
-  transition: transform .2s ease, box-shadow .25s ease, filter .2s ease, opacity .2s ease;
-  will-change: transform;
-}
-.signup-container .btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(255, 0, 0, 0.25);
-  filter: saturate(1.05);
-}
-.signup-container .btn-primary:active {
-  transform: translateY(0);
-  box-shadow: 0 6px 16px rgba(255, 0, 0, 0.22);
-}
-.signup-container .btn-primary:disabled {
-  opacity: .7;
-  cursor: not-allowed;
-}
+/*!* Butoane – gradient roșu ca la login *!*/
+/*.signup-container .btn {*/
+/*  appearance: none;*/
+/*  border: 1px solid transparent;*/
+/*  padding: 0.9rem 1rem;*/
+/*  border-radius: 10px;*/
+/*  font-weight: 700;*/
+/*  cursor: pointer;*/
+/*}*/
+/*.signup-container .btn-primary {*/
+/*  background: linear-gradient(180deg, #ff1a1a, #cc0000);*/
+/*  color: white;*/
+/*  transition: transform .2s ease, box-shadow .25s ease, filter .2s ease, opacity .2s ease;*/
+/*  will-change: transform;*/
+/*}*/
+/*.signup-container .btn-primary:hover {*/
+/*  transform: translateY(-1px);*/
+/*  box-shadow: 0 10px 24px rgba(255, 0, 0, 0.25);*/
+/*  filter: saturate(1.05);*/
+/*}*/
+/*.signup-container .btn-primary:active {*/
+/*  transform: translateY(0);*/
+/*  box-shadow: 0 6px 16px rgba(255, 0, 0, 0.22);*/
+/*}*/
+/*.signup-container .btn-primary:disabled {*/
+/*  opacity: .7;*/
+/*  cursor: not-allowed;*/
+/*}*/
 
-/* Row acțiuni */
-.signup-container .actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
+/*!* Row acțiuni *!*/
+/*.signup-container .actions {*/
+/*  display: flex;*/
+/*  justify-content: flex-end;*/
+/*  gap: 10px;*/
+/*}*/
 
-/* Mesaje – SCOPE la container */
-.signup-container .error-msg {
-  color: #ffb84d;
-  font-weight: 700;
-  margin-top: .5rem;
-  text-align: center;
-}
-.signup-container .success-msg {
-  color: #9be38f;
-  font-weight: 700;
-  margin-top: .5rem;
-  text-align: center;
-}
+/*!* Mesaje – SCOPE la container *!*/
+/*.signup-container .error-msg {*/
+/*  color: #ffb84d;*/
+/*  font-weight: 700;*/
+/*  margin-top: .5rem;*/
+/*  text-align: center;*/
+/*}*/
+/*.signup-container .success-msg {*/
+/*  color: #9be38f;*/
+/*  font-weight: 700;*/
+/*  margin-top: .5rem;*/
+/*  text-align: center;*/
+/*}*/
 
-/* Link de ajutor sub formular */
-.signup-container .helper {
-  margin: .25rem 0 0;
-  font-size: .95rem;
-  opacity: .95;
-  text-align: center;
-}
-.signup-container .helper .link {
-  color: #ff1a1a;
-  font-weight: 800;
-  text-decoration: none;
-}
-.signup-container .helper .link:hover { text-decoration: underline; }
+/*!* Link de ajutor sub formular *!*/
+/*.signup-container .helper {*/
+/*  margin: .25rem 0 0;*/
+/*  font-size: .95rem;*/
+/*  opacity: .95;*/
+/*  text-align: center;*/
+/*}*/
+/*.signup-container .helper .link {*/
+/*  color: #ff1a1a;*/
+/*  font-weight: 800;*/
+/*  text-decoration: none;*/
+/*}*/
+/*.signup-container .helper .link:hover { text-decoration: underline; }*/
 
-/* Link hover local (ca în login) */
-.signup-container a:hover {
-  text-decoration: underline;
-  opacity: .95;
-}
+/*!* Link hover local (ca în login) *!*/
+/*.signup-container a:hover {*/
+/*  text-decoration: underline;*/
+/*  opacity: .95;*/
+/*}*/
 
-/* Responsive mic */
-@media (max-width: 480px) {
-  .signup-container {
-    margin: 3rem 1rem;
-    padding: 2rem 1.25rem;
-  }
-  .signup-container .signup-head h2 { margin-bottom: 1rem; }
-}
+/*!* Responsive mic *!*/
+/*@media (max-width: 480px) {*/
+/*  .signup-container {*/
+/*    margin: 3rem 1rem;*/
+/*    padding: 2rem 1.25rem;*/
+/*  }*/
+/*  .signup-container .signup-head h2 { margin-bottom: 1rem; }*/
+/*}*/

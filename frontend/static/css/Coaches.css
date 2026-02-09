@@ -1,122 +1,159 @@
 /* =========================================
-   Coaches.css - Responsive & Clean
+   Coaches.css - Premium Update
    ========================================= */
 
 /* Container Principal */
 .coaches-container {
-  background-color: #0e0e0e;
-  padding: 100px 1rem 4rem; /* Mai mult loc sus pentru navbar */
+  background: radial-gradient(circle at top, #1a1a1a, #0e0e0e 60%);
+  /* AM MODIFICAT AICI: 120px era prea mult, am pus 90px */
+  padding: 90px 1rem 4rem;
   text-align: center;
   position: relative;
-  overflow: hidden; /* Previne scroll orizontal nedorit */
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+/* Header Secțiune */
+.coaches-header {
+  max-width: 800px;
+  margin: 0 auto 3rem;
 }
 
 .coaches-title {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
   color: white;
   font-weight: 800;
-  margin-bottom: 2rem;
-  text-shadow: 0 0 15px rgba(0,0,0,0.8);
-  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  /* Efect Text Gradient Roșu-Alb */
+  background: linear-gradient(to right, #fff, #ccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* Zona Carusel */
+.coaches-subtitle {
+  font-size: 1.1rem;
+  color: #aaa;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Wrapper Carusel (pentru a-l centra perfect) */
+.carousel-wrapper {
+  margin-bottom: 4rem;
+}
+
+/* Zona Carusel (Existent - ajustat) */
 .coach-carousel {
   width: 100%;
   max-width: 1300px;
   margin: 0 auto;
-  /* Eliminăm padding-ul mare de container care strica mobilul */
-  padding: 0 0 3rem 0; 
+  padding: 0 0 3rem 0;
 }
 
-/* Card Antrenor */
+/* Card Antrenor (Existent - mici ajustări vizuale) */
 .coach-card {
-  background: linear-gradient(145deg, #141414, #1a1a1a);
-  border: 1px solid #2a2a2a;
+  background: rgba(255, 255, 255, 0.03); /* Glass Effect */
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
-  padding: 1.2rem;
+  padding: 1.5rem;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%; /* Să fie toate egale */
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .coach-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(255, 0, 0, 0.15);
-  border-color: #333;
+  transform: translateY(-8px);
+  border-color: #d32f2f; /* Roșu la hover */
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
 }
 
-/* Wrapper imagine - fix pentru poze tăiate */
 .img-wrapper {
   width: 100%;
-  aspect-ratio: 3/4; /* Format portret standard */
+  aspect-ratio: 3/4;
   border-radius: 12px;
   overflow: hidden;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   background: #000;
+  border-bottom: 2px solid #d32f2f; /* Linie roșie sub poză */
 }
 
 .coach-card img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Umple cadrul fără deformare */
+  object-fit: cover;
   transition: transform 0.5s ease;
 }
 
 .coach-card:hover img {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
 .coach-card h3 {
-  color: #ff1a1a;
+  color: #fff;
   margin: 0.5rem 0;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 700;
 }
 
 .coach-card p {
   color: #ccc;
   font-size: 0.95rem;
-  line-height: 1.5;
-  margin: 0;
+  line-height: 1.6;
 }
 
-/* Navigație Swiper (Săgeți) */
-.swiper-button-next,
-.swiper-button-prev {
-  color: #ff1a1a !important; /* Roșu */
-  background: rgba(0,0,0,0.6);
-  width: 44px !important;
-  height: 44px !important;
-  border-radius: 50%;
-  backdrop-filter: blur(4px);
+/* --- STATISTICI ECHIPĂ (NOU) --- */
+.coaches-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  margin: 4rem auto;
+  padding: 30px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  max-width: 1000px;
 }
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  font-size: 18px !important;
-  font-weight: bold;
+.stat-box {
+  text-align: center;
+  flex: 1 1 200px;
 }
 
-/* Bulinele de jos */
-.swiper-pagination-bullet {
-  background: #666;
-  opacity: 0.5;
+.stat-box i {
+  font-size: 2rem;
+  color: #d32f2f;
+  margin-bottom: 10px;
+  display: block;
 }
-.swiper-pagination-bullet-active {
-  background: #ff1a1a;
-  opacity: 1;
+
+.stat-num {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 5px;
+  display: block;
 }
 
 /* Motto */
 .about-motto {
   text-align: center;
-  color: white;
-  margin-top: 4rem;
-  padding: 0 1rem;
+  margin-top: 2rem;
 }
 
 .about-motto h2 {
@@ -126,35 +163,77 @@
   background: linear-gradient(90deg, #fff, #999);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  opacity: 0.9;
+  opacity: 0.8;
 }
 
-/* =========================================
-   RESPONSIVE (MOBIL)
-   ========================================= */
+/* RESPONSIVE */
 @media (max-width: 768px) {
-  
   .coaches-container {
-    padding-top: 120px; /* Loc pentru navbar */
-    padding-bottom: 2rem;
+    padding-top: 80px; /* Și mai mic pe mobil */
   }
+  .coaches-stats {
+    gap: 30px;
+    padding: 20px 0;
+  }
+  .stat-num {
+    font-size: 2rem;
+  }
+}
 
-  /* Pe mobil ascundem săgețile - folosim swipe */
-  .swiper-button-next, 
-  .swiper-button-prev {
-    display: none !important;
-  }
 
-  /* Cardul e puțin mai compact pe mobil */
-  .coach-card {
-    padding: 1rem;
-  }
-  
-  .coach-card h3 {
-    font-size: 1.2rem;
-  }
-  
-  .coach-card p {
-    font-size: 0.9rem;
-  }
+/* --- ADATUGĂ ASTA LA FINALUL FIȘIERULUI CSS (PENTRU SECȚIUNEA NOUĂ) --- */
+
+.philosophy-section {
+  max-width: 1100px;
+  margin: 2rem auto 4rem;
+  padding: 0 20px;
+}
+
+.philosophy-title {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.philosophy-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.philosophy-card {
+  flex: 1 1 300px;
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 3px solid #d32f2f; /* Linie roșie în stânga */
+  padding: 25px;
+  text-align: left;
+  border-radius: 0 12px 12px 0;
+  transition: background 0.3s ease;
+}
+
+.philosophy-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.philosophy-card i {
+  font-size: 1.8rem;
+  color: #d32f2f;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.philosophy-card h4 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.philosophy-card p {
+  color: #aaa;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
 }

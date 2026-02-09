@@ -215,3 +215,45 @@
     padding: 2rem 1.25rem;
   }
 }
+
+
+/* --- BUTON FLOTANT WHATSAPP --- */
+.whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25D366;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    text-decoration: none;
+    font-weight: bold;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    border: 2px solid white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+.whatsapp-text {
+    white-space: nowrap;
+}
+
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+    .whatsapp-text {
+        display: none; /* Ascunde textul pe ecrane foarte mici */
+    }
+    .whatsapp-float {
+        padding: 12px; /* Buton rotund pe mobil */
+    }
+}

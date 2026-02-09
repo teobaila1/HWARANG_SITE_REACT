@@ -1,14 +1,9 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
+import AOS from 'aos'; // <--- AM ADĂUGAT IMPORTUL
+import 'aos/dist/aos.css'; // <--- AM ADĂUGAT IMPORTUL CSS
 import Navbar from "../../components/Navbar";
 import "/../frontend/static/css/Galerie.css";
 import Footer from "../../components/Footer";
-
-/**
- * ── Cum adaugi un album nou ───────────────────────────────────────────────
- * 1) Creezi un folder cu poze sub: /public/images/gallery/<slug>/
- * 2) Completezi mai jos un obiect în ALBUME, cu title, slug și lista de fișiere.
- * 3) (opțional) setezi "cover" dacă vrei coperta diferită de prima poză.
- */
 
 const ALBUME = [
   {
@@ -17,18 +12,8 @@ const ALBUME = [
     slug: "antrenamente_random",
     cover: "/images/gallery/antrenamente_random/cover.jpg",
     files: [
-      "maerean.jpg",
-      "2.jpg",
-      "3.jpg",
-      "4.jpg",
-      "5.jpg",
-      "6.jpg",
-      "7.jpg",
-      "8.jpg",
-      "9.jpg",
-      "10.jpg",
-      "11.jpg",
-      "12.jpg",
+      "maerean.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg",
+      "7.jpg", "8.jpg", "9.jpg", "10.jpg", "11.jpg", "12.jpg",
     ],
   },
   {
@@ -36,35 +21,17 @@ const ALBUME = [
     title: "Concursuri Naționale",
     slug: "poze_concursuri",
     files: [
-      "cover_2.jpg",
-      "2.jpg",
-      "3.jpg",
-      "4.jpg",
-      "5.jpg",
-      "6.jpg",
-      "7.jpg",
-      "8.jpg",
-      "9.jpg",
-      "10.jpg",
-      "11.jpg",
-      "12.jpg",
+      "cover_2.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg",
+      "7.jpg", "8.jpg", "9.jpg", "10.jpg", "11.jpg", "12.jpg",
     ],
   },
   {
     id: "examene_de_centura",
-    title: "Examene de centura",
+    title: "Examene de centură",
     slug: "examene_de_centura",
     files: [
-      "cover_3.jpg",
-      "1.jpg",
-      "2.jpg",
-      "3.jpg",
-      "4.jpg",
-      "5.jpg",
-      "6.jpg",
-      "7.jpg",
-      "8.jpg",
-      "9.jpg",
+      "cover_3.jpg", "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg",
+      "6.jpg", "7.jpg", "8.jpg", "9.jpg",
     ],
   },
 ];
@@ -72,7 +39,7 @@ const ALBUME = [
 const buildSrc = (slug, file) => `/images/gallery/${slug}/${file}`;
 
 const Galerie = () => {
-  const [openAlbum, setOpenAlbum] = useState(null); // {album, index}
+  const [openAlbum, setOpenAlbum] = useState(null);
   const [filter, setFilter] = useState("");
 
   const albums = useMemo(() => {
@@ -104,8 +71,14 @@ const Galerie = () => {
     });
   }, []);
 
-  // navigare cu taste
   useEffect(() => {
+    // --- FIX PENTRU MOBIL: Dezactivăm animațiile pe ecrane mici ---
+    AOS.init({
+        duration: 800,
+        once: true,
+        disable: window.innerWidth < 768 // <--- ASTA REZOLVĂ PROBLEMA VIZIBILITĂȚII
+    });
+
     if (!openAlbum) return;
     const onKey = (e) => {
       if (e.key === "Escape") closeLightbox();
@@ -120,6 +93,103 @@ const Galerie = () => {
     <>
       <Navbar />
       <section className="galerie-page">
+
+        {/* --- SECȚIUNEA PALMARES (UPDATE COMPLET) --- */}
+        <div className="hall-of-fame" data-aos="fade-up">
+
+            <div className="hof-header">
+                <h2 className="hof-title">
+                    <i className="fas fa-trophy"></i> Sala Campionilor
+                </h2>
+                <p className="hof-subtitle">
+                    Performanța se construiește prin muncă și disciplină.
+                    Iată câteva dintre momentele care ne definesc utlimul an competițional:
+                </p>
+            </div>
+
+            <div className="hof-grid">
+                {/* CARD 1: MEDALII */}
+                <div className="hof-item">
+                    <div className="hof-icon-wrapper">
+                        <i className="fas fa-medal" style={{color: "#ffd700"}}></i>
+                    </div>
+                    <span className="hof-year">2026 - Focșani</span>
+                    <div className="hof-event">Campionatul Național</div>
+                    <div className="hof-result">
+                        Rezultate impresionante: <span className="hof-highlight">26 de Medalii</span>, dintre care
+                        7 de Aur, 8 de Argint și 11 de Bronz pentru echipa noastră.
+                        <span className="hof-highlight">🏆ACS Hwarang Academy Sibiu a obținut locul II clasament general juniori,
+                        iar Cristache Daniel a obținut titlul de cel mai bun junior al competiției.</span>
+                    </div>
+                </div>
+
+                {/* CARD 2: CUPA */}
+                <div className="hof-item">
+                    <div className="hof-icon-wrapper">
+                        <i className="fas fa-crown" style={{color: "#e0e0e0"}}></i>
+                    </div>
+                    <span className="hof-year">2026 - Baia Mare</span>
+                    <div className="hof-event">Cupa României</div>
+                    <div className="hof-result">
+                        <span style={{color:"#fff", fontWeight:"bold"}}>17 medalii cucerite</span>.
+                        O prestație extraordinară a clubului nostru.
+                    </div>
+                </div>
+
+                {/* CARD 3: CENTURI NEGRE */}
+                <div className="hof-item">
+                    <div className="hof-icon-wrapper">
+                        <i className="fas fa-user-ninja" style={{color: "#d32f2f"}}></i>
+                    </div>
+                    <span className="hof-year">2026 - Novi Sad, Serbia</span>
+                    <div className="hof-event">Campionatul Balcanic</div>
+                    <div className="hof-result">
+                        <span className="hof-highlight">2 Campioni Balcanici</span>.
+                        Cei 9 sportivi au cucerit: 2 Medalii de Aur, 3 de Argint și 2 de Bronz.
+                    </div>
+                </div>
+            </div>
+
+            {/* --- ELEMENTE NOI DE CREDIBILITATE --- */}
+
+            {/* 1. Lista cu Campioni */}
+            <div className="champions-list">
+                <div className="champions-title">Sportivi de Top (Hall of Fame)</div>
+                <div className="champions-names">
+                    <div className="champion-tag"><i className="fas fa-star"></i> Florin Bîrluț (2x Campion European - Luptă, 1x Vicecampion Mondial - Tull, multiplu Campion Național și Balcanic, Maestru Emerit al Sportului)</div>
+                    <div className="champion-tag"><i className="fas fa-star"></i> Dorian Neagu (Campion Mondial și European - Spargeri Forță, Vicecampion European - Luptă, multiplu Campion Național, Maestru Emerit al Sportului)</div>
+                    <div className="champion-tag"><i className="fas fa-star"></i> Alexandru Băilă (Campion Mondial și European - Spargeri Forță, multiplu Campon Național și Balcanic, Maestru Emerit al Sportului)</div>
+                    <div className="champion-tag"><i className="fas fa-star"></i> Radu Neagu (Campion European - Luptă, multiplu Campion Național, Maestru Emerit al Sportului)</div>
+                    <div className="champion-tag"><i className="fas fa-star"></i> Răzvan Tudor (Campion European - Luptă, multiplu Campion Național)</div>
+                    <div className="champion-tag"><i className="fas fa-star"></i> Raul Hurdu (Campion European Echipe - Tehnici Speciale, multiplu Campion Național)</div>
+                    <div className="champion-tag"><i className="fas fa-star"></i> Teodor Băilă (Vicecampion European - Tull, multiplu Campion Național și Balcanic)</div>
+                    <div className="champion-tag"><i className="fas fa-star"></i> Daniel Cristache (Vicecampion Mondial Echipe - Tull, multiplu Campion Național și Balcanic)</div>
+                    <div className="champion-tag"><i className="fas fa-star"></i> Radu Mareș (Vicecampion Mondial Echipe - Tull, multiplu Campion Național și Balcanic)</div>
+                </div>
+            </div>
+
+            <div style={{display: "flex", justifyContent: "space-between", flexWrap: "wrap", alignItems: "flex-end", marginTop: "30px", gap: "20px"}}>
+
+                {/*/!* 2. Badge Oficial *!/*/}
+                {/*<div className="official-badge">*/}
+                {/*    <i className="fas fa-certificate" style={{fontSize: "2rem", color: "#888"}}></i>*/}
+                {/*    <div className="badge-text">*/}
+                {/*        <span>Club Sportiv Afiliat</span>*/}
+                {/*        <strong>Federația Română de Taekwon-do ITF</strong>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+
+                {/* 3. CTA */}
+                <div className="hof-cta">
+                    <a href="/inregistrare" className="btn-join-team">
+                        Vrei să fii următorul campion? &nbsp; <i className="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        {/* ----------------------------------------------- */}
+
         <div className="galerie-head">
           <h2>Galerie foto</h2>
           <div className="galerie-search">
@@ -176,59 +246,27 @@ const Galerie = () => {
             </header>
 
             <div className="lightbox-body">
-              <button
-                className="nav-btn prev"
-                onClick={goPrev}
-                aria-label="Anterior"
-              >
-                ‹
-              </button>
+              <button className="nav-btn prev" onClick={goPrev} aria-label="Anterior">‹</button>
 
               {(() => {
                 const currentSrc = buildSrc(
                   openAlbum.album.slug,
                   openAlbum.album.files[openAlbum.index]
                 );
-
                 const handleImageClick = (e) => {
-                  // click normal stânga (fără Ctrl/Cmd/Alt/Shift) -> mergi la următoarea
-                  if (
-                    e.button === 0 &&
-                    !e.ctrlKey &&
-                    !e.metaKey &&
-                    !e.shiftKey &&
-                    !e.altKey
-                  ) {
+                  if (e.button === 0 && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey) {
                     e.preventDefault();
                     goNext();
                   }
-                  // Ctrl+click / click mijloc -> browserul deschide în tab nou
                 };
-
                 return (
-                  <a
-                    href={currentSrc}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={handleImageClick}
-                  >
-                    <img
-                      className="lightbox-img"
-                      src={currentSrc}
-                      alt=""
-                      loading="eager"
-                    />
+                  <a href={currentSrc} target="_blank" rel="noopener noreferrer" onClick={handleImageClick}>
+                    <img className="lightbox-img" src={currentSrc} alt="" loading="eager" />
                   </a>
                 );
               })()}
 
-              <button
-                className="nav-btn next"
-                onClick={goNext}
-                aria-label="Următor"
-              >
-                ›
-              </button>
+              <button className="nav-btn next" onClick={goNext} aria-label="Următor">›</button>
             </div>
 
             <div className="thumbs-row">
@@ -236,9 +274,7 @@ const Galerie = () => {
                 <button
                   key={f}
                   className={`thumb ${i === openAlbum.index ? "active" : ""}`}
-                  onClick={() =>
-                    setOpenAlbum({ album: openAlbum.album, index: i })
-                  }
+                  onClick={() => setOpenAlbum({ album: openAlbum.album, index: i })}
                   aria-label={`Deschide fotografia ${i + 1}`}
                 >
                   <img src={buildSrc(openAlbum.album.slug, f)} alt="" loading="lazy" />

@@ -133,6 +133,21 @@ const Register = () => {
     return (
         <>
             <Navbar/>
+
+
+
+            <a
+                href="https://wa.me/40770633848?text=Bună%20ziua!%20Vreau%20să%20mă%20înscriu%20la%20un%20antrenament%20gratuit."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="whatsapp-float"
+            >
+                <i className="fab fa-whatsapp" style={{fontSize: '24px'}}></i>
+                <span className="whatsapp-text">Antrenament Gratuit</span>
+            </a>
+
+
+
             <section className="register-container">
                 <h2>Cerere Creare Cont HWARANG</h2>
                 <form onSubmit={handleSubmit}>

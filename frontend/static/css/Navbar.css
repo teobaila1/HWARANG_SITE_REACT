@@ -1,5 +1,5 @@
 /* =======================
-   VIDEO (keep as-is)
+   VIDEO (Nemodificat)
    ======================= */
 .video-container {
     position: relative;
@@ -37,8 +37,21 @@
 }
 
 .fade-transition {
-    height: 60px;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 1), #161616);
+    /*height: 60px;*/
+    /*background: linear-gradient(to bottom, rgba(0, 0, 0, 1), #161616);*/
+
+    /*height: 150px; !* Cât de lungă să fie tranziția *!*/
+    width: 100%;
+
+    /* Gradient: de la transparent (sus) la culoarea fundalului (jos) */
+    /* #121212 este culoarea setată în style.css la body. Dacă ai alta, schimb-o aici. */
+    background: linear-gradient(to bottom, rgba(18, 18, 18, 0) 0%, #121212 100%);
+
+    /* TRUCUL MAGIC: */
+    margin-top: -150px; /* Tragem elementul în sus, peste video */
+    position: relative;
+    z-index: 5; /* Să fie deasupra videoclipului */
+    pointer-events: none; /* Să poți da click prin el dacă e cazul */
 }
 
 .video-container {
@@ -124,7 +137,7 @@
 }
 
 /* =======================
-   NAVBAR – elegant dark+red
+   NAVBAR – CONFIGURAȚIE
    ======================= */
 :root {
     --nb-bg: rgba(0, 0, 0, .55);
@@ -134,46 +147,36 @@
     --nb-accent-2: #cc0000;
     --nb-border: rgba(255, 255, 255, .09);
     --nb-radius: 14px;
-    /* --- DIMENSIUNI NAVBAR (Aici reglăm înălțimea) --- */
-    --nav-height-desktop: 120px; /* Mărit pentru logo-ul tău mare */
+    --nav-height-desktop: 120px;
     --nav-height-mobile: 90px;
-
-    /* Înălțimea standard pentru Desktop */
-    --nav-top: 80px;
 }
 
-/* Pe Desktop */
+/* --- Layout Body padding --- */
 body {
     padding-top: var(--nav-height-desktop);
-    margin-top: 0 !important; /* Ne asigurăm că nu mai există margine veche */
+    margin-top: 0 !important;
 }
 
-
-/* Pe Mobil */
 @media (max-width: 950px) {
     body {
-        /* Calculăm spațiul: înălțime meniu + spațiu de siguranță sus + puțin aer */
         padding-top: calc(var(--nav-height-mobile) + env(safe-area-inset-top) + 60px) !important;
     }
-
     .navbar {
-        /* Navbar-ul stă sub notch-ul telefonului */
         padding-top: max(0.5rem, env(safe-area-inset-top));
         min-height: var(--nav-height-mobile);
     }
 }
 
-
-/* când meniul e deschis, blochează scroll-ul paginii */
 body.nav-open {
     overflow: hidden;
 }
 
+/* --- Container Navbar --- */
 .navbar {
     position: fixed;
     inset: 0 0 auto 0;
     width: 100%;
-    z-index: 4000; /* peste conținut */
+    z-index: 4000;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -208,24 +211,28 @@ body.nav-open {
 }
 
 .logo img {
-    height: clamp(54px, 8vw, 86px);
     width: auto;
     display: block;
     filter: drop-shadow(0 6px 18px rgba(0, 0, 0, .25));
+    height: 100px;
 }
 
-/* --- linkuri principale (desktop) --- */
+/* =========================================
+   LINK-URI PRINCIPALE (Top Level)
+   ========================================= */
 .nav-links {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: clamp(.4rem, 1.8vw, 1rem);
+    gap: 0;
     margin: 0;
     padding: 0;
 }
 
 .nav-links li {
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .nav-links a,
@@ -237,53 +244,52 @@ body.nav-open {
     letter-spacing: .2px;
     font-size: clamp(.95rem, 1.7vw, 1.05rem);
 
-    /* --- MODIFICARE AICI: Padding redus --- */
-    /* Era: padding: .45rem .6rem; */
-    padding: .25rem .6rem;
-    /* -------------------------------------- */
+    /* --- ALINIERE PERFECTĂ TEXT --- */
+    padding: 6px 0 !important;
+    margin: 0 12px !important;
+    width: auto;
 
-    border-radius: 8px; /* Ajustat ușor raza pentru dimensiunea nouă */
-    display: inline-flex;
-    align-items: center;
-    gap: .35rem;
-    transition: color .2s ease, background .2s ease, opacity .2s ease;
-    background: transparent;
+    background: transparent !important;
     border: none;
     cursor: pointer;
-    line-height: 1.2; /* Asigură înălțimea corectă a liniei */
+    line-height: 1.2;
+    position: relative;
+    border-radius: 4px;
+    transition: color 0.2s ease;
 }
 
+/* Linia roșie de jos - Fix cât textul */
 .nav-links a::after {
     content: "";
-    height: 2px;
+    height: 3px;
     width: 0%;
     background: linear-gradient(90deg, var(--nb-accent), var(--nb-accent-2));
     border-radius: 999px;
     position: absolute;
-    left: .6rem;
-    bottom: 0px; /* Era 2px, am pus 0 ca să fie chiar la bază dacă padding-ul e mic */
-    transition: width .22s ease;
-    opacity: .9;
+    left: 0;
+    bottom: 0px;
+    transition: width .25s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
 }
 
+/* La hover */
 .nav-links a:hover,
 .nav-links a:focus-visible,
-button.user-chip:hover,
-button.user-chip:focus-visible {
+button.user-chip:hover {
     color: #fff;
-    background: rgba(255, 26, 26, .08);
+    background: transparent !important;
     outline: none;
 }
 
+/* Linia se face 100% (cât textul) */
 .nav-links a:hover::after,
 .nav-links a:focus-visible::after {
-    width: calc(100% - 1.2rem);
+    width: 100%;
 }
 
 .nav-links .text-danger {
     color: #ff4d4d;
 }
-
 .nav-links .text-danger:hover {
     color: #fff;
 }
@@ -292,13 +298,11 @@ button.user-chip:focus-visible {
     white-space: nowrap;
 }
 
-/* --- Dropdown (desktop hover) --- */
-/*.dropdown > a, .dropdown > .user-chip{ position: relative; padding-right: .6rem; }*/
-/*.dropdown > a::before, .dropdown > .user-chip::before{*/
-/*  content: "▾"; display: inline-block; margin-left: .35rem;*/
-/*  font-size: .85em; line-height: 1; transform: translateY(-1px) rotate(0deg);*/
-/*  opacity: .75; transition: transform .18s ease, opacity .18s ease;*/
-/*}*/
+/* =========================================
+   DROPDOWN MENU (Hover Elegant)
+   ========================================= */
+
+/* Săgeata mică */
 .dropdown:hover > a::before,
 .dropdown:focus-within > a::before,
 .dropdown:hover > .user-chip::before,
@@ -307,6 +311,7 @@ button.user-chip:focus-visible {
     opacity: 1;
 }
 
+/* Pod invizibil */
 .dropdown::after {
     content: "";
     position: absolute;
@@ -319,22 +324,74 @@ button.user-chip:focus-visible {
 .dropdown-menu {
     position: absolute;
     top: 100%;
-    margin-top: 8px;
+    margin-top: 10px;
     left: 0;
-    min-width: 220px;
-    background: rgba(10, 10, 14, .92);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--nb-border);
+
+    /* --- CONFIGURARE CONTAINER --- */
+    min-width: 160px;
+    width: max-content;
+    text-align: left;
+
+    background: rgba(15, 15, 20, 0.98);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 6px;
-    box-shadow: 0 22px 50px rgba(0, 0, 0, .45);
+
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     z-index: 1100;
+
     opacity: 0;
     visibility: hidden;
-    transform: translateY(6px);
+    transform: translateY(10px);
     pointer-events: none;
-    transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+    transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
+}
+
+.dropdown-menu li {
+    display: block;
+    width: 100%;
+}
+
+/* --- Stil Butoane DIN Dropdown --- */
+.dropdown-menu button,
+.dropdown-menu a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+
+    margin: 2px 0 !important;
+    padding: 10px 14px !important;
+
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #d0d0d0 !important;
+    background: transparent !important;
+    border-radius: 8px !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important; /* Animație fluidă */
+}
+
+/* --- HOVER PREMIUM --- */
+.dropdown-menu button:hover,
+.dropdown-menu a:hover {
+    /* 1. Gradient fin roșu-transparent */
+    background: linear-gradient(90deg, rgba(255, 26, 26, 0.15), transparent) !important;
+
+    /* 2. Text Alb strălucitor */
+    color: #fff !important;
+
+    /* 3. Deplasare text spre dreapta */
+    padding-left: 20px !important;
+
+    /* 4. Linie roșie de accent în stânga (folosind inset shadow pt a nu strica layoutul) */
+    box-shadow: inset 3px 0 0 #ff1a1a;
+}
+
+.dropdown-menu a::after {
+    display: none;
 }
 
 .dropdown-menu--right {
@@ -351,37 +408,31 @@ button.user-chip:focus-visible {
     pointer-events: auto;
 }
 
-/* curățenie bullets */
+/* Curățenie liste */
 .dropdown-menu, .dropdown-menu ul, .dropdown-menu li {
     list-style: none !important;
 }
-
-.dropdown-menu li::marker {
-    content: "";
-}
-
-.dropdown-menu li::before {
+.dropdown-menu li::marker, .dropdown-menu li::before {
     content: none !important;
 }
 
-/* --- user chip --- */
+/* --- USER CHIP (Contul meu - Rămâne stilizat diferit) --- */
 .user-menu .user-chip {
     padding: 6px 14px !important;
     gap: 10px !important;
-    background: rgba(255, 255, 255, 0.08); /* Fundal subtil */
+    background: rgba(255, 255, 255, 0.08) !important;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50px !important; /* Complet rotund la capete */
+    border-radius: 50px !important;
     transition: all 0.2s ease;
     cursor: pointer;
+    margin: 0 !important;
 }
 
-
 .user-menu .user-chip:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.15) !important;
     border-color: rgba(255, 255, 255, 0.3);
     transform: translateY(-1px);
 }
-
 
 .user-menu .avatar {
     border-radius: 999px;
@@ -390,11 +441,11 @@ button.user-chip:focus-visible {
     justify-content: center;
     background: linear-gradient(180deg, var(--nb-accent), var(--nb-accent-2));
     color: #fff;
-    width: 36px !important;   /* Era 28px */
+    width: 36px !important;
     height: 36px !important;
     font-size: 1.1rem !important;
     font-weight: 700;
-    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3); /* Umbră roșie fină */
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
 }
 
 .user-menu .greet {
@@ -403,174 +454,106 @@ button.user-chip:focus-visible {
     white-space: nowrap;
 }
 
-/* Caption "Conectat ca ..." */
-.dropdown-caption {
+/* --- USER DROPDOWN MODERN --- */
+.user-dropdown-modern {
+    min-width: 240px;
+    padding: 8px;
+    background: #141414;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    border-radius: 16px;
+    right: 0;
+    left: auto;
+    margin-top: 12px;
+}
+
+.user-dropdown-modern .user-header {
+    padding: 12px 16px;
+    background: transparent;
     display: flex;
-    align-items: center;
-    gap: .6rem;
-    margin: 6px;
-    padding: .65rem .75rem;
-    border-radius: 12px;
-    background: linear-gradient(180deg, green, lightgreen);
-    color: #f4f4f8;
-    font-weight: 800;
-    letter-spacing: .2px;
-    border: 1px solid rgba(255, 255, 255, .08);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .04), 0 10px 24px rgba(0, 0, 0, .22);
+    flex-direction: column;
+    gap: 2px;
+    cursor: default;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 6px;
 }
 
-.dropdown-caption::before {
-    content: "";
-    width: 8px;
-    height: 22px;
-    border-radius: 999px;
-    background: linear-gradient(180deg, #ff1a1a, #cc0000);
-    box-shadow: 0 0 0 3px rgba(255, 26, 26, .18);
+.user-dropdown-modern .user-header small {
+    color: #a0a0a0;
+    font-size: 0.85rem;
+    font-weight: 500;
 }
 
-.dropdown-caption strong {
+.user-dropdown-modern .user-header span {
     color: #ffffff;
-    text-shadow: 0 0 10px rgba(255, 0, 0, .28);
+    font-size: 1.1rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
 }
 
-.dropdown-caption + .logout-item {
-    margin-top: 6px;
-    padding-top: 6px;
-    border-top: 1px solid rgba(255, 255, 255, .08);
+.user-dropdown-modern .dropdown-divider {
+    display: none;
 }
 
-.logout-item button {
+.user-dropdown-modern .logout-li {
+    padding: 4px;
+}
+
+/* Buton Logout (păstrăm stilul tău roșu elegant) */
+.user-dropdown-modern .logout-li button {
     width: 100%;
     text-align: left;
     background: transparent;
-    border: none;
-    color: #fff;
-    padding: .6rem .75rem;
+    color: #ff4d4d !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 10px 14px !important;
     border-radius: 8px;
-    font-weight: 800;
+    border: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s ease;
 }
 
-.logout-item button:hover {
-    background: rgba(255, 26, 26, .42);
+/* Logout Hover (Același stil elegant, dar roșu) */
+.user-dropdown-modern .logout-li button:hover {
+    background: rgba(255, 26, 26, 0.1) !important;
+    color: #ff6666 !important;
+    padding-left: 18px !important;
+    box-shadow: inset 3px 0 0 #ff4d4d;
 }
 
-/* responsive font tweaks */
+/* =========================================
+   RESPONSIVE & ALTE ELEMENTE
+   ========================================= */
+
 @media (max-width: 1100px) {
-    .nav-links {
-        gap: .6rem;
-    }
-
-    .nav-links a {
-        padding: .4rem .55rem;
-    }
+    .nav-links { gap: 0; }
 }
 
 @media (max-width: 860px) {
-    .navbar {
-        padding: .35rem .8rem;
-    }
-
-    .logo img {
-        height: 64px;
-    }
-
-    .nav-links {
-        gap: .4rem;
-    }
-
-    .nav-links a {
-        font-size: .96rem;
-    }
+    .navbar { padding: .35rem .8rem; }
+    .logo img { height: 90px; }
+    .nav-links a { font-size: .96rem; }
 }
 
-/* focus accesibil */
-.nav-links a:focus-visible,
-.user-chip:focus-visible {
-    outline: 3px solid rgba(255, 26, 26, .35);
-    outline-offset: 2px;
-    border-radius: 10px;
-}
-
-/* text lung în „Bine ai venit, …” rămâne pe un rând */
-.nav-links {
-    flex-wrap: nowrap;
-    min-width: 0;
-}
-
-.user-menu {
-    margin-left: auto;
-    flex: 0 1 45%;
-    min-width: 0;
-}
-
-/*.user-menu .user-chip {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    gap: .55rem;*/
-/*    min-width: 0;*/
-/*    white-space: nowrap;*/
-/*}*/
-
-.user-menu .greet {
-    display: flex;
-    align-items: center;
-    gap: .35rem;
-    min-width: 0;
-    white-space: nowrap;
-}
-
-.user-menu .name {
-font-size: 1.05rem !important; /* Era ~0.9rem */
-    font-weight: 600 !important;
-    letter-spacing: 0.3px;
-    color: #fff;
-    max-width: 150px; /* Previne nume extrem de lungi */
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-.nav-links .join-link {
-    margin-left: 0 !important;
-    flex: 0 0 auto;
-}
-
+/* Auth links group */
 .nav-links .auth-links {
-    position: static;
     display: inline-flex;
     align-items: center;
-    gap: clamp(.4rem, 1vw, .8rem);
+    gap: 0;
     margin-left: 0 !important;
-    flex: 0 0 auto;
     padding: 0;
 }
 
-.nav-links .auth-links a,
-.nav-links .auth-links button {
-    padding: .34rem .48rem;
-    border-radius: 10px;
-    position: relative;
-}
-
-.nav-links > li {
-    margin-left: 0;
-    flex: 0 0 auto;
-}
-
-@media (max-width: 860px) {
-    .nav-links .auth-links a,
-    .nav-links .auth-links button {
-        padding: .36rem .5rem;
-    }
-}
-
-
-/* =======================
-   HAMBURGER BUTTON
-   ======================= */
+/* Hamburger Button */
 .nav-toggle {
-    display: none; /* Ascuns pe desktop */
+    display: none;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.1);
     width: 44px;
@@ -594,188 +577,72 @@ font-size: 1.05rem !important; /* Era ~0.9rem */
     transition: all 0.3s ease;
 }
 
-/* Afișează hamburgerul doar sub 950px */
+/* --- HAMBURGER MENU BUTTON (FIX DEFINITIV) --- */
 @media (max-width: 950px) {
-    .navbar .nav-links {
-        display: none;
-    }
 
-    /* Ascunde meniul desktop */
+    /* Ascundem link-urile desktop */
+    .navbar .nav-links { display: none !important; }
+    .desktop-only-nav { display: none !important; }
+
+    /* Butonul de meniu - Îl forțăm să fie PĂTRAT */
+    /* Aplicăm stilul pe ambele clase posibile ca să fim siguri */
+    .hamburger-btn,
     .nav-toggle {
-        display: flex;
+        display: flex !important;
+        flex-direction: column;
+        gap: 5px;
+        justify-content: center;
+        align-items: center;
+
+        /* --- DIMENSIUNI FIXE (NUCLEAR OPTION) --- */
+        width: 48px !important;      /* Lățime fixă */
+        height: 48px !important;     /* Înălțime fixă */
+        min-width: 48px !important;  /* Nu se turtește */
+        max-width: 48px !important;  /* Nu se lungește */
+        flex: 0 0 48px !important;   /* Nu se întinde în flexbox */
+
+        /* Resetare margini care l-ar putea împinge */
+        margin: 0 !important;
+        margin-left: auto !important; /* Îl împinge în dreapta dacă e loc */
+
+        /* Aspect */
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 12px !important;
+        cursor: pointer;
+        z-index: 4001;
+        transition: background 0.2s;
     }
 
-    /* Arată butonul */
-    /* Când meniul e deschis, hamburgerul poate dispărea sau se poate transforma,
-       dar avem butonul "X" dedicat în MobileMenu.css, deci îl putem ascunde opțional */
-    .nav-toggle.is-open {
-        opacity: 0;
-        pointer-events: none;
+    .hamburger-btn span,
+    .nav-toggle span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background-color: #fff;
+        border-radius: 2px;
     }
+
+    .hamburger-btn:active,
+    .nav-toggle:active {
+        background: rgba(255, 255, 255, 0.2) !important;
+        transform: scale(0.96);
+    }
+
+    /* Asigură-te că butonul X de închidere (dacă există separat) e ascuns aici,
+       deoarece folosim overlay-ul pentru închidere */
+    .nav-close { display: none !important; }
 }
 
-/* =============================
-   ADAPTĂRI PENTRU NOUA STRUCTURĂ
-   ============================= */
-
-/* Pe desktop, ascundem hamburgerul */
-.hamburger-btn {
-    display: none;
+/* Toast Container */
+.Toastify__toast-container, .toaster, #toast-container, .rrt-holder {
+    z-index: 2147483647 !important;
 }
 
-/* PE MOBIL (sub 950px) */
 @media (max-width: 950px) {
-    /* 1. Ascundem complet navigarea veche de desktop */
-    .desktop-only-nav {
-        display: none !important;
-    }
-
-    /* La finalul fișierului Navbar.css adaugă/înlocuiește: */
-    /* --- HAMBURGER MENU BUTTON --- */
-    .hamburger-btn {
-        display: none; /* Ascuns pe desktop */
-    }
-
-    @media (max-width: 950px) {
-        .hamburger-btn {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            justify-content: center;
-            align-items: center;
-
-            width: 44px;
-            height: 44px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-
-            cursor: pointer;
-            z-index: 4001; /* Peste navbar, dar SUB overlay-ul de meniu (care are 9999) */
-            transition: background 0.2s;
-        }
-
-        .hamburger-btn span {
-            display: block;
-            width: 20px;
-            height: 2px;
-            background-color: #fff;
-            border-radius: 2px;
-        }
-
-        .hamburger-btn:active {
-            background: rgba(255, 255, 255, 0.15);
-            transform: scale(0.96);
-        }
-
-        /* IMPORTANT: Ascundem orice "Close button" vechi care ar putea pluti */
-        .nav-close, .nav-toggle {
-            display: none !important;
-        }
-    }
-}
-
-
-/* 1. Ridicăm Z-Index la maxim posibil pentru a fi peste meniul mobil */
-.Toastify__toast-container, /* Pentru React-Toastify */
-.toaster,                   /* Generic */
-#toast-container,           /* Generic ID */
-.rrt-holder {               /* React Redux Toastr */
-    z-index: 2147483647 !important; /* Valoarea maximă admisă în CSS */
-}
-
-/* 2. Pe mobil, le coborâm puțin ca să nu fie acoperite de header-ul telefonului */
-@media (max-width: 950px) {
-    .Toastify__toast-container,
-    #toast-container {
-        /* Le împingem sub navbar-ul de sus (care are aprox 70-80px) */
+    .Toastify__toast-container, #toast-container {
         top: 90px !important;
-        padding: 0 10px; /* Puțin spațiu lateral */
+        padding: 0 10px;
+
     }
-}
-
-
-/* =========================================
-   MODERN USER DROPDOWN (DESKTOP)
-   ========================================= */
-
-/* 1. Containerul Dropdown - Mai lat și elegant */
-.user-dropdown-modern {
-    min-width: 260px; /* Mai lat pentru a încăpea nume lungi */
-    padding: 8px;
-    background: #141414; /* Fundal solid închis */
-    border: 1px solid rgba(255, 255, 255, 0.15); /* Bordură subtilă */
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6); /* Umbră puternică */
-    border-radius: 16px; /* Colțuri rotunjite modern */
-    right: 0;
-    left: auto;
-    margin-top: 10px;
-}
-
-/* 2. Header-ul (Conectat ca + Nume) */
-.user-dropdown-modern .user-header {
-    padding: 14px 18px; /* Spațiere generoasă */
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    cursor: default;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Linie fină dedesubt */
-    margin-bottom: 6px;
-}
-
-/* Textul "Conectat ca" - MAI MARE */
-.user-dropdown-modern .user-header small {
-    color: #a0a0a0; /* Gri deschis, ușor de citit */
-    font-size: 0.9rem; /* Mărit (era prea mic) */
-    font-weight: 500;
-    text-transform: none; /* Fără majuscule forțate */
-    letter-spacing: 0.3px;
-    display: block;
-}
-
-/* Numele Utilizatorului */
-.user-dropdown-modern .user-header span {
-    color: #ffffff;
-    font-size: 1.15rem; /* Mărit și el */
-    font-weight: 700;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.4;
-}
-
-/* Ascundem div-ul separator vechi dacă există, folosim border-bottom pe header */
-.user-dropdown-modern .dropdown-divider {
-    display: none;
-}
-
-/* 3. Butonul de Logout */
-.user-dropdown-modern .logout-li {
-    padding: 4px;
-}
-
-/* Stilizăm butonul din interiorul componentei LogoutButton */
-.user-dropdown-modern .logout-li button {
-    width: 100%;
-    text-align: left;
-    background: transparent; /* Transparent inițial */
-    color: #ff4d4d; /* Text Roșu */
-    font-weight: 600;
-    font-size: 1rem; /* Text lizibil */
-    padding: 12px 16px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Pentru a pune iconița (dacă există) în dreapta */
-    transition: all 0.2s ease;
-}
-
-/* Hover pe butonul de logout */
-.user-dropdown-modern .logout-li button:hover {
-    background: rgba(255, 26, 26, 0.1); /* Fundal roșu foarte pal */
-    color: #ff6666; /* Roșu mai deschis */
-    padding-left: 20px; /* Efect de mișcare spre dreapta */
 }
