@@ -180,10 +180,10 @@ const Navbar = () => {
                                 </li>
                                 <div className="dropdown-divider"></div>
                                 <li>
-                                    <button className="btn-card-meniu mobile-menu-footer"
+                                    {/* <button className="btn-card-meniu mobile-menu-footer"
                                             onClick={() => setShowMyCard(true)}>
                                         Cardul Meu
-                                    </button>
+                                    </button> */}
                                 </li>
                                 <div className="dropdown-divider"></div>
                                 <li className="logout-li"><LogoutButton/></li>
