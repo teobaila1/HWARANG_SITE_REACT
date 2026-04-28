@@ -36,6 +36,7 @@ import Galerie from "./pages/Gallery/Galerie";
 import Training from "./Kickbox/Trainings";
 import ScannerPage from "./pages/ScannerPage";
 import CalendarClub from "./pages/Documents&Calendar/CalendarClub";
+import CalendarPage from "./pages/Documents&Calendar/CalendarPage";
 // import PaginaPrezenta from './pages/PaginaPrezenta';
 // import IstoricPrezenteCopil from './components/IstoricPrezenteCopil';
 // import PaginaPrezentaFamilie from "./pages/PaginaPrezentaFamilie";
@@ -79,7 +80,7 @@ function App() {
                         {/* 1. PAGINI COMUNE (Accesibile oricărui user logat: Sportiv, Părinte, Antrenor) */}
                         <Route path="/concursuri" element={<Concursuri/>}/>
                         <Route path="/documente" element={<Documente/>}/>
-                        <Route path="/calendar" element ={<CalendarClub/>} />
+                        <Route path="/calendar" element ={<CalendarPage/>} />
                         <Route path="/antrenori" element={<Coaches/>}/>
                         <Route path="/inscrisi/:numeConcurs" element={<InscrisiConcurs/>}/>
                         {/* Unele rute pot fi accesate de toți, dar conținutul diferă (ex: scan) */}
