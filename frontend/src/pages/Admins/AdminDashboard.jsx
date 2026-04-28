@@ -94,7 +94,7 @@ const AdminDashboard = () => {
                     <h1>Panou Administrare</h1>
                     <p style={{color: '#888', marginTop: '5px', marginBottom: '20px'}}>Bine ai venit, {username}</p>
 
-                    {/* --- BUTON SCANARE DOAR AICI --- */}
+                    {/* --- BUTON SCANARE DOAR AICI ---
                     <div style={{ display: "flex", justifyContent: "center", marginBottom: "30px" }}>
                         <button
                             onClick={() => navigate("/scan")}
@@ -114,7 +114,7 @@ const AdminDashboard = () => {
                             <i className="fas fa-qrcode" style={{fontSize: "1.2rem"}}></i>
                             Scanează Prezența
                         </button>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="dashboard-grid">
