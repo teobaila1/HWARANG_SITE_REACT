@@ -221,7 +221,7 @@ const Home = () => {
                                 <p className="price-desc">Investește în disciplina și sănătatea copilului tău</p>
 
                                 <div className="price-amount">
-                                    200 <span className="price-currency">RON / lună</span>
+                                    250 <span className="price-currency">RON / lună</span>
                                 </div>
 
                                 <ul className="card-list">

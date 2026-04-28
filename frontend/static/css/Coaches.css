@@ -6,10 +6,10 @@
 .coaches-container {
   background: radial-gradient(circle at top, #1a1a1a, #0e0e0e 60%);
   /* AM MODIFICAT AICI: 120px era prea mult, am pus 90px */
-  padding: 90px 1rem 4rem;
+  padding-top: var(--nav-height-desktop);
   text-align: center;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
   min-height: 100vh;
 }
 
@@ -78,7 +78,7 @@
   width: 100%;
   aspect-ratio: 3/4;
   border-radius: 12px;
-  overflow: hidden;
+  overflow-x: hidden;
   margin-bottom: 1.2rem;
   background: #000;
   border-bottom: 2px solid #d32f2f; /* Linie roșie sub poză */
@@ -169,7 +169,7 @@
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .coaches-container {
-    padding-top: 80px; /* Și mai mic pe mobil */
+    padding-top: var(--nav-height-mobile);
   }
   .coaches-stats {
     gap: 30px;

@@ -70,9 +70,16 @@ const AdminAntrenoriGrupe = () => {
     return `${u} (${d})`;
   };
 
-  // --- ACȚIUNEA DE EDITARE (Corectată) ---
+  // Helper pentru Gen
+  const prettyGen = (g) => {
+      if (!g) return null;
+      const v = String(g).toLowerCase();
+      if (v.startsWith("m")) return "M";
+      if (v.startsWith("f")) return "F";
+      return null;
+  };
+
   const handleEdit = (copil, grupaName) => {
-    // Extragem numele părintelui din obiectul _parent (dacă există)
     let parentName = "";
     if (copil._parent) {
         parentName = copil._parent.display || copil._parent.nume_complet || copil._parent.username || "";
@@ -81,7 +88,6 @@ const AdminAntrenoriGrupe = () => {
     setEditElev({
         ...copil,
         grupa: grupaName,
-        // IMPORTANT: Trimitem numele părintelui ca să apară în formular
         parent_display: parentName,
         parinte_id: copil._parent?.id
     });
@@ -143,19 +149,19 @@ const AdminAntrenoriGrupe = () => {
       <Navbar />
       <div className="aag-page">
         <div className="aag-inner">
-          <h2 className="aag-title">Grupele tuturor antrenorilor</h2>
+          <h2 className="aag-title">Administrare Grupe Antrenori</h2>
 
-          {loading && <p>Se încarcă…</p>}
-          {!loading && msg && <div className="aag-alert">{msg}</div>}
+          {loading && <p style={{color:'#888', textAlign:'center'}}>Se încarcă datele...</p>}
+          {!loading && msg && <div style={{background:'#333', padding:'10px', color:'#fff', marginBottom:'20px', borderRadius:'8px'}}>{msg}</div>}
 
           {data.map((coach, index) => (
-            <section key={`${coach.antrenor}-${index}`} className="coach-section">
+            <div key={`${coach.antrenor}-${index}`} className="coach-section">
               <div className="coach-head">
                 <div className="coach-avatar">{initialFromName(coach.antrenor_display || coach.antrenor)}</div>
                 <div className="coach-meta">
                   <h3 className="coach-name">{coachLabel(coach)}</h3>
                   <div className="coach-sub">
-                    Grupe: <strong>{coach.grupe.length}</strong>
+                    Antrenor • <strong>{coach.grupe.length}</strong> grupe active
                   </div>
                 </div>
               </div>
@@ -164,58 +170,80 @@ const AdminAntrenoriGrupe = () => {
                 {coach.grupe.map((gr, i) => (
                   <div key={`${coach.antrenor}-${gr.grupa}-${i}`} className="group-card">
                     <div className="group-head">
-                      <h4 className="group-name">{gr.grupa || "—"}</h4>
+                      <h4 className="group-name">{gr.grupa || "Fără Grupă"}</h4>
                       <span className="chip">{gr.copii?.length || 0} sportivi</span>
                     </div>
 
                     <ul className="athlete-list">
-                      {(gr.copii || []).map((copil, k) => (
-                        <li key={copil.id || k} className="athlete-item">
-                          <div className="athlete-name">
-                            <span className="label">Nume:</span>
-                            <strong>{copil.nume || "—"}</strong>
-                          </div>
-                          <div className="athlete-field">
-                            <span className="label">Gen:</span>
-                            <span>{copil.gen ?? "N/A"}</span>
-                          </div>
-                          <div className="athlete-field">
-                            <span className="label">Vârstă:</span>
-                            <span>{copil.varsta != null ? `${copil.varsta} ani` : "—"}</span>
-                          </div>
-                          <div className="athlete-field">
-                             <span className="label">Părinte:</span>
-                             {/* Afișare nume părinte în listă (opțional, dar util pentru verificare) */}
-                             <span>{copil._parent?.display || copil._parent?.username || "—"}</span>
-                          </div>
+                      {(gr.copii || []).map((copil, k) => {
+                        const genShort = prettyGen(copil.gen);
+                        const parinteNume = copil._parent?.display || copil._parent?.username || "—";
 
-                          <div className="athlete-actions">
-                            <button
-                              className="btn btn-sm"
-                              disabled={!copil.id}
-                              onClick={() => handleEdit(copil, gr.grupa)}
-                            >
-                              Editează
-                            </button>
-                            <button
-                              className="btn btn-sm btn-danger"
-                              disabled={!copil.id}
-                              onClick={() => askDelete(copil)}
-                            >
-                              Șterge
-                            </button>
-                          </div>
-                        </li>
-                      ))}
+                        return (
+                            <li key={copil.id || k} className="athlete-item">
+
+                              {/* 1. Avatar Mic */}
+                              <div className="row-avatar-small" style={{backgroundColor: genShort === 'F' ? '#831843' : '#1e3a8a'}}>
+                                {initialFromName(copil.nume)}
+                              </div>
+
+                              {/* 2. Nume Elev */}
+                              <div className="row-name" title={copil.nume}>
+                                {copil.nume || "Fără Nume"}
+                              </div>
+
+                              {/* 3. Detalii (Gen + Vârstă) */}
+                              <div className="row-details">
+                                {genShort && (
+                                    <span className={`badge ${genShort === 'F' ? 'female' : 'male'}`}>
+                                      {genShort === 'F' ? 'Fem' : 'Masc'}
+                                    </span>
+                                )}
+                                <span className="badge age">
+                                  {copil.varsta != null ? `${copil.varsta} ani` : "?"}
+                                </span>
+                              </div>
+
+                              {/* 4. Părinte */}
+                              <div className="row-parent">
+                                <small>Părinte</small>
+                                <span>{parinteNume}</span>
+                              </div>
+
+                              {/* 5. Acțiuni */}
+                              <div className="row-actions">
+                                <button
+                                  className="btn-icon-sm"
+                                  onClick={() => handleEdit(copil, gr.grupa)}
+                                  title="Editează"
+                                >
+                                  <i className="fas fa-pen"></i>
+                                </button>
+                                <button
+                                  className="btn-icon-sm delete"
+                                  onClick={() => askDelete(copil)}
+                                  title="Șterge"
+                                >
+                                  <i className="fas fa-trash"></i>
+                                </button>
+                              </div>
+                            </li>
+                        );
+                      })}
+                      {(!gr.copii || gr.copii.length === 0) && (
+                          <li style={{padding:'20px', textAlign:'center', color:'#555', fontSize:'0.9rem'}}>
+                              Niciun sportiv în această grupă.
+                          </li>
+                      )}
                     </ul>
                   </div>
                 ))}
               </div>
-            </section>
+            </div>
           ))}
 
           {!loading && data.length === 0 && (
-            <div className="aag-alert">Nu am găsit niciun antrenor.</div>
+            <div className="aag-alert">Nu am găsit niciun antrenor cu grupe alocate.</div>
           )}
         </div>
       </div>

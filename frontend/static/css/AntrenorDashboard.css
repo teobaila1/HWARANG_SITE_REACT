@@ -1,24 +1,28 @@
-/* ===== AntrenorDashboard.css – Modern Dark & Red Theme ===== */
+/* ===== AntrenorDashboard.css – Clean List View ===== */
 
 :root {
-    --bg-dark: #121212;
-    --bg-card: #1e1e22;
-    --bg-card-hover: #25252a;
-    --text-main: #ffffff;
+    --bg-dark: #09090b;       /* Fundal foarte închis */
+    --bg-card: #18181b;       /* Suprafață elemente */
+    --bg-hover: #27272a;      /* Hover */
+    --border: #3f3f46;        /* Borduri subtile */
+
+    --text-main: #f4f4f5;
     --text-muted: #a1a1aa;
+
     --accent-red: #dc2626;
     --accent-red-hover: #b91c1c;
-    --accent-gold: #D4AF37;
-    --accent-green: #15803d;
-    --border-color: #27272a;
+    --accent-green: #16a34a;
+
+    --badge-male: #1e3a8a;    /* Albastru închis */
+    --badge-female: #831843;  /* Roz închis */
 }
 
 .ant-dashboard {
     background-color: var(--bg-dark);
     min-height: 100vh;
-    padding: 2rem 3%;
+    padding: 2rem max(20px, 3%);
     color: var(--text-main);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* --- HEADER & STATS --- */
@@ -27,442 +31,302 @@
     justify-content: space-between;
     align-items: flex-end;
     margin-bottom: 40px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border);
     padding-bottom: 20px;
     flex-wrap: wrap;
     gap: 20px;
 }
 
 .ant-header-content h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 800;
     margin: 0 0 5px 0;
     text-transform: uppercase;
     letter-spacing: -0.5px;
+    color: #fff;
 }
 
 .ant-header-content p {
     color: var(--text-muted);
     margin: 0;
-    font-size: 1rem;
 }
 
 .ant-stats-row {
     display: flex;
-    gap: 20px;
-    align-items: stretch;
+    gap: 15px;
 }
 
 .ant-stat-card {
     background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
     padding: 10px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
     min-width: 100px;
 }
 
-.stat-val {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--accent-red);
-}
-
-.stat-label {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    font-weight: 700;
-}
+.stat-val { font-size: 1.4rem; font-weight: 800; color: #fff; display: block; }
+.stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
 
 .btn-scan-qr {
-    background: linear-gradient(135deg, var(--accent-gold) 0%, #B8860B 100%);
-    color: white;
+    background: #eab308; /* Galben/Auriu */
+    color: #000;
     border: none;
-    border-radius: 12px;
-    padding: 0 25px;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: transform 0.2s;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
-}
-.btn-scan-qr:hover { transform: translateY(-2px); }
-
-/* --- ALERTE --- */
-.ant-alert {
-    background: #2a1515;
-    border: 1px solid var(--accent-red);
-    color: #fca5a5;
-    padding: 15px;
     border-radius: 8px;
-    margin-bottom: 20px;
-    font-weight: 500;
+    padding: 0 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
+.btn-scan-qr:hover { transform: translateY(-2px); background: #facc15; }
 
-/* --- GROUP CARD --- */
+/* --- GROUP SECTION --- */
 .ant-groups-container {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 50px; /* Spațiu mare între grupe */
 }
 
-.ant-group-card {
-    background: #18181b; /* Putin mai deschis decat bg */
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 25px;
-    /* Linie de accent sus */
-    border-top: 4px solid var(--accent-red);
+.ant-group-section {
+    background: transparent; /* Fără fundal la container */
 }
 
+/* Header Grupa - Curat */
 .ant-group-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--border-color);
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: var(--bg-card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 15px;
 }
 
-.group-title-area h3 {
-    margin: 0;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #fff;
-}
-
+.group-title-area { display: flex; align-items: center; gap: 15px; }
+.group-title-area h3 { margin: 0; font-size: 1.5rem; color: #fff; }
 .student-count {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    background: #27272a;
-    padding: 2px 8px;
-    border-radius: 4px;
-    margin-top: 5px;
-    display: inline-block;
+    background: #333; color: #ccc; font-size: 0.8rem; padding: 4px 8px; border-radius: 6px;
 }
 
 .group-actions-area {
     display: flex;
     align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
+    gap: 10px;
 }
 
+/* Butoane acțiuni grupă */
 .btn-attendance {
-    background: var(--accent-green);
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
+    background: var(--accent-green); color: white; border: none; padding: 8px 16px;
+    border-radius: 6px; font-weight: 600; cursor: pointer;
 }
-.btn-attendance:hover { background: #166534; }
 
 .add-student-area {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    background: #202025;
-    padding: 8px;
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
+    display: flex; gap: 10px; align-items: center;
+    background: #27272a; padding: 6px; border-radius: 8px;
 }
 
 .ant-select {
-    background: #121212;
-    color: #fff;
-    border: 1px solid var(--border-color);
-    padding: 8px;
-    border-radius: 6px;
-    outline: none;
-    max-width: 150px;
+    background: #000; color: #fff; border: 1px solid #444; padding: 6px; border-radius: 4px;
 }
 
 .btn-add {
-    border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 0.85rem;
-    cursor: pointer;
+    border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+}
+.btn-add.new { background: var(--accent-red); color: white; }
+
+/* --- LIST VIEW (Tabel Modern) --- */
+.ant-students-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px; /* Spațiu mic între rânduri */
+}
+
+.student-row {
+    display: grid;
+    /* Structura: Avatar | Nume | Detalii | Parinte | Actiuni */
+    grid-template-columns: 50px 2fr 1.5fr 2fr 200px; /* Spațiu mai mare pt butoane */
+    align-items: center;
+    background: var(--bg-card);
+    padding: 12px 20px;
+    border: 1px solid transparent;
     transition: background 0.2s;
 }
-.btn-add.existing { background: #3f3f46; color: white; }
-.btn-add.existing:hover { background: #52525b; }
-.btn-add.new { background: var(--accent-red); color: white; }
-.btn-add.new:hover { background: var(--accent-red-hover); }
 
-/* --- STUDENTS GRID --- */
-.ant-students-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
+.student-row:first-child { border-top-left-radius: 12px; border-top-right-radius: 12px; }
+.student-row:last-child { border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+
+.student-row:hover {
+    background: var(--bg-hover);
+    border-color: var(--border);
 }
 
-.ant-student-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 15px;
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.ant-student-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-    border-color: #3f3f46;
-}
-
-.student-main {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 15px;
-}
-
-.student-avatar {
-    width: 40px;
-    height: 40px;
-    background: var(--accent-red);
-    color: white;
+/* Elemente Rând */
+.row-avatar {
+    width: 36px; height: 36px;
+    background: #333; color: #fff;
     border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.9rem;
+}
+
+.row-name {
+    font-weight: 600; font-size: 1rem; color: #fff;
+}
+
+.row-details {
+    display: flex; gap: 10px;
+}
+
+.badge {
+    padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+}
+.badge.male { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+.badge.female { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+.badge.age { background: #333; color: #ccc; }
+
+.row-parent {
+    font-size: 0.9rem; color: var(--text-muted);
+    display: flex; flex-direction: column;
+}
+.row-parent span { color: #fff; }
+.row-parent small { font-size: 0.75rem; color: #666; }
+
+/* --- ACȚIUNI (Butoane Editează / Șterge) --- */
+.row-actions {
     display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+/* Stil nou: Buton "Mini" cu text și icon */
+.btn-mini {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-weight: 800;
-    font-size: 1.2rem;
-}
-
-.student-details {
-    display: flex;
-    flex-direction: column;
-}
-
-.student-name {
-    font-weight: 700;
-    font-size: 1.05rem;
-    line-height: 1.2;
-}
-
-.student-meta {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-}
-
-.student-parent-info {
-    font-size: 0.85rem;
-    background: #121212;
-    padding: 8px;
+    gap: 6px;
+    padding: 6px 12px;
     border-radius: 6px;
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-}
-.student-parent-info small { color: var(--text-muted); text-transform: uppercase; font-size: 0.7rem; }
-.student-parent-info span { color: #fff; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-.student-actions {
-    display: flex;
-    gap: 10px;
-}
-
-.btn-icon {
-    flex: 1;
-    border: 1px solid var(--border-color);
+    border: 1px solid #3f3f46;
     background: transparent;
-    color: var(--text-muted);
-    padding: 6px;
-    border-radius: 6px;
-    cursor: pointer;
+    color: #a1a1aa; /* Gri deschis */
     font-size: 0.8rem;
-    transition: all 0.2s;
-}
-.btn-icon:hover { background: #27272a; color: #fff; }
-.btn-icon.delete:hover { border-color: #7f1d1d; color: #fca5a5; background: #450a0a; }
-
-.no-students {
-    color: var(--text-muted);
-    font-style: italic;
-    text-align: center;
-    padding: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    min-width: 90px;
 }
 
-/* =========================================
-   MODAL FIX (Scroll & Mobile Buttons)
-   ========================================= */
+/* Hover: Albastru pentru Editare */
+.btn-mini.edit:hover {
+    border-color: #2563eb;
+    background: rgba(37, 99, 235, 0.1);
+    color: #60a5fa;
+    transform: translateY(-1px);
+}
+
+/* Hover: Roșu pentru Ștergere */
+.btn-mini.delete:hover {
+    border-color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+    color: #f87171;
+    transform: translateY(-1px);
+}
+
+.btn-mini i { font-size: 0.85rem; }
+
+/* --- MODAL --- */
 .modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.85); /* Fundal închis focus */
-    backdrop-filter: blur(5px);
-    z-index: 9999;
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+    display: flex; align-items: center; justify-content: center; z-index: 9999;
 }
 
 .modal {
-    width: 100%;
-    max-width: 600px;
     background: #18181b;
-    border: 1px solid var(--border-color);
+    padding: 25px;
     border-radius: 16px;
-    box-shadow: 0 25px 80px rgba(0,0,0,.8);
+    width: 90%;
+    max-width: 500px;
+    border: 1px solid #333;
     color: #fff;
-    padding: 1.5rem;
 
-    /* --- FIX CRITIC PENTRU SCROLL --- */
+    /* --- FIX PENTRU SCROLL PE MOBIL PUS CORECT AICI --- */
     max-height: 85vh;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    /* ------------------------------- */
-
-    animation: modalIn .2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes modalIn {
-    from { transform: scale(0.95) translateY(10px); opacity: 0; }
-    to { transform: scale(1) translateY(0); opacity: 1; }
-}
-
-.modal h3 {
-    margin: 0 0 1.5rem 0;
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: #fff;
-    border-bottom: 1px solid #2a2a36;
-    padding-bottom: 10px;
-}
-
-.modal .form-grid {
-    display: grid;
-    grid-template-columns: 1fr; /* Mobil: 1 coloană */
-    gap: 1.2rem;
-}
-
-@media (min-width: 600px) {
-    .modal .form-grid {
-        grid-template-columns: 1fr 1fr; /* Desktop: 2 coloane */
-    }
-}
-
-.modal .form-grid label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    text-transform: uppercase;
+    -webkit-overflow-scrolling: touch;
 }
 
 .modal input, .modal select {
     width: 100%;
     padding: 12px;
-    border-radius: 8px;
+    margin-top: 5px;
+    background: #000;
     border: 1px solid #333;
-    background: #09090b;
     color: #fff;
-    font-size: 1rem;
-    outline: none;
-    box-sizing: border-box;
+    border-radius: 6px;
+    /* (Am șters fix-ul de scroll de aici de unde era greșit) */
 }
 
-.modal input:focus, .modal select:focus {
-    border-color: var(--accent-red);
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
-}
-
-/* Footer Modal (Butoane) */
-.modal .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid #2a2a36;
-}
-
-.modal .form-actions button {
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 1rem;
-    border: none;
-}
-
-.modal .btn-cancel {
-    background: transparent;
-    border: 1px solid #3f3f46 !important;
-    color: #a1a1aa;
-}
-.modal .btn-save {
-    background: var(--accent-red);
-    color: white;
-}
-
-/* Fix butoane pe mobil - să fie mari */
-@media (max-width: 500px) {
-    .modal .form-actions {
-        flex-direction: column-reverse; /* Anulează jos */
-    }
-    .modal .form-actions button {
-        width: 100%;
-        padding: 15px;
-    }
-}
-
-/* --- RESPONSIVE GENERAL --- */
-@media (max-width: 900px) {
-    .ant-header-wrapper { flex-direction: column; align-items: flex-start; }
-    .ant-stats-row { width: 100%; justify-content: space-between; margin-top: 15px; }
-    .btn-scan-qr { flex-grow: 1; justify-content: center; }
-}
-
+.modal .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.modal button { padding: 10px 20px; border-radius: 6px; border:none; cursor: pointer; font-weight: 600; }
+.modal .btn-save { background: var(--accent-red); color: white; }
+/* --- RESPONSIVE (Mobil) --- */
 @media (max-width: 768px) {
-    .ant-group-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .ant-header-wrapper { flex-direction: column; align-items: flex-start; }
 
-    .group-actions-area { width: 100%; flex-direction: column; align-items: stretch; }
+    .ant-group-header { flex-direction: column; align-items: flex-start; }
+    .group-actions-area { flex-direction: column; width: 100%; }
+    .add-student-area { width: 100%; justify-content: space-between; }
 
-    .add-student-area { flex-direction: column; align-items: stretch; }
+    /* Transformăm lista în Carduri pe Mobil */
+    .ant-students-list { gap: 15px; }
 
-    .ant-select { max-width: 100%; }
-
-    .ant-students-grid { grid-template-columns: 1fr; }
-
-    .ant-student-card {
-        flex-direction: column;
-        align-items: flex-start;
+    .student-row {
+        grid-template-columns: 50px 1fr; /* Avatar + Restul */
+        /* Adăugăm rânduri extra pentru mobil */
+        grid-template-rows: auto auto auto auto;
+        gap: 8px 15px;
+        padding: 15px;
+        border-radius: 12px !important;
+        border: 1px solid var(--border);
     }
 
-    .student-main {
-        width: 100%;
-        margin-bottom: 10px;
+    .row-avatar { grid-row: 1 / 3; width: 45px; height: 45px; font-size: 1.1rem; }
+
+    .row-name { font-size: 1.1rem; align-self: end; }
+
+    .row-details { align-self: start; margin-bottom: 5px; }
+
+    .row-parent {
+        grid-column: 1 / -1;
+        background: #222; padding: 8px; border-radius: 6px; margin: 5px 0;
+        flex-direction: row; gap: 10px; align-items: center;
     }
 
-    /* --- FIX: AFIȘĂM DIN NOU PĂRINTELE --- */
-    .student-parent-info {
+    /* Mutăm acțiunile jos și le facem mari */
+    .row-actions {
+        grid-column: 1 / -1;
+        grid-row: 5;
         display: flex;
-        width: 100%;
-        box-sizing: border-box;
-        margin-bottom: 15px;
+        gap: 10px;
+        margin-top: 5px;
+        border-top: 1px solid #333;
+        padding-top: 12px;
+        justify-content: space-between;
     }
 
-    .student-actions { width: 100%; margin-top: 0; }
+    .btn-mini {
+        flex: 1; /* Butoanele ocupă 50% fiecare */
+        padding: 12px;
+        font-size: 0.95rem;
+        background: #27272a;
+        border: none;
+        color: #fff;
+    }
+
+    .btn-mini.edit { background: #1e3a8a; } /* Albastru închis */
+    .btn-mini.delete { background: #7f1d1d; } /* Roșu închis */
 }

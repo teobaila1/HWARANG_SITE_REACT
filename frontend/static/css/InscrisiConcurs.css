@@ -95,7 +95,7 @@
   border-collapse: collapse;
   background: #111;
   border-radius: 14px;
-  overflow: hidden;
+  overflow-x: hidden;
   box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 

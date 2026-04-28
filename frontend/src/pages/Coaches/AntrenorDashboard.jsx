@@ -16,7 +16,7 @@ const AntrenorDashboard = () => {
     const [confirm, setConfirm] = useState({open: false, elevId: null, nume: ""});
 
     // Statistici calculate
-    const [stats, setStats] = useState({ totalElevi: 0, totalGrupe: 0 });
+    const [stats, setStats] = useState({totalElevi: 0, totalGrupe: 0});
 
     // Alegerile din dropdown pentru "părinte existent"
     const [parentChoice, setParentChoice] = useState({});
@@ -64,7 +64,7 @@ const AntrenorDashboard = () => {
             .map(({_pk, ...rest}) => rest)
             .sort((a, b) => (a.grupa || "").localeCompare(b.grupa || ""));
 
-        setStats({ totalElevi: countElevi, totalGrupe: groups.length });
+        setStats({totalElevi: countElevi, totalGrupe: groups.length});
         return groups;
     };
 
@@ -107,7 +107,7 @@ const AntrenorDashboard = () => {
     }, []);
 
     const prettyGen = (g) => {
-        if (!g) return "N/A";
+        if (!g) return null;
         const v = String(g).toLowerCase();
         if (v === "m" || v === "masculin") return "M";
         if (v === "f" || v === "feminin") return "F";
@@ -203,38 +203,43 @@ const AntrenorDashboard = () => {
             <Navbar/>
             <div className="ant-dashboard">
 
-                {/* --- HEADER + STATS --- */}
+                {/* --- HEADER --- */}
                 <div className="ant-header-wrapper">
                     <div className="ant-header-content">
-                        <h1>PANOU ANTRENOR</h1>
-                        <p>Gestionează grupele și prezența sportivilor.</p>
+                        <h1>Panou Antrenor</h1>
+                        {/* <p>Gestionează grupele și prezența sportivilor.</p> */}
                     </div>
-
                     <div className="ant-stats-row">
                         <div className="ant-stat-card">
                             <span className="stat-val">{stats.totalElevi}</span>
-                            <span className="stat-label">SPORTIVI TOTAL</span>
+                            <span className="stat-label">Elevi</span>
                         </div>
                         <div className="ant-stat-card">
                             <span className="stat-val">{stats.totalGrupe}</span>
-                            <span className="stat-label">GRUPE ACTIVE</span>
+                            <span className="stat-label">Grupe</span>
                         </div>
                         <button className="btn-scan-qr" onClick={() => navigate("/scan")}>
-                            SCANEAZĂ QR
+                            <i className="fas fa-qrcode" style={{marginRight: 8}}></i> SCAN
                         </button>
                     </div>
                 </div>
 
-                {loading && <div className="loading-spinner">Se încarcă datele...</div>}
-                {!loading && mesaj && <div className="ant-alert">{mesaj}</div>}
+                {loading && <div style={{textAlign: "center", color: "#888"}}>Se încarcă datele...</div>}
+                {!loading && mesaj && <div style={{
+                    background: "#333",
+                    color: "#fff",
+                    padding: 10,
+                    marginBottom: 20,
+                    borderRadius: 8
+                }}>{mesaj}</div>}
 
                 {/* --- GRUPE CONTAINER --- */}
                 {!loading && (
                     <div className="ant-groups-container">
                         {data.map((grupaData, idx) => (
-                            <div key={idx} className="ant-group-card">
+                            <div key={idx} className="ant-group-section">
 
-                                {/* HEADER GRUPĂ */}
+                                {/* Header Grupa */}
                                 <div className="ant-group-header">
                                     <div className="group-title-area">
                                         <h3>{grupaData.grupa}</h3>
@@ -246,7 +251,7 @@ const AntrenorDashboard = () => {
                                             className="btn-attendance"
                                             onClick={() => navigate(`/prezenta/grupa/${grupaData.grupa_id}`)}
                                         >
-                                            Vezi Prezențe
+                                            <i className="fas fa-clipboard-list"></i> Prezență
                                         </button>
 
                                         <div className="add-student-area">
@@ -254,58 +259,93 @@ const AntrenorDashboard = () => {
                                                 <select
                                                     className="ant-select"
                                                     value={parentChoice[grupaData.grupa] ?? ""}
-                                                    onChange={(e) => setParentChoice(prev => ({ ...prev, [grupaData.grupa]: Number(e.target.value) }))}
+                                                    onChange={(e) => setParentChoice(prev => ({
+                                                        ...prev,
+                                                        [grupaData.grupa]: Number(e.target.value)
+                                                    }))}
                                                 >
                                                     {grupaData.parents.map(p => (
                                                         <option key={p.id} value={p.id}>{parentName(p)}</option>
                                                     ))}
                                                 </select>
                                             )}
-
-                                            <div className="add-buttons">
-                                                {grupaData.parents.length > 0 && (
-                                                    <button className="btn-add existing" onClick={() => handleAddExisting(grupaData.grupa)}>
-                                                        + Părinte Existent
-                                                    </button>
-                                                )}
-                                                <button className="btn-add new" onClick={() => handleAddNewParent(grupaData.grupa)}>
-                                                    + Părinte Nou
+                                            {grupaData.parents.length > 0 && (
+                                                <button className="btn-add existing"
+                                                        onClick={() => handleAddExisting(grupaData.grupa)}>
+                                                    + Copil cu Parinte existent
                                                 </button>
-                                            </div>
+                                            )}
+                                            <button className="btn-add new"
+                                                    onClick={() => handleAddNewParent(grupaData.grupa)}>
+                                                + Copil cu Parinte fara cont
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* GRID ELEVI */}
+                                {/* LISTA ELEVI (Clean List) */}
                                 {grupaData.copii.length === 0 ? (
-                                    <p className="no-students">Nu sunt elevi în această grupă.</p>
+                                    <p style={{color: "#666", paddingLeft: 10}}>Nu sunt elevi în această grupă.</p>
                                 ) : (
-                                    <div className="ant-students-grid">
-                                        {grupaData.copii.map((copil) => (
-                                            <div key={copil.id} className="ant-student-card">
-                                                <div className="student-main">
-                                                    <div className="student-avatar">{copil.nume.charAt(0)}</div>
-                                                    <div className="student-details">
-                                                        <span className="student-name">{copil.nume}</span>
-                                                        <span className="student-meta">{prettyGen(copil.gen)} • {copil.varsta} ani</span>
+                                    <div className="ant-students-list">
+                                        {grupaData.copii.map((copil) => {
+                                            const genShort = prettyGen(copil.gen);
+                                            return (
+                                                <div key={copil.id} className="student-row">
+
+                                                    {/* 1. Avatar */}
+                                                    <div className="row-avatar"
+                                                         style={{backgroundColor: genShort === 'F' ? '#831843' : '#1e3a8a'}}>
+                                                        {copil.nume.charAt(0)}
+                                                    </div>
+
+                                                    {/* 2. Nume */}
+                                                    <div className="row-name">
+                                                        {copil.nume}
+                                                    </div>
+
+                                                    {/* 3. Detalii (Badges) */}
+                                                    <div className="row-details">
+                                                        {genShort && (
+                                                            <span
+                                                                className={`badge ${genShort === 'F' ? 'female' : 'male'}`}>
+                                                                {genShort === 'F' ? 'Feminin' : 'Masculin'}
+                                                            </span>
+                                                        )}
+                                                        <span className="badge age">{copil.varsta} ani</span>
+                                                    </div>
+
+                                                    {/* 4. Părinte */}
+                                                    <div className="row-parent">
+                                                        <small>Părinte:</small>
+                                                        <span>{parentName(copil._parent)}</span>
+                                                    </div>
+
+                                                    {/* 5. Acțiuni */}
+                                                    <div className="row-actions">
+                                                        {/* Buton Editare */}
+                                                        <button
+                                                            className="btn-mini edit"
+                                                            onClick={() => handleEdit(copil)}
+                                                            title="Editează datele elevului"
+                                                        >
+                                                            <i className="fas fa-pen"></i> {/* Iconița goală */}
+                                                            <span>Editează</span> {/* Textul separat */}
+                                                        </button>
+
+                                                        {/* Buton Ștergere */}
+                                                        <button
+                                                            className="btn-mini delete"
+                                                            onClick={() => handleDeleteAsk(copil)}
+                                                            title="Șterge elevul din grupă"
+                                                        >
+                                                            <i className="fas fa-trash"></i>
+                                                            <span>Șterge</span>
+                                                        </button>
                                                     </div>
                                                 </div>
-
-                                                <div className="student-parent-info">
-                                                    <small>Părinte:</small>
-                                                    <span>{parentName(copil._parent)}</span>
-                                                </div>
-
-                                                <div className="student-actions">
-                                                    <button className="btn-icon edit" onClick={() => handleEdit(copil)}>
-                                                        Editează
-                                                    </button>
-                                                    <button className="btn-icon delete" onClick={() => handleDeleteAsk(copil)}>
-                                                        Șterge
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
                                 )}
                             </div>
@@ -323,8 +363,8 @@ const AntrenorDashboard = () => {
 
                 {confirm.open && (
                     <ConfirmDialog
-                        title="Confirmă ștergerea"
-                        message={`Sigur vrei să ștergi elevul „${confirm.nume}”?`}
+                        title="Ștergere elev"
+                        message={`Sigur vrei să ștergi pe ${confirm.nume}?`}
                         onCancel={() => setConfirm({open: false, elevId: null, nume: ""})}
                         onConfirm={handleDeleteConfirm}
                     />

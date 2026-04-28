@@ -10,7 +10,6 @@ const AdminTotiCopiiiSiParintii = () => {
   const [loading, setLoading] = useState(true);
 
   // Modale
-  // --- MODIFICARE: Folosim data_nasterii în loc de varsta ---
   const [editChild, setEditChild] = useState(null);
   const [editParent, setEditParent] = useState(null);
 
@@ -67,7 +66,6 @@ const AdminTotiCopiiiSiParintii = () => {
       child: {
         id: child.id,
         nume: child.nume || "",
-        // --- AICI ERA PROBLEMA: Luam vârsta, acum luăm Data ---
         data_nasterii: child.data_nasterii || "",
         gen: child.gen || "",
         grupa: child.grupa || "",
@@ -92,10 +90,7 @@ const AdminTotiCopiiiSiParintii = () => {
           admin_username,
           parent_username: editChild.parentUsername,
           nume: editChild.child.nume.trim(),
-
-          // --- MODIFICARE: Trimitem Data Nașterii ---
           data_nasterii: editChild.child.data_nasterii,
-
           grupa: editChild.child.grupa.trim(),
           gen: editChild.child.gen || null,
         }),
@@ -225,77 +220,76 @@ const AdminTotiCopiiiSiParintii = () => {
             ) : (
               <div className="parent-grid">
                 {data.map((entry, index) => (
-                  <section className="parent-card" key={index}>
-                    <header className="parent-head">
-                      <div className="avatar">{initialFrom(entry.parinte)}</div>
-                      <div className="parent-meta">
-                        <h4 className="parent-name">{parentLabel(entry.parinte)}</h4>
+                  <div className="parent-card" key={index}>
+
+                    {/* Header Părinte */}
+                    <div className="parent-header">
+                      <div className="parent-avatar">{initialFrom(entry.parinte)}</div>
+                      <div className="parent-info">
+                        <div className="parent-name">{parentLabel(entry.parinte)}</div>
                         <div className="parent-email">{entry.parinte?.email || "—"}</div>
                       </div>
-                      <span className="kids-badge">{entry.copii?.length || 0} copii</span>
 
-                      <div className="parent-actions">
+                      <span className="kids-count-badge">{entry.copii?.length || 0} copii</span>
+
+                      <div className="actions-group">
                         <button
-                          className="btn btn-sm"
-                          onClick={() =>
-                            openEditParent(
-                              entry.parinte.username,
-                              entry.parinte.email,
-                              entry.parinte.nume_complet
-                            )
-                          }
+                          className="btn-icon"
+                          onClick={() => openEditParent(entry.parinte.username, entry.parinte.email, entry.parinte.nume_complet)}
+                          title="Editează părinte"
                         >
-                          Editează părinte
+                          <i className="fas fa-pen"></i>
                         </button>
                         <button
-                          className="btn btn-sm btn-danger"
+                          className="btn-icon delete"
                           onClick={() => deleteParent(entry.parinte.username)}
+                          title="Șterge părinte"
                         >
-                          Șterge părinte
+                          <i className="fas fa-trash"></i>
                         </button>
                       </div>
-                    </header>
+                    </div>
 
+                    {/* Listă Copii */}
                     <ul className="kids-list">
                       {entry.copii.map((copil, i) => (
                         <li className="kid-item" key={copil.id || i}>
-                          <div className="kid-row">
-                            <span className="label">Nume:</span>
-                            <strong>{copil.nume}</strong>
+                          <div className="kid-name">
+                            {copil.nume}
                           </div>
-                          <div className="kid-row">
-                            <span className="label">Gen:</span>
-                            <span>{copil.gen ?? "N/A"}</span>
-                          </div>
-                          <div className="kid-row">
-                            <span className="label">Data Nașterii:</span>
-                            <span>{copil.data_nasterii || "—"}</span>
-                          </div>
-                          {copil.grupa && (
-                            <div className="kid-row">
-                              <span className="label">Grupa:</span>
-                              <span>{copil.grupa}</span>
-                            </div>
-                          )}
 
-                          <div className="kid-actions">
+                          <div className="kid-detail">
+                            {copil.gen ? <span className="kid-badge">{copil.gen}</span> : "—"}
+                          </div>
+
+                          <div className="kid-detail">
+                            <strong>Născut:</strong> {copil.data_nasterii || "—"}
+                          </div>
+
+                          <div className="kid-detail">
+                            {copil.grupa ? <span className="kid-badge">{copil.grupa}</span> : "—"}
+                          </div>
+
+                          <div className="kid-actions actions-group">
                             <button
-                              className="btn btn-sm"
+                              className="btn-icon"
                               onClick={() => openEditChild(entry.parinte.username, copil)}
+                              title="Editează copil"
                             >
-                              Editează
+                              <i className="fas fa-pen"></i>
                             </button>
                             <button
-                              className="btn btn-sm btn-danger"
+                              className="btn-icon delete"
                               onClick={() => deleteChild(entry.parinte.username, copil)}
+                              title="Șterge copil"
                             >
-                              Șterge
+                              <i className="fas fa-trash"></i>
                             </button>
                           </div>
                         </li>
                       ))}
                     </ul>
-                  </section>
+                  </div>
                 ))}
               </div>
             ))}
@@ -305,121 +299,108 @@ const AdminTotiCopiiiSiParintii = () => {
             <div className="modal-backdrop" onClick={cancelEditChild}>
               <div className="modal" onClick={(e) => e.stopPropagation()}>
                 <h3>Editează copil</h3>
-                <div className="form-grid">
-                  <label>
-                    Nume
-                    <input
-                      value={editChild.child.nume}
-                      onChange={(e) =>
-                        setEditChild((st) => ({
-                          ...st,
-                          child: { ...st.child, nume: e.target.value },
-                        }))
-                      }
-                    />
-                  </label>
+                <div className="form-group">
+                  <label>Nume</label>
+                  <input
+                    value={editChild.child.nume}
+                    onChange={(e) =>
+                      setEditChild((st) => ({
+                        ...st,
+                        child: { ...st.child, nume: e.target.value },
+                      }))
+                    }
+                  />
+                </div>
 
-                  <label>
-                    Gen
-                    <select
-                      value={editChild.child.gen || ""}
-                      onChange={(e) =>
-                        setEditChild((st) => ({
-                          ...st,
-                          child: { ...st.child, gen: e.target.value },
-                        }))
-                      }
-                    >
-                      <option value="">— Selectează —</option>
-                      <option value="Masculin">Masculin</option>
-                      <option value="Feminin">Feminin</option>
-                    </select>
-                  </label>
+                <div className="form-group">
+                  <label>Gen</label>
+                  <select
+                    value={editChild.child.gen || ""}
+                    onChange={(e) =>
+                      setEditChild((st) => ({
+                        ...st,
+                        child: { ...st.child, gen: e.target.value },
+                      }))
+                    }
+                  >
+                    <option value="">— Selectează —</option>
+                    <option value="Masculin">Masculin</option>
+                    <option value="Feminin">Feminin</option>
+                  </select>
+                </div>
 
-                  {/* --- CALENDAR ÎN LOC DE VÂRSTĂ --- */}
-                  <label>
-                    Data Nașterii
-                    <input
-                      type="date"
-                      value={editChild.child.data_nasterii || ""}
-                      onChange={(e) =>
-                        setEditChild((st) => ({
-                          ...st,
-                          child: { ...st.child, data_nasterii: e.target.value },
-                        }))
-                      }
-                    />
-                  </label>
+                <div className="form-group">
+                  <label>Data Nașterii</label>
+                  <input
+                    type="date"
+                    value={editChild.child.data_nasterii || ""}
+                    onChange={(e) =>
+                      setEditChild((st) => ({
+                        ...st,
+                        child: { ...st.child, data_nasterii: e.target.value },
+                      }))
+                    }
+                  />
+                </div>
 
-                  <label>
-                    Grupa
-                    <input
-                      value={editChild.child.grupa}
-                      onChange={(e) =>
-                        setEditChild((st) => ({
-                          ...st,
-                          child: { ...st.child, grupa: e.target.value },
-                        }))
-                      }
-                    />
-                  </label>
+                <div className="form-group">
+                  <label>Grupa</label>
+                  <input
+                    value={editChild.child.grupa}
+                    onChange={(e) =>
+                      setEditChild((st) => ({
+                        ...st,
+                        child: { ...st.child, grupa: e.target.value },
+                      }))
+                    }
+                  />
                 </div>
 
                 <div className="form-actions">
-                  <button className="btn" onClick={cancelEditChild}>
-                    Renunță
-                  </button>
-                  <button className="btn btn-primary" onClick={saveEditChild}>
-                    Salvează
-                  </button>
+                  <button className="modal-btn cancel" onClick={cancelEditChild}>Renunță</button>
+                  <button className="modal-btn save" onClick={saveEditChild}>Salvează</button>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Modal edit părinte (neschimbat) */}
+          {/* Modal edit părinte */}
           {editParent && (
             <div className="modal-backdrop" onClick={cancelEditParent}>
               <div className="modal" onClick={(e) => e.stopPropagation()}>
                 <h3>Editează părinte</h3>
-                <div className="form-grid">
-                  <label>
-                    Username
-                    <input
-                      value={editParent.username}
-                      onChange={(e) =>
-                        setEditParent((st) => ({ ...st, username: e.target.value }))
-                      }
-                    />
-                  </label>
-                  <label>
-                    Email
-                    <input
-                      type="email"
-                      value={editParent.email || ""}
-                      onChange={(e) =>
-                        setEditParent((st) => ({ ...st, email: e.target.value }))
-                      }
-                    />
-                  </label>
-                  <label>
-                    Nume complet (opțional)
-                    <input
-                      value={editParent.nume_complet || ""}
-                      onChange={(e) =>
-                        setEditParent((st) => ({ ...st, nume_complet: e.target.value }))
-                      }
-                    />
-                  </label>
+                <div className="form-group">
+                  <label>Username</label>
+                  <input
+                    value={editParent.username}
+                    onChange={(e) =>
+                      setEditParent((st) => ({ ...st, username: e.target.value }))
+                    }
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    value={editParent.email || ""}
+                    onChange={(e) =>
+                      setEditParent((st) => ({ ...st, email: e.target.value }))
+                    }
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Nume complet (opțional)</label>
+                  <input
+                    value={editParent.nume_complet || ""}
+                    onChange={(e) =>
+                      setEditParent((st) => ({ ...st, nume_complet: e.target.value }))
+                    }
+                  />
                 </div>
 
                 <div className="form-actions">
-                  <button className="btn" onClick={cancelEditParent}>
-                    Renunță
-                  </button>
-                  <button className="btn btn-primary" onClick={saveEditParent}>
-                    Salvează
-                  </button>
+                  <button className="modal-btn cancel" onClick={cancelEditParent}>Renunță</button>
+                  <button className="modal-btn save" onClick={saveEditParent}>Salvează</button>
                 </div>
               </div>
             </div>

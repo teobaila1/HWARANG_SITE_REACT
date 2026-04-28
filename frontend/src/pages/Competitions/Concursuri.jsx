@@ -240,8 +240,9 @@ const Concursuri = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const username = localStorage.getItem("username");
-        const email = localStorage.getItem("email");
+
+        // 1. Luăm doar token-ul. Nu ne mai pasă de username/email din localStorage
+        // Backend-ul știe cine suntem direct din Token!
         const token = localStorage.getItem("token");
         const probeTrimise = selectedProbes.map(p => p.value).join(", ");
 
@@ -253,8 +254,6 @@ const Concursuri = () => {
                     "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    username,
-                    email,
                     concurs: concursSelectat,
                     ...formData,
                     probe: probeTrimise,
@@ -264,8 +263,10 @@ const Concursuri = () => {
 
             const data = await res.json();
 
+            // 2. TRATAREA RĂSPUNSURILOR
             if (res.ok) {
-                toast.success(data.message || "Inscrierea a fost facuta cu succes!");
+                // STATUS 200/201: Succes Total (Verde)
+                toast.success(data.message || "Înscriere a fost făcută cu succes!");
                 handleAnuleaza();
                 await fetchNumarInscrisi(concursSelectat);
 
@@ -278,7 +279,14 @@ const Concursuri = () => {
                     setIstoricInscrieri(dataIstoric.data);
                 }
 
+            } else if (res.status === 409) {
+                // STATUS 409: DUPLICAT (Deja înscris de antrenor)
+                // AICI E SECRETUL: Îl punem ca toast.info (Albastru), nu toast.error!
+                toast.info(data.message, { autoClose: 6000 });
+                handleAnuleaza(); // Închidem formularul pentru că e deja înscris
+
             } else {
+                // ALTE ERORI (Lipsă date, Concurs închis, etc) - Roșu
                 toast.error(data.message || "A apărut o eroare la înscriere.");
             }
 

@@ -238,7 +238,7 @@
   border-radius: 14px;
   background: #111;
   border: 1px solid var(--ep-border);
-  overflow: hidden;
+  overflow-x: hidden;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 

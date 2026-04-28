@@ -12,7 +12,7 @@ const ParinteCopii = () => {
     // Stare formular
     const [numeFamilie, setNumeFamilie] = useState("");
     const [prenume, setPrenume] = useState("");
-    const [dataNasterii, setDataNasterii] = useState("");
+    const [dataNasterii, setDataNasterii] = useState(""); // Inițializat gol, CORECT!
     const [grupa, setGrupa] = useState("");
     const [gen, setGen] = useState("");
 
@@ -104,8 +104,7 @@ const ParinteCopii = () => {
             <div className="copii-parinte">
                 <h2>Copiii mei</h2>
 
-                {copii.length > 0 && (
-                    /* --- SCHIMBARE AICI: Aliniere Stânga --- */
+                {/* {copii.length > 0 && (
                     <div style={{marginBottom: '40px', textAlign: 'left'}}>
                         <button
                             onClick={() => navigate('/prezenta/familie')}
@@ -115,7 +114,7 @@ const ParinteCopii = () => {
                             Vezi Istoric Prezențe
                         </button>
                     </div>
-                )}
+                )} */}
 
                 {copii.length === 0 ? (
                     <p className="empty-state" style={{color: '#888', marginBottom: '30px', textAlign: 'left'}}>
@@ -200,7 +199,6 @@ const ParinteCopii = () => {
                             }}>
                                 <h3 style={{margin: 0, color: '#fff'}}>Date Copil</h3>
 
-                                {/* Aici aplicăm clasa unică */}
                                 <button className="action-close-x" onClick={() => setShowForm(false)}>
                                     <i className="fas fa-times"></i> Anulează
                                 </button>
@@ -217,11 +215,18 @@ const ParinteCopii = () => {
                                            onChange={e => setPrenume(e.target.value)}
                                            required/>
                                 </div>
+
+                                {/* AICI ESTE DATA NAȘTERII */}
                                 <div className="input-group-date">
                                     <label>Data Nașterii:</label>
-                                    <input type="date" value={dataNasterii}
-                                           onChange={e => setDataNasterii(e.target.value)} required/>
+                                    <input
+                                        type="date"
+                                        value={dataNasterii}
+                                        onChange={e => setDataNasterii(e.target.value)}
+                                        required
+                                    />
                                 </div>
+
                                 <div className="input-group">
                                     <input type="text" placeholder="Grupa (ex: 1, 2)" value={grupa}
                                            onChange={e => setGrupa(e.target.value)}

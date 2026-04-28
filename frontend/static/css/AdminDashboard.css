@@ -61,7 +61,7 @@
   flex-direction: column;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .dashboard-card:hover {
@@ -215,7 +215,7 @@
   text-decoration: none;
   transition: color 0.2s;
   white-space: nowrap;
-  overflow: hidden;
+  overflow-x: hidden;
   text-overflow: ellipsis;
   max-width: 70%;
 }

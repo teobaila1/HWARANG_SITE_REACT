@@ -79,7 +79,7 @@
   border-collapse: collapse;
   border: 1px solid #242432;
   border-radius: 14px;
-  overflow: hidden;
+  overflow-x: hidden;
   margin-bottom: .8rem;
   background: linear-gradient(180deg, #0f0f13, #121218);
 }

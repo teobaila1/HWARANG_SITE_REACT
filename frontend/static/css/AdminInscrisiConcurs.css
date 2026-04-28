@@ -1,216 +1,227 @@
-/* ===== AdminInscrisiConcurs – elegant dark+red, responsive ===== */
-:root{
-  --ai-bg: #0f0f11;
-  --ai-surface: #111114;
-  --ai-surface-2: #16161b;
-  --ai-text: #ffffff;
-  --ai-muted: #c9c9d2;
-  --ai-border: #26262f;
-  --ai-accent: #ff1a1a;
-  --ai-accent-2: #cc0000;
-  --ai-shadow: 0 18px 50px rgba(0,0,0,.35);
-  --ai-radius: 14px;
+/* ===== AdminInscrisiConcurs – Premium Dark Mode ===== */
+:root {
+  --ai-bg: #09090b;
+  --ai-surface: #18181b;
+  --ai-surface-highlight: #27272a;
+  --ai-border: #3f3f46;
+  --ai-text: #f4f4f5;
+  --ai-text-muted: #a1a1aa;
+
+  /* Culori Butoane */
+  --btn-blue: #2563eb;
+  --btn-blue-hover: #1d4ed8;
+  --btn-red: #dc2626;
+  --btn-red-hover: #b91c1c;
+  --btn-green: #16a34a;
+  --btn-green-hover: #15803d;
+  --btn-gray: #52525b;
+  --btn-gray-hover: #3f3f46;
 }
 
-.inscrisi-container{
+.inscrisi-container {
   min-height: 100vh;
-  background: linear-gradient(180deg, var(--ai-bg), #0b0b0d);
+  background-color: var(--ai-bg);
   color: var(--ai-text);
-  padding: clamp(1.25rem, 3vw, 2rem);
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-.inscrisi-container h2{
-  margin: 0 0 1.25rem;
+.inscrisi-container h2 {
   text-align: center;
-  font-weight: 900;
-  letter-spacing: .2px;
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255,0,0,.15);
-}
-
-/* ===== Tabel ===== */
-.inscrisi-table{
-  width: 100%;
-  border-collapse: collapse;
-  background: linear-gradient(180deg, var(--ai-surface), var(--ai-surface-2));
-  border: 1px solid var(--ai-border);
-  border-radius: var(--ai-radius);
-  overflow: hidden;
-  box-shadow: var(--ai-shadow);
-}
-
-.inscrisi-table thead th{
-  background: #1b1b22;
-  color:#e9e9f0;
-  padding: 1rem .9rem;
   font-weight: 800;
-  text-transform: none;
-  letter-spacing: .2px;
-  text-align: center;
-  border-bottom: 1px solid #23232d;
-}
-
-.inscrisi-table tbody td{
-  padding: .9rem .75rem;
-  border-top: 1px solid #23232d;
-  text-align: center;
-  color: #f3f3f6;
-  vertical-align: middle;
-}
-
-.inscrisi-table tbody tr:nth-child(odd) td{ background: rgba(255,255,255,.02); }
-.inscrisi-table tbody tr:hover td{ background: rgba(255,26,26,.06); }
-
-/* ===== Inputs/Select (stil general) ===== */
-.inscrisi-table input[type="text"],
-.inscrisi-table input[type="number"],
-.inscrisi-table input[type="date"],
-.inscrisi-table select{
-  width: 100%;
-  max-width: 220px;
-  padding: .65rem .7rem;
-  border-radius: 10px;
-  border: 1px solid #2a2a34;
-  background: #0c0c10;
+  margin-bottom: 30px;
   color: #fff;
-  outline: none;
-  transition: border .22s ease, box-shadow .22s ease, background .22s ease;
-}
-.inscrisi-table input:focus,
-.inscrisi-table select:focus{
-  border-color: var(--ai-accent);
-  box-shadow: 0 0 0 3px rgba(255,26,26,.22);
-  background: #111117;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* ===== Butoane din tabel ===== */
-.inscrisi-table td button{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: .35rem;
-  padding: .5rem .7rem;
-  min-width: 44px;
-  border: none;
-  border-radius: 10px;
-  font-weight: 900;
-  color:#fff;
-  background: linear-gradient(180deg, var(--ai-accent), var(--ai-accent-2));
-  cursor: pointer;
-  transition: transform .16s ease, box-shadow .2s ease, filter .16s ease;
-  box-shadow: 0 8px 22px rgba(255,0,0,.18);
-}
-.inscrisi-table td button:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 14px 34px rgba(255,0,0,.28);
-}
-.inscrisi-table td .btn-danger{
-  background: linear-gradient(180deg, #5b0b0b, #370404);
-  border: 1px solid #3a0a0a;
-}
-
-
-
-
-/* ===== Search Bar (Stil Unificat) ===== */
+/* ===== Search Bar ===== */
 .ai-search-bar {
+  display: block;
   width: 100%;
-  max-width: 520px;       /* Lățime maximă ca la celelalte pagini */
-  padding: .8rem 1rem;
-  margin: 0 auto 1.5rem;  /* Centrat pe mijloc + spațiu jos */
-  display: block;         /* Asigură centrarea cu margin auto */
+  max-width: 500px;
+  margin: 0 auto 30px;
+  padding: 12px 16px;
+  background-color: var(--ai-surface);
+  border: 1px solid var(--ai-border);
   border-radius: 12px;
-  border: 1px solid #2a2a34;
-  background: #141418;    /* Fundal întunecat */
   color: #fff;
   font-size: 1rem;
   outline: none;
-  transition: all 0.2s ease;
-}
-
-.ai-search-bar::placeholder {
-  color: #9ca3af;
+  transition: all 0.2s;
 }
 
 .ai-search-bar:focus {
-  border-color: var(--ai-accent); /* Roșu din tema paginii */
-  box-shadow: 0 0 0 3px rgba(255, 26, 26, .2);
-  background: #18181e;
+  border-color: var(--btn-blue);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
+/* ===== Tabel ===== */
+.inscrisi-tabel {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--ai-surface);
+  border-radius: 12px;
+  overflow-x: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.inscrisi-tabel thead th {
+  background: #111;
+  color: var(--ai-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--ai-border);
+}
+
+.inscrisi-tabel tbody td {
+  padding: 16px;
+  border-bottom: 1px solid var(--ai-border);
+  vertical-align: middle;
+  color: #e4e4e7;
+  font-size: 0.95rem;
+}
+
+.inscrisi-tabel tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.inscrisi-tabel tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Rândul care se editează primește un fundal ușor diferit */
+.row-editing {
+  background-color: rgba(37, 99, 235, 0.05) !important;
+}
+
+/* ===== Input-uri în tabel (Editare) ===== */
+.inscrisi-tabel input,
+.inscrisi-tabel select {
+  background: #000;
+  border: 1px solid var(--ai-border);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box; /* Important să nu iasă din celulă */
+  font-size: 0.9rem;
+}
+
+.inscrisi-tabel input:focus,
+.inscrisi-tabel select:focus {
+  outline: none;
+  border-color: var(--btn-blue);
+}
+
+/* ===== BUTOANE (Elegante & Colorate) ===== */
+.btn-action {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.1s, background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 80px;
+  margin-right: 6px;
+  color: white;
+}
+
+.btn-action:active {
+  transform: scale(0.96);
+}
+
+/* Culori Specifice */
+.btn-edit {
+  background-color: var(--btn-blue);
+}
+.btn-edit:hover { background-color: var(--btn-blue-hover); }
+
+.btn-delete {
+  background-color: var(--btn-red);
+}
+.btn-delete:hover { background-color: var(--btn-red-hover); }
+
+.btn-save {
+  background-color: var(--btn-green);
+}
+.btn-save:hover { background-color: var(--btn-green-hover); }
+
+.btn-cancel {
+  background-color: var(--btn-gray);
+}
+.btn-cancel:hover { background-color: var(--btn-gray-hover); }
 
 
+/* ===== RESPONSIVE (Mobil) ===== */
+@media (max-width: 900px) {
+  .inscrisi-tabel thead {
+    display: none; /* Ascundem capul de tabel */
+  }
 
-/* ===== Responsive: tabel -> carduri ===== */
-/* ===== Responsive: tabel -> carduri (mobil) ===== */
-@media (max-width: 920px){
-  .inscrisi-table,
-  .inscrisi-table thead,
-  .inscrisi-table tbody,
-  .inscrisi-table th,
-  .inscrisi-table td,
-  .inscrisi-table tr{ display:block; }
+  .inscrisi-tabel,
+  .inscrisi-tabel tbody,
+  .inscrisi-tabel tr,
+  .inscrisi-tabel td {
+    display: block;
+    width: 100%;
+  }
 
-  .inscrisi-table thead{ display:none; }
-
-  .inscrisi-table tbody tr{
-    background: linear-gradient(180deg, #121216, #181821);
-    margin: .9rem 0;
+  .inscrisi-tabel tr {
+    margin-bottom: 15px;
+    background: var(--ai-surface);
     border: 1px solid var(--ai-border);
     border-radius: 12px;
-    padding: .75rem;
-    box-shadow: 0 10px 26px rgba(0,0,0,.26);
+    padding: 15px;
   }
 
-  /* Celulă = etichetă (din data-label) + valoare, aliniate la stânga */
-  .inscrisi-table tbody td{
-    border: none;
-    display: grid;
-    grid-template-columns: 42% 1fr;   /* eticheta | valoarea */
-    gap: .5rem;
-    align-items: start;
-    padding: .55rem .25rem;
-    text-align: left;
-    word-break: break-word;
-    overflow-wrap: anywhere;
+  .inscrisi-tabel td {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    text-align: right;
   }
 
-  /* Eticheta provine din atributul data-label – corect indiferent de poziție */
-  .inscrisi-table tbody td::before{
+  .inscrisi-tabel td:last-child {
+    border-bottom: none;
+    flex-direction: column; /* Butoanele unul sub altul */
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  /* Adăugăm etichete (Labels) înainte de conținut pe mobil */
+  .inscrisi-tabel td::before {
     content: attr(data-label);
-    color: var(--ai-muted);
-    font-weight: 800;
+    font-weight: 700;
+    color: var(--ai-text-muted);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    text-align: left;
   }
 
-  /* Butoanele de acțiuni pe rând propriu, full width */
-  .inscrisi-table tbody td:last-child{
-    grid-template-columns: 1fr;
-    gap: .5rem;
+  /* Input-urile pe mobil */
+  .inscrisi-tabel input,
+  .inscrisi-tabel select {
+    max-width: 60%; /* Să nu ocupe tot rândul lângă label */
+    text-align: right;
+    font-size: 16px; /* Previne zoom pe iOS */
   }
 
-  .inscrisi-table td button{
+  /* Butoanele pe mobil - Mari și Full Width */
+  .btn-action {
     width: 100%;
-    justify-content: center;
+    margin: 0;
+    padding: 12px;
+    font-size: 1rem;
   }
-
-  /* Inputurile nu mai sunt înguste pe mobil */
-  .inscrisi-table input[type="text"],
-  .inscrisi-table input[type="number"],
-  .inscrisi-table input[type="date"],
-  .inscrisi-table select{
-    max-width: 100%;
-  }
-}
-
-/* (Opțional) Fallback: dacă nu ai încă data-label pe <td>, păstrăm un mapping minimal
-   ca rezervă (poți lăsa sau șterge după ce adaugi data-label peste tot) */
-@media (max-width: 920px){
-  .inscrisi-tabel tbody td:not([data-label]):nth-child(1)::before{ content:"Nume"; }
-  .inscrisi-tabel tbody td:not([data-label]):nth-child(2)::before{ content:"Gen"; }
-  .inscrisi-tabel tbody td:not([data-label]):nth-child(3)::before{ content:"Categoria"; }
-  .inscrisi-tabel tbody td:not([data-label]):nth-child(4)::before{ content:"Grad"; }
-  .inscrisi-tabel tbody td:not([data-label]):nth-child(5)::before{ content:"Greutate"; }
-  .inscrisi-tabel tbody td:not([data-label]):nth-child(6)::before{ content:"Concurs"; }
-  .inscrisi-tabel tbody td:not([data-label]):nth-child(6)::before{ content:"Probe"; }
-  .inscrisi-tabel tbody td:not([data-label]):nth-child(7)::before{ content:"Data nașterii"; }
 }

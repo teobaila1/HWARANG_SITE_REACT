@@ -243,14 +243,5 @@
         background-color: #000;
     }
 
-    /* Navbar-ul trebuie să coboare puțin ca să nu intre sub ceas */
-    nav, .navbar {
-        padding-top: env(safe-area-inset-top) !important;
-        height: auto !important;
-    }
 
-    /* Forțăm conținutul să fie vizibil (în caz că AOS s-a blocat iar) */
-    * {
-        -webkit-overflow-scrolling: touch;
-    }
 }

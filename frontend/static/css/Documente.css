@@ -73,7 +73,7 @@ a { text-decoration: none; color: inherit; }
   font-size: 1rem;
   border: 1px solid #2a2a34;
   border-radius: 14px;
-  overflow: hidden;
+  overflow-x: hidden;
   box-shadow: 0 16px 40px rgba(0,0,0,.35);
   table-layout: fixed;
 }

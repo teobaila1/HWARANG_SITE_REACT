@@ -17,6 +17,8 @@
     body.nav-open {
         overflow: hidden;
         touch-action: none;
+        overscroll-behavior: none;
+
     }
 
     /* OVERLAY - FLEX COLUMN */
@@ -244,7 +246,6 @@
         color: #fff;
     }
 }
-
 
 
 /* === FIX SUPRAPUNERE MENIU MOBIL === */

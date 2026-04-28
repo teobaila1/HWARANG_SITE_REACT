@@ -1,6 +1,6 @@
 /* =========================================================
    Hwarang • MOBILE ONLY stylesheet (final, complet)
-   -> Înlocuiește vechiul mobile_ovverrides.css
+   -> Înlocuiește vechiul mobile_overrides.css
    -> Importă-l ULTIMUL ca să suprascrie restul
    -> Necesită ca JS-ul tău să adauge/scoată body.nav-open
    ========================================================= */
@@ -162,11 +162,7 @@
     position:absolute; inset:0;
     background: linear-gradient(180deg, rgba(0,0,0,.70), rgba(0,0,0,.25) 55%, rgba(0,0,0,.82));
   }
-  .hero-copy{
-    position:absolute; inset:auto 0 18px 0; padding-inline: 1rem;
-  }
-  .hero-copy h1{ text-shadow: 0 6px 22px rgba(0,0,0,.6); }
-  .hero-copy p{ max-width: 34ch; color:#eee; text-shadow: 0 4px 18px rgba(0,0,0,.6); }
+
   .hero-cta{ display:flex; flex-direction: column; gap:.6rem; margin-top:.6rem; }
   .hero-cta .btn{ width:100%; }
 
@@ -399,15 +395,6 @@ html, body {
         pointer-events: auto !important;
     }
 
-    /* Oprește browserul să mai încerce să prezică animațiile */
-    * {
-        will-change: auto !important;
-    }
-}
-
-/* 3. Optimizare imagini la scroll */
-img {
-    content-visibility: auto; /* Ajută browserul să randeze mai repede */
 }
 
 
@@ -417,7 +404,7 @@ img {
    (Se aplică doar pe mobil și doar în pagina de concursuri)
    ================================================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 950px) {
 
     /* 1. CONTAINER */
     .concursuri-container {
@@ -516,5 +503,26 @@ img {
         width: 100% !important;
         padding: 12px !important;
         font-size: 1rem !important;
+    }
+}
+
+
+/* =================================================================
+   FIX: TEXT VIDEOCLIP ACOPERIT
+   Rezolvă problema unde "Program Antrenament" intră peste textul din video
+   ================================================================= */
+
+@media (max-width: 950px) {
+    /* 1. Reducem suprapunerea de la 150px la doar 50px pe mobil */
+    .fade-transition {
+        margin-top: -50px !important;
+        height: 50px !important; /* Asigurăm că gradientul are înălțime */
+        background: linear-gradient(to bottom, rgba(18, 18, 18, 0) 0%, #121212 100%) !important;
+    }
+
+    /* 2. Ridicăm puțin textul ca să fim siguri că nu e tăiat */
+    .hero-copy {
+        inset: auto 0 60px 0 !important; /* Îl ridicăm de la 18px la 60px de jos */
+        padding-bottom: 0 !important;
     }
 }

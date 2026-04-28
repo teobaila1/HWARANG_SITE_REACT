@@ -37,5 +37,5 @@
     margin-top: 40px;
     border: 1px solid #ff0000;
     border-radius: 8px;
-    overflow: hidden;
+    overflow-x: hidden;
 }

@@ -107,7 +107,7 @@ const AdminInscrisiConcurs = () => {
   return (
     <>
       <Navbar/>
-      <div className="inscrisi-container admin-inscrisi">
+      <div className="inscrisi-container">
         <h2>Sportivi înscriși la concursuri</h2>
 
         <input
@@ -148,7 +148,7 @@ const AdminInscrisiConcurs = () => {
                       onChange={e => setEditData({...editData, nume: e.target.value})}
                     />
                   </td>
-                  <td>
+                  <td data-label="Gen">
                     <select
                       value={editData.gen || ""}
                       onChange={e => setEditData({...editData, gen: e.target.value})}
@@ -193,6 +193,7 @@ const AdminInscrisiConcurs = () => {
                     />
                   </td>
                   <td data-label="Concurs">
+                     {/* Concursul nu se editează de obicei, îl lăsăm text */}
                      {editData.concurs}
                   </td>
                   <td data-label="Data nașterii">
@@ -202,9 +203,13 @@ const AdminInscrisiConcurs = () => {
                       onChange={e => setEditData({...editData, data_nasterii: e.target.value})}
                     />
                   </td>
-                  <td>
-                    <button className="btn-primary" onClick={handleSave}>Salvează</button>
-                    <button className="btn-secondary" onClick={handleCancel}>Anulează</button>
+                  <td data-label="Acțiuni">
+                    <button className="btn-action btn-save" onClick={handleSave}>
+                        <i className="fas fa-check"></i> Salvează
+                    </button>
+                    <button className="btn-action btn-cancel" onClick={handleCancel}>
+                        <i className="fas fa-times"></i> Anulează
+                    </button>
                   </td>
                 </>
               ) : (
@@ -220,9 +225,13 @@ const AdminInscrisiConcurs = () => {
                   <td data-label="Probe">{s.probe}</td>
                   <td data-label="Concurs">{s.concurs}</td>
                   <td data-label="Data nașterii">{s.data_nasterii}</td>
-                  <td>
-                    <button className="btn-primary" onClick={() => handleEdit(s)}>Editează</button>
-                    <button className="btn-danger" onClick={() => handleDelete(s.id)}>Șterge</button>
+                  <td data-label="Acțiuni">
+                    <button className="btn-action btn-edit" onClick={() => handleEdit(s)}>
+                        <i className="fas fa-pen"></i> Editează
+                    </button>
+                    <button className="btn-action btn-delete" onClick={() => handleDelete(s.id)}>
+                        <i className="fas fa-trash"></i> Șterge
+                    </button>
                   </td>
                 </>
               )}

@@ -13,7 +13,7 @@ const TotiUtilizatorii = () => {
     const [mesaj, setMesaj] = useState("");
     const isAdmin = (localStorage.getItem("rol") || "").toLowerCase() === "admin";
 
-    // State pentru modal editare (inclusiv grupe)
+    // State pentru modal editare
     const [showEdit, setShowEdit] = useState(false);
     const [editUser, setEditUser] = useState({id: null, username: "", email: "", grupe: ""});
 
@@ -114,21 +114,19 @@ const TotiUtilizatorii = () => {
         }
     };
 
-    // === Deschidere Modal ===
     const openEdit = (u) => {
         if (!isAdmin) return;
         setEditUser({
             id: u.id,
             username: u.username || "",
             email: u.email || "",
-            grupe: u.grupe || "" // Pre-populăm grupele existente
+            grupe: u.grupe || ""
         });
         setShowEdit(true);
     };
 
     const closeEdit = () => setShowEdit(false);
 
-    // === SALVARE DATE (AICI ERA PROBLEMA) ===
     const saveEdit = async (e) => {
         e.preventDefault();
         if (!isAdmin) return;
@@ -147,13 +145,12 @@ const TotiUtilizatorii = () => {
                     admin_username,
                     username: editUser.username.trim(),
                     email: editUser.email.trim(),
-                    grupe: editUser.grupe // <--- ACUM TRIMITEM GRUPELE!
+                    grupe: editUser.grupe
                 }),
             });
             const data = await res.json();
             if (res.ok && data.status === "success") {
                 setMesaj("Utilizator actualizat.");
-                // Actualizăm local lista ca să vedem modificarea instant
                 setUsers(prev =>
                     prev.map(u => u.id === editUser.id
                         ? {...u, username: editUser.username.trim(), email: editUser.email.trim(), grupe: editUser.grupe}
@@ -170,6 +167,10 @@ const TotiUtilizatorii = () => {
         }
     };
 
+    const getInitials = (name) => {
+        return (name && name.trim().length > 0) ? name.trim()[0].toUpperCase() : "U";
+    };
+
     const userLabel = (u) => {
         const uName = (u.username || "").trim();
         const disp = (u.display_name || u.nume_complet || "").trim();
@@ -180,136 +181,133 @@ const TotiUtilizatorii = () => {
     return (
         <>
             <Navbar/>
-            <section className="allusers">
-                <div className="allusers-head">
-                    <h2>Toți utilizatorii</h2>
-                    <div className="search-wrap">
-                        <input
-                            className="search-input"
-                            type="text"
-                            placeholder="Caută..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
+            <div className="au-page">
+                <div className="au-inner">
+
+                    {/* Header */}
+                    <div className="au-header">
+                        <h2 className="au-title">Toți Utilizatorii</h2>
+                        <div className="search-wrap">
+                            <input
+                                className="search-input"
+                                type="text"
+                                placeholder="Caută utilizator..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
                     </div>
-                </div>
 
-                {loading && <div className="alert">Se încarcă…</div>}
-                {!loading && mesaj && <div className="alert">{mesaj}</div>}
+                    {loading && <p style={{textAlign:"center", color:"#888"}}>Se încarcă...</p>}
+                    {!loading && mesaj && <div className="au-alert">{mesaj}</div>}
 
-                {!loading && (
-                    <div className="table-wrap">
-                        <table className="users-table">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nume</th>
-                                <th>Email</th>
-                                <th>Grupe</th>
-                                <th>Rol</th>
-                                <th>Acțiuni</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                    {/* Lista Utilizatori */}
+                    {!loading && (
+                        <div className="users-list">
                             {filteredUsers.map((u) => (
-                                <tr key={u.id}>
-                                    <td data-label="ID">{u.id}</td>
+                                <div key={u.id} className="user-row">
 
-                                    <td data-label="Nume">
-                                        <span className="cell-username">{userLabel(u)}</span>
-                                        {isAdmin && (
-                                            <button className="link-edit" onClick={() => openEdit(u)}
-                                                    title="Editează detalii">
-                                                editează
-                                            </button>
-                                        )}
-                                    </td>
+                                    {/* 1. Avatar */}
+                                    <div className="row-avatar">
+                                        {getInitials(u.username)}
+                                    </div>
 
-                                    <td data-label="Email">{u.email}</td>
+                                    {/* 2. Nume & ID */}
+                                    <div className="col-info">
+                                        <div className="user-name" title={userLabel(u)}>{userLabel(u)}</div>
+                                        <div className="user-id">ID: {u.id}</div>
+                                    </div>
 
-                                    <td data-label="Grupe">
-                                        {u.grupe ? u.grupe : <span style={{color:"#888"}}>-</span>}
-                                    </td>
+                                    {/* 3. Email & Grupe */}
+                                    <div className="col-info">
+                                        <div className="user-email">{u.email}</div>
+                                        <div className="user-groups" title={u.grupe}>
+                                            {u.grupe || "Fără grupă"}
+                                        </div>
+                                    </div>
 
-                                    <td data-label="Rol">
-                                        <div className="rol-edit">
+                                    {/* 4. Selector Rol */}
+                                    <div className="col-info">
+                                        <div className="role-wrapper">
                                             <select
                                                 value={editari[u.id] ?? (u.rol || "").trim()}
                                                 onChange={(e) => handleRolChange(u.id, e.target.value)}
-                                                className="rol-select"
+                                                className="role-select"
                                                 disabled={!isAdmin}
                                             >
                                                 {ROLURI.map(r => <option key={r} value={r}>{r}</option>)}
                                             </select>
                                             <button
-                                                className="btn btn-sm"
+                                                className="btn-save-role"
                                                 disabled={!isAdmin || !editari[u.id] || editari[u.id] === (u.rol || "").trim()}
                                                 onClick={() => handleSaveRol(u.id)}
                                             >
-                                                Save
+                                                OK
                                             </button>
                                         </div>
-                                    </td>
+                                    </div>
 
-                                    <td data-label="Acțiuni" className="actions">
-                                        <button
-                                            className="btn btn-sm btn-danger"
-                                            onClick={() => stergeUtilizator(u.username)}
-                                            disabled={!isAdmin}
-                                        >
-                                            Șterge
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
-
-                {/* ===== Modal edit user ===== */}
-                {showEdit && (
-                    <div className="modal-backdrop" onClick={closeEdit}>
-                        <div className="modal" onClick={(e) => e.stopPropagation()}>
-                            <h3>Editează utilizator</h3>
-                            <form onSubmit={saveEdit} className="form-grid">
-                                <label>
-                                    Nume utilizator
-                                    <input
-                                        value={editUser.username}
-                                        onChange={(e) => setEditUser(s => ({...s, username: e.target.value}))}
-                                        required
-                                    />
-                                </label>
-                                <label>
-                                    Email
-                                    <input
-                                        type="email"
-                                        value={editUser.email}
-                                        onChange={(e) => setEditUser(s => ({...s, email: e.target.value}))}
-                                        required
-                                    />
-                                </label>
-
-                                <label>
-                                    Grupe (separate prin virgulă)
-                                    <input
-                                        type="text"
-                                        placeholder="Ex: Grupa 1, Grupa Avansati"
-                                        value={editUser.grupe}
-                                        onChange={(e) => setEditUser(s => ({...s, grupe: e.target.value}))}
-                                    />
-                                </label>
-
-                                <div className="form-actions">
-                                    <button type="button" className="btn" onClick={closeEdit}>Renunță</button>
-                                    <button type="submit" className="btn btn-primary">Salvează</button>
+                                    {/* 5. Acțiuni */}
+                                    <div className="row-actions">
+                                        {isAdmin && (
+                                            <>
+                                                <button className="btn-icon" onClick={() => openEdit(u)} title="Editează detalii">
+                                                    <i className="fas fa-pen"></i>
+                                                </button>
+                                                <button className="btn-icon delete" onClick={() => stergeUtilizator(u.username)} title="Șterge">
+                                                    <i className="fas fa-trash"></i>
+                                                </button>
+                                            </>
+                                        )}
+                                    </div>
                                 </div>
-                            </form>
+                            ))}
                         </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Modal Editare */}
+            {showEdit && (
+                <div className="modal-backdrop" onClick={closeEdit}>
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                        <h3>Editează utilizator</h3>
+                        <form onSubmit={saveEdit}>
+                            <div className="form-group">
+                                <label>Nume utilizator</label>
+                                <input
+                                    value={editUser.username}
+                                    onChange={(e) => setEditUser(s => ({...s, username: e.target.value}))}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Email</label>
+                                <input
+                                    type="email"
+                                    value={editUser.email}
+                                    onChange={(e) => setEditUser(s => ({...s, email: e.target.value}))}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Grupe (separate prin virgulă)</label>
+                                <input
+                                    type="text"
+                                    placeholder="Ex: Grupa 1, Grupa Avansati"
+                                    value={editUser.grupe}
+                                    onChange={(e) => setEditUser(s => ({...s, grupe: e.target.value}))}
+                                />
+                            </div>
+
+                            <div className="form-actions">
+                                <button type="button" className="modal-btn cancel" onClick={closeEdit}>Renunță</button>
+                                <button type="submit" className="modal-btn save">Salvează</button>
+                            </div>
+                        </form>
                     </div>
-                )}
-            </section>
+                </div>
+            )}
         </>
     );
 };

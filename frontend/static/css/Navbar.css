@@ -37,26 +37,20 @@
 }
 
 .fade-transition {
-    /*height: 60px;*/
-    /*background: linear-gradient(to bottom, rgba(0, 0, 0, 1), #161616);*/
-
-    /*height: 150px; !* Cât de lungă să fie tranziția *!*/
+    /* Setăm înălțimea ca să aibă loc gradientul să se desfășoare */
+    height: 150px;
     width: 100%;
 
-    /* Gradient: de la transparent (sus) la culoarea fundalului (jos) */
-    /* #121212 este culoarea setată în style.css la body. Dacă ai alta, schimb-o aici. */
+    /* Gradient: de la transparent (sus) la culoarea fundalului (jos - #121212) */
     background: linear-gradient(to bottom, rgba(18, 18, 18, 0) 0%, #121212 100%);
 
     /* TRUCUL MAGIC: */
-    margin-top: -150px; /* Tragem elementul în sus, peste video */
+    margin-top: -150px; /* Tragem elementul în sus, exact cât e înălțimea lui */
     position: relative;
     z-index: 5; /* Să fie deasupra videoclipului */
-    pointer-events: none; /* Să poți da click prin el dacă e cazul */
+    pointer-events: none; /* Să poți da click prin el */
 }
 
-.video-container {
-    position: relative;
-}
 
 .video-gradient {
     position: absolute;
@@ -159,7 +153,7 @@ body {
 
 @media (max-width: 950px) {
     body {
-        padding-top: calc(var(--nav-height-mobile) + env(safe-area-inset-top) + 60px) !important;
+        padding-top: calc(var(--nav-height-mobile) + env(safe-area-inset-top)) !important;
     }
     .navbar {
         padding-top: max(0.5rem, env(safe-area-inset-top));
@@ -167,9 +161,6 @@ body {
     }
 }
 
-body.nav-open {
-    overflow: hidden;
-}
 
 /* --- Container Navbar --- */
 .navbar {
@@ -636,7 +627,7 @@ button.user-chip:hover {
 
 /* Toast Container */
 .Toastify__toast-container, .toaster, #toast-container, .rrt-holder {
-    z-index: 2147483647 !important;
+
 }
 
 @media (max-width: 950px) {

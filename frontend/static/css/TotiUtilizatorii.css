@@ -1,493 +1,296 @@
-/* ===== Theme tokens ===== */
-:root{
-  --au-bg: #0b0b0d;
-  --au-surface: #111114;
-  --au-surface-2: #15151b;
-  --au-text: #ffffff;
-  --au-muted: #b8b8c2;
-  --au-border: #2a2a36;
-  --au-accent: #ff1a1a;
-  --au-accent-2: #b30000;
-  --au-shadow: 0 18px 40px rgba(0,0,0,.35);
-  --au-radius: 14px;
+/* ===== TotiUtilizatorii.css – Vibrant Dark & Red Theme ===== */
+
+:root {
+    --bg-dark: #09090b;
+    --bg-card: #141417;       /* Carduri puțin mai închise pentru contrast */
+    --bg-hover: #1c1c21;
+    --border: #2f2f36;
+
+    --text-main: #ffffff;
+    --text-muted: #a1a1aa;
+
+    /* Culori Brand & Accente */
+    --accent-red: #dc2626;
+    --accent-red-hover: #b91c1c;
+    --accent-gold: #fbbf24;   /* Pentru Email */
+    --accent-blue: #3b82f6;   /* Pentru ID */
+    --accent-cyan: #06b6d4;   /* Pentru Edit */
+
+    --grad-red: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
 }
 
-/* ===== Page wrap ===== */
-.allusers{
-  min-height: 100vh;
-  /* Pe mobil e nevoie de mai mult spațiu sus din cauza navbar-ului iOS style */
-  padding: 100px 16px 48px;
-  background: radial-gradient(circle at top, #1c1c22 0, var(--au-bg) 40%, #050507 100%);
-  color: var(--au-text);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+.au-page {
+    background-color: var(--bg-dark);
+    min-height: 100vh;
+    padding: 2rem max(20px, 3%);
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* toate blocurile principale centrate și cu max-width */
-.allusers-head,
-.table-wrap,
-.alert{
-  max-width: 1200px;
-  margin: 0 auto;
+.au-inner {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* ===== Header + search ===== */
-.allusers-head{
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-}
-
-.allusers-head h2{
-  margin: 0;
-  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
-  font-weight: 900;
-  text-shadow: 0 0 10px rgba(255,0,0,.18);
-  position: relative;
-  padding-bottom: .3rem;
-}
-
-.allusers-head h2::after{
-  content:"";
-  position:absolute; left:0; bottom:0;
-  width: 280px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--au-accent), var(--au-accent-2));
-  border-radius: 999px;
-  box-shadow: 0 0 10px rgba(255,26,26,.35);
-}
-
-.search-wrap{
-  position: relative;
-  width: min(380px, 100%);
-}
-
-.search-input{
-  width: 100%;
-  padding: .75rem 2.4rem .75rem 1rem;
-  border-radius: 999px;
-  border: 1px solid #2f2f3a;
-  background: #181820;
-  color: #fff;
-  outline: none;
-  transition: border .2s ease, box-shadow .2s ease, background .2s ease;
-}
-
-.search-input::placeholder{ color:#9494a3; }
-
-.search-input:focus{
-  border-color: var(--au-accent);
-  box-shadow: 0 0 0 3px rgba(255,26,26,.25);
-  background: #1e1e26;
-}
-
-.btn-clear{
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: none;
-  background: transparent;
-  color: var(--au-accent);
-  font-size: 1.1rem;
-  cursor: pointer;
-}
-
-/* ===== Alerts ===== */
-.alert{
-  margin-top: .5rem;
-  background: linear-gradient(180deg, var(--au-surface), var(--au-surface-2));
-  border-radius: 10px;
-  border: 1px solid var(--au-border);
-  padding: .8rem 1rem;
-  box-shadow: var(--au-shadow);
-}
-
-/* ===== Table shell (Desktop Default) ===== */
-.table-wrap{
-  margin-top: .75rem;
-  background: linear-gradient(180deg, var(--au-surface), var(--au-surface-2));
-  border-radius: var(--au-radius);
-  border: 1px solid var(--au-border);
-  box-shadow: var(--au-shadow);
-}
-
-/* Tabelul efectiv */
-.users-table{
-  width: 100%;
-  border-collapse: collapse;
-  color: var(--au-text);
-
-  /* --- FIX SUPRASCRIERE --- */
-  /* Resetăm comportamentul global de la Concursuri (fixed) înapoi la auto */
-  table-layout: auto;
-}
-
-/* Header Tabel */
-.users-table thead th{
-  background: #191922;
-  padding: .85rem .9rem;
-  text-align: left;
-  font-weight: 800;
-  font-size: .92rem;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  white-space: nowrap; /* Să nu se rupă titlurile */
-}
-
-/* ===== FIX DIMENSIUNI COLOANE (Desktop) ===== */
-
-/* 1. Coloana ID - Mică */
-.users-table th:nth-child(1),
-.users-table td:nth-child(1) {
-  width: 60px;
-  text-align: center;
-}
-
-/* 2. Nume - Să ocupe spațiu */
-.users-table th:nth-child(2) {
-  width: 25%;
-}
-
-/* 3. Email - Să ocupe spațiu */
-.users-table th:nth-child(3) {
-  width: 25%;
-}
-
-/* 4. Rol - Mediu */
-.users-table th:nth-child(4) {
-  width: 20%;
-}
-
-/* 5. Acțiuni - Aliniat dreapta sau fit */
-.users-table th:last-child {
-  width: auto;
-  text-align: right;
-}
-.users-table td:last-child {
-  text-align: right;
-}
-
-/* =========================================== */
-
-.users-table tbody td{
-  padding: .8rem .9rem;
-  border-top: 1px solid #242433;
-  font-size: .94rem;
-  vertical-align: middle;
-}
-
-/* zebra + hover */
-.users-table tbody tr:nth-child(odd) td{
-  background: rgba(255,255,255,.01);
-}
-.users-table tbody tr:hover td{
-  background: rgba(255,255,255,.03);
-}
-
-/* ===== Cells ===== */
-.cell-username{
-  font-weight: 800;
-  margin-right: .4rem;
-  font-size: 1.05rem;
-}
-
-.link-edit{
-  border: none;
-  background: none;
-  color: #ff80a6;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: .85rem;
-  padding: 0;
-}
-
-.link-edit:hover{
-  text-decoration: underline;
-}
-
-/* Rol + acțiuni */
-.rol-edit{
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: .5rem;
-  align-items: center;
-}
-
-.rol-select{
-  background: #101017;
-  color: #fff;
-  border-radius: 10px;
-  border: 1px solid #2f2f3a;
-  padding: .45rem .6rem;
-  min-width: 180px;
-  outline: none;
-}
-
-.rol-select:focus{
-  border-color: var(--au-accent);
-  box-shadow: 0 0 0 3px rgba(255,26,26,.2);
-}
-
-.actions{
-  white-space: nowrap;
-}
-
-/* ===== Buttons ===== */
-.btn{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 34px;
-  padding: 0 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,.06);
-  background: linear-gradient(180deg, #2a2a2a, #1c1c1c);
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
-  font-size: .9rem;
-  transition: transform .15s ease, box-shadow .18s ease, background .15s ease;
-}
-
-.btn:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(0,0,0,.25);
-}
-
-.btn[disabled]{
-  opacity: .55;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.btn-sm{
-  height: 30px;
-  padding: 0 10px;
-  font-size: .85rem;
-}
-
-.btn-danger{
-  background: linear-gradient(180deg, #5b0b0b, #3a0505);
-  border-color: #3a0a0a;
-}
-
-/* Empty row */
-.users-table .empty{
-  text-align: center;
-  padding: 1.2rem .9rem;
-  color: var(--au-muted);
-}
-
-/* ===== Modal ===== */
-.modal-backdrop{
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.8);
-  backdrop-filter: blur(8px);
-  display: grid;
-  place-items: center;
-  z-index: 99999;
-  padding: 1rem;
-}
-
-.modal{
-  width: 100%;
-  max-width: 580px;
-  background: linear-gradient(180deg, var(--au-surface), var(--au-surface-2));
-  border-radius: 16px;
-  border: 1px solid var(--au-border);
-  box-shadow: 0 24px 70px rgba(0,0,0,.6);
-  padding: 1.5rem;
-  color: var(--au-text);
-}
-
-.modal h3{
-  margin: 0 0 1.2rem 0;
-  font-size: 1.25rem;
-  font-weight: 800;
-}
-
-.form-grid{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-.form-grid label{
-  display: flex;
-  flex-direction: column;
-  gap: .4rem;
-  font-size: .9rem;
-  font-weight: 700;
-}
-
-.form-grid input{
-  padding: .8rem 1rem;
-  border-radius: 10px;
-  border: 1px solid #2b2b38;
-  background: #0d0d11;
-  color: #fff;
-  outline: none;
-}
-
-.form-grid input:focus{
-  border-color: var(--au-accent);
-  box-shadow: 0 0 0 3px rgba(255,26,26,.25);
-}
-
-.form-actions{
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: flex-end;
-  gap: .8rem;
-  margin-top: .8rem;
-}
-
-.btn.btn-primary{
-  background: linear-gradient(180deg, var(--au-accent), var(--au-accent-2));
-  border-color: rgba(255,255,255,.08);
-  box-shadow: 0 14px 34px rgba(255,0,0,.3);
-}
-
-.btn.btn-primary:hover{
-  box-shadow: 0 18px 40px rgba(255,0,0,.32);
-}
-
-/* =================================================================
-   RESPONSIVE - TRANSFORMARE ÎN CARDURI (MOBIL)
-   ================================================================= */
-@media (max-width: 900px){
-  .allusers{
-    padding: 100px 10px 32px;
-  }
-
-  .allusers-head{
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-  }
-
-  .search-wrap {
-    width: 100%;
-  }
-
-  /* 1. Resetăm containerul tabelului */
-  .table-wrap {
-    background: transparent;
-    box-shadow: none;
-    border: none;
-  }
-
-  /* 2. Forțăm elementele tabelului să fie block */
-  .users-table, .users-table thead, .users-table tbody, .users-table th, .users-table td, .users-table tr {
-    display: block;
-  }
-
-  /* 3. Ascundem header-ul tabelului */
-  .users-table thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
-
-  /* 4. Fiecare rând devine un CARTONAȘ (Card) */
-  .users-table tbody tr {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    margin-bottom: 16px;
-    padding: 16px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    position: relative;
-  }
-
-  /* 5. Stilul celulelor din card */
-  .users-table td {
-    border: none;
-    position: relative;
-    padding: 8px 0;
+/* --- HEADER --- */
+.au-header {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    width: auto !important; /* Reset width pe mobil */
-    text-align: left !important;
-  }
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 35px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
 
-  .users-table td:last-child {
-    border-bottom: none;
-  }
-
-  /* 6. Etichete (Label) */
-  .users-table td::before {
-    content: attr(data-label);
-    font-size: 0.75rem;
+.au-title {
+    font-size: 2rem;
+    font-weight: 900;
+    margin: 0;
     text-transform: uppercase;
-    color: var(--au-muted);
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    margin-bottom: 2px;
-  }
-
-  /* Numele utilizatorului - Mare și Alb */
-  .cell-username {
-    font-size: 1.1rem;
+    letter-spacing: -0.5px;
     color: #fff;
-  }
+    /* Mic accent roșu sub titlu */
+    border-left: 5px solid var(--accent-red);
+    padding-left: 15px;
+    line-height: 1;
+}
 
-  /* Containerul de editare Rol */
-  .rol-edit {
+.search-wrap {
+    flex-grow: 1;
+    max-width: 400px;
+}
+
+.search-input {
     width: 100%;
+    padding: 12px 18px;
+    background: #000;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: #fff;
+    outline: none;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+}
+.search-input:focus {
+    border-color: var(--accent-red);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+/* --- LISTĂ UTILIZATORI --- */
+.users-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 5px;
-  }
+    gap: 12px;
+}
 
-  .rol-select {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
+.user-row {
+    display: grid;
+    /* Structura coloanelor */
+    grid-template-columns: 60px 1.8fr 1.5fr 1.2fr 100px;
+    align-items: center;
+    background: var(--bg-card);
+    padding: 16px 24px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease-in-out;
+    gap: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover Effect - Glow subtil roșu */
+.user-row:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-red);
+    box-shadow: 0 8px 20px rgba(220, 38, 38, 0.08);
+    background: var(--bg-hover);
+}
+
+/* Avatar - Gradient Roșu */
+.row-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--grad-red);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(220, 38, 38, 0.3);
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+/* Coloane Text */
+.col-info {
+    display: flex; flex-direction: column; justify-content: center;
+    overflow: hidden;
+}
+
+.user-name {
+    font-weight: 700; font-size: 1.05rem; color: #fff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    margin-bottom: 2px;
+}
+
+/* ID-ul stilizat ca un badge albastru */
+.user-id {
+    font-size: 0.7rem;
+    color: #93c5fd; /* Albastru deschis */
+    font-family: monospace;
+    background: rgba(59, 130, 246, 0.15);
+    padding: 2px 6px;
+    border-radius: 4px;
+    width: fit-content;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+/* Email-ul stilizat cu Auriu pentru contrast */
+.user-email {
+    font-size: 0.9rem;
+    color: var(--accent-gold);
+    font-weight: 500;
+}
+
+.user-groups {
+    font-size: 0.8rem; color: var(--text-muted);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    margin-top: 2px;
+}
+
+/* Selector Rol */
+.role-wrapper {
+    display: flex; gap: 8px; align-items: center;
+}
+
+.role-select {
     background: #000;
-    border-color: #444;
-  }
-
-  .rol-edit .btn {
+    color: #fff;
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
     width: 100%;
-    padding: 12px;
-    justify-content: center;
-  }
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+.role-select:hover, .role-select:focus {
+    border-color: var(--accent-red);
+}
 
-  /* Acțiuni (Butonul Șterge) */
-  .users-table td.actions {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    border-bottom: none;
-  }
+.btn-save-role {
+    background: var(--accent-blue);
+    border: none;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: background 0.2s;
+}
+.btn-save-role:hover { background: #2563eb; }
+.btn-save-role:disabled { background: #27272a; color: #555; cursor: not-allowed; }
 
-  .users-table td.actions .btn {
-    width: 100%;
-    height: 44px;
-    font-size: 1rem;
-  }
+/* Acțiuni - Iconițe Colorate */
+.row-actions {
+    display: flex; gap: 10px; justify-content: flex-end;
+}
 
-  /* Ajustări Modal pe Mobil */
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
+.btn-icon {
+    width: 38px; height: 38px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: #aaa;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
 
-  .form-actions {
-    flex-direction: column-reverse;
-  }
+/* Buton Editare -> Cyan/Blue la Hover */
+.btn-icon:hover {
+    background: rgba(6, 182, 212, 0.15);
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+    transform: translateY(-2px);
+}
 
-  .form-actions .btn {
-    width: 100%;
-    height: 48px;
-  }
+/* Buton Ștergere -> Roșu la Hover */
+.btn-icon.delete:hover {
+    background: rgba(220, 38, 38, 0.15);
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+    transform: translateY(-2px);
+}
+
+/* Alert & Loading */
+.au-alert {
+    background: rgba(220, 38, 38, 0.1);
+    border: 1px solid var(--accent-red);
+    color: #fca5a5;
+    padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center;
+}
+
+/* --- MODAL --- */
+.modal-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+    display: flex; align-items: center; justify-content: center; z-index: 9999;
+}
+.modal {
+    background: #18181b; padding: 30px; border-radius: 16px; width: 90%; max-width: 500px;
+    border: 1px solid #333; color: #fff; box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+    border-top: 4px solid var(--accent-red); /* Accent pe modal */
+}
+.modal h3 { margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; color: #fff;}
+
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-size: 0.85rem; color: var(--accent-gold); margin-bottom: 8px; font-weight: 700; text-transform: uppercase;}
+.form-group input {
+    width: 100%; padding: 14px; background: #09090b; border: 1px solid #333; color: #fff; border-radius: 8px;
+    box-sizing: border-box; font-size: 1rem;
+}
+.form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 30px; }
+.modal-btn { padding: 12px 24px; border-radius: 8px; border:none; cursor: pointer; font-weight: 700; font-size: 1rem; }
+.modal-btn.save { background: var(--grad-red); color: white; box-shadow: 0 4px 15px rgba(220,38,38,0.4); }
+.modal-btn.cancel { background: transparent; border: 1px solid #444; color: #aaa; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 800px) {
+    .au-header { flex-direction: column; align-items: flex-start; gap: 15px;}
+    .search-wrap { width: 100%; max-width: 100%; }
+
+    .user-row {
+        grid-template-columns: 50px 1fr 44px; /* Avatar | Info | Meniu */
+        grid-template-rows: auto auto auto;
+        gap: 10px 15px;
+        padding: 18px;
+        align-items: start;
+    }
+
+    .row-avatar { grid-row: 1 / 3; }
+
+    .col-info:nth-child(2) { /* Nume */
+        grid-column: 2; align-self: center;
+    }
+
+    .col-info:nth-child(3) { /* Email/Grupe */
+        grid-column: 2; grid-row: 2;
+        margin-top: -5px;
+    }
+
+    .user-email { font-size: 0.85rem; }
+
+    .col-info:nth-child(4) { /* Rol Select */
+        grid-column: 1 / -1; margin-top: 10px;
+        background: #202022; padding: 12px; border-radius: 10px;
+        border: 1px solid #333;
+    }
+
+    .row-actions {
+        grid-column: 3; grid-row: 1 / 3;
+        flex-direction: column;
+    }
+    .btn-icon { width: 44px; height: 44px; }
 }

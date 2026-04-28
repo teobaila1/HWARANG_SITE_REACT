@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import './styles/theme.css'
-import './styles/mobile_ovverrides.css'
+import './styles/mobile_overrides.css'
 
 // ✅ Import automat pentru PWA (vite-plugin-pwa)
 import { registerSW } from 'virtual:pwa-register'
