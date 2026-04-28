@@ -155,12 +155,12 @@ const ParinteCopii = () => {
                                     </div>
                                 </div>
 
-                                <button
+                                {/* <button
                                     className="btn-qr-mini"
                                     onClick={() => setSelectedChild(copil)}
                                 >
                                     <i className="fas fa-qrcode"></i> Card Acces Digital
-                                </button>
+                                </button> */}
                             </li>
                         ))}
                     </ul>

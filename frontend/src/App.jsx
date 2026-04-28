@@ -83,8 +83,8 @@ function App() {
                         <Route path="/antrenori" element={<Coaches/>}/>
                         <Route path="/inscrisi/:numeConcurs" element={<InscrisiConcurs/>}/>
                         {/* Unele rute pot fi accesate de toți, dar conținutul diferă (ex: scan) */}
-                        <Route path="/scan" element={<ScannerPage />} />
-                        {/* <Route path="/prezenta/grupa/:id" element={<PaginaPrezenta />} />
+                        {/* <Route path="/scan" element={<ScannerPage />} />
+                        <Route path="/prezenta/grupa/:id" element={<PaginaPrezenta />} />
                         <Route path="/prezenta/copil/:id" element={<IstoricPrezenteCopil />} /> */}
 
                         {/* 2. RUTE SPECIFICE PĂRINȚI (Protejate de ParinteGuard) */}

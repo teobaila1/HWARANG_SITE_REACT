@@ -218,9 +218,9 @@ const AntrenorDashboard = () => {
                             <span className="stat-val">{stats.totalGrupe}</span>
                             <span className="stat-label">Grupe</span>
                         </div>
-                        <button className="btn-scan-qr" onClick={() => navigate("/scan")}>
+                        {/* <button className="btn-scan-qr" onClick={() => navigate("/scan")}>
                             <i className="fas fa-qrcode" style={{marginRight: 8}}></i> SCAN
-                        </button>
+                        </button> */}
                     </div>
                 </div>
 
