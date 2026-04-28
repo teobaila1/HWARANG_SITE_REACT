@@ -113,7 +113,7 @@ const Galerie = () => {
                     <div className="hof-icon-wrapper">
                         <i className="fas fa-medal" style={{color: "#ffd700"}}></i>
                     </div>
-                    <span className="hof-year">2026 - Focșani</span>
+                    <span className="hof-year">2025 - Focșani</span>
                     <div className="hof-event">Campionatul Național</div>
                     <div className="hof-result">
                         Rezultate impresionante: <span className="hof-highlight">26 de Medalii</span>, dintre care
@@ -128,7 +128,7 @@ const Galerie = () => {
                     <div className="hof-icon-wrapper">
                         <i className="fas fa-crown" style={{color: "#e0e0e0"}}></i>
                     </div>
-                    <span className="hof-year">2026 - Baia Mare</span>
+                    <span className="hof-year">2025 - Baia Mare</span>
                     <div className="hof-event">Cupa României</div>
                     <div className="hof-result">
                         <span style={{color:"#fff", fontWeight:"bold"}}>17 medalii cucerite</span>.
@@ -141,7 +141,7 @@ const Galerie = () => {
                     <div className="hof-icon-wrapper">
                         <i className="fas fa-user-ninja" style={{color: "#d32f2f"}}></i>
                     </div>
-                    <span className="hof-year">2026 - Novi Sad, Serbia</span>
+                    <span className="hof-year">2025 - Novi Sad, Serbia</span>
                     <div className="hof-event">Campionatul Balcanic</div>
                     <div className="hof-result">
                         <span className="hof-highlight">2 Campioni Balcanici</span>.

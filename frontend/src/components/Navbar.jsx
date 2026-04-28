@@ -278,7 +278,7 @@ const Navbar = () => {
                 <div className="mobile-menu-footer">
                     {isLoggedIn ? (
                         <>
-                            <button
+                            {/* <button
                                 className="btn-card-meniu mobile-menu-footer"
                                 onClick={() => {
                                     closeMenu();
@@ -286,7 +286,7 @@ const Navbar = () => {
                                 }}
                             >
                                 Cardul Meu
-                            </button>
+                            </button> */}
 
                             <div className="mobile-user-card">
                                 <div className="info">
