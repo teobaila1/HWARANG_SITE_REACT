@@ -84,13 +84,13 @@ function App() {
                         <Route path="/inscrisi/:numeConcurs" element={<InscrisiConcurs/>}/>
                         {/* Unele rute pot fi accesate de toți, dar conținutul diferă (ex: scan) */}
                         <Route path="/scan" element={<ScannerPage />} />
-                        <Route path="/prezenta/grupa/:id" element={<PaginaPrezenta />} />
-                        <Route path="/prezenta/copil/:id" element={<IstoricPrezenteCopil />} />
+                        {/* <Route path="/prezenta/grupa/:id" element={<PaginaPrezenta />} />
+                        <Route path="/prezenta/copil/:id" element={<IstoricPrezenteCopil />} /> */}
 
                         {/* 2. RUTE SPECIFICE PĂRINȚI (Protejate de ParinteGuard) */}
                         <Route element={<ParinteGuard />}>
                             <Route path="/copiii-mei" element={<ParinteCopii/>}/>
-                            <Route path="/prezenta/familie" element={<PaginaPrezentaFamilie />} />
+                            {/* <Route path="/prezenta/familie" element={<PaginaPrezentaFamilie />} /> */}
                         </Route>
 
                         {/* 3. RUTE SPECIFICE ANTRENORI (Protejate de AntrenorGuard) */}
