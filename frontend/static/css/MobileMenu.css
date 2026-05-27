@@ -1,6 +1,24 @@
-/* ==========================================================================
-   iOS STYLE FULLSCREEN MENU (Mobil)
-   ========================================================================== */
+/* ============================================================
+   MobileMenu.css — HWARANG DARK ELEGANT
+   Meniu mobil consistent cu restul site-ului.
+   Dark theme cu accent roșu, stil profesional.
+   ============================================================ */
+
+:root {
+    --hw-bg: #0a0a12;
+    --hw-surface: #13131f;
+    --hw-surface-2: #1a1a2b;
+    --hw-surface-3: #21213a;
+    --hw-border: rgba(255, 255, 255, .08);
+    --hw-border-strong: rgba(255, 255, 255, .14);
+    --hw-text: #f4f4f8;
+    --hw-muted: #9a9ab0;
+    --hw-red: #e63329;
+    --hw-red-deep: #a3160e;
+    --hw-red-glow: rgba(230, 51, 41, .35);
+    --hw-radius: 18px;
+    --hw-radius-sm: 12px;
+}
 
 @media (min-width: 951px) {
     .mobile-overlay, .hamburger-btn {
@@ -18,10 +36,9 @@
         overflow: hidden;
         touch-action: none;
         overscroll-behavior: none;
-
     }
 
-    /* OVERLAY - FLEX COLUMN */
+    /* ---------- OVERLAY — dark elegant ---------- */
     .mobile-overlay {
         position: fixed;
         inset: 0;
@@ -29,12 +46,14 @@
         height: 100vh;
         height: 100dvh;
         z-index: 9999;
-        background: rgba(18, 18, 21, 0.95);
+        background:
+            radial-gradient(1200px 600px at 70% -10%, rgba(230, 51, 41, .08), transparent 60%),
+            rgba(10, 10, 18, .98);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
 
         display: flex;
-        flex-direction: column; /* HEADER -> CONTENT -> CLOSE BTN -> FOOTER */
+        flex-direction: column;
 
         opacity: 0;
         visibility: hidden;
@@ -48,17 +67,15 @@
         pointer-events: auto;
     }
 
-    /* HEADER - DOAR LOGO */
+    /* ---------- Header — logo only ---------- */
     .mobile-menu-header {
         flex-shrink: 0;
         display: flex;
         align-items: center;
-        /* Logo centrat sau stânga - cum preferi. Aici e stânga */
         justify-content: flex-start;
-
         padding: max(15px, env(safe-area-inset-top)) 20px 10px;
         min-height: 70px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        border-bottom: 1px solid var(--hw-border);
         background: transparent;
     }
 
@@ -67,16 +84,15 @@
         width: auto;
     }
 
-    /* CONTENT SCROLLABIL */
+    /* ---------- Content scrollabil ---------- */
     .mobile-menu-content {
         flex: 1;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        /* Padding normal, nimic nu se suprapune acum */
-        padding: 130px 20px 50px 20px;
+        padding: 20px;
     }
 
-    /* ZONA BUTON ÎNCHIDERE (JOS) */
+    /* ---------- Close button area ---------- */
     .mobile-close-area {
         flex-shrink: 0;
         padding: 0 20px 10px 20px;
@@ -86,10 +102,10 @@
     .btn-close-menu {
         width: 100%;
         padding: 14px;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 12px;
-        color: #fff;
+        background: rgba(255, 255, 255, .06);
+        border: 1px solid var(--hw-border-strong);
+        border-radius: var(--hw-radius-sm);
+        color: var(--hw-text);
         font-size: 1rem;
         font-weight: 700;
         cursor: pointer;
@@ -97,29 +113,32 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-        transition: background 0.2s;
+        transition: all 0.2s;
     }
 
     .btn-close-menu:active {
-        background: rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, .1);
     }
 
-    /* FOOTER */
+    /* ---------- Footer ---------- */
     .mobile-menu-footer {
         flex-shrink: 0;
         padding: 20px;
         padding-bottom: max(20px, env(safe-area-inset-bottom));
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(0, 0, 0, 0.2);
+        border-top: 1px solid var(--hw-border);
+        background: transparent;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
     }
 
-    /* --- Stiluri Comune (Group, Links, Auth) --- */
+    /* ---------- Menu groups (TaeKwon-Do, Calendar, Kickbox, Concursuri, etc.) ---------- */
     .mobile-group {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 14px;
-        margin-bottom: 12px;
+        background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+        border: 1px solid var(--hw-border);
+        border-radius: var(--hw-radius-sm);
         overflow: hidden;
+        margin-bottom: 12px;
     }
 
     .mobile-group-toggle {
@@ -130,71 +149,87 @@
         padding: 16px 18px;
         background: transparent;
         border: none;
-        color: #fff;
+        color: var(--hw-text);
         font-size: 1.05rem;
-        font-weight: 600;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
     }
 
-    .mobile-group-toggle.active {
-        background: rgba(255, 255, 255, 0.05);
+    .mobile-group-toggle:active {
+        background: rgba(255, 255, 255, .05);
     }
 
     .mobile-group-toggle .arrow {
         transition: transform 0.3s;
-        color: rgba(255, 255, 255, 0.4);
+        color: var(--hw-muted);
+        font-size: .8rem;
     }
 
     .mobile-group-toggle.active .arrow {
         transform: rotate(90deg);
-        color: #ff4d4d;
+        color: var(--hw-red);
     }
 
+    /* ---------- Sub-links (expandable) ---------- */
     .mobile-sub-links {
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.3s;
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(0, 0, 0, .2);
     }
 
     .mobile-sub-links.open {
         max-height: 500px;
     }
 
-    .mobile-sub-links button, .mobile-sub-links a {
+    .mobile-sub-links button,
+    .mobile-sub-links a {
         display: block;
         width: 100%;
         text-align: left;
         padding: 12px 20px;
         font-size: 0.95rem;
-        color: #ccc;
+        color: var(--hw-muted);
         background: transparent;
         border: none;
-        border-top: 1px solid rgba(255, 255, 255, 0.03);
+        border-top: 1px solid var(--hw-border);
+        transition: color .2s;
     }
 
+    .mobile-sub-links button:active,
+    .mobile-sub-links a:active {
+        color: var(--hw-text);
+    }
+
+    /* ---------- Simple links (Concursuri, Copiii mei, Admin, etc.) ---------- */
     .mobile-simple-links {
         margin-top: 15px;
     }
 
-    .mobile-simple-links button, .mobile-simple-links a {
+    .mobile-simple-links button,
+    .mobile-simple-links a {
         display: block;
         width: 100%;
         padding: 16px 18px;
         margin-bottom: 8px;
-        background: rgba(255, 255, 255, 0.05);
-        color: #fff;
+        background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+        color: var(--hw-text);
         font-size: 1rem;
-        font-weight: 600;
-        border-radius: 12px;
-        border: none;
+        font-weight: 700;
+        border-radius: var(--hw-radius-sm);
+        border: 1px solid var(--hw-border);
         text-align: left;
+        transition: all .2s;
     }
 
-    .mobile-simple-links .highlight-btn {
-        background: #cc0000;
-        text-align: center;
+    .mobile-simple-links button:active,
+    .mobile-simple-links a:active {
+        background: linear-gradient(135deg, var(--hw-red), var(--hw-red-deep));
+        border-color: var(--hw-red);
     }
 
+    /* ---------- Auth buttons (Login/SignUp) ---------- */
     .mobile-auth-row {
         display: flex;
         gap: 12px;
@@ -203,111 +238,97 @@
     .mobile-auth-row button {
         flex: 1;
         padding: 14px;
-        border-radius: 12px;
+        border-radius: var(--hw-radius-sm);
         font-weight: 700;
         border: none;
         font-size: 1rem;
+        transition: all .2s;
     }
 
     .btn-login {
-        background: rgba(255, 255, 255, 0.1);
-        color: #fff;
+        background: rgba(255, 255, 255, .08);
+        color: var(--hw-text);
+        border: 1px solid var(--hw-border-strong);
+    }
+
+    .btn-login:active {
+        background: rgba(255, 255, 255, .12);
     }
 
     .btn-register {
-        background: #cc0000;
+        background: linear-gradient(135deg, var(--hw-red), var(--hw-red-deep));
         color: #fff;
+        box-shadow: 0 4px 12px var(--hw-red-glow);
     }
 
+    .btn-register:active {
+        transform: scale(.98);
+    }
+
+    /* ---------- User card (Avatar + Nume + Logout) ---------- */
     .mobile-user-card {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background: rgba(255, 255, 255, 0.08);
-        padding: 10px 14px;
-        border-radius: 12px;
+        width: 100%;
+        background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+        border: 1px solid var(--hw-border);
+        padding: 14px 16px;
+        border-radius: var(--hw-radius-sm);
+    }
+
+    .mobile-user-card .info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 1;
+        min-width: 0;
     }
 
     .mobile-user-card .avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: #cc0000;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--hw-red), var(--hw-red-deep));
         display: grid;
         place-items: center;
         color: #fff;
-        font-weight: bold;
-        margin-right: 12px;
+        font-weight: 900;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 12px var(--hw-red-glow);
+        flex-shrink: 0;
     }
 
     .mobile-user-card .text {
         display: flex;
         flex-direction: column;
-        color: #fff;
+        color: var(--hw-text);
+        min-width: 0;
     }
-}
 
+    .mobile-user-card .text small {
+        color: var(--hw-muted);
+        font-size: .7rem;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        font-weight: 600;
+    }
 
-/* === FIX SUPRAPUNERE MENIU MOBIL === */
+    .mobile-user-card .text strong {
+        font-weight: 700;
+        font-size: 1.05rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
-/* Footer-ul devine o coloană (elementele unul sub altul) */
-.mobile-menu-footer {
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Spațiu între rânduri */
-    padding-bottom: 30px; /* Mai mult loc jos pentru iPhone */
-}
+    .mobile-user-card .action {
+        flex-shrink: 0;
+    }
 
-/* Cardul utilizatorului (Avatar + Nume + Logout) */
-.mobile-user-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 12px 16px;
-    border-radius: 12px;
-}
+    /* ---------- Close button (X icon) — ascuns ---------- */
+    .mobile-close-btn {
+        display: none !important;
+    }
 
-/* Asigurăm că numele nu se suprapune */
-.mobile-user-card .info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex: 1; /* Ocupă tot spațiul disponibil */
-    min-width: 0; /* Permite scurtarea textului */
-}
-
-.mobile-user-card .text strong {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-    max-width: 120px; /* Limităm lățimea numelui */
-}
-
-/* Butonul "Cardul Meu" - Îl facem mare și separat */
-/* NOTĂ: Asigură-te că butonul tău are o clasă sau e un <button> în afara .mobile-user-card,
-   sau dacă e înăuntru, îl scoatem vizual */
-
-.mobile-menu-footer .btn-card-meniu {
-    width: 100%;
-    background: linear-gradient(90deg, #D4AF37, #B8860B); /* Auriu */
-    color: white;
-    padding: 14px;
-    border-radius: 12px;
-    font-weight: 700;
-    text-align: center;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-}
-
-
-/* --- ASCUNDE BUTONUL "X" NESIMȚIT --- */
-.mobile-close-btn {
-    display: none !important;
 }

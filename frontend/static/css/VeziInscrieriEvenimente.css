@@ -1,0 +1,192 @@
+/* ============================================================
+   VeziInscrieriEvenimente.css — HWARANG DARK ELEGANT
+   Fișier PROPRIU pentru pagina de participanți (decuplat de
+   CalendarClub.css ca să nu afecteze pagina de calendar).
+   Clase cu prefix .vie- (Vezi Inscrieri Eveniment).
+   ============================================================ */
+
+:root {
+    --hw-bg: #0a0a12;
+    --hw-surface: #13131f;
+    --hw-surface-2: #1a1a2b;
+    --hw-surface-3: #21213a;
+    --hw-border: rgba(255, 255, 255, .08);
+    --hw-border-strong: rgba(255, 255, 255, .14);
+    --hw-text: #f4f4f8;
+    --hw-muted: #9a9ab0;
+    --hw-red: #e63329;
+    --hw-red-deep: #a3160e;
+    --hw-red-glow: rgba(230, 51, 41, .35);
+    --hw-blue: #3b82f6;
+    --hw-gold: #e0a44a;
+    --hw-radius: 18px;
+    --hw-radius-sm: 12px;
+}
+
+.vie-wrapper {
+    background: linear-gradient(180deg, #0a0a12 0%, #0f0f1a 50%, #0a0a12 100%);
+    min-height: 100vh;
+    padding-bottom: 80px;
+    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+    color: var(--hw-text);
+}
+
+.vie-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 16px 0;
+}
+
+/* ---------- Header ---------- */
+.vie-header {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+    border: 1px solid var(--hw-border);
+    border-radius: var(--hw-radius);
+    padding: 22px 20px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, .5);
+}
+
+.vie-header::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
+    background: linear-gradient(180deg, var(--hw-red), var(--hw-red-deep));
+}
+
+.vie-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: -.02em;
+    line-height: 1.15;
+    color: #fff;
+}
+
+.vie-btn-cancel {
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, .06);
+    color: var(--hw-text);
+    border: 1px solid var(--hw-border-strong);
+    padding: 10px 18px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: .85rem;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.vie-btn-cancel:hover { background: var(--hw-red); border-color: var(--hw-red); color: #fff; }
+.vie-btn-cancel:active { transform: scale(.97); }
+
+/* ---------- Bara total ---------- */
+.vie-stat-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+    border: 1px solid var(--hw-border);
+    border-left: 4px solid var(--hw-red);
+    border-radius: var(--hw-radius-sm);
+    padding: 16px 18px;
+    margin-bottom: 18px;
+}
+
+.vie-stat-bar .vie-lbl {
+    color: var(--hw-muted);
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 600;
+}
+
+.vie-stat-bar .vie-val {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+}
+
+.vie-stat-bar .vie-val small {
+    font-size: .8rem;
+    color: var(--hw-muted);
+    font-weight: 600;
+    margin-left: 6px;
+}
+
+/* ---------- Carduri participanți (mobil-first) ---------- */
+.vie-list { display: flex; flex-direction: column; gap: 12px; }
+
+.vie-card {
+    background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+    border: 1px solid var(--hw-border);
+    border-radius: var(--hw-radius-sm);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all .2s;
+}
+
+.vie-card:hover { border-color: var(--hw-border-strong); transform: translateX(3px); }
+
+.vie-num {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(230, 51, 41, .12);
+    border: 1px solid rgba(230, 51, 41, .3);
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    color: var(--hw-red);
+    font-size: .95rem;
+}
+
+.vie-body { flex: 1; min-width: 0; }
+.vie-name { font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; color: var(--hw-text); }
+.vie-meta { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
+.vie-grad { font-size: .85rem; color: var(--hw-muted); }
+.vie-grad b { color: var(--hw-text); }
+.vie-exam { font-size: .85rem; color: var(--hw-red); font-weight: 700; }
+
+.vie-tag {
+    flex-shrink: 0;
+    font-size: .7rem;
+    font-weight: 700;
+    padding: 4px 11px;
+    border-radius: 50px;
+    letter-spacing: .03em;
+    white-space: nowrap;
+}
+
+.vie-tag.cont { background: rgba(59, 130, 246, .15); color: #7eb0ff; border: 1px solid rgba(59, 130, 246, .3); }
+.vie-tag.manual { background: rgba(224, 164, 74, .15); color: var(--hw-gold); border: 1px solid rgba(224, 164, 74, .3); }
+
+/* ---------- Stări loading / empty ---------- */
+.vie-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--hw-muted);
+    background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+    border: 1px dashed var(--hw-border-strong);
+    border-radius: var(--hw-radius-sm);
+}
+
+.vie-state i { font-size: 2rem; color: var(--hw-red); opacity: .5; margin-bottom: 12px; display: block; }
+
+@media (max-width: 768px) {
+    .vie-container { padding: 16px 12px 0; }
+    .vie-header { flex-direction: column; align-items: flex-start; padding: 20px 18px; }
+    .vie-header h1 { font-size: 1.3rem; }
+    .vie-card { padding: 14px; gap: 12px; }
+    .vie-name { font-size: 1rem; }
+}

@@ -75,7 +75,7 @@ const Home = () => {
                     <p>Respect. Integritate. Perseverență. Autocontrol. Spirit de luptă neînfricat.</p>
                     <div className="hero-cta">
                         <a href="/galerie" className="btn btn-primary">Vezi atmosfera</a>
-                        <a href="/inregistrare" className="btn btn-ghost">Haide in echipa noastră</a>
+                        <a href="/join-us" className="btn btn-ghost">Haide in echipa noastră</a>
                     </div>
                 </div>
                 <div className="video-spacer"/>

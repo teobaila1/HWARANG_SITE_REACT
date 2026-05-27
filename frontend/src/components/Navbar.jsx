@@ -4,6 +4,7 @@ import LogoutButton from "./LogoutButton";
 import "../../static/css/Navbar.css";
 import "../../static/css/MobileMenu.css";
 import MemberCard from "./MemberCard";
+import "../../static/css/NavbarUserEnhance.css";
 
 
 const API_BASE_URL = "https://backend-hwarang-new.onrender.com";
@@ -135,7 +136,7 @@ const Navbar = () => {
                         <li className="dropdown">
                             <a href="#">Calendar</a>
                             <ul className="dropdown-menu">
-                                <li><button onClick={() => navigate("/calendar")}>Calendar Club</button></li>
+                                <li><button onClick={() => navigate("/calendar_club")}>Calendar Club</button></li>
                             </ul>
                         </li>
                     )}
@@ -232,7 +233,7 @@ const Navbar = () => {
                                     onClick={() => toggleMobileSection('cal')}>Calendar <span className="arrow">›</span>
                             </button>
                             <div className={`mobile-sub-links ${mobileExpanded.cal ? 'open' : ''}`}>
-                                <button onClick={() => handleMobileNavigate("/calendar")}>Calendar Club</button>
+                                <button onClick={() => handleMobileNavigate("/calendar_club")}>Calendar Club</button>
                             </div>
                         </div>
                     )}

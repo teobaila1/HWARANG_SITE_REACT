@@ -1,0 +1,146 @@
+/* ============================================================
+   NavbarUserEnhance.css — HWARANG DARK ELEGANT
+   Rafinează chip-ul de user (desktop) + cardul de user din
+   meniul mobil + butonul de deconectare.
+   Se importă DUPĂ Navbar.css și MobileMenu.css ca să le
+   îmbunătățească fără a rescrie fișierele mari.
+   ============================================================ */
+
+:root {
+    --hwn-red: #e63329;
+    --hwn-red-deep: #a3160e;
+    --hwn-red-glow: rgba(230, 51, 41, .4);
+    --hwn-surface: #16162400;
+}
+
+/* ---------------- DESKTOP: chip user ---------------- */
+.user-menu .user-chip {
+    padding: 5px 16px 5px 5px !important;
+    gap: 11px !important;
+    background: rgba(255, 255, 255, .04) !important;
+    border: 1px solid rgba(255, 255, 255, .12) !important;
+    border-radius: 50px !important;
+    transition: all .2s ease !important;
+}
+
+.user-menu .user-chip:hover {
+    background: rgba(230, 51, 41, .10) !important;
+    border-color: var(--hwn-red) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+}
+
+.user-menu .avatar {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, var(--hwn-red), var(--hwn-red-deep)) !important;
+    color: #fff !important;
+    font-weight: 800 !important;
+    font-size: 1.05rem !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 12px var(--hwn-red-glow) !important;
+    letter-spacing: 0;
+}
+
+.user-menu .user-chip .name {
+    font-weight: 700;
+    font-size: .92rem;
+    color: #fff;
+    letter-spacing: .01em;
+}
+
+/* mică săgeată sub nume, dacă există spațiu */
+.user-menu .user-chip::after {
+    content: "\f078"; /* chevron-down Font Awesome */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: .6rem;
+    color: rgba(255, 255, 255, .5);
+    margin-left: 2px;
+    transition: transform .2s;
+}
+
+.user-menu.dropdown:hover .user-chip::after {
+    transform: rotate(180deg);
+    color: var(--hwn-red);
+}
+
+/* dropdown-ul (mic rafinament) */
+.user-dropdown-modern {
+    border-radius: 18px !important;
+    background: #121220 !important;
+    border: 1px solid rgba(255, 255, 255, .1) !important;
+}
+
+.user-dropdown-modern .user-header span {
+    background: linear-gradient(90deg, #fff, #c9c9e0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ---------------- MOBIL: card user ---------------- */
+.mobile-user-card {
+    background: linear-gradient(135deg, #1a1a2b, #13131f) !important;
+    border: 1px solid rgba(255, 255, 255, .08) !important;
+    border-radius: 18px !important;
+    padding: 16px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
+}
+
+.mobile-user-card .avatar {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, var(--hwn-red), var(--hwn-red-deep)) !important;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-weight: 900;
+    font-size: 1.3rem !important;
+    margin-right: 13px !important;
+    box-shadow: 0 4px 16px var(--hwn-red-glow);
+    flex-shrink: 0;
+}
+
+.mobile-user-card .text small {
+    display: block;
+    color: #9a9ab0;
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.mobile-user-card .text strong {
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: #fff;
+    max-width: 150px;
+}
+
+/* ---------------- Butonul de deconectare (ambele) ---------------- */
+/* În cardul mobil: compact, elegant, devine roșu la atingere */
+.mobile-user-card .logout_button {
+    background: rgba(255, 255, 255, .06) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, .14) !important;
+    border-radius: 12px !important;
+    padding: 11px 16px !important;
+    font-weight: 700 !important;
+    font-size: .85rem !important;
+    flex-shrink: 0;
+    transition: all .2s ease !important;
+}
+
+.mobile-user-card .logout_button:hover,
+.mobile-user-card .logout_button:active {
+    background: linear-gradient(135deg, var(--hwn-red), var(--hwn-red-deep)) !important;
+    border-color: var(--hwn-red) !important;
+    box-shadow: 0 4px 16px var(--hwn-red-glow) !important;
+    transform: none !important;
+}

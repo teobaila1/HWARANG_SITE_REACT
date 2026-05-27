@@ -131,10 +131,10 @@ const ParinteCopii = () => {
                                     </div>
                                     <div className="kid-info-main">
                                         <h3>{copil.nume}</h3>
-                                        <div className="kid-status active">
+                                        {/* <div className="kid-status active">
                                             <span className="status-dot"></span>
                                             Abonament Activ
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
 

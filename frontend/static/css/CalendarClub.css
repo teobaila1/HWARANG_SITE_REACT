@@ -1,230 +1,456 @@
-/* CalendarClub.css - Full Width & List View */
+/* ============================================================
+   CalendarClub.css — HWARANG DARK ELEGANT (mobile-first)
+   Management calendar pagină. Dark theme cu accent roșu,
+   carduri pe mobil, tabel pe desktop, modal elegant.
+   ============================================================ */
 
-.calendar-page-wrapper {
-    background-color: #000000;
+:root {
+    --hw-bg: #0a0a12;
+    --hw-surface: #13131f;
+    --hw-surface-2: #1a1a2b;
+    --hw-surface-3: #21213a;
+    --hw-border: rgba(255, 255, 255, .08);
+    --hw-border-strong: rgba(255, 255, 255, .14);
+    --hw-text: #f4f4f8;
+    --hw-muted: #9a9ab0;
+    --hw-faint: #6b6b85;
+    --hw-red: #e63329;
+    --hw-red-deep: #a3160e;
+    --hw-red-glow: rgba(230, 51, 41, .35);
+    --hw-green: #2e7d32;
+    --hw-green-glow: rgba(46, 125, 50, .25);
+    --hw-radius: 18px;
+    --hw-radius-sm: 12px;
+}
+
+/* ---------- Layout general ---------- */
+/* .cal-club-wrapper {
+    background: linear-gradient(180deg, #0a0a12 0%, #0f0f1a 50%, #0a0a12 100%);
     min-height: 100vh;
-    padding-top: 100px;
-    padding-bottom: 50px;
-    font-family: 'Montserrat', sans-serif;
-    color: #ffffff;
-    width: 100%;
-    overflow-x: hidden;
-}
+    padding-bottom: 80px;
+    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+    color: var(--hw-text);
+} */
 
-/* 1. CONTAINER FULL WIDTH */
-.calendar-container {
-    width: 95%;
-    max-width: none;
+.cal-club-container {
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 20px 16px;
 }
 
-/* Header */
-.calendar-header {
+/* ---------- Header cu accent ---------- */
+.cal-club-header {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+    border: 1px solid var(--hw-border);
+    border-radius: var(--hw-radius);
+    padding: 22px 20px;
+    margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
-    border-bottom: 2px solid #D32F2F;
-    padding-bottom: 20px;
+    gap: 14px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, .5);
 }
 
-.calendar-header h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    color: #ffffff;
-    margin: 0;
-}
-
-.btn-add-event {
-    background-color: #D32F2F;
-    color: #ffffff;
-    border: none;
-    padding: 12px 30px;
-    font-size: 1rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    border-radius: 4px;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3);
-    transition: all 0.3s ease;
-}
-
-.btn-add-event:hover {
-    background-color: #b71c1c;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(211, 47, 47, 0.5);
-}
-
-/* 2. LISTA EVENIMENTE (Vertical) */
-.events-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-}
-
-/* 3. CARD EXTINS */
-.event-card {
-    background: #111;
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 30px;
-    width: 100%;
-    box-sizing: border-box;
-    position: relative;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-    display: flex;
-    flex-direction: column;
-}
-
-.event-card:hover {
-    border-color: #555;
-    background: #161616;
-}
-
-/* Bordura colorată stânga */
-.event-card.type-Competitie { border-left: 8px solid #D32F2F; }
-.event-card.type-Examen { border-left: 8px solid #ffffff; }
-.event-card.type-Cantonament { border-left: 8px solid #1976D2; }
-.event-card.type-General { border-left: 8px solid #757575; }
-
-/* Badge (Tip Eveniment) */
-.event-badge {
+.cal-club-header::before {
+    content: "";
     position: absolute;
-    top: 25px;
-    right: 25px;
-    font-size: 0.8rem;
-    padding: 6px 12px;
-    border-radius: 4px;
-    text-transform: uppercase;
-    font-weight: bold;
-    letter-spacing: 1px;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
+    background: linear-gradient(180deg, var(--hw-red), var(--hw-red-deep));
 }
 
-.type-Competitie .event-badge { background: rgba(211, 47, 47, 0.2); color: #ef5350; }
-.type-Examen .event-badge { background: rgba(255, 255, 255, 0.1); color: #fff; }
-.type-Cantonament .event-badge { background: rgba(25, 118, 210, 0.2); color: #64b5f6; }
-
-.event-date { margin-bottom: 10px; }
-
-.date-big {
-    font-size: 1.4rem;
-    font-weight: bold;
+.cal-club-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: -.02em;
     color: #fff;
-    margin-right: 15px;
+    flex: 1;
 }
 
-.date-time {
-    font-size: 1rem;
-    color: #aaa;
-}
-
-.event-title {
-    font-size: 2rem;
-    margin: 5px 0 15px 0;
-    color: #f1f1f1;
-}
-
-.event-location {
-    font-size: 1.1rem;
-    color: #aaa;
-    display: flex;
+.cal-club-btn-add {
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--hw-red), var(--hw-red-deep));
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: .9rem;
+    cursor: pointer;
+    box-shadow: 0 6px 18px var(--hw-red-glow);
+    transition: all .2s;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 20px;
 }
 
-/* Descriere și Link-uri */
-.event-desc {
-    font-size: 1rem;
-    color: #ccc;
-    line-height: 1.6;
-    border-top: 1px solid #333;
-    padding-top: 20px;
-    margin-top: auto;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    margin-bottom: 40px; /* Spațiu pentru butoanele de admin */
+.cal-club-btn-add:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--hw-red-glow); }
+.cal-club-btn-add:active { transform: scale(.98); }
+
+/* ---------- Tabel desktop ---------- */
+.cal-club-table-responsive {
+    background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+    border: 1px solid var(--hw-border);
+    border-radius: var(--hw-radius-sm);
+    overflow-x: auto;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, .5);
 }
 
-.description-link {
-    color: #D32F2F;
-    text-decoration: underline;
-    font-weight: bold;
+.cal-club-table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.description-link:hover {
-    color: #ffffff;
+.cal-club-table th {
+    background: var(--hw-surface-3);
+    color: var(--hw-muted);
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--hw-border);
+    font-weight: 700;
 }
 
-/* Butoane Acțiuni Admin */
-.action-buttons {
-    position: absolute;
-    bottom: 25px;
-    right: 25px;
+.cal-club-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--hw-border);
+    color: var(--hw-text);
+    vertical-align: middle;
+}
+
+.cal-club-table tbody tr {
+    transition: background .15s;
+}
+
+.cal-club-table tbody tr:hover td { background: rgba(255, 255, 255, .03); }
+.cal-club-table tbody tr:last-child td { border-bottom: none; }
+
+/* ---------- Coloane tabel ---------- */
+.cal-club-col-index { width: 50px; text-align: center; font-weight: 700; }
+.cal-club-col-date { width: 140px; }
+.cal-club-col-location { width: 180px; }
+.cal-club-col-action { width: 200px; text-align: center; }
+
+/* ---------- Detalii eveniment ---------- */
+.cal-club-event-title {
     display: flex;
-    gap: 15px;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--hw-text);
+    margin-bottom: 4px;
 }
 
-.btn-icon {
-    background: transparent;
-    border: none;
+.cal-club-badge {
+    font-size: .7rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 50px;
+    letter-spacing: .03em;
+    text-transform: capitalize;
+    background: rgba(230, 51, 41, .12);
+    color: #ff9999;
+    border: 1px solid rgba(230, 51, 41, .3);
+}
+
+.cal-club-desc {
+    color: var(--hw-muted);
+    font-size: .85rem;
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+/* ---------- Zona acțiuni ---------- */
+.cal-club-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.cal-club-btn-enroll {
+    background: rgba(46, 125, 50, .15);
+    color: #66bb6a;
+    border: 1px solid rgba(46, 125, 50, .3);
+    padding: 8px 16px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 0.9rem;
-    color: #888;
-    transition: color 0.2s;
+    font-weight: 700;
+    font-size: .85rem;
+    transition: all .2s;
+}
+
+.cal-club-btn-enroll:hover { background: var(--hw-green); color: #fff; border-color: var(--hw-green); box-shadow: 0 4px 12px var(--hw-green-glow); }
+
+.cal-club-btn-icon {
+    background: transparent;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all .2s;
+    border: 1px solid transparent;
+    color: var(--hw-muted);
+}
+
+.cal-club-btn-icon:hover { background: rgba(255, 255, 255, .05); }
+
+.cal-club-btn-edit { color: #7eb0ff; }
+.cal-club-btn-edit:hover { background: rgba(59, 130, 246, .1); border-color: rgba(59, 130, 246, .3); }
+
+.cal-club-btn-delete { color: #ff9999; }
+.cal-club-btn-delete:hover { background: rgba(230, 51, 41, .1); border-color: rgba(230, 51, 41, .3); }
+
+/* ---------- Empty state ---------- */
+.cal-club-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--hw-muted);
+    font-size: 1.05rem;
+    background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+    border: 1px dashed var(--hw-border-strong);
+    border-radius: var(--hw-radius-sm);
+}
+
+/* ---------- Modal ---------- */
+.cal-club-modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, .8) !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2147483647 !important;
+    backdrop-filter: blur(4px);
+    padding: 16px;
+}
+
+.cal-club-modal-content {
+    background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+    border: 1px solid var(--hw-border);
+    border-radius: var(--hw-radius);
+    width: 100%;
+    max-width: 500px;
+    padding: 28px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .7);
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.cal-club-modal-title {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--hw-text);
+    margin: 0 0 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--hw-border);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.cal-club-modal-title i { color: var(--hw-red); font-size: 1.2rem; }
+
+/* ---------- Form ---------- */
+.cal-club-form-group {
+    margin-bottom: 18px;
+}
+
+.cal-club-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: .9rem;
+    color: var(--hw-muted);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.cal-club-input {
+    width: 100%;
+    background: var(--hw-surface-3) !important;
+    color: var(--hw-text) !important;
+    border: 1px solid var(--hw-border-strong) !important;
+    border-radius: 10px !important;
+    padding: 13px 14px !important;
     font-family: inherit;
-    font-weight: 500;
+    font-size: .95rem;
+    outline: none;
+    transition: border-color .2s;
+    box-sizing: border-box;
 }
 
-.btn-icon:hover { color: #ffffff; }
-.btn-icon.delete-color:hover { color: #D32F2F; }
+.cal-club-input::placeholder { color: var(--hw-faint); }
+.cal-club-input:focus { border-color: var(--hw-red) !important; }
 
-/* MODAL */
-.modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
-    z-index: 99999 !important;
-    display: flex; justify-content: center; align-items: center;
+select.cal-club-input {
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%239a9ab0' d='M6 8L0 0h12z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 14px center !important;
+    padding-right: 36px !important;
 }
 
-.modal-content {
-    background: #111; width: 90%; max-width: 600px;
-    padding: 40px; border-radius: 8px; border: 1px solid #333;
-    max-height: 90vh; overflow-y: auto;
+select.cal-club-input option { background: var(--hw-surface-3); color: var(--hw-text); }
+
+textarea.cal-club-input { resize: vertical; min-height: 100px; }
+
+.cal-club-date-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
-.form-group label { color: #ccc; display: block; margin-bottom: 8px; }
-
-.form-group input, .form-group textarea, .form-group select {
-    width: 100%; padding: 12px; background: #222; border: 1px solid #444;
-    color: white; border-radius: 5px; box-sizing: border-box;
-    font-family: inherit;
+.cal-club-date-row .cal-club-form-group {
+    flex: 1;
+    min-width: 180px;
 }
 
-.date-row { display: flex; gap: 20px; margin-bottom: 20px; }
-.date-row .form-group { flex: 1; }
-
-.modal-actions { display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px; }
-
-.btn-save {
-    background: #D32F2F; color: white; border: none; padding: 10px 30px;
-    border-radius: 5px; cursor: pointer; font-weight: bold;
+/* ---------- Modal actions ---------- */
+.cal-club-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--hw-border);
 }
 
-.btn-cancel {
-    background: transparent; color: #aaa; border: 1px solid #555;
-    padding: 10px 20px; border-radius: 5px; cursor: pointer;
+.cal-club-btn-cancel {
+    background: rgba(255, 255, 255, .06);
+    color: var(--hw-text);
+    border: 1px solid var(--hw-border-strong);
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s;
 }
 
+.cal-club-btn-cancel:hover { background: rgba(255, 255, 255, .1); border-color: var(--hw-border-strong); }
+
+.cal-club-btn-save {
+    background: linear-gradient(135deg, var(--hw-red), var(--hw-red-deep));
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 6px 18px var(--hw-red-glow);
+    transition: all .2s;
+}
+
+.cal-club-btn-save:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--hw-red-glow); }
+.cal-club-btn-save:active { transform: scale(.98); }
+
+/* =========================================
+   📱 MOBIL — tabelul devine carduri
+   ========================================= */
 @media (max-width: 768px) {
-    .calendar-header { flex-direction: column; text-align: center; gap: 15px; }
-    .date-row { flex-direction: column; gap: 0; }
-    .event-title { font-size: 1.5rem; }
-    .action-buttons {
-        position: relative; bottom: auto; right: auto;
-        margin-top: 20px; justify-content: flex-end;
+    .cal-club-container { padding: 16px 12px; }
+
+    .cal-club-header { flex-direction: column; align-items: flex-start; padding: 20px 18px; }
+    .cal-club-header h1 { font-size: 1.3rem; }
+    .cal-club-btn-add { width: 100%; justify-content: center; }
+
+    .cal-club-table-responsive { background: transparent; border: none; overflow: visible; }
+
+    .cal-club-table,
+    .cal-club-table thead,
+    .cal-club-table tbody,
+    .cal-club-table tr,
+    .cal-club-table td,
+    .cal-club-table th {
+        display: block;
+        width: 100%;
     }
+
+    .cal-club-table thead { display: none; }
+
+    .cal-club-table tbody { background: transparent; }
+
+    .cal-club-table tr {
+        background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface)) !important;
+        border: 1px solid var(--hw-border) !important;
+        border-radius: var(--hw-radius-sm) !important;
+        margin-bottom: 12px;
+        padding: 14px 16px;
+    }
+
+    .cal-club-table td {
+        border: none !important;
+        padding: 0 !important;
+        margin-bottom: 10px;
+    }
+
+    .cal-club-table td:last-child { margin-bottom: 0; }
+
+    .cal-club-col-index {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: rgba(230, 51, 41, .12);
+        border-radius: 10px;
+        color: var(--hw-red);
+        font-weight: 900;
+        margin-bottom: 10px !important;
+    }
+
+    .cal-club-event-title { font-size: 1.05rem; }
+    .cal-club-desc { display: none; }
+    .cal-club-badge { margin-top: 8px !important; }
+
+    .cal-club-actions {
+        display: flex !important;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 12px;
+        width: 100%;
+        align-items: center;
+    }
+
+    .cal-club-btn-enroll { 
+        width: 100% !important;
+        text-align: center; 
+        padding: 12px 16px !important;
+        font-size: .9rem !important;
+    }
+    
+    /* Grupez butoanele de icon pe același rând, centrate */
+    .cal-club-btn-icon { 
+        width: 48px !important;
+        height: 48px !important;
+        padding: 0 !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        margin: 0 8px !important;
+        font-size: 1.1rem !important;
+    }
+    
+    /* Centrez containerul de icon buttons */
+    .cal-club-actions {
+        justify-content: center;
+    }
+
+    .cal-club-modal-overlay { padding: 20px 16px; }
+    .cal-club-modal-content { max-width: 100%; padding: 20px; }
 }

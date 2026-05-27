@@ -1,0 +1,372 @@
+/* ============================================================
+   InscrieriEveniment.css — HWARANG DARK ELEGANT (mobile-first)
+   Pagina de Inscriere la Eveniment. Dark theme cu accent roșu,
+   carduri pentru copii pe mobil, form elegant.
+   ============================================================ */
+
+:root {
+    --hw-bg: #0a0a12;
+    --hw-surface: #13131f;
+    --hw-surface-2: #1a1a2b;
+    --hw-surface-3: #21213a;
+    --hw-border: rgba(255, 255, 255, .08);
+    --hw-border-strong: rgba(255, 255, 255, .14);
+    --hw-text: #f4f4f8;
+    --hw-muted: #9a9ab0;
+    --hw-faint: #6b6b85;
+    --hw-red: #e63329;
+    --hw-red-deep: #a3160e;
+    --hw-red-glow: rgba(230, 51, 41, .35);
+    --hw-radius: 18px;
+    --hw-radius-sm: 12px;
+}
+
+/* ---------- Layout general ---------- */
+/* .insc-ev-wrapper {
+    background:
+        radial-gradient(1200px 600px at 70% -10%, rgba(230, 51, 41, .08), transparent 60%),
+        linear-gradient(180deg, #0a0a12 0%, #0f0f1a 50%, #0a0a12 100%);
+    min-height: 100vh;
+    padding-bottom: 80px;
+    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+    color: var(--hw-text);
+} */
+
+.insc-ev-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 16px 0;
+}
+
+/* ---------- Header cu accent ---------- */
+.insc-ev-header {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+    border: 1px solid var(--hw-border);
+    border-radius: var(--hw-radius);
+    padding: 22px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, .5);
+}
+
+.insc-ev-header::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
+    background: linear-gradient(180deg, var(--hw-red), var(--hw-red-deep));
+}
+
+.insc-ev-header::after {
+    content: "";
+    position: absolute;
+    right: -40px; top: -40px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, var(--hw-red-glow), transparent 70%);
+    pointer-events: none;
+}
+
+.insc-ev-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: -.02em;
+    line-height: 1.15;
+    color: #fff !important;
+    flex: 1;
+}
+
+.insc-ev-btn-cancel {
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, .06);
+    color: var(--hw-text);
+    border: 1px solid var(--hw-border-strong);
+    padding: 10px 18px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: .85rem;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.insc-ev-btn-cancel:hover {
+    background: var(--hw-red);
+    border-color: var(--hw-red);
+    color: #fff;
+}
+
+.insc-ev-btn-cancel:active { transform: scale(.97); }
+
+/* ---------- Titluri de secțiune ---------- */
+.insc-ev-section-title {
+    color: var(--hw-muted);
+    font-size: .82rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin: 26px 4px 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+.insc-ev-section-title::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: var(--hw-red);
+    border-radius: 50%;
+    margin-right: 10px;
+    box-shadow: 0 0 10px var(--hw-red-glow);
+}
+
+/* ---------- Tabel desktop (selectie profil) ---------- */
+.insc-ev-table-wrapper {
+    background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+    border: 1px solid var(--hw-border);
+    border-radius: var(--hw-radius-sm);
+    overflow: hidden;
+}
+
+.insc-ev-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.insc-ev-table th {
+    background: var(--hw-surface-3);
+    color: var(--hw-muted);
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--hw-border);
+    font-weight: 700;
+}
+
+.insc-ev-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--hw-border);
+    color: var(--hw-text) !important;
+    vertical-align: middle;
+}
+
+.insc-ev-table tbody tr {
+    transition: background .15s;
+}
+
+.insc-ev-table tbody tr:hover td { background: rgba(255, 255, 255, .03) !important; }
+.insc-ev-table tbody tr:last-child td { border-bottom: none; }
+
+/* Checkbox */
+.insc-ev-checkbox {
+    width: 18px !important;
+    height: 18px !important;
+    cursor: pointer;
+    margin: 0 !important;
+    flex-shrink: 0;
+    accent-color: var(--hw-red);
+}
+
+/* ---------- Selectoare și inputuri ---------- */
+.insc-ev-input {
+    width: 100%;
+    background: var(--hw-surface-3) !important;
+    color: var(--hw-text) !important;
+    border: 1px solid var(--hw-border-strong) !important;
+    border-radius: 10px !important;
+    padding: 13px 14px !important;
+    font-family: inherit;
+    font-size: .95rem;
+    outline: none;
+    transition: border-color .2s;
+}
+
+.insc-ev-input::placeholder { color: var(--hw-faint); }
+.insc-ev-input:focus { border-color: var(--hw-red) !important; }
+
+select.insc-ev-input {
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%239a9ab0' d='M6 8L0 0h12z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 14px center !important;
+    padding-right: 36px !important;
+}
+
+select.insc-ev-input option { 
+    background: var(--hw-surface-3); 
+    color: var(--hw-text); 
+}
+
+/* ---------- Formular manual ---------- */
+.manual-scroll-wrapper {
+    background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+    border-radius: var(--hw-radius-sm);
+    padding: 16px;
+    border: 1px solid var(--hw-border);
+    overflow-x: auto;
+}
+
+.manual-form-inner {
+    display: flex;
+    gap: 10px;
+    min-width: 650px;
+    align-items: center;
+}
+
+.insc-ev-btn-add {
+    background: var(--hw-surface-3);
+    color: var(--hw-text);
+    border: 1px dashed var(--hw-border-strong);
+    border-radius: 10px;
+    padding: 0 22px;
+    font-weight: 700;
+    height: 48px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all .2s;
+}
+
+.insc-ev-btn-add:hover {
+    border-color: var(--hw-red);
+    color: var(--hw-red);
+    border-style: solid;
+}
+
+/* ---------- Lista participanți adăugați manual ---------- */
+.manual-list {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.manual-list li {
+    background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface));
+    border: 1px solid var(--hw-border);
+    border-left: 3px solid var(--hw-red);
+    border-radius: var(--hw-radius-sm);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.manual-list-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.manual-list-text strong { font-size: 1.02rem; font-weight: 700; color: var(--hw-text); }
+.manual-list-text span { font-size: .85rem; color: var(--hw-muted); }
+.manual-list-text b { color: var(--hw-text); }
+
+.btn-remove-manual {
+    flex-shrink: 0;
+    background: rgba(230, 51, 41, .12);
+    color: #ff6b62;
+    border: 1px solid rgba(230, 51, 41, .3);
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: .82rem;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.btn-remove-manual:hover { background: var(--hw-red); color: #fff; border-color: var(--hw-red); }
+
+/* ---------- Buton trimitere final ---------- */
+.insc-ev-btn-submit {
+    background: linear-gradient(135deg, var(--hw-red), var(--hw-red-deep));
+    color: #fff;
+    border: none;
+    width: 100%;
+    max-width: 420px;
+    margin: 28px auto 0;
+    display: block;
+    padding: 17px;
+    font-size: 1.05rem;
+    font-weight: 800;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 10px 28px var(--hw-red-glow);
+    transition: transform .15s;
+}
+
+.insc-ev-btn-submit:active { transform: scale(.98); }
+
+/* =========================================
+   📱 MOBIL — tabelul devine carduri
+   ========================================= */
+@media (max-width: 768px) {
+    .insc-ev-container { padding: 16px 12px 0; }
+
+    .insc-ev-header { padding: 20px 18px; flex-direction: column; align-items: flex-start; }
+    .insc-ev-header h1 { font-size: 1.35rem; }
+    .insc-ev-btn-cancel { align-self: flex-start; }
+
+    .insc-ev-table-wrapper { background: transparent; border: none; overflow: visible; }
+    .insc-ev-table thead { display: none; }
+
+    .insc-ev-table,
+    .insc-ev-table tbody,
+    .insc-ev-table tr,
+    .insc-ev-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .insc-ev-table tr {
+        background: linear-gradient(135deg, var(--hw-surface-2), var(--hw-surface)) !important;
+        border: 1px solid var(--hw-border) !important;
+        border-radius: var(--hw-radius-sm) !important;
+        margin-bottom: 12px;
+        padding: 14px 16px;
+    }
+
+    .insc-ev-table td {
+        border: none !important;
+        padding: 4px 0 !important;
+        background: transparent !important;
+    }
+
+    /* rândul Checkbox + Nume */
+    .insc-ev-table td:nth-child(1) {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        border-bottom: 1px solid var(--hw-border) !important;
+        padding-bottom: 12px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .insc-ev-table td:nth-child(2) {
+        font-weight: 700;
+        color: var(--hw-text) !important;
+        font-size: 1.05rem;
+    }
+
+    .manual-scroll-wrapper {
+        background: transparent;
+        border: none;
+        padding: 0;
+        overflow: visible;
+    }
+
+    .manual-form-inner {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        min-width: auto;
+    }
+
+    .insc-ev-input { width: 100%; }
+    .insc-ev-btn-add { width: 100%; height: auto; padding: 12px; }
+}

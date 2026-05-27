@@ -1,5 +1,5 @@
-import React from "react";
-import {BrowserRouter as Router, Routes, Route, Navigate, Outlet} from "react-router-dom";
+import React, { useEffect } from "react";
+import {BrowserRouter as Router, Routes, Route, Navigate, Outlet, useLocation} from "react-router-dom";
 import Home from "./pages/Home";
 import "../static/css/style.css"
 import "../static/css/Orar.css"
@@ -37,23 +37,78 @@ import Training from "./Kickbox/Trainings";
 import ScannerPage from "./pages/ScannerPage";
 import CalendarClub from "./pages/Documents&Calendar/CalendarClub";
 import CalendarPage from "./pages/Documents&Calendar/CalendarPage";
+import AdminOnline from "./pages/Admins/AdminOnline";
+
+import JoinForm from "./pages/Login/JoinForm";
+
 // import PaginaPrezenta from './pages/PaginaPrezenta';
 // import IstoricPrezenteCopil from './components/IstoricPrezenteCopil';
 // import PaginaPrezentaFamilie from "./pages/PaginaPrezentaFamilie";
 import ProtectedRoute from "./components/ProtectedRoute";
-
-
+import InscriereEveniment from "./pages/Documents&Calendar/InscriereEvenimente";
+import VeziInscrieriEveniment from './pages/Documents&Calendar/VeziInscrieriEveniment';
 import "./styles/theme.css";          /* rename --border first */
 import "./styles/mobile_overrides.css"; /* fix filename typo first */
 
 
+
+
+
+const API_BASE_URL = "https://backend-hwarang-new.onrender.com";
+
+// O mică funcție componentă care ascultă rutele și dă pulsul
+const HeartbeatTracker = () => {
+    const location = useLocation();
+
+    useEffect(() => {
+        // Generăm un ID unic de sesiune dacă nu există deja în browser
+        if (!localStorage.getItem('session_id')) {
+            const randomId = Math.random().toString(36).substring(2) + Date.now().toString(36);
+            localStorage.setItem('session_id', randomId);
+        }
+
+        const sendHeartbeat = () => {
+            const sessionId = localStorage.getItem('session_id');
+            const token = localStorage.getItem("token"); // Poate fi null, nu ne deranjează
+            
+            // Setăm headerele. Dacă avem token, îl trimitem. Dacă nu, trimitem doar un obiect gol de headere.
+            const headers = { 'Content-Type': 'application/json' };
+            if (token) {
+                headers['x-access-token'] = token;
+            }
+
+            fetch(`${API_BASE_URL}/api/status/heartbeat`, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({ 
+                    session_id: sessionId,
+                    pagina: location.pathname 
+                })
+            }).catch(err => console.log("Heartbeat silențios eșuat", err));
+        };
+
+        // Trimitem puls imediat când își schimbă pagina
+        sendHeartbeat();
+
+        // Și apoi din 30 în 30 de secunde cât timp stă cu pagina deschisă
+        const interval = setInterval(sendHeartbeat, 30000);
+        return () => clearInterval(interval);
+
+    }, [location.pathname]); // Execută iar când se schimbă URL-ul
+
+    return null; // Nu afișează nimic vizual, lucrează în umbră
+};
+
+
+
+
+
 function App() {
-    // NOTĂ: Am eliminat calcularea rolului aici.
-    // Verificarea se face acum în timp real în componentele Guard de jos.
 
     return (
         <>
             <Router>
+                <HeartbeatTracker />
                 <Routes>
                     {/* ==================================================== */}
                     {/* ZONA PUBLICĂ (Accesibilă oricui, fără login)         */}
@@ -71,6 +126,7 @@ function App() {
                     <Route path="/training" element={<Training/>} />
                     <Route path="/galerie" element={<Galerie/>}/>
                     <Route path="/antrenori" element={<Coaches/>}/>
+                    <Route path="/join-us" element={<JoinForm />} />
 
                     {/* ==================================================== */}
                     {/* ZONA PROTEJATĂ (Trebuie să fii LOGAT)                */}
@@ -81,8 +137,11 @@ function App() {
                         <Route path="/concursuri" element={<Concursuri/>}/>
                         <Route path="/documente" element={<Documente/>}/>
                         <Route path="/calendar" element ={<CalendarPage/>} />
+                        <Route path="/calendar_club" element ={<CalendarClub/>} />
                         <Route path="/antrenori" element={<Coaches/>}/>
                         <Route path="/inscrisi/:numeConcurs" element={<InscrisiConcurs/>}/>
+                        <Route path="/inscriere_eveniment/:id" element={<InscriereEveniment />} />
+                        <Route path="/eveniment/:id/inscrieri" element={<VeziInscrieriEveniment />} />
                         {/* Unele rute pot fi accesate de toți, dar conținutul diferă (ex: scan) */}
                         {/* <Route path="/scan" element={<ScannerPage />} />
                         <Route path="/prezenta/grupa/:id" element={<PaginaPrezenta />} />
@@ -110,6 +169,7 @@ function App() {
                             <Route path="/antrenori-grupe" element={<AdminAntrenoriGrupe/>}/>
                             <Route path="/creeaza-concurs" element={<CreeazaConcurs/>}/>
                             <Route path="/plati" element={<AdminPlati/>}/>
+                            <Route path="/admin/online" element={<AdminOnline />} />
                         </Route>
 
                         {/* RUTE EXTERN (Dacă ai nevoie în viitor) */}

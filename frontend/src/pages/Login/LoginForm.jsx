@@ -28,6 +28,7 @@ const LoginForm = () => {
     };
 
     const handleLogin = async (e) => {
+        console.log("API_BASE folosit:", API_BASE);
         e.preventDefault();
         setError(null);
 

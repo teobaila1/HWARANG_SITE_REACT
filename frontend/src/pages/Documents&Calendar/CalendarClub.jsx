@@ -35,6 +35,17 @@ const CalendarClub = () => {
         }
     }, [navigate]);
 
+    useEffect(() => {
+        if (showModal) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [showModal]);
+
     const fetchEvents = () => {
         const token = localStorage.getItem("token");
         fetch(API_URL, {
@@ -53,7 +64,10 @@ const CalendarClub = () => {
                 return [];
             })
             .then(data => {
-                if (Array.isArray(data)) setEvents(data);
+                if (Array.isArray(data)) {
+                    const evenimenteSortate = data.sort((a, b) => new Date(a.start) - new Date(b.start));
+                    setEvents(evenimenteSortate);
+                }
             })
             .catch(err => console.error("Eroare calendar:", err));
     };
@@ -63,6 +77,27 @@ const CalendarClub = () => {
         const d = new Date(isoDateString);
         d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
         return d.toISOString().slice(0, 16);
+    };
+
+    const getCurrentLocalTime = () => {
+        const d = new Date();
+        d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+        return d.toISOString().slice(0, 16);
+    };
+
+    const formatShortDate = (isoString) => {
+        if (!isoString) return "";
+        const date = new Date(isoString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        return `${day}.${month}`;
+    };
+
+    const getDisplayDate = (start, end) => {
+        const s = formatShortDate(start);
+        const e = formatShortDate(end);
+        if (!e || s === e) return s;
+        return `${s}-${e}`;
     };
 
     const openAddModal = () => {
@@ -86,8 +121,19 @@ const CalendarClub = () => {
         setShowModal(true);
     };
 
-    const handleSave = (e) => {
+   const handleSave = (e) => {
         e.preventDefault();
+
+        if (newEvent.end) {
+            const startDate = new Date(newEvent.start);
+            const endDate = new Date(newEvent.end);
+
+            if (endDate < startDate) {
+                alert("Eroare: Data de sfârșit nu poate fi mai mică decât data de start!");
+                return;
+            }
+        }
+
         const token = localStorage.getItem("token");
         const method = isEditing ? 'PUT' : 'POST';
         const url = isEditing ? `${API_URL}/${editId}` : API_URL;
@@ -105,113 +151,100 @@ const CalendarClub = () => {
                     setShowModal(false);
                     fetchEvents();
                 } else {
-                    res.json().then(err => alert("Eroare: " + err.message)).catch(() => alert("Eroare server."));
+                    alert("Eroare la salvare");
                 }
-            });
+            })
+            .catch(err => console.error("Eroare salvare:", err));
     };
 
     const handleDelete = (id) => {
-        if (!window.confirm("Sigur ștergi acest eveniment?")) return;
-        const token = localStorage.getItem("token");
+        if (!window.confirm("Sigur dorești să ștergi acest eveniment?")) return;
 
+        const token = localStorage.getItem("token");
         fetch(`${API_URL}/${id}`, {
             method: 'DELETE',
-            headers: { 'x-access-token': token }
-        }).then(res => {
-            if (res.ok) fetchEvents();
-            else alert("Eroare la ștergere!");
-        });
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': token
+            }
+        })
+            .then(res => {
+                if (res.ok) {
+                    fetchEvents();
+                } else {
+                    alert("Eroare la ștergere");
+                }
+            })
+            .catch(err => console.error("Eroare ștergere:", err));
     };
-
-    const formatDateRO = (dateString) => {
-        if (!dateString) return "-";
-        const date = new Date(dateString);
-        return date.toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    };
-
-    // Funcția care decide UNDE trimite utilizatorul la click
-    const handleInscriereClick = (ev) => {
-        if (ev.tip === "Competitie") {
-            // Este concurs! Îl trimitem la pagina cu acordeoane.
-            navigate("/concursuri");
-        } else {
-            // Este examen, cantonament sau stagiu. 
-            // Îi afișăm un mesaj frumos până implementăm formularele noi.
-            alert(`Înscrierile online pentru ${ev.tip} vor fi disponibile în curând!`);
-        }
-    };
-
-    const isAdmin = rol === "admin";
 
     return (
-        <div className="calendar-page-wrapper">
+        <div className="cal-club-wrapper">
             <Navbar />
-
-            <div className="calendar-container">
-                <div className="calendar-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                    <h1>Calendar Evenimente</h1>
-                    {isAdmin && (
-                        <button className="btn-add-event" onClick={openAddModal} style={{ padding: '10px 15px', backgroundColor: '#d32f2f', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
-                            + Adaugă Eveniment
+            <div className="cal-club-container">
+                <div className="cal-club-header">
+                    <h1><i className="fas fa-calendar-alt"></i> Calendar Club</h1>
+                    {(rol === "admin" || rol === "Antrenor") && (
+                        <button className="cal-club-btn-add" onClick={openAddModal}>
+                            <i className="fas fa-plus"></i> Adaugă Eveniment
                         </button>
                     )}
                 </div>
 
-                <div className="table-responsive" style={{ overflowX: 'auto' }}>
-                    <table className="documents-table" style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
+                <div className="cal-club-table-responsive">
+                    <table className="cal-club-table">
                         <thead>
-                            <tr style={{ backgroundColor: '#f4f4f4', borderBottom: '2px solid #ddd' }}>
-                                <th style={{ padding: '12px', textAlign: 'left' }}>Dată</th>
-                                <th style={{ padding: '12px', textAlign: 'left' }}>Eveniment</th>
-                                <th style={{ padding: '12px', textAlign: 'left' }}>Locație</th>
-                                <th style={{ padding: '12px', textAlign: 'center' }}>Tip</th>
-                                <th style={{ padding: '12px', textAlign: 'center' }}>Acțiune</th>
+                            <tr>
+                                <th className="cal-club-col-index">#</th>
+                                <th className="cal-club-col-date">Data</th>
+                                <th>Eveniment</th>
+                                <th className="cal-club-col-location">Locație</th>
+                                {(rol === "Parinte" || rol === "Sportiv") && <th>Acțiuni</th>}
+                                {(rol === "admin" || rol === "Antrenor") && <th className="cal-club-col-action">Acțiuni</th>}
                             </tr>
                         </thead>
                         <tbody>
                             {events.length === 0 ? (
                                 <tr>
-                                    <td colSpan="5" style={{ textAlign: 'center', padding: '20px', color: '#666' }}>
-                                        Nu sunt evenimente programate momentan.
+                                    <td colSpan={rol === "Parinte" || rol === "Sportiv" ? 5 : 6} className="cal-club-empty-state">
+                                        <i className="fas fa-inbox" style={{ fontSize: '2rem', marginBottom: '12px', display: 'block', opacity: '0.5' }}></i>
+                                        Niciun eveniment programat momentan.
                                     </td>
                                 </tr>
                             ) : (
-                                events.map(ev => (
-                                    <tr key={ev.id} style={{ borderBottom: '1px solid #eee' }}>
-                                        <td style={{ padding: '12px' }}>
-                                            <strong>{formatDateRO(ev.start)}</strong>
-                                            {ev.end && ev.end !== ev.start && ` - ${formatDateRO(ev.end)}`}
+                                events.map((evento, idx) => (
+                                    <tr key={evento.id}>
+                                        <td className="cal-club-col-index">{idx + 1}</td>
+                                        <td className="cal-club-col-date">{getDisplayDate(evento.start, evento.end)}</td>
+                                        <td>
+                                            <div className="cal-club-event-title">
+                                                <span>{evento.titlu}</span>
+                                                <span className="cal-club-badge">{evento.tip || "Eveniment"}</span>
+                                            </div>
+                                            {evento.descriere && <div className="cal-club-desc">{evento.descriere}</div>}
                                         </td>
-                                        <td style={{ padding: '12px' }}>
-                                            <strong style={{ fontSize: '1.1rem' }}>{ev.titlu}</strong>
-                                            <div style={{ fontSize: '0.9rem', color: '#666', marginTop: '5px' }}>{ev.descriere}</div>
-                                        </td>
-                                        <td style={{ padding: '12px' }}>{ev.locatie || "-"}</td>
-                                        <td style={{ padding: '12px', textAlign: 'center' }}>
-                                            <span style={{
-                                                backgroundColor: ev.tip === 'Competitie' ? '#d32f2f' : '#2196F3',
-                                                color: 'white',
-                                                padding: '4px 8px',
-                                                borderRadius: '12px',
-                                                fontSize: '0.85rem'
-                                            }}>
-                                                {ev.tip}
-                                            </span>
-                                        </td>
-                                        <td style={{ padding: '12px', textAlign: 'center' }}>
-                                            <button 
-                                                onClick={() => handleInscriereClick(ev)}
-                                                style={{ backgroundColor: '#4CAF50', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '4px', cursor: 'pointer', marginRight: isAdmin ? '10px' : '0' }}
-                                            >
-                                                Înscrie-te
-                                            </button>
-
-                                            {isAdmin && (
-                                                <div style={{ display: 'inline-flex', gap: '5px', marginTop: '5px' }}>
-                                                    <button onClick={() => openEditModal(ev)} style={{ background: '#f1c40f', border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '4px' }}>✏️</button>
-                                                    <button onClick={() => handleDelete(ev.id)} style={{ background: '#e74c3c', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '4px' }}>🗑️</button>
-                                                </div>
-                                            )}
+                                        <td className="cal-club-col-location">{evento.locatie || "—"}</td>
+                                        <td>
+                                            <div className="cal-club-actions">
+                                                {(rol === "Parinte" || rol === "Sportiv") && (
+                                                    <button className="cal-club-btn-enroll" onClick={() => navigate(`/inscriere_eveniment/${evento.id}`, { state: { eveniment: evento } })}>
+                                                        <i className="fas fa-user-plus"></i> Înscrisi
+                                                    </button>
+                                                )}
+                                                {(rol === "admin" || rol === "Antrenor") && (
+                                                    <>
+                                                        <button className="cal-club-btn-enroll" onClick={() => navigate(`/inscriere_eveniment/${evento.id}`, { state: { eveniment: evento } })}>
+                                                            <i className="fas fa-list"></i> Vezi Participanți
+                                                        </button>
+                                                        <button className="cal-club-btn-icon cal-club-btn-edit" onClick={() => openEditModal(evento)} title="Editează">
+                                                            <i className="fas fa-edit"></i>
+                                                        </button>
+                                                        <button className="cal-club-btn-icon cal-club-btn-delete" onClick={() => handleDelete(evento.id)} title="Șterge">
+                                                            <i className="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
@@ -219,56 +252,101 @@ const CalendarClub = () => {
                         </tbody>
                     </table>
                 </div>
-
-                {/* MODALUL DE ADAUGARE RAMANE LA FEL, DOAR AM AJUSTAT CSS-UL INTERN */}
-                {showModal && (
-                    <div className="modal-overlay" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
-                        <div className="modal-content" style={{ backgroundColor: 'white', padding: '30px', borderRadius: '8px', width: '90%', maxWidth: '500px' }}>
-                            <h2 style={{ color: '#D32F2F', textAlign: 'center', marginBottom: '20px' }}>
-                                {isEditing ? "Editează Eveniment" : "Adaugă Eveniment"}
-                            </h2>
-
-                            <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                                <div>
-                                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Titlu Eveniment</label>
-                                    <input type="text" required value={newEvent.titlu} onChange={e => setNewEvent({ ...newEvent, titlu: e.target.value })} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} />
-                                </div>
-                                <div>
-                                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Tip Eveniment</label>
-                                    <select value={newEvent.tip} onChange={e => setNewEvent({ ...newEvent, tip: e.target.value })} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}>
-                                        <option value="Competitie">Competiție</option>
-                                        <option value="Examen">Examen Centură</option>
-                                        <option value="Stagiu">Stagiu / Seminar</option>
-                                        <option value="Cantonament">Cantonament</option>
-                                    </select>
-                                </div>
-                                <div style={{ display: 'flex', gap: '10px' }}>
-                                    <div style={{ flex: 1 }}>
-                                        <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Start</label>
-                                        <input type="datetime-local" required value={newEvent.start} onChange={e => setNewEvent({ ...newEvent, start: e.target.value })} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} />
-                                    </div>
-                                    <div style={{ flex: 1 }}>
-                                        <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Sfârșit</label>
-                                        <input type="datetime-local" value={newEvent.end} onChange={e => setNewEvent({ ...newEvent, end: e.target.value })} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Locație</label>
-                                    <input type="text" value={newEvent.locatie} onChange={e => setNewEvent({ ...newEvent, locatie: e.target.value })} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} />
-                                </div>
-                                <div>
-                                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Descriere</label>
-                                    <textarea rows="3" value={newEvent.descriere} onChange={e => setNewEvent({ ...newEvent, descriere: e.target.value })} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }} />
-                                </div>
-                                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
-                                    <button type="button" onClick={() => setShowModal(false)} style={{ padding: '10px 15px', backgroundColor: '#ccc', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Anulează</button>
-                                    <button type="submit" style={{ padding: '10px 15px', backgroundColor: '#d32f2f', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>{isEditing ? "Actualizează" : "Salvează"}</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                )}
             </div>
+
+            {showModal && (
+                <div className="cal-club-modal-overlay" onClick={() => setShowModal(false)}>
+                    <div className="cal-club-modal-content" onClick={e => e.stopPropagation()}>
+                        <h2 className="cal-club-modal-title">
+                            <i className={isEditing ? "fas fa-edit" : "fas fa-calendar-plus"}></i>
+                            {isEditing ? "Editează Eveniment" : "Adaugă Eveniment"}
+                        </h2>
+
+                        <form onSubmit={handleSave}>
+                            <div className="cal-club-form-group">
+                                <label className="cal-club-label">Titlu *</label>
+                                <input
+                                    type="text"
+                                    className="cal-club-input"
+                                    value={newEvent.titlu}
+                                    onChange={e => setNewEvent({ ...newEvent, titlu: e.target.value })}
+                                    placeholder="Ex: Cupa Hwarang 2026"
+                                    required
+                                />
+                            </div>
+
+                            <div className="cal-club-date-row">
+                                <div className="cal-club-form-group">
+                                    <label className="cal-club-label">Data Start *</label>
+                                    <input
+                                        type="datetime-local"
+                                        className="cal-club-input"
+                                        value={newEvent.start}
+                                        onChange={e => setNewEvent({ ...newEvent, start: e.target.value })}
+                                        required
+                                    />
+                                </div>
+                                <div className="cal-club-form-group">
+                                    <label className="cal-club-label">Data Sfârșit</label>
+                                    <input
+                                        type="datetime-local"
+                                        className="cal-club-input"
+                                        value={newEvent.end}
+                                        onChange={e => setNewEvent({ ...newEvent, end: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="cal-club-form-group">
+                                <label className="cal-club-label">Locație</label>
+                                <input
+                                    type="text"
+                                    className="cal-club-input"
+                                    value={newEvent.locatie}
+                                    onChange={e => setNewEvent({ ...newEvent, locatie: e.target.value })}
+                                    placeholder="Ex: Sala de antrenament, Sibiu"
+                                />
+                            </div>
+
+                            <div className="cal-club-form-group">
+                                <label className="cal-club-label">Tip Eveniment</label>
+                                <select
+                                    className="cal-club-input"
+                                    value={newEvent.tip}
+                                    onChange={e => setNewEvent({ ...newEvent, tip: e.target.value })}
+                                >
+                                    <option value="Competitie">Competiție</option>
+                                    <option value="Examen">Examen</option>
+                                    <option value="Stagiu">Stagiu</option>
+                                    <option value="Adunare">Adunare</option>
+                                    <option value="Demonstratie">Demonstrație</option>
+                                    <option value="Antrenament">Antrenament</option>
+                                    <option value="Altele">Altele</option>
+                                </select>
+                            </div>
+
+                            <div className="cal-club-form-group">
+                                <label className="cal-club-label">Descriere</label>
+                                <textarea
+                                    className="cal-club-input"
+                                    value={newEvent.descriere}
+                                    onChange={e => setNewEvent({ ...newEvent, descriere: e.target.value })}
+                                    placeholder="Detalii despre eveniment..."
+                                />
+                            </div>
+
+                            <div className="cal-club-modal-actions">
+                                <button type="button" className="cal-club-btn-cancel" onClick={() => setShowModal(false)}>
+                                    Anulează
+                                </button>
+                                <button type="submit" className="cal-club-btn-save">
+                                    {isEditing ? "Salvează Modificări" : "Adaugă Eveniment"}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

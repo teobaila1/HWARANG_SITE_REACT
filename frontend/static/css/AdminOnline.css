@@ -1,0 +1,103 @@
+/* AdminOnline.css */
+.admin-online-wrapper {
+    background-color: #f4f7f6;
+    min-height: 100vh;
+    padding-bottom: 50px;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Header-ul cu gradient care face textul alb vizibil */
+.admin-online-header {
+    background: linear-gradient(135deg, #0d47a1 0%, #d32f2f 100%);
+    padding: 40px 20px 70px 20px;
+    text-align: center;
+}
+
+.admin-online-header h1 {
+    color: #ffffff !important;
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.admin-online-header p {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 1.1rem;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+/* Containerul principal care se suprapune elegant peste header */
+.admin-online-container {
+    max-width: 1000px;
+    margin: -40px auto 40px auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Tabelul */
+.admin-online-table-responsive {
+    overflow-x: auto;
+}
+
+.admin-online-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-online-table th {
+    background-color: #f8f9fa;
+    color: #495057;
+    padding: 15px;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.admin-online-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+.admin-online-table tr:hover td {
+    background-color: #fdfdfd;
+}
+
+/* Status-ul verde */
+.status-dot {
+    color: #28a745;
+    font-size: 1.2rem;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.status-text {
+    font-weight: 700;
+    color: #28a745;
+    vertical-align: middle;
+}
+
+.page-path {
+    background-color: #e9ecef;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+/* Optimizare pentru Mobil */
+@media (max-width: 768px) {
+    .admin-online-header h1 { font-size: 1.6rem; }
+    .admin-online-container { margin: -20px 15px 30px 15px; padding: 15px; }
+    .admin-online-table th, .admin-online-table td { padding: 10px; }
+}
