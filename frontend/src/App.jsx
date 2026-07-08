@@ -50,6 +50,8 @@ import VeziInscrieriEveniment from './pages/Documents&Calendar/VeziInscrieriEven
 import "./styles/theme.css";          /* rename --border first */
 import "./styles/mobile_overrides.css"; /* fix filename typo first */
 
+import AntiBullying from "./pages/AntiBullying/AntiBullying";
+
 
 
 
@@ -127,6 +129,7 @@ function App() {
                     <Route path="/galerie" element={<Galerie/>}/>
                     <Route path="/antrenori" element={<Coaches/>}/>
                     <Route path="/join-us" element={<JoinForm />} />
+                    <Route path="/anti-bullying" element={<AntiBullying />} />
 
                     {/* ==================================================== */}
                     {/* ZONA PROTEJATĂ (Trebuie să fii LOGAT)                */}

@@ -129,6 +129,7 @@ const Navbar = () => {
                             <li><button onClick={() => navigate("/desprenoi")}>Despre</button></li>
                             <li><button onClick={() => navigate("/antrenori")}>Antrenori</button></li>
                             <li><button onClick={() => navigate("/galerie")}>Galerie și Palmares</button></li>
+                            <li><button onClick={() => navigate("/anti-bullying")}>Anti-Bullying</button></li>
                             <li><a href="#footer">Contact</a></li>
                         </ul>
                     </li>
@@ -146,6 +147,9 @@ const Navbar = () => {
                             <li><button onClick={() => navigate("/training")}>Antrenamente</button></li>
                         </ul>
                     </li>
+
+                    
+                    
                     {!isLoggedIn && <li className="join-link">
                         <button onClick={() => navigate("/termeni_si_conditii")}>Termeni & Condiții</button>
                     </li>}
@@ -223,6 +227,7 @@ const Navbar = () => {
                             <button onClick={() => handleMobileNavigate("/desprenoi")}>Despre Noi</button>
                             <button onClick={() => handleMobileNavigate("/antrenori")}>Antrenori</button>
                             <button onClick={() => handleMobileNavigate("/galerie")}>Galerie și Palmares</button>
+                            <button onClick={() => handleMobileNavigate("/anti-bullying")}>Anti-Bullying</button>
                             <a href="#footer" onClick={closeMenu}>Contact</a>
                         </div>
                     </div>

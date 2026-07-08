@@ -4,10 +4,11 @@ import {ToastContainer, toast} from 'react-toastify';
 import Navbar from "../../components/Navbar";
 import "../../../static/css/Concursuri.css";
 import Footer from "../../components/Footer";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {API_BASE} from "../../config";
 
 const Concursuri = () => {
+    const location = useLocation();
     const [rol, setRol] = useState("");
     const [mesaj, setMesaj] = useState("");
     const [openFormFor, setOpenFormFor] = useState(null);
@@ -34,6 +35,19 @@ const Concursuri = () => {
 
     const [selectedProbes, setSelectedProbes] = useState([]);
     const [istoricInscrieri, setIstoricInscrieri] = useState([]);
+
+    // --- Auto-deschide formularul dacă venim din CalendarClub ---
+    useEffect(() => {
+        const numeDeschis = location?.state?.deschideConcurs;
+        if (numeDeschis) {
+            setOpenFormFor(numeDeschis);
+            setConcursSelectat(numeDeschis);
+            setTimeout(() => {
+                const el = document.getElementById(`form-concurs-${numeDeschis}`);
+                if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 600);
+        }
+    }, [location?.state?.deschideConcurs]);
 
     // --- LISTA STANDARD DE PROBE ---
     const probeOptionsStandard = [
@@ -467,7 +481,7 @@ const Concursuri = () => {
                             </tr>
 
                             {openFormFor === c.nume && (
-                                <tr className="form-row">
+                                <tr className="form-row" id={`form-concurs-${c.nume}`}>
                                     <td colSpan={4}>
                                         <form onSubmit={handleSubmit} className="form-inscriere form-inscriere--inline">
                                             <h2>Înscriere la: <span className="form-concurs-nume">{c.nume}</span></h2>

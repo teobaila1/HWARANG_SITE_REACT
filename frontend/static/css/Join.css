@@ -1,6 +1,6 @@
 /* ===== Join.css – aliniat vizual cu Login.css, fără coliziuni globale ===== */
 
-/* Card wrapper (similar to .login-container) */
+/* Card wrapper */
 .signup-container {
   --_bg: var(--surface, #161616);
   color: #ffffff;
@@ -13,7 +13,7 @@
   background: var(--_bg);
 }
 
-/* Titlu + subtitlu (stil apropiat de login) */
+/* Titlu + subtitlu */
 .signup-container .signup-head {
   text-align: center;
   margin-bottom: 1.5rem;
@@ -31,7 +31,7 @@
   color: #dcdcdc;
 }
 
-/* Grid-ul formularului (2 coloane pe desktop) */
+/* Grid formular (2 coloane pe desktop) */
 .signup-container .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -52,13 +52,15 @@
 
 /* Etichete */
 .signup-container .field > span,
-.signup-container label {
+.signup-container label > span {
   font-size: .95rem;
   color: #dcdcdc;
 }
 
-/* Inputs & textarea – focus roșu, ca la login */
-.signup-container input,
+/* Inputs & textarea */
+.signup-container input[type="text"],
+.signup-container input[type="email"],
+.signup-container input[type="tel"],
 .signup-container textarea {
   padding: 0.8rem 0.9rem;
   font-size: 1rem;
@@ -67,11 +69,17 @@
   color: #ffffff;
   background: #111;
   outline: none;
+  width: 100%;
+  box-sizing: border-box;
   transition: border .25s ease, box-shadow .25s ease, background .25s ease;
 }
-.signup-container input::placeholder,
+.signup-container input[type="text"]::placeholder,
+.signup-container input[type="email"]::placeholder,
+.signup-container input[type="tel"]::placeholder,
 .signup-container textarea::placeholder { color: #8a8a8a; }
-.signup-container input:focus,
+.signup-container input[type="text"]:focus,
+.signup-container input[type="email"]:focus,
+.signup-container input[type="tel"]:focus,
 .signup-container textarea:focus {
   border: 1px solid #ff1a1a;
   box-shadow: 0 0 0 3px rgba(255, 26, 26, 0.2), 0 0 14px rgba(255, 0, 0, 0.25);
@@ -80,23 +88,32 @@
 
 /* Fix autofill Chrome */
 .signup-container input:-webkit-autofill {
-  -webkit-text-fill-color: black;
+  -webkit-text-fill-color: #fff;
   transition: background-color 5000s ease-in-out 0s;
   border: 1px solid #2f2f2f;
 }
 
-/* Checkbox termeni */
+/* Checkbox termeni — FIX ALINIERE + MARIME */
 .signup-container .terms-checkbox {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
   font-size: .95rem;
   color: #e9e9ee;
   margin-top: .25rem;
 }
-.signup-container .terms-checkbox input {
-  margin-top: 2px;
+.signup-container .terms-checkbox input[type="checkbox"] {
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px;
+  margin-top: 3px;
+  flex-shrink: 0;
   accent-color: #ff1a1a;
+  cursor: pointer;
+}
+.signup-container .terms-checkbox span {
+  flex: 1;
+  line-height: 1.5;
 }
 .signup-container .terms-checkbox a {
   color: #ff1a1a;
@@ -105,7 +122,7 @@
 }
 .signup-container .terms-checkbox a:hover { text-decoration: underline; }
 
-/* Butoane – gradient roșu ca la login */
+/* Butoane */
 .signup-container .btn {
   appearance: none;
   border: 1px solid transparent;
@@ -113,6 +130,8 @@
   border-radius: 10px;
   font-weight: 700;
   cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
 }
 .signup-container .btn-primary {
   background: linear-gradient(180deg, #ff1a1a, #cc0000);
@@ -141,7 +160,7 @@
   gap: 10px;
 }
 
-/* Mesaje – SCOPE la container */
+/* Mesaje */
 .signup-container .error-msg {
   color: #ffb84d;
   font-weight: 700;
@@ -155,7 +174,7 @@
   text-align: center;
 }
 
-/* Link de ajutor sub formular */
+/* Link ajutor */
 .signup-container .helper {
   margin: .25rem 0 0;
   font-size: .95rem;
@@ -168,12 +187,6 @@
   text-decoration: none;
 }
 .signup-container .helper .link:hover { text-decoration: underline; }
-
-/* Link hover local (ca în login) */
-.signup-container a:hover {
-  text-decoration: underline;
-  opacity: .95;
-}
 
 /* Responsive mic */
 @media (max-width: 480px) {

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { toast, ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import "../../../static/css/Join.css";
 import {API_BASE} from "../../config";
 
@@ -53,7 +52,7 @@ const JoinForm = () => {
   return (
     <>
       <Navbar />
-      {/* <ToastContainer /> */}
+      <ToastContainer />
       <section className="signup-container">
         <div className="signup-head">
           <h2>Înscriere la ACS Hwarang Academy</h2>
@@ -65,7 +64,6 @@ const JoinForm = () => {
             <span>Nume</span>
             <input
               type="text"
-              id="name"
               name="name"
               placeholder="Popescu"
               required
@@ -78,7 +76,6 @@ const JoinForm = () => {
             <span>Prenume</span>
             <input
               type="text"
-              id="prename"
               name="prename"
               placeholder="Ion"
               required
@@ -91,7 +88,6 @@ const JoinForm = () => {
             <span>Email</span>
             <input
               type="email"
-              id="email"
               name="email"
               placeholder="email@exemplu.com"
               required
@@ -104,7 +100,6 @@ const JoinForm = () => {
             <span>Telefon</span>
             <input
               type="tel"
-              id="phone"
               name="phone"
               placeholder="07xx xxx xxx"
               required
@@ -116,7 +111,6 @@ const JoinForm = () => {
           <label className="field field--full">
             <span>Mesaj (opțional)</span>
             <textarea
-              id="message"
               name="message"
               placeholder="Scrie-ne câteva detalii utile (program, obiective etc.)"
               rows={4}
@@ -128,7 +122,6 @@ const JoinForm = () => {
           <label className="terms-checkbox field--full">
             <input
               type="checkbox"
-              id="acceptTerms"
               checked={acceptTerms}
               onChange={(e) => setAcceptTerms(e.target.checked)}
               required

@@ -24,13 +24,13 @@
 }
 
 /* ---------- Layout general ---------- */
-/* .cal-club-wrapper {
+.cal-club-wrapper {
     background: linear-gradient(180deg, #0a0a12 0%, #0f0f1a 50%, #0a0a12 100%);
     min-height: 100vh;
     padding-bottom: 80px;
     font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
     color: var(--hw-text);
-} */
+}
 
 .cal-club-container {
     max-width: 1200px;
@@ -227,13 +227,16 @@
     bottom: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
+    height: 100dvh !important;
     background: rgba(0, 0, 0, .8) !important;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     z-index: 2147483647 !important;
     backdrop-filter: blur(4px);
-    padding: 16px;
+    padding: max(20px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .cal-club-modal-content {
@@ -244,9 +247,8 @@
     max-width: 500px;
     padding: 28px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, .7);
-    max-height: 90vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    margin: auto;
+    flex-shrink: 0;
 }
 
 .cal-club-modal-title {
@@ -453,4 +455,65 @@ textarea.cal-club-input { resize: vertical; min-height: 100px; }
 
     .cal-club-modal-overlay { padding: 20px 16px; }
     .cal-club-modal-content { max-width: 100%; padding: 20px; }
+}
+
+/* ---------- Rând eveniment expirat ---------- */
+.cal-club-row-expirat td {
+    opacity: .55;
+}
+
+.cal-club-badge-expirat {
+    display: inline-block;
+    font-size: .65rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 50px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    color: var(--hw-muted);
+    margin-left: 6px;
+    vertical-align: middle;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+/* ---------- Buton "Înscrie-te" (verde) ---------- */
+.cal-club-btn-inscrie {
+    background: rgba(46, 125, 50, .15) !important;
+    color: #66bb6a !important;
+    border: 1px solid rgba(46, 125, 50, .3) !important;
+}
+.cal-club-btn-inscrie:hover {
+    background: var(--hw-green) !important;
+    color: #fff !important;
+    border-color: var(--hw-green) !important;
+}
+
+/* ---------- Buton "Înscrieri închise" (disabled) ---------- */
+.cal-club-btn-closed {
+    background: rgba(255,255,255,.04) !important;
+    color: var(--hw-faint) !important;
+    border: 1px solid var(--hw-border) !important;
+    cursor: not-allowed !important;
+    opacity: .7;
+}
+
+/* ---------- Buton readonly (eveniment trecut) ---------- */
+.cal-club-btn-readonly {
+    background: rgba(255,255,255,.04) !important;
+    color: var(--hw-muted) !important;
+    border: 1px solid var(--hw-border) !important;
+}
+.cal-club-btn-readonly:hover {
+    background: rgba(255,255,255,.08) !important;
+    color: var(--hw-text) !important;
+}
+
+/* Mobile: butoanele stivuite */
+@media (max-width: 768px) {
+    .cal-club-btn-inscrie,
+    .cal-club-btn-closed,
+    .cal-club-btn-readonly {
+        width: 100% !important;
+    }
 }
