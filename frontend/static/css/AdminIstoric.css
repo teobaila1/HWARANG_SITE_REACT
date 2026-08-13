@@ -1,0 +1,127 @@
+/* =========================================
+   AdminIstoric.css - Desktop & Mobile
+   ========================================= */
+
+.admin-istoric-container {
+    padding: 20px;
+    color: white;
+    background-color: #0b0b0c;
+    min-height: 100vh;
+}
+
+.admin-istoric-title {
+    margin-bottom: 20px;
+    color: #d91e18;
+    font-size: 1.8rem;
+}
+
+.admin-istoric-table-wrapper {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #2a2a2f;
+    background-color: #121214;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.admin-istoric-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.admin-istoric-table thead tr {
+    background-color: #1d1d21;
+    color: #b9b9b9;
+}
+
+.admin-istoric-table th,
+.admin-istoric-table td {
+    padding: 15px;
+}
+
+.admin-istoric-table tbody tr {
+    border-bottom: 1px solid #1d1d21;
+    transition: background-color 0.2s ease;
+}
+
+.admin-istoric-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.admin-istoric-table tbody tr:hover {
+    background-color: #1a1a1f;
+}
+
+/* --- Stiluri specifice pentru text --- */
+.istoric-date { white-space: nowrap; font-size: 0.95rem; }
+.istoric-user { font-size: 0.95rem; }
+.istoric-user.logat { font-weight: bold; color: #ffffff; }
+.istoric-user.anonim { font-weight: normal; color: #b9b9b9; }
+.istoric-page { color: #d91e18; font-weight: 600; }
+.istoric-session { font-size: 0.85rem; color: #8b8b8f; font-family: monospace; }
+
+/* Stări */
+.istoric-loading { color: white; padding: 40px 20px; text-align: center; font-size: 1.2rem; background-color: #0b0b0c; min-height: 100vh; }
+.istoric-error { color: #ff4d4d; padding: 20px; text-align: center; background: rgba(255, 77, 77, 0.1); border: 1px solid rgba(255, 77, 77, 0.3); border-radius: 8px; margin: 20px; }
+
+
+/* =========================================
+   MAGIA PENTRU MOBIL (Transformăm tabelul în Carduri)
+   ========================================= */
+@media screen and (max-width: 768px) {
+    .admin-istoric-table-wrapper {
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+    .admin-istoric-table, 
+    .admin-istoric-table tbody, 
+    .admin-istoric-table tr, 
+    .admin-istoric-table td {
+        display: block;
+        width: 100%;
+    }
+
+    /* Ascundem capul de tabel (thead) vizual, dar îl lăsăm în DOM pentru screen readere */
+    .admin-istoric-table thead {
+        display: none;
+    }
+
+    /* Transformăm rândurile în carduri individuale */
+    .admin-istoric-table tbody tr {
+        margin-bottom: 15px;
+        background-color: #121214;
+        border: 1px solid #2a2a2f;
+        border-radius: 12px;
+        padding: 10px;
+    }
+
+    /* Aranjăm celulele flex pentru a avea eticheta în stânga și valoarea în dreapta */
+    .admin-istoric-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+        padding: 10px 5px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .admin-istoric-table td:last-child {
+        border-bottom: none;
+    }
+
+    /* Folosim data-label pentru a genera textul explicativ pe mobil */
+    .admin-istoric-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #8b8b8f;
+        text-align: left;
+        margin-right: 10px;
+    }
+    
+    /* Resetăm lățimea la dată ca să încapă pe ecrane mici */
+    .istoric-date {
+        white-space: normal; 
+    }
+}

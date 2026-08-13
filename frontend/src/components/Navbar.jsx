@@ -155,7 +155,7 @@ const Navbar = () => {
                     </li>}
                     {isLoggedIn && rol !== "AntrenorExtern" && (
                         <>
-                            <li><a href="https://sites.google.com/hwarang.ro/hwarang-info" target="_blank" rel="noreferrer">Info</a></li>
+                            <li><a href="https://sites.google.com/hwarang.ro/hwarang-info" target="_blank" rel="noreferrer">Extra Info</a></li>
                             <li><button onClick={() => navigate("/documente")}>Documente</button></li>
                         </>
                     )}
@@ -163,10 +163,10 @@ const Navbar = () => {
                         <button onClick={() => navigate("/concursuri")}>Concursuri</button>
                     </li>}
                     {(rol === "Parinte" || rol === "admin") && <li>
-                        <button onClick={() => navigate("/copiii-mei")}>Copiii mei</button>
+                        <button onClick={() => navigate("/copiii-mei")}>Copiii Mei</button>
                     </li>}
                     {rol === "admin" && <li>
-                        <button onClick={() => navigate("/admin-dashboard")}>Admin</button>
+                        <button onClick={() => navigate("/admin-dashboard")}>Admin Panel</button>
                     </li>}
                     {(rol === "Antrenor" || rol === "admin") && (<li>
                         <button onClick={() => navigate("/antrenor_dashboard")}>Grupe</button>
@@ -266,10 +266,10 @@ const Navbar = () => {
                             <button onClick={() => handleMobileNavigate("/concursuri")}>Concursuri</button>}
 
                         {(rol === "Parinte" || rol === "admin") &&
-                            <button onClick={() => handleMobileNavigate("/copiii-mei")}>Copiii mei</button>}
+                            <button onClick={() => handleMobileNavigate("/copiii-mei")}>Copiii Mei</button>}
 
                         {rol === "admin" &&
-                            <button onClick={() => handleMobileNavigate("/admin-dashboard")}>Admin</button>}
+                            <button onClick={() => handleMobileNavigate("/admin-dashboard")}>Admin Panel</button>}
 
                         {(rol === "Antrenor" || rol === "admin") &&
                             <button onClick={() => handleMobileNavigate("/antrenor_dashboard")}>Grupe</button>

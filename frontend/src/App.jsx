@@ -47,10 +47,12 @@ import JoinForm from "./pages/Login/JoinForm";
 import ProtectedRoute from "./components/ProtectedRoute";
 import InscriereEveniment from "./pages/Documents&Calendar/InscriereEvenimente";
 import VeziInscrieriEveniment from './pages/Documents&Calendar/VeziInscrieriEveniment';
-import "./styles/theme.css";          /* rename --border first */
-import "./styles/mobile_overrides.css"; /* fix filename typo first */
+import "./styles/theme.css";         
+import "./styles/mobile_overrides.css"; 
 
 import AntiBullying from "./pages/AntiBullying/AntiBullying";
+
+import AdminIstoric from "./pages/AdminIstoric";
 
 
 
@@ -84,7 +86,8 @@ const HeartbeatTracker = () => {
                 headers: headers,
                 body: JSON.stringify({ 
                     session_id: sessionId,
-                    pagina: location.pathname 
+                    pagina: location.pathname,
+                    referrer: document.referrer || "Direct" 
                 })
             }).catch(err => console.log("Heartbeat silențios eșuat", err));
         };
@@ -173,6 +176,7 @@ function App() {
                             <Route path="/creeaza-concurs" element={<CreeazaConcurs/>}/>
                             <Route path="/plati" element={<AdminPlati/>}/>
                             <Route path="/admin/online" element={<AdminOnline />} />
+                            <Route path="/admin-istoric" element={<AdminIstoric />} />
                         </Route>
 
                         {/* RUTE EXTERN (Dacă ai nevoie în viitor) */}

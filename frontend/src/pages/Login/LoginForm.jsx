@@ -90,7 +90,8 @@ const LoginForm = () => {
             <section className="login-container">
                 <h2>Autentificare</h2>
                 <form onSubmit={handleLogin}>
-                    <label htmlFor="username">Username:</label>
+                    {/* Modificare aici pentru Username sau Email */}
+                    <label htmlFor="username">Username sau Email:</label>
                     <input
                         type="text"
                         id="username"
@@ -98,7 +99,7 @@ const LoginForm = () => {
                         required
                         value={formData.username}
                         onChange={handleChange}
-                        placeholder="Nume utilizator"
+                        placeholder="Nume utilizator sau Email"
                     />
 
                     <label htmlFor="password">Parolă:</label>

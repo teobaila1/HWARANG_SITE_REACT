@@ -232,7 +232,7 @@ const Home = () => {
                                 </ul>
                             </div>
 
-                            <a href="/inregistrare" className="tarife-btn">
+                            <a href="#footer" className="tarife-btn">
                                 Vreau să mă înscriu
                             </a>
                         </div>

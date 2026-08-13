@@ -126,6 +126,12 @@ const AdminDashboard = () => {
                             <Link to="/toti-utilizatorii" className="dashboard-btn">Vezi toți utilizatorii</Link>
                             <Link to="/antrenori-grupe" className="dashboard-btn">Grupe & Antrenori</Link>
                             <Link to="/toti-copiii" className="dashboard-btn">Vezi toți copiii</Link>
+
+                            {/* --- ADĂUGAT AICI BUTONUL PENTRU ISTORIC NAVIGARE --- */}
+                            <Link to="/admin-istoric" className="dashboard-btn" style={{ borderColor: "#d91e18" }}>
+                                <span style={{color: "#ff4d4d"}}><i className="fas fa-route" style={{marginRight: '8px'}}></i> Istoric Navigare (Live)</span>
+                            </Link>
+
                         </div>
                     </div>
 

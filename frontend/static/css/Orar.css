@@ -175,3 +175,288 @@
         margin: 0 10px;
     }
 }
+
+
+/* =========================================
+   STILURI TABS (LOCAȚII) PENTRU ORAR
+   ========================================= */
+
+.location-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 35px;
+    flex-wrap: wrap; /* Permite trecerea pe rândul următor dacă nu e spațio pe mobil */
+    padding: 0 10px;
+}
+
+.loc-tab {
+    background-color: #121214;
+    color: #e5e5e5;
+    border: 2px solid #2a2a2f;
+    padding: 10px 28px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.loc-tab:hover {
+    border-color: #d91e18; /* Roșul specific Hwarang */
+    color: #fff;
+}
+
+.loc-tab.active {
+    background-color: #d91e18;
+    border-color: #d91e18;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(217, 30, 24, 0.4);
+}
+
+/* =========================================
+   ADAPTĂRI PENTRU MOBIL
+   ========================================= */
+@media (max-width: 600px) {
+    .location-tabs {
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+    
+    .loc-tab {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        flex: 1 1 calc(33.333% - 10px); /* Face butoanele să împartă lățimea ecranului egal */
+        text-align: center;
+    }
+}
+
+
+/* =========================================
+   STILURI TABS (LOCAȚII) PENTRU ORAR
+   ========================================= */
+
+.location-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Am mărit puțin gap-ul pentru a face loc la badge-uri */
+    margin-bottom: 35px;
+    flex-wrap: wrap;
+    padding: 0 10px;
+}
+
+.loc-tab {
+    position: relative; /* Important pentru a ancora badge-ul "NOU" */
+    background-color: #121214;
+    color: #e5e5e5;
+    border: 2px solid #2a2a2f;
+    padding: 10px 28px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.loc-tab:hover {
+    border-color: #d91e18;
+    color: #fff;
+}
+
+.loc-tab.active {
+    background-color: #d91e18;
+    border-color: #d91e18;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(217, 30, 24, 0.4);
+}
+
+/* =========================================
+   EFECT WOW: BANNER NOUTĂȚI
+   ========================================= */
+.new-locations-banner {
+    background: linear-gradient(90deg, rgba(217, 30, 24, 0.05) 0%, rgba(217, 30, 24, 0.2) 50%, rgba(217, 30, 24, 0.05) 100%);
+    border: 1px solid rgba(217, 30, 24, 0.3);
+    border-radius: 12px;
+    padding: 12px 20px;
+    margin: 0 auto 30px auto;
+    max-width: 650px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+    animation: pulseBanner 2.5s infinite; /* Efectul de pulsare */
+}
+
+.new-locations-banner p {
+    margin: 0;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.new-locations-banner p span {
+    color: #ff4d4d; /* Evidențiem textul locațiilor */
+    font-weight: 700;
+}
+
+.banner-icon {
+    font-size: 1.5rem;
+}
+
+@keyframes pulseBanner {
+    0% { box-shadow: 0 0 10px rgba(217, 30, 24, 0.1); }
+    50% { box-shadow: 0 0 25px rgba(217, 30, 24, 0.4); }
+    100% { box-shadow: 0 0 10px rgba(217, 30, 24, 0.1); }
+}
+
+/* =========================================
+   EFECT WOW: BADGE "NOU" ANIMAT
+   ========================================= */
+.new-badge {
+    position: absolute;
+    top: -12px;
+    right: -10px;
+    background: #f59e0b; /* Auriu */
+    color: #000;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    animation: bounceBadge 2s infinite; /* Efectul de topăială */
+    z-index: 10;
+}
+
+@keyframes bounceBadge {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-6px); }
+    60% { transform: translateY(-3px); }
+}
+
+/* =========================================
+   ADAPTĂRI PENTRU MOBIL
+   ========================================= */
+@media (max-width: 600px) {
+    .location-tabs {
+        gap: 15px; /* Un gap corectat ca sa încapă badge-urile */
+        margin-bottom: 25px;
+    }
+    
+    .loc-tab {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        flex: 1 1 calc(33.333% - 15px);
+        text-align: center;
+    }
+
+    .new-locations-banner {
+        flex-direction: column;
+        padding: 12px;
+        gap: 5px;
+    }
+
+    .new-locations-banner p {
+        font-size: 0.9rem;
+    }
+
+    .new-badge {
+        top: -8px;
+        right: -5px;
+        font-size: 0.55rem;
+        padding: 2px 6px;
+    }
+}
+
+/* =========================================
+   EFECT WOW: BANNER NOUTĂȚI V2
+   ========================================= */
+.new-locations-banner {
+    position: relative;
+    background: #111; /* Fundal foarte închis pentru contrast maxim */
+    border: 2px solid #d91e18; /* Roșu solid */
+    border-radius: 12px;
+    padding: 15px 25px;
+    margin: 0 auto 40px auto;
+    max-width: 750px;
+    overflow: hidden; /* Ține efectul de lumină înăuntru */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Glow roșu exterior și interior */
+    box-shadow: 0 0 20px rgba(217, 30, 24, 0.5), inset 0 0 15px rgba(217, 30, 24, 0.15);
+    transform: scale(1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+/* Efectul de lumină care se plimbă pe fundal (Sweep) */
+.new-locations-banner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    animation: sweepLight 3s infinite linear;
+    z-index: 1;
+    transform: skewX(-20deg);
+}
+
+
+.new-locations-banner p {
+    margin: 0;
+    color: #fff;
+    font-size: 1.15rem;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+}
+
+.new-locations-banner p strong {
+    color: #fff;
+    font-weight: 800;
+}
+
+/* Locațiile ies puternic în evidență */
+.highlight-loc {
+    color: #ff3b3b;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(255, 59, 59, 0.7); /* Glow pe text */
+    font-size: 1.25rem;
+}
+
+
+/* =========================================
+   ADAPTĂRI PENTRU MOBIL (De adăugat în @media existent)
+   ========================================= */
+@media (max-width: 600px) {
+    .new-locations-banner {
+        padding: 15px;
+        flex-direction: column;
+        border-radius: 12px;
+        margin: 0 10px 30px 10px; /* Ca să nu atingă marginile ecranului pe telefon */
+    }
+    
+    .banner-content {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .banner-icon {
+        font-size: 2rem;
+    }
+    
+    .new-locations-banner p {
+        font-size: 1rem;
+    }
+    
+    .highlight-loc {
+        font-size: 1.15rem;
+    }
+    
+    .banner-subtext {
+        font-size: 0.85rem;
+    }
+}
