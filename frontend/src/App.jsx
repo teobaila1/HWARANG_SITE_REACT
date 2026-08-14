@@ -38,7 +38,6 @@ import ScannerPage from "./pages/ScannerPage";
 import CalendarClub from "./pages/Documents&Calendar/CalendarClub";
 import CalendarPage from "./pages/Documents&Calendar/CalendarPage";
 import AdminOnline from "./pages/Admins/AdminOnline";
-
 import JoinForm from "./pages/Login/JoinForm";
 
 // import PaginaPrezenta from './pages/PaginaPrezenta';
@@ -51,9 +50,8 @@ import "./styles/theme.css";
 import "./styles/mobile_overrides.css"; 
 
 import AntiBullying from "./pages/AntiBullying/AntiBullying";
-
 import AdminIstoric from "./pages/AdminIstoric";
-
+import EligibilitateExamen from "./pages/Exams/Exams"; // Ajustează calea dacă ai salvat în alt folder
 
 
 
@@ -162,6 +160,7 @@ function App() {
                         {/* 3. RUTE SPECIFICE ANTRENORI (Protejate de AntrenorGuard) */}
                         <Route element={<AntrenorGuard />}>
                             <Route path="/antrenor_dashboard" element={<AntrenorDashboard/>}/>
+                            <Route path="/eligibilitate-examen" element={<EligibilitateExamen/>} />
                         </Route>
 
                         {/* 4. RUTE SPECIFICE ADMIN (Protejate de AdminGuard) */}

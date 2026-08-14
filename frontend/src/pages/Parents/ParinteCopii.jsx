@@ -187,7 +187,7 @@ const ParinteCopii = () => {
                     {!showForm ? (
                         <button className="btn-toggle-form" onClick={() => setShowForm(true)}>
                             <i className="fas fa-plus-circle"></i>
-                            <span>Înregistrează un copil nou</span>
+                            <span>Adaugă un copil nou</span>
                         </button>
                     ) : (
                         <div className="form-wrapper-animated">

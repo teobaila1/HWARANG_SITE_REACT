@@ -127,6 +127,11 @@ const AdminDashboard = () => {
                             <Link to="/antrenori-grupe" className="dashboard-btn">Grupe & Antrenori</Link>
                             <Link to="/toti-copiii" className="dashboard-btn">Vezi toți copiii</Link>
 
+                            {/* --- ADĂUGAT AICI BUTONUL PENTRU EXAMENE --- */}
+                            <Link to="/eligibilitate-examen" className="dashboard-btn" style={{ borderColor: "#d91e18" }}>
+                                <span style={{color: "#fff"}}><i className="fas fa-user-ninja" style={{color: "#d91e18", marginRight: '8px'}}></i> Eligibilitate Examene</span>
+                            </Link>
+
                             {/* --- ADĂUGAT AICI BUTONUL PENTRU ISTORIC NAVIGARE --- */}
                             <Link to="/admin-istoric" className="dashboard-btn" style={{ borderColor: "#d91e18" }}>
                                 <span style={{color: "#ff4d4d"}}><i className="fas fa-route" style={{marginRight: '8px'}}></i> Istoric Navigare (Live)</span>
@@ -137,11 +142,11 @@ const AdminDashboard = () => {
 
                     {/* CARD 2: Competiții */}
                     <div className="dashboard-card">
-                        <div className="card-title"><i className="fas fa-trophy"></i> Competiții & Financiar</div>
+                        <div className="card-title"><i className="fas fa-trophy"></i> Competiții & Înscrieri</div>
                         <div className="action-list">
                             <Link to="/creeaza-concurs" className="dashboard-btn">Creează concurs nou</Link>
                             <Link to="/toti-inscrisi-concurs" className="dashboard-btn">Vezi toate înscrierile</Link>
-                            <Link to="/plati" className="dashboard-btn">Evidență Plăți</Link>
+                            {/* <Link to="/plati" className="dashboard-btn">Evidență Plăți</Link> */}
                         </div>
                     </div>
 

@@ -262,6 +262,13 @@ const Navbar = () => {
                             </button>
                         )}
 
+                        {isLoggedIn && rol !== "AntrenorExtern" && (
+                        <>
+                            <li><a href="https://sites.google.com/hwarang.ro/hwarang-info" target="_blank" rel="noreferrer">Extra Info</a></li>
+                            <li><button onClick={() => navigate("/documente")}>Documente</button></li>
+                        </>
+                        )}
+
                         {(rol === "admin" || rol === "Parinte" || rol === "Sportiv" || rol === "Antrenor") &&
                             <button onClick={() => handleMobileNavigate("/concursuri")}>Concursuri</button>}
 

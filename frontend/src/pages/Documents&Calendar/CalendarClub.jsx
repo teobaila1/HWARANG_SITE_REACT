@@ -273,7 +273,7 @@ const CalendarClub = () => {
                                                                         }
                                                                     }}
                                                                 >
-                                                                    <i className="fas fa-user-plus"></i> Adaugă înscriși
+                                                                    <i className="fas fa-user-plus"></i> Adaugă Sportivi
                                                                 </button>
                                                             )}
 

@@ -247,12 +247,12 @@ const AntrenorDashboard = () => {
                                     </div>
 
                                     <div className="group-actions-area">
-                                        <button
+                                        {/* <button
                                             className="btn-attendance"
                                             onClick={() => navigate(`/prezenta/grupa/${grupaData.grupa_id}`)}
                                         >
                                             <i className="fas fa-clipboard-list"></i> Prezență
-                                        </button>
+                                        </button> */}
 
                                         <div className="add-student-area">
                                             {grupaData.parents.length > 0 && (

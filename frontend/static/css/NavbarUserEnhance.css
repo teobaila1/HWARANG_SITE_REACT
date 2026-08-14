@@ -1,146 +1,170 @@
 /* ============================================================
-   NavbarUserEnhance.css — HWARANG DARK ELEGANT
-   Rafinează chip-ul de user (desktop) + cardul de user din
-   meniul mobil + butonul de deconectare.
-   Se importă DUPĂ Navbar.css și MobileMenu.css ca să le
-   îmbunătățească fără a rescrie fișierele mari.
+   NavbarUserEnhance.css — HWARANG PREMIUM DARK
    ============================================================ */
 
 :root {
-    --hwn-red: #e63329;
+    --hwn-red: #d91e18;
     --hwn-red-deep: #a3160e;
-    --hwn-red-glow: rgba(230, 51, 41, .4);
-    --hwn-surface: #16162400;
+    --hwn-red-glow: rgba(217, 30, 24, 0.35);
 }
 
-/* ---------------- DESKTOP: chip user ---------------- */
+/* ---------------- DESKTOP: Chip-ul din Navbar ---------------- */
 .user-menu .user-chip {
-    padding: 5px 16px 5px 5px !important;
-    gap: 11px !important;
-    background: rgba(255, 255, 255, .04) !important;
-    border: 1px solid rgba(255, 255, 255, .12) !important;
+    padding: 6px 16px 6px 6px !important;
+    gap: 12px !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 50px !important;
-    transition: all .2s ease !important;
+    transition: all 0.3s ease !important;
 }
 
 .user-menu .user-chip:hover {
-    background: rgba(230, 51, 41, .10) !important;
-    border-color: var(--hwn-red) !important;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+    background: rgba(217, 30, 24, 0.08) !important;
+    border-color: rgba(217, 30, 24, 0.3) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .user-menu .avatar {
-    width: 38px !important;
-    height: 38px !important;
+    width: 36px !important;
+    height: 36px !important;
     border-radius: 50% !important;
     background: linear-gradient(135deg, var(--hwn-red), var(--hwn-red-deep)) !important;
     color: #fff !important;
     font-weight: 800 !important;
-    font-size: 1.05rem !important;
+    font-size: 1.1rem !important;
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
     box-shadow: 0 3px 12px var(--hwn-red-glow) !important;
-    letter-spacing: 0;
 }
 
 .user-menu .user-chip .name {
-    font-weight: 700;
-    font-size: .92rem;
-    color: #fff;
-    letter-spacing: .01em;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #f5f5f5;
 }
 
-/* mică săgeată sub nume, dacă există spațiu */
-.user-menu .user-chip::after {
-    content: "\f078"; /* chevron-down Font Awesome */
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    font-size: .6rem;
-    color: rgba(255, 255, 255, .5);
-    margin-left: 2px;
-    transition: transform .2s;
-}
-
-.user-menu.dropdown:hover .user-chip::after {
-    transform: rotate(180deg);
-    color: var(--hwn-red);
-}
-
-/* dropdown-ul (mic rafinament) */
+/* ---------------- DESKTOP: Dropdown Meniu ---------------- */
 .user-dropdown-modern {
-    border-radius: 18px !important;
-    background: #121220 !important;
-    border: 1px solid rgba(255, 255, 255, .1) !important;
+    border-radius: 16px !important;
+    background: #121214 !important; /* Fundal solid dark */
+    border: 1px solid #2a2a2f !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7) !important;
+    padding: 10px !important;
+    min-width: 250px;
+}
+
+.user-dropdown-modern .user-header {
+    padding: 10px 14px 15px 14px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    margin-bottom: 8px !important;
+}
+
+.user-dropdown-modern .user-header small {
+    color: #8b8b8f !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
 }
 
 .user-dropdown-modern .user-header span {
-    background: linear-gradient(90deg, #fff, #c9c9e0);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #ffffff !important;
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    margin-top: 4px;
 }
 
-/* ---------------- MOBIL: card user ---------------- */
-.mobile-user-card {
-    background: linear-gradient(135deg, #1a1a2b, #13131f) !important;
-    border: 1px solid rgba(255, 255, 255, .08) !important;
-    border-radius: 18px !important;
-    padding: 16px !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
-}
-
-.mobile-user-card .avatar {
-    width: 48px !important;
-    height: 48px !important;
-    border-radius: 14px !important;
-    background: linear-gradient(135deg, var(--hwn-red), var(--hwn-red-deep)) !important;
-    display: grid;
-    place-items: center;
-    color: #fff;
-    font-weight: 900;
-    font-size: 1.3rem !important;
-    margin-right: 13px !important;
-    box-shadow: 0 4px 16px var(--hwn-red-glow);
-    flex-shrink: 0;
-}
-
-.mobile-user-card .text small {
-    display: block;
-    color: #9a9ab0;
-    font-size: .72rem;
-    text-transform: uppercase;
-    letter-spacing: .08em;
+/* Butonul Logout din Dropdown Desktop */
+.user-dropdown-modern .logout-li .logout_button {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 12px 14px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #ff4d4d;
     font-weight: 600;
-    margin-bottom: 2px;
+}
+
+.user-dropdown-modern .logout-li .logout_button i {
+    color: #ff4d4d;
+    margin-right: 8px;
+}
+
+.user-dropdown-modern .logout-li .logout_button:hover {
+    background: rgba(217, 30, 24, 0.1);
+    color: #ff4d4d;
+    transform: translateX(4px); /* Se mișcă fin spre dreapta */
+    box-shadow: none;
+}
+
+
+/* ---------------- MOBIL: Cardul Utilizatorului (Footer) ---------------- */
+.mobile-user-card {
+    background: linear-gradient(145deg, #18181e, #101014) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 16px !important;
+    padding: 16px 18px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Avatar Mobil */
+.mobile-user-card .avatar {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 12px !important; /* Mai pătrățos, stil Apple */
+    background: linear-gradient(135deg, var(--hwn-red), var(--hwn-red-deep)) !important;
+    box-shadow: 0 4px 15px var(--hwn-red-glow) !important;
+    font-size: 1.25rem !important;
+    margin-right: 14px !important;
+}
+
+/* Text Mobil */
+.mobile-user-card .text small {
+    color: #8b8b8f !important;
+    font-size: 0.7rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700 !important;
 }
 
 .mobile-user-card .text strong {
-    font-size: 1.08rem;
-    font-weight: 700;
-    color: #fff;
-    max-width: 150px;
-}
-
-/* ---------------- Butonul de deconectare (ambele) ---------------- */
-/* În cardul mobil: compact, elegant, devine roșu la atingere */
-.mobile-user-card .logout_button {
-    background: rgba(255, 255, 255, .06) !important;
-    color: #fff !important;
-    border: 1px solid rgba(255, 255, 255, .14) !important;
-    border-radius: 12px !important;
-    padding: 11px 16px !important;
+    font-size: 1.1rem !important;
+    color: #ffffff !important;
     font-weight: 700 !important;
-    font-size: .85rem !important;
-    flex-shrink: 0;
-    transition: all .2s ease !important;
+    margin-top: 2px;
 }
 
+/* ---------------- MOBIL: Butonul de Deconectare ---------------- */
+.mobile-user-card .logout_button {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #e5e5e5 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
+    padding: 10px 16px !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    flex-shrink: 0;
+}
+
+.mobile-user-card .logout_button i {
+    color: #ff4d4d; /* Doar iconița e roșie inițial */
+}
+
+/* Când apeși pe el pe telefon */
 .mobile-user-card .logout_button:hover,
 .mobile-user-card .logout_button:active {
-    background: linear-gradient(135deg, var(--hwn-red), var(--hwn-red-deep)) !important;
+    background: var(--hwn-red) !important;
     border-color: var(--hwn-red) !important;
-    box-shadow: 0 4px 16px var(--hwn-red-glow) !important;
-    transform: none !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px var(--hwn-red-glow) !important;
+}
+
+.mobile-user-card .logout_button:hover i,
+.mobile-user-card .logout_button:active i {
+    color: #ffffff; /* Iconița devine albă pe fundal roșu */
 }
